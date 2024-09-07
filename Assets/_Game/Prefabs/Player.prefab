@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 6786503062550155318}
   - component: {fileID: 3044955167171279613}
   - component: {fileID: 5961639245923984271}
+  - component: {fileID: 6979012070313159141}
+  - component: {fileID: 3111044762457132191}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -121,6 +123,34 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.5, y: 0.2}
   m_Direction: 1
+--- !u!114 &6979012070313159141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6258383203261956685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cb365e83d0e7624b839e330ddfd705a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameLoop: 0
+--- !u!114 &3111044762457132191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6258383203261956685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb941dfdf3fa4ca29691f24b67301477, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selfEffectMultiplier: 1
+  title: {fileID: 11400000, guid: 09d06ed7128457f46af7a56932b4dc29, type: 2}
+  effectStrengthMultiplierLookupTable: {fileID: 11400000, guid: 7e4b76fe2c68ddd4bbf962192f1acf2b, type: 2}
 --- !u!1 &8710612523103661571
 GameObject:
   m_ObjectHideFlags: 0
