@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Pancake;
 using Pancake.Common;
 using Soul2.Containers.RunTime;
 using UnityEngine;
@@ -14,16 +13,22 @@ namespace Soul2.Storages.Runtime
     [Serializable]
     public abstract class Storage<T> : IStorage<T>
     {
-        [Guid] public string guid;
-        [SerializeField] private Pair<T, int>[] startingElements;
         public event Action<T, int, int> OnItemChanged;
 
+        protected string guid;
+        [SerializeField] private Pair<T, int>[] startingElements;
         private Dictionary<T, int> _elements;
+        private string localKey;
 
         /// <summary>
         /// Gets the unique identifier for the storage.
         /// </summary>
-        public string Guid => guid;
+        public string LocalKey
+        {
+            get => $"{guid}_Store";
+            protected set => localKey = value;
+        }
+
 
         /// <summary>
         /// Gets the starting elements of the storage.
@@ -35,13 +40,15 @@ namespace Soul2.Storages.Runtime
         /// </summary>
         public int Count => _elements.Count;
 
+
         /// <summary>
         /// Loads the storage data.
         /// </summary>
         [ContextMenu("Load")]
-        public void Load()
+        public virtual void LocalLoad(string guid)
         {
-            startingElements = Data.Load(guid, startingElements);
+            this.guid = guid;
+            startingElements = Data.Load(LocalKey, startingElements);
             _elements = new Dictionary<T, int>();
             foreach (var pair in startingElements)
             {
@@ -53,7 +60,7 @@ namespace Soul2.Storages.Runtime
         /// Saves the storage data.
         /// </summary>
         [ContextMenu("Save")]
-        public void Save()
+        public virtual void LocalSave()
         {
             startingElements = new Pair<T, int>[_elements.Count];
             int i = 0;
@@ -63,7 +70,7 @@ namespace Soul2.Storages.Runtime
                 i++;
             }
 
-            Data.Save(guid, startingElements);
+            Data.Save(LocalKey, startingElements);
         }
 
         /// <summary>
@@ -90,7 +97,7 @@ namespace Soul2.Storages.Runtime
                 OnItemChanged?.Invoke(element, 0, amount);
             }
 
-            if (saveOnSuccess) Save();
+            if (saveOnSuccess) LocalSave();
             return true;
         }
 
@@ -113,7 +120,7 @@ namespace Soul2.Storages.Runtime
                 }
             }
 
-            if (saveOnSuccess && failedToAdd.Count == 0) Save();
+            if (saveOnSuccess && failedToAdd.Count == 0) LocalSave();
             return failedToAdd.Count == 0;
         }
 
@@ -135,7 +142,7 @@ namespace Soul2.Storages.Runtime
                 OnItemChanged?.Invoke(element, currentAmount, currentAmount - amount);
 
                 if (_elements[element] == 0) _elements.Remove(element);
-                if (saveOnSuccess) Save();
+                if (saveOnSuccess) LocalSave();
                 return true;
             }
 
@@ -161,7 +168,7 @@ namespace Soul2.Storages.Runtime
                 }
             }
 
-            if (saveOnSuccess && failedToRemove.Count == 0) Save();
+            if (saveOnSuccess && failedToRemove.Count == 0) LocalSave();
             return failedToRemove.Count == 0;
         }
 
@@ -221,7 +228,7 @@ namespace Soul2.Storages.Runtime
         public void Clear()
         {
             _elements.Clear();
-            Save();
+            LocalSave();
         }
 
         /// <summary>
@@ -229,10 +236,7 @@ namespace Soul2.Storages.Runtime
         /// </summary>
         /// <param name="element">The element to get the amount of.</param>
         /// <returns>The current amount of the element.</returns>
-        public int GetAmount(T element)
-        {
-            return _elements.TryGetValue(element, out int amount) ? amount : 0;
-        }
+        public int GetAmount(T element) => _elements.GetValueOrDefault(element, 0);
 
         /// <summary>
         /// Gets all elements in the storage.

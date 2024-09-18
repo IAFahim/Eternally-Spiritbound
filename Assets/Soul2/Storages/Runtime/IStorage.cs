@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using Soul2.Containers.RunTime;
+using Soul2.LocalDatas.Runtime;
 
 namespace Soul2.Storages.Runtime
 {
-    public interface IStorage<T>
+    public interface IStorage<T> : ILocalData
     {
-        public string Guid { get; }
         public Pair<T, int>[] StartingElements { get; }
         public int Count { get; }
         public event Action<T, int, int> OnItemChanged;
-        public void Load();
-        public void Save();
         public bool TryAdd(T element, int amount, out int added, bool saveOnSuccess = true);
 
         public bool TryAdd(IEnumerable<Pair<T, int>> elementsToAdd, out List<Pair<T, int>> failedToAdd,
