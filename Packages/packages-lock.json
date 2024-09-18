@@ -46,6 +46,15 @@
       "dependencies": {},
       "hash": "66fd0c1b84d72ec9ac32e2eece65f2630b4b262e"
     },
+    "com.quickeye.utility": {
+      "version": "https://github.com/ErnSur/QuickEye-Utility.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.settings-manager": "2.0.1"
+      },
+      "hash": "d1d5e0ca82f4b9cf2a80778f9f581c5b69e7612a"
+    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,
@@ -152,16 +161,6 @@
       "source": "registry",
       "dependencies": {
         "com.unity.modules.uielements": "1.0.0"
-      },
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.learn.iet-framework": {
-      "version": "4.0.0",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.editorcoroutines": "1.0.0",
-        "com.unity.settings-manager": "1.0.3"
       },
       "url": "https://packages.unity.com"
     },
