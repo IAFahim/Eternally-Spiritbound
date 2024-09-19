@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.Serialization;
 using Pancake;
 using Soul2.Storages.Runtime;
 using UnityEngine;
@@ -40,6 +41,11 @@ namespace Soul2.Items.Runtime
         public virtual bool TryDrop(GameObject dropper, IStorageBase<IItem> storageBase, int amount = 1)
         {
             return storageBase.TryRemove(this, amount, out int removed);
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            throw new NotImplementedException();
         }
     }
 }

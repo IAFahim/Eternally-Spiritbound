@@ -1,0 +1,16 @@
+{
+    "name": "Soul.Conditions.Editor",
+    "rootNamespace": "",
+    "references": ["GUID:599eb36d70d6bd94e904a7f7d2b423fa"],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

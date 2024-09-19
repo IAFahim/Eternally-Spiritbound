@@ -16,7 +16,7 @@ namespace Soul2.Storages.Runtime
         public event Action<T, int, int> OnItemChanged;
         [SerializeField] protected Pair<T, int>[] startingElements;
         private Dictionary<T, int> _elements;
-        
+
 
         /// <summary>
         /// Gets the starting elements of the storage.
@@ -28,7 +28,7 @@ namespace Soul2.Storages.Runtime
         /// </summary>
         public int Count => _elements.Count;
 
-        
+
         /// <summary>
         /// Gets the core unique identifier 
         /// </summary>
@@ -38,11 +38,25 @@ namespace Soul2.Storages.Runtime
         /// Mix with guid To get unique an identifier for the storage.
         /// </summary>
         public abstract string DataKey { get; }
+
         public Pair<T, int>[] DefaultData => startingElements;
         public abstract Pair<T, int>[] LoadRaw();
+
         public abstract void SaveRaw(Pair<T, int>[] data);
-        
-        
+
+        public void FirstLoad(string guid)
+        {
+            Guid = guid;
+            startingElements = LoadRaw();
+            Initialize();
+        }
+
+        public void Save()
+        {
+            SaveRaw(_elements.ToPairArray());
+        }
+
+        public void Initialize() => SetElements(startingElements);
 
         public void SetElements(Pair<T, int>[] loadedData)
         {
@@ -223,19 +237,5 @@ namespace Soul2.Storages.Runtime
         {
             return new Dictionary<T, int>(_elements);
         }
-
-        public void Save()
-        {
-            SaveRaw(_elements.ToPairArray());
-        }
-
-        public void FirstLoad(string guid)
-        {
-            Guid = guid;
-            startingElements = LoadRaw();
-            Initialize();
-        }
-
-        public void Initialize() => SetElements(startingElements);
     }
 }
