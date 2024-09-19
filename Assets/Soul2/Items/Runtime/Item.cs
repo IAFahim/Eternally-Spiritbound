@@ -7,7 +7,8 @@ using UnityEngine.AddressableAssets;
 namespace Soul2.Items.Runtime
 {
     [Serializable]
-    public abstract class Item : ScriptableObject, IItem
+    [CreateAssetMenu(fileName = "New Item", menuName = "Soul2/Item")]
+    public class Item : ScriptableObject, IItem
     {
         [Guid] string guid;
         public string itemName;
@@ -25,20 +26,20 @@ namespace Soul2.Items.Runtime
         public bool Consumable => consumable;
         public bool IsStackable => maxStack > 1;
         public int MaxStack => maxStack;
-        
-        public virtual bool TryPick(GameObject picker, IStorage<IItem> storage, int amount = 1)
+
+        public virtual bool TryPick(GameObject picker, IStorageBase<IItem> storageBase, int amount = 1)
         {
-            return storage.TryAdd(this, amount, out var added);
+            return storageBase.TryAdd(this, amount, out var added);
         }
 
-        public virtual bool TryUse(GameObject user, IStorage<IItem> storage, int amount = 1)
+        public virtual bool TryUse(GameObject user, IStorageBase<IItem> storageBase, int amount = 1)
         {
-            return Consumable && storage.TryRemove(this, amount, out int removed);
+            return Consumable && storageBase.TryRemove(this, amount, out int removed);
         }
 
-        public virtual bool TryDrop(GameObject dropper, IStorage<IItem> storage, int amount = 1)
+        public virtual bool TryDrop(GameObject dropper, IStorageBase<IItem> storageBase, int amount = 1)
         {
-            return storage.TryRemove(this, amount, out int removed);
+            return storageBase.TryRemove(this, amount, out int removed);
         }
     }
 }

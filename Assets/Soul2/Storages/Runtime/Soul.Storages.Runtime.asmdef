@@ -2,6 +2,7 @@
     "name": "Soul.Storages.Runtime",
     "rootNamespace": "",
     "references": [
+        "GUID:07ccd62b4443d194480040cde09607cc",
         "GUID:9794d3178ccdb9e409cfdc9dcb374232",
         "GUID:794487ad33715414ea9a8ad0e73f7381",
         "GUID:adac8d59ad7e8504f82d387cded797a7",

@@ -14,8 +14,8 @@ namespace Soul2.Items.Runtime
         public bool Consumable { get; }
         public int MaxStack { get; }
 
-        public bool TryPick(GameObject picker, IStorage<IItem> storage, int amount = 1);
-        public bool TryUse(GameObject user, IStorage<IItem> storage, int amount = 1);
-        public bool TryDrop(GameObject dropper, IStorage<IItem> storage, int amount = 1);
+        public bool TryPick(GameObject picker, IStorageBase<IItem> storageBase, int amount = 1);
+        public bool TryUse(GameObject user, IStorageBase<IItem> storageBase, int amount = 1);
+        public bool TryDrop(GameObject dropper, IStorageBase<IItem> storageBase, int amount = 1);
     }
 }

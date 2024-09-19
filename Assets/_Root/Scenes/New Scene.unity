@@ -211,8 +211,8 @@ MonoBehaviour:
   Lens:
     FieldOfView: 60
     OrthographicSize: 5
-    NearClipPlane: -20
-    FarClipPlane: 50
+    NearClipPlane: 0.01
+    FarClipPlane: 30
     Dutch: 0
     ModeOverride: 0
     PhysicalProperties:
@@ -471,6 +471,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1697875036}
+  - component: {fileID: 1697875037}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -494,6 +495,22 @@ Transform:
   - {fileID: 606508635}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1697875037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1697875035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d51e6534f34c6a498f391f1f1c2458e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  storage:
+    startingElements:
+    - keyFirst: {fileID: 11400000, guid: 5e36f5c845bc6e54a818d57ad2d7bea0, type: 2}
+      valueSecond: 50
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

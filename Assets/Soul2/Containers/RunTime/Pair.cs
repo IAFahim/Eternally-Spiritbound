@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Soul2.Containers.RunTime
@@ -61,7 +62,7 @@ namespace Soul2.Containers.RunTime
         {
             return GetIdentity();
         }
-        
+
 
         public static implicit operator T(Pair<T, TV> pair)
         {
@@ -71,6 +72,27 @@ namespace Soul2.Containers.RunTime
         public static implicit operator TV(Pair<T, TV> pair)
         {
             return pair.valueSecond;
+        }
+    }
+
+    public static class PairExtensions
+    {
+        public static Pair<T, TV> ToPair<T, TV>(this (T, TV) tuple)
+        {
+            return new Pair<T, TV>(tuple.Item1, tuple.Item2);
+        }
+
+        public static Pair<TKey, TValue>[] ToPairArray<TKey, TValue>(this Dictionary<TKey, TValue> dictionary)
+        {
+            var pairs = new Pair<TKey, TValue>[dictionary.Count];
+            int index = 0;
+            foreach (var pair in dictionary)
+            {
+                pairs[index] = new Pair<TKey, TValue>(pair.Key, pair.Value);
+                index++;
+            }
+
+            return pairs;
         }
     }
 }
