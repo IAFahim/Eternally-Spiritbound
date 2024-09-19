@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace Soul2.Conditions.Editor
 {
-    [CustomPropertyDrawer(typeof(Performing<>))]
-    public class PerformedPropertyDrawer: PropertyDrawer
+    [CustomPropertyDrawer(typeof(Perform<>))]
+    public class PerformPropertyDrawer: PropertyDrawer
     {
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
