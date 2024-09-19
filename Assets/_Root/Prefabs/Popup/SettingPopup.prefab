@@ -1451,22 +1451,14 @@ MonoBehaviour:
   groupFacebookURL: 
   creditPopupKey: CreditPopup
   backupDataPopupKey: BackupDataPopup
-  __alchemySerializationData_Pancake_Game_UI_SettingView:
+  __alchemySerializationData__Root_Scripts_Game_Popups_Setting_SettingView:
     _buttonsLanguage:
       isCreated: 1
-      data: "[\n    {\n        \"Key\": 10,\n        \"Value\": 0\n    },\n    {\n       
-        \"Key\": 39,\n        \"Value\": 1\n    }\n]"
+      data: '[]'
     _buttonsQuality:
       isCreated: 1
-      data: "[\n    {\n        \"Key\": 0,\n        \"Value\": 2\n    },\n    {\n       
-        \"Key\": 1,\n        \"Value\": 3\n    },\n    {\n        \"Key\": 2,\n       
-        \"Value\": 4\n    }\n]"
-    unityObjectReferences:
-    - {fileID: 7579323152516476335}
-    - {fileID: 2383515475480868187}
-    - {fileID: 5335983914463774886}
-    - {fileID: 1970256070001264383}
-    - {fileID: 5032709799278932460}
+      data: '[]'
+    unityObjectReferences: []
 --- !u!114 &3058685168928674365
 MonoBehaviour:
   m_ObjectHideFlags: 0

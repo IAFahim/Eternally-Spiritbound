@@ -1481,16 +1481,11 @@ MonoBehaviour:
   defaultColor: {r: 0.7137255, g: 0.5254902, b: 0.14117648, a: 1}
   imageCircleClaimed: {fileID: 8269177741753164855}
   imageTickClaimed: {fileID: 6168000700955740004}
-  __alchemySerializationData_Pancake_Game_UI_DailyRewardDayElement:
+  __alchemySerializationData__Root_Scripts_Game_Popups_DailyReward_DailyRewardDayElement:
     _dayStatusViews:
       isCreated: 1
-      data: "[\n    {\n        \"Key\": 2,\n        \"Value\": 0\n    },\n    {\n       
-        \"Key\": 0,\n        \"Value\": 1\n    },\n    {\n        \"Key\": 1,\n       
-        \"Value\": 2\n    }\n]"
-    unityObjectReferences:
-    - {fileID: 3725138981206829770}
-    - {fileID: 7232730480219109459}
-    - {fileID: 7705176393363894777}
+      data: '[]'
+    unityObjectReferences: []
 --- !u!1 &4558911459902709006
 GameObject:
   m_ObjectHideFlags: 0
@@ -2085,16 +2080,11 @@ MonoBehaviour:
   claimableColor: {r: 0.5372549, g: 0.7490196, b: 0.20392159, a: 1}
   coinCurrencyType: {fileID: 11400000, guid: 5e9faa2c569639743aa47e77a2804ee5, type: 2}
   gemCurrencyType: {fileID: 11400000, guid: ec47688ba2fca434a93e02066adf4890, type: 2}
-  __alchemySerializationData_Pancake_Game_UI_DailyRewardView:
+  __alchemySerializationData__Root_Scripts_Game_Popups_DailyReward_DailyRewardView:
     _dayRewards:
       isCreated: 1
-      data: "[\n    {\n        \"Key\": 0,\n        \"Value\": 0\n    },\n    {\n       
-        \"Key\": 1,\n        \"Value\": 1\n    },\n    {\n        \"Key\": 2,\n       
-        \"Value\": 2\n    }\n]"
-    unityObjectReferences:
-    - {fileID: 807441174756065833, guid: ffcc25d8552198746a28a59c2c5734f5, type: 3}
-    - {fileID: 1259584358101783257, guid: 59b5518abb920ac41bc22e4b5bd3ecaa, type: 3}
-    - {fileID: 9100894935754175845, guid: 0cf76e6d27dd8cf4caaf81a04576d3c1, type: 3}
+      data: '[]'
+    unityObjectReferences: []
 --- !u!114 &1378811478956453215
 MonoBehaviour:
   m_ObjectHideFlags: 0

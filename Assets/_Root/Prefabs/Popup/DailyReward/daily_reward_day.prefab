@@ -103,16 +103,11 @@ MonoBehaviour:
   defaultColor: {r: 0.63529414, g: 0.6509804, b: 0.65882355, a: 1}
   imageCircleClaimed: {fileID: 6911737977878481408}
   imageTickClaimed: {fileID: 3894877228717423006}
-  __alchemySerializationData_Pancake_Game_UI_DailyRewardDayElement:
+  __alchemySerializationData__Root_Scripts_Game_Popups_DailyReward_DailyRewardDayElement:
     _dayStatusViews:
       isCreated: 1
-      data: "[\n    {\n        \"Key\": 2,\n        \"Value\": 0\n    },\n    {\n       
-        \"Key\": 0,\n        \"Value\": 1\n    },\n    {\n        \"Key\": 1,\n       
-        \"Value\": 2\n    }\n]"
-    unityObjectReferences:
-    - {fileID: 1784395222947911373}
-    - {fileID: 7419398917138960364}
-    - {fileID: 2339044228892640451}
+      data: '[]'
+    unityObjectReferences: []
 --- !u!1 &1784395222947911373
 GameObject:
   m_ObjectHideFlags: 0
