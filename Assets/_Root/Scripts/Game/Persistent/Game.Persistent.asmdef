@@ -1,0 +1,26 @@
+{
+    "name": "Game.Persistent",
+    "rootNamespace": "",
+    "references": [
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:adac8d59ad7e8504f82d387cded797a7",
+        "GUID:5540e30183c82e84b954c033c388e06c",
+        "GUID:2bb2982fd552689428d4c3ae8bb26fb7",
+        "GUID:be0d2672886cc45b2bcea5a5053a5347",
+        "GUID:837b3842fcf669f42838802a1f10305e",
+        "GUID:f7dabdcbede30aa4d84803a163c2fa1b",
+        "GUID:72d6e8fb6c3d970489dcb57e999d9dce",
+        "GUID:71a2e5fd62742b447a45a06bf18f9a7d",
+        "GUID:8bafa5e8674c15c45ae2a849f9838eca",
+        "GUID:a43b7192dde51cd42abb0cb305b1f944"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

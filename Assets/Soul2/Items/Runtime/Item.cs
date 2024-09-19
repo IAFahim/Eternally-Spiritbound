@@ -10,18 +10,18 @@ namespace Soul2.Items.Runtime
     [CreateAssetMenu(fileName = "New Item", menuName = "Soul2/Item")]
     public class Item : ScriptableObject, IItem
     {
-        [Guid] string guid;
-        public string itemName;
-        [TextArea(3, 10)] public string description;
-        public AssetReferenceGameObject assetReferenceGameObject;
-        public Sprite icon;
-        public int maxStack;
-        public bool consumable;
+        [SerializeField, Guid] private string guid;
+        [SerializeField] private string itemName;
+        [SerializeField, TextArea(3, 10)] public string description;
+        [SerializeField] private Optional<AssetReferenceGameObject> assetReferenceGameObject;
+        [SerializeField] private Sprite icon;
+        [SerializeField] private int maxStack = 1;
+        [SerializeField] private bool consumable;
 
         public string Guid => guid;
         public string ItemName => itemName;
         public string Description => description;
-        public AssetReferenceGameObject AssetReferenceGameObject => assetReferenceGameObject;
+        public Optional<AssetReferenceGameObject> AssetReferenceGameObject => assetReferenceGameObject;
         public Sprite Icon => icon;
         public bool Consumable => consumable;
         public bool IsStackable => maxStack > 1;

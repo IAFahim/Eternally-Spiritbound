@@ -12,14 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31c75b1843207c340a5080750e765207, type: 3}
   m_Name: Coin
   m_EditorClassIdentifier: 
-  itemName: 
+  guid: ec8fc24128b4411
+  itemName: Coin
   description: 
   assetReferenceGameObject:
-    m_AssetGUID: 
-    m_SubObjectName: 
-    m_SubObjectGUID: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
+    enabled: 0
+    value:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
   icon: {fileID: 0}
-  maxStack: 0
+  maxStack: 1
   consumable: 0

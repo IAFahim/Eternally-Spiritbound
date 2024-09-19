@@ -1,0 +1,18 @@
+{
+    "name": "Game.Storages",
+    "rootNamespace": "",
+    "references": [
+        "GUID:299d920ab2714bb45b779fa8b716cf83",
+        "GUID:2bb2982fd552689428d4c3ae8bb26fb7",
+        "GUID:9794d3178ccdb9e409cfdc9dcb374232"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

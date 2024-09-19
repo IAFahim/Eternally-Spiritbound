@@ -632,7 +632,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 38ef6a0a8a80c3d49a94ed6942b43220, type: 2}
   container: {fileID: 2485103165204280189}
   buttonClose: {fileID: 4487852404142314590}
-  __alchemySerializationData__Root_Scripts_Game_Popup_Credit_CreditView:
+  __alchemySerializationData__Root_Scripts_Game_Popups_Credit_CreditView:
     _prefabContainer:
       isCreated: 1
       data: '[]'

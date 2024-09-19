@@ -1,5 +1,5 @@
 using System;
-using _Root.Scripts.Game.Popup.NoInternet;
+using _Root.Scripts.Game.Popups.NoInternet;
 using Pancake;
 using Pancake.Common;
 using Pancake.UI;

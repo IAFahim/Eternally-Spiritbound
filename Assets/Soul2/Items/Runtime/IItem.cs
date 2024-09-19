@@ -1,4 +1,5 @@
-﻿using Soul2.Storages.Runtime;
+﻿using Pancake;
+using Soul2.Storages.Runtime;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -9,7 +10,7 @@ namespace Soul2.Items.Runtime
         public string Guid { get; }
         public string ItemName { get; }
         public string Description { get; }
-        public AssetReferenceGameObject AssetReferenceGameObject { get; }
+        public Optional<AssetReferenceGameObject> AssetReferenceGameObject { get; }
         public Sprite Icon { get; }
         public bool Consumable { get; }
         public int MaxStack { get; }
