@@ -10,26 +10,11 @@ namespace _Root.Scripts.Game.Tests
     [Serializable]
     public class XpLevel : XpLevelBase
     {
-        public override void SaveData(int data)
-        {
-            Data.Save(DataKey, data);
-        }
-
-        public override int LoadData()
-        {
-            return Data.Load(DataKey, DefaultData);
-        }
-
-        public override (int first, int second) LoadData2()
-        {
-            Pair<int, int> defaultData = DefaultData2;
-            return Data.Load(DataKey, defaultData);
-        }
-
-        public override void SaveData2((int first, int second) data)
-        {
-            Data.Save(DataKey, new Pair<int, int>(data.first, data.second));
-        }
+        public string DataKey => $"{Guid}_xp";
+        public override void LoadData(string guid) => SetData(Data.Load(DataKey, new Pair<int, int>(1, 0)));
+        public override void SaveData((int, int) data) => Data.Save(DataKey, new Pair<int, int>(CurrentLevel, Xp));
+        public override void SaveData(int data) => SaveData((data, Xp));
+        public override void SaveData() => SaveData((CurrentLevel, Xp));
     }
 
     public class Test : MonoBehaviour
@@ -40,14 +25,14 @@ namespace _Root.Scripts.Game.Tests
 
         private void OnEnable()
         {
-            pair = new Pair<int, int>();
-            // xpLevel.FirstLoad(guid);
-            // xpLevel.AddXp(100);
-            // xpLevel.Save();
-            // Debug.Log($"Current Level: {xpLevel.CurrentLevel}");
-            // Debug.Log($"Current XP: {xpLevel.Xp}");
-            // Debug.Log($"XP to Next Level: {xpLevel.XpToNextLevel}");
-            // Debug.Log($"XP Progress: {xpLevel.XpProgress}");
+            xpLevel.Guid = guid;
+            xpLevel.SaveData();
+            xpLevel.LoadData(guid);
+            xpLevel.AddXp(100);
+            Debug.Log($"Current Level: {xpLevel.CurrentLevel}");
+            Debug.Log($"Current XP: {xpLevel.Xp}");
+            Debug.Log($"XP to Next Level: {xpLevel.XpToNextLevel}");
+            Debug.Log($"XP Progress: {xpLevel.XpProgress}");
         }
     }
 }

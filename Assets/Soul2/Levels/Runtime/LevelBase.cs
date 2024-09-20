@@ -1,55 +1,38 @@
 ﻿using System;
 using Soul2.Datas.Runtime.Interface;
-using UnityEngine;
 
 namespace Soul2.Levels.Runtime
 {
     [Serializable]
-    public abstract class LevelBase : IDataAdapter<int>, ILoadThenSave
+    public abstract class LevelBase : IStorageAdapter<int>
     {
-        [SerializeField] protected int currentLevel = 1;
+        public int CurrentLevel { get; protected set; } = 1;
         public event Action<int, int> OnLevelChange;
-        protected string guid;
+        public string Guid { get; set; }
 
-        public int CurrentLevel => currentLevel;
-
-        public void SetLevel(int level)
+        public void SetData(int level)
         {
-            if (level <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(level), "Level must be greater than 0.");
-            }
-
-            int oldLevel = currentLevel;
-            currentLevel = level;
-            OnLevelChange?.Invoke(oldLevel, currentLevel);
+            if (level <= 0) throw new ArgumentOutOfRangeException(nameof(level), "Level must be greater than 0.");
+            if (CurrentLevel == level) return;
+            
+            int oldLevel = CurrentLevel;
+            CurrentLevel = level;
+            OnLevelChange?.Invoke(oldLevel, CurrentLevel);
         }
 
-        public void IncreaseLevel() => SetLevel(currentLevel + 1);
+        public void IncreaseLevel() => SetData(CurrentLevel + 1);
 
         public void DecreaseLevel()
         {
-            if (currentLevel > 1)
+            if (CurrentLevel > 1)
             {
-                SetLevel(currentLevel - 1);
+                SetData(CurrentLevel - 1);
             }
         }
 
-        public string Guid => guid;
-        public virtual string DataKey => $"{guid}_lv";
-        public int DefaultData => 1;
+        public abstract void LoadData(string guid);
 
-        public abstract int LoadData();
         public abstract void SaveData(int data);
-        public void FirstLoad(string guid)
-        {
-            this.guid = guid;
-            currentLevel = LoadData();
-        }
-
-        public void Save()
-        {
-            SaveData(currentLevel);
-        }
+        public abstract void SaveData();
     }
 }

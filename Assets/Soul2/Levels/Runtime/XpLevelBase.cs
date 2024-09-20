@@ -1,5 +1,4 @@
 ﻿using System;
-using Soul2.Containers.RunTime;
 using Soul2.Datas.Runtime.Interface;
 using UnityEngine;
 using Math = System.Math;
@@ -7,76 +6,61 @@ using Math = System.Math;
 namespace Soul2.Levels.Runtime
 {
     [Serializable]
-    public abstract class XpLevelBase : LevelBase, IDataAdapter<int, int>, ILoadThenSave
+    public abstract class XpLevelBase : LevelBase, IStorageAdapter<(int, int)>
     {
         public event Action<int, int> OnXpChange;
+
         [SerializeField] private int baseXp = 10;
         [SerializeField] private float xpMultiplier = 1.5f;
-        [SerializeField] private int xp;
-        [SerializeField] private int xpToNextLevel;
         [SerializeField] private int maxLevel = 10;
 
-        public int Xp => xp;
-        public int XpToNextLevel => xpToNextLevel;
-        public float XpProgress => xpToNextLevel > 0 ? (float)xp / xpToNextLevel : 1f;
-        public override string DataKey => $"{guid}_xpLv";
+        private int _xp;
+        private int _xpToNextLevel;
 
-        public void Init(int levelCap)
+        public int Xp => _xp;
+        public int XpToNextLevel => _xpToNextLevel;
+        public float XpProgress => _xpToNextLevel > 0 ? (float)_xp / _xpToNextLevel : 1f;
+
+        public void SetData((int, int) data)
         {
-            SetLevel(currentLevel);
-            xp = 0;
-            CalculateXpToNextLevel();
+            SetData(data.Item1);
+            if (CurrentLevel >= maxLevel) return;
+            _xp = data.Item2;
+            _xpToNextLevel = CalculateXpToNextLevel();
         }
+
 
         public void AddXp(int amount)
         {
-            if (currentLevel >= maxLevel) return;
+            if (CurrentLevel >= maxLevel) return;
 
-            int oldXp = xp;
-            xp += amount;
+            int oldXp = _xp;
+            _xp += amount;
 
-            while (xp >= xpToNextLevel && currentLevel < maxLevel)
+            while (_xp >= _xpToNextLevel && CurrentLevel < maxLevel)
             {
-                xp -= xpToNextLevel;
+                _xp -= _xpToNextLevel;
                 IncreaseLevel();
-                CalculateXpToNextLevel();
+                _xpToNextLevel= CalculateXpToNextLevel();
             }
 
-            OnXpChange?.Invoke(oldXp, xp);
+            OnXpChange?.Invoke(oldXp, _xp);
         }
 
-        private void CalculateXpToNextLevel()
+        private int CalculateXpToNextLevel()
         {
-            if (currentLevel >= maxLevel)
-            {
-                xpToNextLevel = 0;
-                return;
-            }
-
-            xpToNextLevel = (int)(baseXp * Math.Pow(xpMultiplier, currentLevel - 1));
+            if (CurrentLevel >= maxLevel) return 0;
+            return (int)(baseXp * Math.Pow(xpMultiplier, CurrentLevel - 1));
         }
 
-        public void ResetXp()
+        public void Reset()
         {
-            int oldXp = xp;
-            xp = 0;
-            OnXpChange?.Invoke(oldXp, xp);
+            int oldXp = _xp;
+            _xp = 0;
+            OnXpChange?.Invoke(oldXp, _xp);
         }
         
-        
-        public (int first, int second) DefaultData2 => (DefaultData, 0);
-        public abstract (int first, int second) LoadData2();
-        public abstract void SaveData2((int first, int second) data);
-
-        public new void FirstLoad(string guid)
-        {
-            this.guid = guid;
-            LoadData2();
-        }
-
-        public new void Save()
-        {
-            SaveData2((currentLevel, xp));
-        }
+        public abstract void SaveData((int, int) data);
+        public abstract override void SaveData();
     }
 }
