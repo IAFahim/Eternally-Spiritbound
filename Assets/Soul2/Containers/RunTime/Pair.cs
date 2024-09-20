@@ -13,7 +13,7 @@ namespace Soul2.Containers.RunTime
         public Pair()
         {
         }
-        
+
         public Pair(T keyFirst, TV valueSecond)
         {
             this.keyFirst = keyFirst;
@@ -78,10 +78,9 @@ namespace Soul2.Containers.RunTime
             return pair.valueSecond;
         }
 
-        public static implicit operator Pair<T, TV>((T first, TV second) tuple) =>
-            new() { Key = tuple.first, Value = tuple.second };
+        public static implicit operator Pair<T, TV>((T, TV) tuple) => new() { Key = tuple.Item1, Value = tuple.Item2 };
 
-        public static implicit operator (T first, TV second)(Pair<T, TV> pair) => (pair.keyFirst, pair.valueSecond);
+        public static implicit operator (T, TV)(Pair<T, TV> pair) => (pair.keyFirst, pair.valueSecond);
     }
 
     public static class PairExtensions

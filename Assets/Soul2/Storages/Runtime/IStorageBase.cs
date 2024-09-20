@@ -6,7 +6,7 @@ using Soul2.Datas.Runtime.Interface;
 
 namespace Soul2.Storages.Runtime
 {
-    public interface IStorageBase<T> : ILoadThenSave
+    public interface IStorageBase<T> 
     {
         public void Initialize();
         public Pair<T, int>[] StartingElements { get; }

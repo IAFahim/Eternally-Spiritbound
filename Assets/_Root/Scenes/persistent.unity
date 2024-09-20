@@ -680,12 +680,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guid: 5957d78e932e4d9
   xpLevel:
-    currentLevel: 1
     baseXp: 10
     xpMultiplier: 1.5
-    xp: 0
-    xpToNextLevel: 0
-    maxLevel: 0
+    maxLevel: 10
   pair:
     keyFirst: 5
     valueSecond: 100

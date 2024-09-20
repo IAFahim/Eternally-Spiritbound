@@ -12,7 +12,7 @@ namespace Soul2.Storages.Runtime
     /// </summary>
     /// <typeparam name="T">Type of the items to be stored.</typeparam>
     [Serializable]
-    public abstract class StorageBase<T> : IStorageBase<T>, IDataAdapter<Pair<T, int>[]>
+    public abstract class StorageBase<T> : IStorageBase<T>
     {
         public event Action<T, int, int> OnItemChanged;
         [SerializeField] protected Pair<T, int>[] startingElements;
