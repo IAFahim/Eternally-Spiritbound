@@ -10,6 +10,7 @@
     "com.quickeye.utility": "https://github.com/ErnSur/QuickEye-Utility.git",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.addressables": "2.2.2",
+    "com.unity.behavior": "1.0.1",
     "com.unity.burst": "1.8.17",
     "com.unity.cinemachine": "3.1.1",
     "com.unity.collab-proxy": "2.5.1",
