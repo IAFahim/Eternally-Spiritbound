@@ -1,4 +1,4 @@
-﻿namespace Soul2.LocalDatas.Runtime
+﻿namespace Soul2.Datas.Runtime.Interface
 {
     public interface ILoadThenSave: IDataKey
     {

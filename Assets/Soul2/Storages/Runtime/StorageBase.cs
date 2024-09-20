@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Soul2.Containers.RunTime;
-using Soul2.LocalDatas.Runtime;
+using Soul2.Datas.Runtime;
+using Soul2.Datas.Runtime.Interface;
 using UnityEngine;
 
 namespace Soul2.Storages.Runtime
@@ -40,20 +41,20 @@ namespace Soul2.Storages.Runtime
         public abstract string DataKey { get; }
 
         public Pair<T, int>[] DefaultData => startingElements;
-        public abstract Pair<T, int>[] LoadRaw();
+        public abstract Pair<T, int>[] LoadData();
 
-        public abstract void SaveRaw(Pair<T, int>[] data);
+        public abstract void SaveData(Pair<T, int>[] data);
 
         public void FirstLoad(string guid)
         {
             Guid = guid;
-            startingElements = LoadRaw();
+            startingElements = LoadData();
             Initialize();
         }
 
         public void Save()
         {
-            SaveRaw(_elements.ToPairArray());
+            SaveData(_elements.ToPairArray());
         }
 
         public void Initialize() => SetElements(startingElements);
@@ -94,7 +95,7 @@ namespace Soul2.Storages.Runtime
                 OnItemChanged?.Invoke(element, 0, amount);
             }
 
-            if (saveOnSuccess) SaveRaw(_elements.ToPairArray());
+            if (saveOnSuccess) SaveData(_elements.ToPairArray());
             return true;
         }
 
@@ -114,7 +115,7 @@ namespace Soul2.Storages.Runtime
                 if (!TryAdd(pair.Key, pair.Value, out _, false)) failedToAdd.Add(pair);
             }
 
-            if (saveOnSuccess && failedToAdd.Count == 0) SaveRaw(_elements.ToPairArray());
+            if (saveOnSuccess && failedToAdd.Count == 0) SaveData(_elements.ToPairArray());
             return failedToAdd.Count == 0;
         }
 
@@ -136,7 +137,7 @@ namespace Soul2.Storages.Runtime
                 OnItemChanged?.Invoke(element, currentAmount, currentAmount - amount);
 
                 if (_elements[element] == 0) _elements.Remove(element);
-                if (saveOnSuccess) SaveRaw(_elements.ToPairArray());
+                if (saveOnSuccess) SaveData(_elements.ToPairArray());
                 return true;
             }
 
@@ -159,7 +160,7 @@ namespace Soul2.Storages.Runtime
                 if (!TryRemove(pair.Key, pair.Value, out _, false)) failedToRemove.Add(pair);
             }
 
-            if (saveOnSuccess && failedToRemove.Count == 0) SaveRaw(_elements.ToPairArray());
+            if (saveOnSuccess && failedToRemove.Count == 0) SaveData(_elements.ToPairArray());
             return failedToRemove.Count == 0;
         }
 
@@ -219,7 +220,7 @@ namespace Soul2.Storages.Runtime
         public void Clear()
         {
             _elements.Clear();
-            SaveRaw(_elements.ToPairArray());
+            SaveData(_elements.ToPairArray());
         }
 
         /// <summary>

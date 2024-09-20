@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Soul2.Containers.RunTime;
-using Soul2.LocalDatas.Runtime;
+using Soul2.Datas.Runtime;
+using Soul2.Datas.Runtime.Interface;
 
 namespace Soul2.Storages.Runtime
 {
