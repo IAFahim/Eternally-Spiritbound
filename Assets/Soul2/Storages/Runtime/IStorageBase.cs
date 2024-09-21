@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Soul2.Containers.RunTime;
-using Soul2.Datas.Runtime;
 using Soul2.Datas.Runtime.Interface;
 
 namespace Soul2.Storages.Runtime
@@ -21,7 +20,6 @@ namespace Soul2.Storages.Runtime
         bool HasEnough(IEnumerable<Pair<TElement, TValue>> elementsToCheck, out List<Pair<TElement, TValue>> insufficientElements);
         void Clear(bool save = false);
         Dictionary<TElement, TValue> GetAllElements();
-        void SetElements(Pair<TElement, TValue>[] elements);
         TValue Add(TValue a, TValue b);
         TValue Remove(TValue a, TValue b);
         int Compare(TValue a, TValue b);
