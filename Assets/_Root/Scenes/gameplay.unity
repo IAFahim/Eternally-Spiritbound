@@ -166,6 +166,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 72548ec41d5a53042bc3cef680345499, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: 72548ec41d5a53042bc3cef680345499, type: 3}
       propertyPath: m_Name
       value: arrow
@@ -407,6 +411,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: f88c422b0e854b64488d88bcb08afd88, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: f88c422b0e854b64488d88bcb08afd88, type: 3}
       propertyPath: m_Name
       value: boat-tug-a
@@ -464,6 +472,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 37b740b1b53beaa42a14c06627b50e7f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: 37b740b1b53beaa42a14c06627b50e7f, type: 3}
       propertyPath: m_Name
       value: boat-speed-c
@@ -521,6 +533,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: f31fbb71ed836f34d9831b6ae1718630, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: f31fbb71ed836f34d9831b6ae1718630, type: 3}
       propertyPath: m_Name
       value: boat-house-c
@@ -578,6 +594,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: dd43b9134da890f4eae3587c1f9f70b0, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: dd43b9134da890f4eae3587c1f9f70b0, type: 3}
       propertyPath: m_Name
       value: boat-speed-b
@@ -743,6 +763,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 060fc374bd6718f4c92e7b0af513b4db, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: 060fc374bd6718f4c92e7b0af513b4db, type: 3}
       propertyPath: m_Name
       value: gate
@@ -800,6 +824,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: cfdbfb35782e74445aa5478f0be6df17, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: cfdbfb35782e74445aa5478f0be6df17, type: 3}
       propertyPath: m_Name
       value: boat-tug-c
@@ -857,6 +885,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -1012670136825788297, guid: 6f760c6735ff0d84891bdb4baa874e8f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: 6f760c6735ff0d84891bdb4baa874e8f, type: 3}
       propertyPath: m_Name
       value: ship-cargo-a
@@ -914,6 +946,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 8329d08d2f4f7d64eb6aa0b24900f344, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: 8329d08d2f4f7d64eb6aa0b24900f344, type: 3}
       propertyPath: m_Name
       value: boat-speed-f
@@ -971,6 +1007,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: f24b9ac373fd2e14891049a1623abcc9, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: f24b9ac373fd2e14891049a1623abcc9, type: 3}
       propertyPath: m_Name
       value: cargo-container-c
@@ -1157,6 +1197,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: f73270e2437c50e46ac93f6b278463a1, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: f73270e2437c50e46ac93f6b278463a1, type: 3}
       propertyPath: m_Name
       value: boat-tow-b
@@ -1214,6 +1258,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 3ce69fc8db84e5e4c81fed23afb6850f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: 3ce69fc8db84e5e4c81fed23afb6850f, type: 3}
       propertyPath: m_Name
       value: cargo-container-b
@@ -1271,6 +1319,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: ed3d5fb02e1dcc44692b5ad7dde2fd6c, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: ed3d5fb02e1dcc44692b5ad7dde2fd6c, type: 3}
       propertyPath: m_Name
       value: cargo-container-a
@@ -1328,6 +1380,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 7007398b03e6aad47a7e9acfdbb16504, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: 7007398b03e6aad47a7e9acfdbb16504, type: 3}
       propertyPath: m_Name
       value: boat-row-small (1)
@@ -1385,6 +1441,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: cf145428d8d833a42b24492dedc6fd5c, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: cf145428d8d833a42b24492dedc6fd5c, type: 3}
       propertyPath: m_Name
       value: boat-sail-b
@@ -1550,6 +1610,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1844841ec0868c742a31e86b10710242, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: 1844841ec0868c742a31e86b10710242, type: 3}
       propertyPath: m_Name
       value: buoy
@@ -1559,6 +1623,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1844841ec0868c742a31e86b10710242, type: 3}
+--- !u!1001 &861082713
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 77b65f6e253f8684c977a9182ed96d13, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 5.55672
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 77b65f6e253f8684c977a9182ed96d13, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.19999981
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 77b65f6e253f8684c977a9182ed96d13, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 67.61966
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 77b65f6e253f8684c977a9182ed96d13, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 77b65f6e253f8684c977a9182ed96d13, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 77b65f6e253f8684c977a9182ed96d13, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 77b65f6e253f8684c977a9182ed96d13, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 77b65f6e253f8684c977a9182ed96d13, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 77b65f6e253f8684c977a9182ed96d13, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 77b65f6e253f8684c977a9182ed96d13, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 77b65f6e253f8684c977a9182ed96d13, type: 3}
+      propertyPath: m_Name
+      value: tower
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 77b65f6e253f8684c977a9182ed96d13, type: 3}
 --- !u!1 &976205873
 GameObject:
   m_ObjectHideFlags: 0
@@ -1715,6 +1836,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: f6b5fdfc7f58c6944b78a5efbad06a6d, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: f6b5fdfc7f58c6944b78a5efbad06a6d, type: 3}
       propertyPath: m_Name
       value: boat-speed-h
@@ -1772,6 +1897,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: b88fbba894df8d54bb9139c8165daf7d, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: b88fbba894df8d54bb9139c8165daf7d, type: 3}
       propertyPath: m_Name
       value: boat-speed-e
@@ -1829,6 +1958,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 77146b7c006ac754fa92c9a9499378a1, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: 77146b7c006ac754fa92c9a9499378a1, type: 3}
       propertyPath: m_Name
       value: boat-house-d
@@ -1886,6 +2019,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: eb1a9754e11d26644baf2e994a807f68, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: eb1a9754e11d26644baf2e994a807f68, type: 3}
       propertyPath: m_Name
       value: boat-speed-a
@@ -1943,6 +2080,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: dc9dade5c4e71dd41bfc83226e9abb9e, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: dc9dade5c4e71dd41bfc83226e9abb9e, type: 3}
       propertyPath: m_Name
       value: boat-speed-d
@@ -2000,6 +2141,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 93ef65955f90bca41b346cf69c494d3d, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: 93ef65955f90bca41b346cf69c494d3d, type: 3}
       propertyPath: m_Name
       value: boat-row-large
@@ -2057,6 +2202,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1212c51b97ea54444987fda1e77e8053, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: 1212c51b97ea54444987fda1e77e8053, type: 3}
       propertyPath: m_Name
       value: ship-small
@@ -2114,6 +2263,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 390e99df48b5d694fbbe43ed8def2ba3, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: 390e99df48b5d694fbbe43ed8def2ba3, type: 3}
       propertyPath: m_Name
       value: ship-ocean-liner-small
@@ -2171,6 +2324,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: c272dabf493c3b641a6eebfd4e74ad3c, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: c272dabf493c3b641a6eebfd4e74ad3c, type: 3}
       propertyPath: m_Name
       value: boat-tow-a
@@ -2228,6 +2385,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: cdc82221b30ade446913906016bcd532, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
+    - target: {fileID: -2280505793747384268, guid: cdc82221b30ade446913906016bcd532, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: cdc82221b30ade446913906016bcd532, type: 3}
       propertyPath: m_Name
       value: boat-fan (1)
@@ -2285,6 +2450,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: d8d363f4eea979f44aa4757aa717eee1, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: d8d363f4eea979f44aa4757aa717eee1, type: 3}
       propertyPath: m_Name
       value: buoy-flag
@@ -2393,6 +2562,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: fa8fae68f37b3c647ba21f43aba8f950, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: fa8fae68f37b3c647ba21f43aba8f950, type: 3}
       propertyPath: m_Name
       value: ship-ocean-liner
@@ -2450,6 +2623,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: dcc00d9a1f1906d44bd6d01b6f02717a, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: dcc00d9a1f1906d44bd6d01b6f02717a, type: 3}
       propertyPath: m_Name
       value: boat-tug-b
@@ -2615,6 +2792,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 7b686f0d5f2aa1246bcdb5c3e9858f49, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: 7b686f0d5f2aa1246bcdb5c3e9858f49, type: 3}
       propertyPath: m_Name
       value: gate-finish
@@ -2672,6 +2853,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: a9bb784a1a3de844db216c0c3a10fe0e, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: a9bb784a1a3de844db216c0c3a10fe0e, type: 3}
       propertyPath: m_Name
       value: boat-speed-j
@@ -2798,6 +2983,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 045c11a3157699e4589b66c17e45ed23, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: 045c11a3157699e4589b66c17e45ed23, type: 3}
       propertyPath: m_Name
       value: ship-large
@@ -2855,6 +3044,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 01edfca084c9c7a4eac4c7a1ebf6b012, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: 01edfca084c9c7a4eac4c7a1ebf6b012, type: 3}
       propertyPath: m_Name
       value: boat-speed-g
@@ -2912,6 +3105,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: b99072f7e35c94e448ec824bb9872653, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: b99072f7e35c94e448ec824bb9872653, type: 3}
       propertyPath: m_Name
       value: cargo-pile-a
@@ -2969,6 +3166,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 60a5226a2473285419a2a65dc914b201, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: 60a5226a2473285419a2a65dc914b201, type: 3}
       propertyPath: m_Name
       value: boat-house-a
@@ -3135,6 +3336,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: f02cb15fe7948094faee108472c7f80d, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: f02cb15fe7948094faee108472c7f80d, type: 3}
       propertyPath: m_Name
       value: boat-speed-i
@@ -3192,6 +3397,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 41a0b8d66ae017f4489b942398e297be, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: 41a0b8d66ae017f4489b942398e297be, type: 3}
       propertyPath: m_Name
       value: boat-sail-a
@@ -3249,6 +3458,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 90d0090f6641fb04a9ebf2dd2329724b, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: 90d0090f6641fb04a9ebf2dd2329724b, type: 3}
       propertyPath: m_Name
       value: boat-house-b
@@ -3306,6 +3519,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 85db2f2c075cb414e8587bc9b359dc4a, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: 85db2f2c075cb414e8587bc9b359dc4a, type: 3}
       propertyPath: m_Name
       value: cargo-pile-b
@@ -3363,6 +3580,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1f52d97269c14a74b879497b419fb3f7, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: 1f52d97269c14a74b879497b419fb3f7, type: 3}
       propertyPath: m_Name
       value: boat-fishing-small (1)
@@ -3420,6 +3641,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 2f46d626dd7d8624a92f483029fba00e, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: 2f46d626dd7d8624a92f483029fba00e, type: 3}
       propertyPath: m_Name
       value: ship-small-ghost
@@ -3477,6 +3702,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: b881dc74dc71c6d4e9719eb437900bea, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: b881dc74dc71c6d4e9719eb437900bea, type: 3}
       propertyPath: m_Name
       value: ship-cargo-c
@@ -3534,6 +3763,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 6264769becf03204f87585af556ef3bd, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: 6264769becf03204f87585af556ef3bd, type: 3}
       propertyPath: m_Name
       value: ramp-wide
@@ -3807,6 +4040,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -1012670136825788297, guid: 872b5da378d0ba44ba767409b133c2f6, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: 872b5da378d0ba44ba767409b133c2f6, type: 3}
       propertyPath: m_Name
       value: ship-cargo-b
@@ -3864,6 +4101,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: b22dac2a7a1048d4da5574a00f1d3ad1, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
     - target: {fileID: 919132149155446097, guid: b22dac2a7a1048d4da5574a00f1d3ad1, type: 3}
       propertyPath: m_Name
       value: arrow-standing
@@ -3933,3 +4174,4 @@ SceneRoots:
   - {fileID: 2092706812}
   - {fileID: 90423839}
   - {fileID: 1755554511}
+  - {fileID: 861082713}
