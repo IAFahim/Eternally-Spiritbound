@@ -10,36 +10,42 @@ namespace _Root.Scripts.Game.Movements
         public Rigidbody rb;
         public float speed = 10f;
         public float turnSpeed = 10f;
-        public float force = 10f; // Renamed horsePower to force for clarity
+        public float force = 10f;
+        public float acceleration = 10f;
+        public float waveIntensity = 0.5f; // Adjust wave intensity
+        public float waveFrequency = 1f; // Adjust wave frequency
 
         public InputActionReference moveAction;
-        public InputActionReference accelerateAction; // New input for acceleration
+        public InputActionReference accelerateAction;
 
+        public Lean lean;
         private Vector3 _moveDirection;
-        private float _accelerationInput;
+        [SerializeField] private float _accelerationInput;
+
 
         void OnEnable()
         {
             rb = GetComponent<Rigidbody>();
-            // Rigidbody Setup:
-            rb.mass = 1000f; // Adjust as needed for boat weight
-            rb.linearDamping = 1f; // Adjust for water resistance
-            rb.angularDamping = 2f; // Adjust for rotational resistance
 
             moveAction.action.Enable();
             moveAction.action.performed += MoveInput;
-            moveAction.action.canceled += MoveInput;
+            moveAction.action.canceled += MoveInputCancel;
 
             accelerateAction.action.Enable();
             accelerateAction.action.performed += AccelerateInput;
             accelerateAction.action.canceled += AccelerateInput;
         }
 
+        private void MoveInputCancel(InputAction.CallbackContext obj)
+        {
+            _moveDirection = Vector3.zero;
+        }
+
         void OnDisable()
         {
             moveAction.action.Disable();
             moveAction.action.performed -= MoveInput;
-            moveAction.action.canceled -= MoveInput;
+            moveAction.action.canceled -= MoveInputCancel;
 
             accelerateAction.action.Disable();
             accelerateAction.action.performed -= AccelerateInput;
@@ -54,7 +60,14 @@ namespace _Root.Scripts.Game.Movements
 
         private void AccelerateInput(InputAction.CallbackContext obj)
         {
-            _accelerationInput = obj.ReadValue<float>();
+            // _accelerationInput = obj.ReadValue<float>();
+            _accelerationInput = 1;
+        }
+
+        private void Update()
+        {
+            lean.UpdateLean(_moveDirection);
+            _accelerationInput = Mathf.Lerp(_accelerationInput, acceleration * _moveDirection.magnitude, Time.deltaTime);
         }
 
         void FixedUpdate()
@@ -73,7 +86,7 @@ namespace _Root.Scripts.Game.Movements
             }
 
             // Apply drag to slow down the boat when not accelerating
-            rb.linearVelocity *= (1f - Time.deltaTime * rb.linearDamping); // Using rb.drag for a more realistic effect
+            rb.linearVelocity *= (1f - Time.deltaTime * rb.linearDamping);
         }
     }
 }
