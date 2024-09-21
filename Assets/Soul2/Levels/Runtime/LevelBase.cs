@@ -1,14 +1,24 @@
 ﻿using System;
 using Soul2.Datas.Runtime.Interface;
+using UnityEngine;
 
 namespace Soul2.Levels.Runtime
 {
     [Serializable]
     public abstract class LevelBase : IStorageAdapter<int>
     {
-        public int CurrentLevel { get; protected set; } = 1;
+        [SerializeField] protected int currentLevel = 1;
+        private string guid;
+
+        public int CurrentLevel => currentLevel;
+
         public event Action<int, int> OnLevelChange;
-        public string Guid { get; set; }
+
+        public string Guid
+        {
+            get => guid;
+            set => guid = value;
+        }
 
         public void SetData(int level)
         {
@@ -16,7 +26,7 @@ namespace Soul2.Levels.Runtime
             if (CurrentLevel == level) return;
             
             int oldLevel = CurrentLevel;
-            CurrentLevel = level;
+            currentLevel = level;
             OnLevelChange?.Invoke(oldLevel, CurrentLevel);
         }
 

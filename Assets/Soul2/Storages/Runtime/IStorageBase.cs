@@ -6,24 +6,24 @@ using Soul2.Datas.Runtime.Interface;
 
 namespace Soul2.Storages.Runtime
 {
-    public interface IStorageBase<T> 
+    public interface IStorageBase<TElement, TValue> : IStorageAdapter<Pair<TElement, TValue>[]>
     {
-        public void Initialize();
-        public Pair<T, int>[] StartingElements { get; }
-        public int Count { get; }
-        public event Action<T, int, int> OnItemChanged;
-        public bool TryAdd(T element, int amount, out int added, bool saveOnSuccess = true);
-
-        public bool TryAdd(IEnumerable<Pair<T, int>> elementsToAdd, out List<Pair<T, int>> failedToAdd,
-            bool saveOnSuccess = true);
-
-        public bool TryRemove(T item, int amount, out int removed, bool saveOnSuccess = true);
-
-        public bool TryRemove(IEnumerable<Pair<T, int>> elementsToRemove, out List<Pair<T, int>> failedToRemove,
-            bool saveOnSuccess = true);
-
-        public bool HasEnough(T item, int amount);
-        public bool HasEnough(T element, int amount, out int remainingAmount);
-        public bool HasEnough(IEnumerable<Pair<T, int>> elementsToCheck, out List<Pair<T, int>> insufficientElements);
+        void Initialize();
+        Pair<TElement, TValue>[] StartingElements { get; }
+        int Count { get; }
+        event Action<TElement, TValue, TValue> OnItemChanged;
+        bool TryAdd(TElement element, TValue amount, out TValue added, bool saveOnSuccess = false);
+        bool TryAdd(IEnumerable<Pair<TElement, TValue>> elementsToAdd, out List<Pair<TElement, TValue>> failedToAdd, bool saveOnSuccess = false);
+        bool TryRemove(TElement element, TValue amount, out TValue removed, bool saveOnSuccess = false);
+        bool TryRemove(IEnumerable<Pair<TElement, TValue>> elementsToRemove, out List<Pair<TElement, TValue>> failedToRemove, bool saveOnSuccess = false);
+        bool HasEnough(TElement element, TValue amount);
+        bool HasEnough(TElement element, TValue amount, out TValue remainingAmount);
+        bool HasEnough(IEnumerable<Pair<TElement, TValue>> elementsToCheck, out List<Pair<TElement, TValue>> insufficientElements);
+        void Clear(bool save = false);
+        Dictionary<TElement, TValue> GetAllElements();
+        void SetElements(Pair<TElement, TValue>[] elements);
+        TValue Add(TValue a, TValue b);
+        TValue Remove(TValue a, TValue b);
+        int Compare(TValue a, TValue b);
     }
 }

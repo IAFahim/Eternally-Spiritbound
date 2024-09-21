@@ -1,208 +1,122 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Soul2.Containers.RunTime;
-using Soul2.Datas.Runtime;
-using Soul2.Datas.Runtime.Interface;
 using UnityEngine;
 
 namespace Soul2.Storages.Runtime
 {
-    /// <summary>
-    /// Abstract class representing a storage for items.
-    /// </summary>
-    /// <typeparam name="T">Type of the items to be stored.</typeparam>
     [Serializable]
-    public abstract class StorageBase<T> : IStorageBase<T>
+    public abstract class StorageBase<TElement, TValue> : IStorageBase<TElement, TValue>
     {
-        public event Action<T, int, int> OnItemChanged;
-        [SerializeField] protected Pair<T, int>[] startingElements;
-        private Dictionary<T, int> _elements;
+        public event Action<TElement, TValue, TValue> OnItemChanged;
 
+        [SerializeField] protected Pair<TElement, TValue>[] startingElements;
+        protected Dictionary<TElement, TValue> _elements;
 
-        /// <summary>
-        /// Gets the starting elements of the storage.
-        /// </summary>
-        public Pair<T, int>[] StartingElements => startingElements;
-
-        /// <summary>
-        /// Gets the count of different items in the storage.
-        /// </summary>
+        public Pair<TElement, TValue>[] StartingElements => startingElements;
         public int Count => _elements.Count;
-
-
-        /// <summary>
-        /// Gets the core unique identifier 
-        /// </summary>
-        public string Guid { get; private set; }
-
-        /// <summary>
-        /// Mix with guid To get unique an identifier for the storage.
-        /// </summary>
-        public abstract string DataKey { get; }
-
-        public Pair<T, int>[] DefaultData => startingElements;
-        public abstract Pair<T, int>[] LoadData();
-
-        public abstract void SaveData(Pair<T, int>[] data);
-
-        public void FirstLoad(string guid)
-        {
-            Guid = guid;
-            startingElements = LoadData();
-            Initialize();
-        }
-
-        public void Save()
-        {
-            SaveData(_elements.ToPairArray());
-        }
+        public string Guid { get; set; }
 
         public void Initialize() => SetElements(startingElements);
 
-        public void SetElements(Pair<T, int>[] loadedData)
+        public void SetElements(Pair<TElement, TValue>[] loadedData)
         {
-            _elements = new Dictionary<T, int>();
-            foreach (var loadedKeyValuePair in loadedData)
+            _elements = new Dictionary<TElement, TValue>();
+            foreach (var pair in loadedData)
             {
-                if (_elements.ContainsKey(loadedKeyValuePair.Key))
-                    _elements[loadedKeyValuePair.Key] += loadedKeyValuePair.Value;
-                else _elements.Add(loadedKeyValuePair.Key, loadedKeyValuePair.Value);
+                if (_elements.TryGetValue(pair.Key, out var currentValue))
+                    _elements[pair.Key] = Add(currentValue, pair.Value);
+                else
+                    _elements.Add(pair.Key, pair.Value);
             }
         }
 
-
-        /// <summary>
-        /// Tries to add an element to the storage.
-        /// </summary>
-        /// <param name="element">The element to add.</param>
-        /// <param name="amount">The amount to add.</param>
-        /// <param name="added">The amount actually added.</param>
-        /// <param name="saveOnSuccess">Whether to save the storage on success.</param>
-        /// <returns>True if the element was added successfully, otherwise false.</returns>
-        public bool TryAdd(T element, int amount, out int added, bool saveOnSuccess = true)
+        public bool TryAdd(TElement element, TValue amount, out TValue added, bool saveOnSuccess = false)
         {
-            added = 0;
-            if (_elements.TryGetValue(element, out int currentAmount))
+            added = default;
+            if (_elements.TryGetValue(element, out TValue currentAmount))
             {
-                _elements[element] = currentAmount + amount;
+                var newAmount = Add(currentAmount, amount);
+                _elements[element] = newAmount;
                 added = amount;
-                OnItemChanged?.Invoke(element, currentAmount, currentAmount + amount);
+                OnItemChanged?.Invoke(element, currentAmount, newAmount);
             }
             else
             {
                 _elements.Add(element, amount);
                 added = amount;
-                OnItemChanged?.Invoke(element, 0, amount);
+                OnItemChanged?.Invoke(element, default, amount);
             }
 
-            if (saveOnSuccess) SaveData(_elements.ToPairArray());
+            if (saveOnSuccess) SaveData();
             return true;
         }
 
-        /// <summary>
-        /// Tries to add multiple elements to the storage.
-        /// </summary>
-        /// <param name="elementsToAdd">The elements to add.</param>
-        /// <param name="failedToAdd">The elements that failed to add.</param>
-        /// <param name="saveOnSuccess">Whether to save the storage on success.</param>
-        /// <returns>True if all elements were added successfully, otherwise false.</returns>
-        public bool TryAdd(IEnumerable<Pair<T, int>> elementsToAdd, out List<Pair<T, int>> failedToAdd,
-            bool saveOnSuccess = true)
+        public bool TryAdd(IEnumerable<Pair<TElement, TValue>> elementsToAdd, out List<Pair<TElement, TValue>> failedToAdd, bool saveOnSuccess = false)
         {
-            failedToAdd = new List<Pair<T, int>>();
+            failedToAdd = new List<Pair<TElement, TValue>>();
             foreach (var pair in elementsToAdd)
             {
-                if (!TryAdd(pair.Key, pair.Value, out _, false)) failedToAdd.Add(pair);
+                if (!TryAdd(pair.Key, pair.Value, out _, false))
+                    failedToAdd.Add(pair);
             }
 
-            if (saveOnSuccess && failedToAdd.Count == 0) SaveData(_elements.ToPairArray());
+            if (saveOnSuccess && failedToAdd.Count == 0) SaveData();
             return failedToAdd.Count == 0;
         }
 
-        /// <summary>
-        /// Tries to remove an element from the storage.
-        /// </summary>
-        /// <param name="element">The element to remove.</param>
-        /// <param name="amount">The amount to remove.</param>
-        /// <param name="removed">The amount actually removed.</param>
-        /// <param name="saveOnSuccess">Whether to save the storage on success.</param>
-        /// <returns>True if the element was removed successfully, otherwise false.</returns>
-        public bool TryRemove(T element, int amount, out int removed, bool saveOnSuccess = true)
+        public bool TryRemove(TElement element, TValue amount, out TValue removed, bool saveOnSuccess = false)
         {
-            removed = 0;
-            if (_elements.TryGetValue(element, out int currentAmount) && currentAmount >= amount)
+            removed = default;
+            if (_elements.TryGetValue(element, out TValue currentAmount) && Compare(currentAmount, amount) >= 0)
             {
-                _elements[element] = currentAmount - amount;
+                var newAmount = Remove(currentAmount, amount);
+                _elements[element] = newAmount;
                 removed = amount;
-                OnItemChanged?.Invoke(element, currentAmount, currentAmount - amount);
+                OnItemChanged?.Invoke(element, currentAmount, newAmount);
 
-                if (_elements[element] == 0) _elements.Remove(element);
-                if (saveOnSuccess) SaveData(_elements.ToPairArray());
+                if (Compare(newAmount, default) == 0) _elements.Remove(element);
+                if (saveOnSuccess) SaveData();
                 return true;
             }
 
             return false;
         }
 
-        /// <summary>
-        /// Tries to remove multiple elements from the storage.
-        /// </summary>
-        /// <param name="elementsToRemove">The elements to remove.</param>
-        /// <param name="failedToRemove">The elements that failed to remove.</param>
-        /// <param name="saveOnSuccess">Whether to save the storage on success.</param>
-        /// <returns>True if all elements were removed successfully, otherwise false.</returns>
-        public bool TryRemove(IEnumerable<Pair<T, int>> elementsToRemove, out List<Pair<T, int>> failedToRemove,
-            bool saveOnSuccess = true)
+        public bool TryRemove(IEnumerable<Pair<TElement, TValue>> elementsToRemove, out List<Pair<TElement, TValue>> failedToRemove, bool saveOnSuccess = false)
         {
-            failedToRemove = new List<Pair<T, int>>();
+            failedToRemove = new List<Pair<TElement, TValue>>();
             foreach (var pair in elementsToRemove)
             {
-                if (!TryRemove(pair.Key, pair.Value, out _, false)) failedToRemove.Add(pair);
+                if (!TryRemove(pair.Key, pair.Value, out _, false))
+                    failedToRemove.Add(pair);
             }
 
-            if (saveOnSuccess && failedToRemove.Count == 0) SaveData(_elements.ToPairArray());
+            if (saveOnSuccess && failedToRemove.Count == 0) SaveData();
             return failedToRemove.Count == 0;
         }
 
-        /// <summary>
-        /// Checks if the storage has enough of a specific element.
-        /// </summary>
-        /// <param name="element">The element to check.</param>
-        /// <param name="amount">The amount to check.</param>
-        /// <returns>True if the storage has enough of the element, otherwise false.</returns>
-        public bool HasEnough(T element, int amount)
+        public bool HasEnough(TElement element, TValue amount)
         {
-            return _elements.ContainsKey(element) && _elements[element] >= amount;
+            return _elements.TryGetValue(element, out var currentAmount) && Compare(currentAmount, amount) >= 0;
         }
 
-        /// <summary>
-        /// Checks if the storage has enough of a specific element and returns the remaining amount.
-        /// </summary>
-        /// <param name="element">The element to check.</param>
-        /// <param name="amount">The amount to check.</param>
-        /// <param name="remainingAmount">The remaining amount after the check.</param>
-        /// <returns>True if the storage has enough of the element, otherwise false.</returns>
-        public bool HasEnough(T element, int amount, out int remainingAmount)
+        public bool HasEnough(TElement element, TValue amount, out TValue remainingAmount)
         {
-            if (_elements.TryGetValue(element, out int currentAmount))
+            if (_elements.TryGetValue(element, out TValue currentAmount))
             {
-                remainingAmount = currentAmount - amount;
-                return remainingAmount >= 0;
+                remainingAmount = Remove(currentAmount, amount);
+                return Compare(remainingAmount, default) >= 0;
             }
 
-            remainingAmount = -amount; // If the element doesn't exist, remaining is negative
+            remainingAmount = default;
             return false;
         }
 
-        /// <summary>
-        /// Checks if the storage has enough of multiple elements.
-        /// </summary>
-        /// <param name="elementsToCheck">The elements to check.</param>
-        /// <param name="insufficientElements">The elements that are insufficient.</param>
-        /// <returns>True if the storage has enough of all elements, otherwise false.</returns>
-        public bool HasEnough(IEnumerable<Pair<T, int>> elementsToCheck, out List<Pair<T, int>> insufficientElements)
+        public bool HasEnough(IEnumerable<Pair<TElement, TValue>> elementsToCheck, out List<Pair<TElement, TValue>> insufficientElements)
         {
-            insufficientElements = new List<Pair<T, int>>();
+            insufficientElements = new List<Pair<TElement, TValue>>();
             foreach (var pair in elementsToCheck)
             {
                 if (!HasEnough(pair.Key, pair.Value))
@@ -214,29 +128,28 @@ namespace Soul2.Storages.Runtime
             return insufficientElements.Count == 0;
         }
 
-        /// <summary>
-        /// Clears all elements from the storage.
-        /// </summary>
-        public void Clear()
+        public void Clear(bool save = false)
         {
             _elements.Clear();
-            SaveData(_elements.ToPairArray());
+            if (save) SaveData();
         }
 
-        /// <summary>
-        /// Gets the current amount of a specific element in the storage.
-        /// </summary>
-        /// <param name="element">The element to get the amount of.</param>
-        /// <returns>The current amount of the element.</returns>
-        public int GetAmount(T element) => _elements.GetValueOrDefault(element, 0);
-
-        /// <summary>
-        /// Gets all elements in the storage.
-        /// </summary>
-        /// <returns>A dictionary of all elements and their amounts.</returns>
-        public Dictionary<T, int> GetAllElements()
+        public Dictionary<TElement, TValue> GetAllElements()
         {
-            return new Dictionary<T, int>(_elements);
+            return new Dictionary<TElement, TValue>(_elements);
         }
+
+        public abstract void LoadData(string guid);
+        public void SetData(Pair<TElement, TValue>[] data) => SetElements(data);
+        public abstract void SaveData(Pair<TElement, TValue>[] data);
+        
+        public void SaveData()
+        {
+            SaveData(_elements.Select(kvp => new Pair<TElement, TValue>(kvp.Key, kvp.Value)).ToArray());
+        }
+
+        public abstract TValue Add(TValue a, TValue b);
+        public abstract TValue Remove(TValue a, TValue b);
+        public abstract int Compare(TValue a, TValue b);
     }
 }

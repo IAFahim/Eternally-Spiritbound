@@ -1,11 +1,10 @@
 ﻿using Pancake;
-using Soul2.Storages.Runtime;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 namespace Soul2.Items.Runtime
 {
-    public interface IItem
+    public interface IItemBase
     {
         public string Guid { get; }
         public string ItemName { get; }
@@ -15,8 +14,8 @@ namespace Soul2.Items.Runtime
         public bool Consumable { get; }
         public int MaxStack { get; }
 
-        public bool TryPick(GameObject picker, IStorageBase<IItem> storageBase, int amount = 1);
-        public bool TryUse(GameObject user, IStorageBase<IItem> storageBase, int amount = 1);
-        public bool TryDrop(GameObject dropper, IStorageBase<IItem> storageBase, int amount = 1);
+        public bool TryPick(GameObject picker, int amount = 1);
+        public bool TryUse(GameObject user, int amount = 1);
+        public bool TryDrop(GameObject dropper, int amount = 1);
     }
 }
