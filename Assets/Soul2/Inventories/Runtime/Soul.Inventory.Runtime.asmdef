@@ -1,0 +1,4 @@
+﻿{
+  "name": "Soul.Inventory.Runtime",
+  "references":[ "GUID:18cca2ae3f1c0834984f9031e8d97571", "GUID:299d920ab2714bb45b779fa8b716cf83", "GUID:9794d3178ccdb9e409cfdc9dcb374232" ]
+}

@@ -18,9 +18,9 @@ namespace Soul2.Storages.Runtime
         public int Count => _elements.Count;
         public string Guid { get; set; }
 
-        public void Initialize() => SetElements(startingElements);
+        public virtual void Initialize() => SetElements(startingElements);
         
-        private void SetElements(Pair<TElement, TValue>[] loadedData)
+        protected virtual void SetElements(Pair<TElement, TValue>[] loadedData)
         {
             _elements = new Dictionary<TElement, TValue>();
             foreach (var pair in loadedData)
@@ -31,9 +31,8 @@ namespace Soul2.Storages.Runtime
                     _elements.Add(pair.Key, pair.Value);
             }
         }
-        
 
-        public bool TryAdd(TElement element, TValue amount, out TValue added, bool saveOnSuccess = false)
+        public virtual bool TryAdd(TElement element, TValue amount, out TValue added, bool saveOnSuccess = false)
         {
             added = default;
             if (_elements.TryGetValue(element, out TValue currentAmount))
@@ -54,7 +53,7 @@ namespace Soul2.Storages.Runtime
             return true;
         }
 
-        public bool TryAdd(IEnumerable<Pair<TElement, TValue>> elementsToAdd,
+        public virtual bool TryAdd(IEnumerable<Pair<TElement, TValue>> elementsToAdd,
             out List<Pair<TElement, TValue>> failedToAdd, bool saveOnSuccess = false)
         {
             failedToAdd = new List<Pair<TElement, TValue>>();
@@ -68,7 +67,7 @@ namespace Soul2.Storages.Runtime
             return failedToAdd.Count == 0;
         }
 
-        public bool TryRemove(TElement element, TValue amount, out TValue removed, bool saveOnSuccess = false)
+        public virtual bool TryRemove(TElement element, TValue amount, out TValue removed, bool saveOnSuccess = false)
         {
             removed = default;
             if (_elements.TryGetValue(element, out TValue currentAmount) && Compare(currentAmount, amount) >= 0)
@@ -86,7 +85,7 @@ namespace Soul2.Storages.Runtime
             return false;
         }
 
-        public bool TryRemove(IEnumerable<Pair<TElement, TValue>> elementsToRemove,
+        public virtual bool TryRemove(IEnumerable<Pair<TElement, TValue>> elementsToRemove,
             out List<Pair<TElement, TValue>> failedToRemove, bool saveOnSuccess = false)
         {
             failedToRemove = new List<Pair<TElement, TValue>>();
@@ -100,12 +99,12 @@ namespace Soul2.Storages.Runtime
             return failedToRemove.Count == 0;
         }
 
-        public bool HasEnough(TElement element, TValue amount)
+        public virtual bool HasEnough(TElement element, TValue amount)
         {
             return _elements.TryGetValue(element, out var currentAmount) && Compare(currentAmount, amount) >= 0;
         }
 
-        public bool HasEnough(TElement element, TValue amount, out TValue remainingAmount)
+        public virtual bool HasEnough(TElement element, TValue amount, out TValue remainingAmount)
         {
             if (_elements.TryGetValue(element, out TValue currentAmount))
             {
@@ -117,7 +116,7 @@ namespace Soul2.Storages.Runtime
             return false;
         }
 
-        public bool HasEnough(IEnumerable<Pair<TElement, TValue>> elementsToCheck,
+        public virtual bool HasEnough(IEnumerable<Pair<TElement, TValue>> elementsToCheck,
             out List<Pair<TElement, TValue>> insufficientElements)
         {
             insufficientElements = new List<Pair<TElement, TValue>>();
@@ -132,22 +131,22 @@ namespace Soul2.Storages.Runtime
             return insufficientElements.Count == 0;
         }
 
-        public void Clear(bool save = false)
+        public virtual void Clear(bool save = false)
         {
             _elements.Clear();
             if (save) SaveData();
         }
 
-        public Dictionary<TElement, TValue> GetAllElements()
+        public virtual Dictionary<TElement, TValue> GetAllElements()
         {
             return new Dictionary<TElement, TValue>(_elements);
         }
 
         public abstract void LoadData(string guid);
-        public void SetData(Pair<TElement, TValue>[] data) => SetElements(data);
+        public virtual void SetData(Pair<TElement, TValue>[] data) => SetElements(data);
         public abstract void SaveData(Pair<TElement, TValue>[] data);
 
-        public void SaveData()
+        public virtual void SaveData()
         {
             SaveData(_elements.Select(kvp => new Pair<TElement, TValue>(kvp.Key, kvp.Value)).ToArray());
         }
@@ -155,5 +154,11 @@ namespace Soul2.Storages.Runtime
         public abstract TValue Add(TValue a, TValue b);
         public abstract TValue Remove(TValue a, TValue b);
         public abstract int Compare(TValue a, TValue b);
+
+        // New method to get the current amount of an element
+        public virtual bool TryGetAmount(TElement element, out TValue amount)
+        {
+            return _elements.TryGetValue(element, out amount);
+        }
     }
 }
