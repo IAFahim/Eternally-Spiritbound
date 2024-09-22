@@ -1,17 +1,17 @@
 {
-    "name": "Soul.Storages.Runtime",
-    "rootNamespace": "",
-    "references": [
-        "GUID:9794d3178ccdb9e409cfdc9dcb374232",
-        "GUID:794487ad33715414ea9a8ad0e73f7381"
-    ],
-    "includePlatforms": [],
-    "excludePlatforms": [],
-    "allowUnsafeCode": false,
-    "overrideReferences": false,
-    "precompiledReferences": [],
-    "autoReferenced": true,
-    "defineConstraints": [],
-    "versionDefines": [],
-    "noEngineReferences": false
+  "name": "Soul.Storages.Runtime",
+  "rootNamespace": "",
+  "references": [
+    "GUID:794487ad33715414ea9a8ad0e73f7381",
+    "GUID:0ce8820c9f0d48828499439bca7cd9a1"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
 }

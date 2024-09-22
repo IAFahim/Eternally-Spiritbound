@@ -63,5 +63,6 @@ namespace Soul2.Levels.Runtime
         {
             SaveData((currentLevel, xp));
         }
+
     }
 }

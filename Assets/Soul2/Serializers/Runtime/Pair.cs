@@ -81,6 +81,10 @@ namespace Soul2.Containers.RunTime
         public static implicit operator Pair<T, TV>((T, TV) tuple) => new() { Key = tuple.Item1, Value = tuple.Item2 };
 
         public static implicit operator (T, TV)(Pair<T, TV> pair) => (pair.keyFirst, pair.valueSecond);
+        
+        public static implicit operator Pair<T, TV>(KeyValuePair<T, TV> pair) => new() { Key = pair.Key, Value = pair.Value };
+        
+        public static implicit operator KeyValuePair<T, TV>(Pair<T, TV> pair) => new(pair.keyFirst, pair.valueSecond);
     }
 
     public static class PairExtensions

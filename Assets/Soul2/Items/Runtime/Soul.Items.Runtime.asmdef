@@ -2,7 +2,6 @@
     "name": "Soul.Items.Runtime",
     "rootNamespace": "",
     "references": [
-        "GUID:9794d3178ccdb9e409cfdc9dcb374232",
         "GUID:794487ad33715414ea9a8ad0e73f7381"
     ],
     "includePlatforms": [],

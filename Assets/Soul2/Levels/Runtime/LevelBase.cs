@@ -20,6 +20,8 @@ namespace Soul2.Levels.Runtime
             set => guid = value;
         }
 
+        public abstract string StorageKey { get; }
+
         public void SetData(int level)
         {
             if (level <= 0) throw new ArgumentOutOfRangeException(nameof(level), "Level must be greater than 0.");
@@ -44,5 +46,6 @@ namespace Soul2.Levels.Runtime
 
         public abstract void SaveData(int data);
         public abstract void SaveData();
+        public abstract void ClearStorage();
     }
 }

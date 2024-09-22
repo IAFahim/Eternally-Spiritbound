@@ -3,5 +3,6 @@
     public interface IStorageIdentifier
     {
         public string Guid { get; set; }
+        public string StorageKey { get; }
     }
 }

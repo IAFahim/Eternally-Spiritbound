@@ -1,57 +1,107 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Soul2.Containers.RunTime;
+using Soul2.Serializers.Runtime;
 using UnityEngine;
 
 namespace Soul2.Storages.Runtime
 {
+    /// <summary>
+    /// Base class for storage implementations.
+    /// </summary>
+    /// <typeparam name="TElement">The type of elements stored.</typeparam>
+    /// <typeparam name="TValue">The type of values associated with elements.</typeparam>
     [Serializable]
     public abstract class StorageBase<TElement, TValue> : IStorageBase<TElement, TValue>
+        where TElement : notnull
+        where TValue : IComparable<TValue>
     {
-        [SerializeField, Tooltip("Starting element when you load first time")]
-        protected Pair<TElement, TValue>[] startingElementReference;
+        [SerializeField, Tooltip("Starting elements when you load for the first time, useful for scriptable objects")]
+        protected Pair<TElement, TValue>[] defaultData = Array.Empty<Pair<TElement, TValue>>();
 
-        protected Dictionary<TElement, TValue> Elements = new();
-        
-        public int Count => Elements.Count;
+        [SerializeField] protected UnityDictionary<TElement, TValue> elements = new();
 
+        /// <summary>
+        /// Event triggered when an item in the storage changes.
+        /// </summary>
         public event Action<TElement, TValue, TValue> OnItemChanged;
-        public Pair<TElement, TValue>[] StartingElementReference => startingElementReference;
+
+        /// <summary>
+        /// Gets the number of elements in the storage.
+        /// </summary>
+        public int Count => elements.Count;
+
+        /// <summary>
+        /// Gets the default data for the storage.
+        /// </summary>
+        public Pair<TElement, TValue>[] DefaultData => defaultData;
+
+        /// <summary>
+        /// Gets or sets the GUID for the storage.
+        /// </summary>
         public string Guid { get; set; }
 
+        /// <summary>
+        /// Gets the storage key.
+        /// </summary>
+        public abstract string StorageKey { get; }
+
+        /// <summary>
+        /// Sets the elements in the storage.
+        /// </summary>
+        /// <param name="loadedData">The data to load into the storage.</param>
         protected virtual void SetElements(Pair<TElement, TValue>[] loadedData)
         {
-            Elements.Clear();
+            elements.Clear();
             foreach (var pair in loadedData)
             {
-                if (Elements.TryGetValue(pair.Key, out var currentValue))
-                    Elements[pair.Key] = Add(currentValue, pair.Value);
+                if (pair.Key == null) return;
+
+                if (elements.TryGetValue(pair.Key, out var currentValue))
+                    elements[pair.Key] = Add(currentValue, pair.Value);
                 else
-                    Elements.Add(pair.Key, pair.Value);
+                    elements.Add(pair.Key, pair.Value);
             }
         }
 
+        /// <summary>
+        /// Tries to add an amount to an element in the storage.
+        /// </summary>
+        /// <param name="element">The element to add to.</param>
+        /// <param name="amount">The amount to add.</param>
+        /// <param name="added">The amount actually added.</param>
+        /// <param name="saveOnSuccess">Whether to save the data after a successful addition.</param>
+        /// <returns>True if the addition was successful, false otherwise.</returns>
         public virtual bool TryAdd(TElement element, TValue amount, out TValue added, bool saveOnSuccess = false)
         {
             added = default;
-            if (Elements.TryGetValue(element, out TValue currentAmount))
+            if (elements.TryGetValue(element, out TValue currentAmount))
             {
                 var newAmount = Add(currentAmount, amount);
-                Elements[element] = newAmount;
+                elements[element] = newAmount;
                 added = amount;
                 OnItemChanged?.Invoke(element, currentAmount, newAmount);
             }
             else
             {
-                Elements.Add(element, amount);
+                elements.Add(element, amount);
                 added = amount;
                 OnItemChanged?.Invoke(element, default, amount);
             }
 
-            if (saveOnSuccess) SaveData();
+            if (saveOnSuccess)
+                SaveData();
             return true;
         }
 
+        /// <summary>
+        /// Tries to add multiple elements to the storage.
+        /// </summary>
+        /// <param name="elementsToAdd">The elements and amounts to add.</param>
+        /// <param name="failedToAdd">A list of elements that failed to be added.</param>
+        /// <param name="saveOnSuccess">Whether to save the data after a successful addition.</param>
+        /// <returns>True if all elements were added successfully, false otherwise.</returns>
         public virtual bool TryAdd(IEnumerable<Pair<TElement, TValue>> elementsToAdd,
             out List<Pair<TElement, TValue>> failedToAdd, bool saveOnSuccess = false)
         {
@@ -62,28 +112,46 @@ namespace Soul2.Storages.Runtime
                     failedToAdd.Add(pair);
             }
 
-            if (saveOnSuccess && failedToAdd.Count == 0) SaveData();
+            if (saveOnSuccess && failedToAdd.Count == 0)
+                SaveData();
             return failedToAdd.Count == 0;
         }
 
+        /// <summary>
+        /// Tries to remove an amount from an element in the storage.
+        /// </summary>
+        /// <param name="element">The element to remove from.</param>
+        /// <param name="amount">The amount to remove.</param>
+        /// <param name="removed">The amount actually removed.</param>
+        /// <param name="saveOnSuccess">Whether to save the data after a successful removal.</param>
+        /// <returns>True if the removal was successful, false otherwise.</returns>
         public virtual bool TryRemove(TElement element, TValue amount, out TValue removed, bool saveOnSuccess = false)
         {
             removed = default;
-            if (Elements.TryGetValue(element, out TValue currentAmount) && Compare(currentAmount, amount) >= 0)
+            if (elements.TryGetValue(element, out TValue currentAmount) && Compare(currentAmount, amount) >= 0)
             {
                 var newAmount = Remove(currentAmount, amount);
-                Elements[element] = newAmount;
+                elements[element] = newAmount;
                 removed = amount;
                 OnItemChanged?.Invoke(element, currentAmount, newAmount);
 
-                if (Compare(newAmount, default) == 0) Elements.Remove(element);
-                if (saveOnSuccess) SaveData();
+                if (Compare(newAmount, default) == 0)
+                    elements.Remove(element);
+                if (saveOnSuccess)
+                    SaveData();
                 return true;
             }
 
             return false;
         }
 
+        /// <summary>
+        /// Tries to remove multiple elements from the storage.
+        /// </summary>
+        /// <param name="elementsToRemove">The elements and amounts to remove.</param>
+        /// <param name="failedToRemove">A list of elements that failed to be removed.</param>
+        /// <param name="saveOnSuccess">Whether to save the data after a successful removal.</param>
+        /// <returns>True if all elements were removed successfully, false otherwise.</returns>
         public virtual bool TryRemove(IEnumerable<Pair<TElement, TValue>> elementsToRemove,
             out List<Pair<TElement, TValue>> failedToRemove, bool saveOnSuccess = false)
         {
@@ -94,17 +162,27 @@ namespace Soul2.Storages.Runtime
                     failedToRemove.Add(pair);
             }
 
-            if (saveOnSuccess && failedToRemove.Count == 0) SaveData();
+            if (saveOnSuccess && failedToRemove.Count == 0)
+                SaveData();
             return failedToRemove.Count == 0;
         }
 
-        public bool RemoveAll(TElement elementsToRemove, out TValue removed, bool saveOnSuccess = false)
+        /// <summary>
+        /// Removes all of a specific element from the storage.
+        /// </summary>
+        /// <param name="elementToRemove">The element to remove.</param>
+        /// <param name="removed">The amount removed.</param>
+        /// <param name="saveOnSuccess">Whether to save the data after a successful removal.</param>
+        /// <returns>True if the element was removed, false otherwise.</returns>
+        public bool RemoveAll(TElement elementToRemove, out TValue removed, bool saveOnSuccess = false)
         {
-            if (Elements.TryGetValue(elementsToRemove, out TValue currentAmount))
+            if (elements.TryGetValue(elementToRemove, out TValue currentAmount))
             {
                 removed = currentAmount;
-                Elements.Remove(elementsToRemove);
-                if (saveOnSuccess) SaveData();
+                elements.Remove(elementToRemove);
+                OnItemChanged?.Invoke(elementToRemove, currentAmount, default);
+                if (saveOnSuccess)
+                    SaveData();
                 return true;
             }
 
@@ -112,14 +190,28 @@ namespace Soul2.Storages.Runtime
             return false;
         }
 
+
+        /// <summary>
+        /// Checks if the storage has enough of a specific element.
+        /// </summary>
+        /// <param name="element">The element to check.</param>
+        /// <param name="amount">The amount to check for.</param>
+        /// <returns>True if the storage has enough of the element, false otherwise.</returns>
         public virtual bool HasEnough(TElement element, TValue amount)
         {
-            return Elements.TryGetValue(element, out var currentAmount) && Compare(currentAmount, amount) >= 0;
+            return elements.TryGetValue(element, out var currentAmount) && Compare(currentAmount, amount) >= 0;
         }
 
+        /// <summary>
+        /// Checks if the storage has enough of a specific element and returns the remaining amount.
+        /// </summary>
+        /// <param name="element">The element to check.</param>
+        /// <param name="amount">The amount to check for.</param>
+        /// <param name="remainingAmount">The remaining amount after the hypothetical removal.</param>
+        /// <returns>True if the storage has enough of the element, false otherwise.</returns>
         public virtual bool HasEnough(TElement element, TValue amount, out TValue remainingAmount)
         {
-            if (Elements.TryGetValue(element, out TValue currentAmount))
+            if (elements.TryGetValue(element, out TValue currentAmount))
             {
                 remainingAmount = Remove(currentAmount, amount);
                 return Compare(remainingAmount, default) >= 0;
@@ -129,6 +221,12 @@ namespace Soul2.Storages.Runtime
             return false;
         }
 
+        /// <summary>
+        /// Checks if the storage has enough of multiple elements.
+        /// </summary>
+        /// <param name="elementsToCheck">The elements and amounts to check for.</param>
+        /// <param name="insufficientElements">A list of elements that are insufficient.</param>
+        /// <returns>True if the storage has enough of all elements, false otherwise.</returns>
         public virtual bool HasEnough(IEnumerable<Pair<TElement, TValue>> elementsToCheck,
             out List<Pair<TElement, TValue>> insufficientElements)
         {
@@ -144,27 +242,53 @@ namespace Soul2.Storages.Runtime
             return insufficientElements.Count == 0;
         }
 
+
+        /// <summary>
+        /// Clears all elements from the storage.
+        /// </summary>
+        /// <param name="save">Whether to save the data after clearing.</param>
         public virtual void Clear(bool save = false)
         {
-            Elements.Clear();
-            if (save) SaveData();
+            elements.Clear();
+            if (save)
+                SaveData();
         }
 
-        public virtual Dictionary<TElement, TValue> GetAllElements()
-        {
-            return Elements;
-        }
 
+        /// <summary>
+        /// Loads data into the storage.
+        /// </summary>
+        /// <param name="guid">The GUID of the data to load.</param>
         public abstract void LoadData(string guid);
-        public virtual void SetData(Pair<TElement, TValue>[] data) => SetElements(data);
+
+        /// <summary>
+        /// Sets the data in the storage.
+        /// </summary>
+        /// <param name="data">The data to set.</param>
+        public virtual void SetData(Pair<TElement, TValue>[] data)
+        {
+            SetElements(data);
+        }
+
+        /// <summary>
+        /// Saves the current state of the storage.
+        /// </summary>
+        /// <param name="data">The data to save.</param>
         public abstract void SaveData(Pair<TElement, TValue>[] data);
 
+        /// <summary>
+        /// Deletes the storage key.
+        /// </summary>
+        public abstract void ClearStorage();
+
+        /// <summary>
+        /// Saves the current state of the storage.
+        /// </summary>
         public virtual void SaveData()
         {
-            // SaveData(Elements.Select(kvp => new Pair<TElement, TValue>(kvp.Key, kvp.Value)).ToArray());
-            var data = new Pair<TElement, TValue>[Elements.Count];
+            var data = new Pair<TElement, TValue>[elements.Count];
             var index = 0;
-            foreach (var kvp in Elements)
+            foreach (var kvp in elements)
             {
                 data[index] = new Pair<TElement, TValue>(kvp.Key, kvp.Value);
                 index++;
@@ -173,14 +297,186 @@ namespace Soul2.Storages.Runtime
             SaveData(data);
         }
 
+        /// <summary>
+        /// Adds two values together.
+        /// </summary>
+        /// <param name="a">The first value.</param>
+        /// <param name="b">The second value.</param>
+        /// <returns>The sum of the two values.</returns>
         public abstract TValue Add(TValue a, TValue b);
+
+        /// <summary>
+        /// Removes one value from another.
+        /// </summary>
+        /// <param name="a">The value to remove from.</param>
+        /// <param name="b">The value to remove.</param>
+        /// <returns>The result of the removal.</returns>
         public abstract TValue Remove(TValue a, TValue b);
+
+        /// <summary>
+        /// Compares two values.
+        /// </summary>
+        /// <param name="a">The first value.</param>
+        /// <param name="b">The second value.</param>
+        /// <returns>A negative number if a is less than b, 0 if they are equal, and a positive number if a is greater than b.</returns>
         public abstract int Compare(TValue a, TValue b);
 
-        // New method to get the current amount of an element
+        /// <summary>
+        /// Gets the current amount of an element.
+        /// </summary>
+        /// <param name="element">The element to get the amount for.</param>
+        /// <returns>The current amount of the element, or the default value if the element doesn't exist.</returns>
+        public virtual TValue GetAmount(TElement element)
+        {
+            return elements.GetValueOrDefault(element);
+        }
+
+        /// <summary>
+        /// Gets all elements in the storage.
+        /// </summary>
+        /// <returns>A dictionary of all elements and their amounts.</returns>
+        public virtual Dictionary<TElement, TValue> GetAllElements()
+        {
+            return new Dictionary<TElement, TValue>(elements);
+        }
+
+
+        /// <summary>
+        /// Tries to get the amount of an element.
+        /// <param name="element">The element to get the amount for.</param>
+        /// <param name="amount">The amount of the element.</param>
+        /// <returns>True if the element exists in the storage, false otherwise.</returns>
+        /// </summary>
         public virtual bool TryGetAmount(TElement element, out TValue amount)
         {
-            return Elements.TryGetValue(element, out amount);
+            return elements.TryGetValue(element, out amount);
+        }
+
+        /// <summary>
+        /// Sets the amount of an element.
+        /// </summary>
+        /// <param name="element">The element to set the amount for.</param>
+        /// <param name="amount">The amount to set.</param>
+        /// <param name="saveOnSuccess">Whether to save the data after setting the amount.</param>
+        /// <returns>True if the amount was set successfully, false otherwise.</returns>
+        public virtual bool TrySetAmount(TElement element, TValue amount, bool saveOnSuccess = false)
+        {
+            var oldAmount = GetAmount(element);
+            elements[element] = amount;
+            OnItemChanged?.Invoke(element, oldAmount, amount);
+
+            if (saveOnSuccess)
+                SaveData();
+
+            return true;
+        }
+
+
+        /// <summary>
+        /// Checks if the storage contains a specific element.
+        /// </summary>
+        /// <param name="element">The element to check for.</param>
+        /// <returns>True if the element exists in the storage, false otherwise.</returns>
+        public virtual bool ContainsElement(TElement element)
+        {
+            return elements.ContainsKey(element);
+        }
+
+
+        /// <summary>
+        /// Gets an IEnumerable of all element-value pairs in the storage.
+        /// </summary>
+        /// <returns>An IEnumerable of all element-value pairs.</returns>
+        public virtual IEnumerable<KeyValuePair<TElement, TValue>> GetAllElementValuePairs()
+        {
+            return elements;
+        }
+
+        /// <summary>
+        /// Adds multiple elements to the storage without saving.
+        /// </summary>
+        /// <param name="elementsToAdd">The elements and amounts to add.</param>
+        public virtual void AddRange(IEnumerable<KeyValuePair<TElement, TValue>> elementsToAdd)
+        {
+            foreach (var kvp in elementsToAdd)
+            {
+                TryAdd(kvp.Key, kvp.Value, out _, false);
+            }
+        }
+
+        /// <summary>
+        /// Removes multiple elements from the storage without saving.
+        /// </summary>
+        /// <param name="elementsToRemove">The elements to remove.</param>
+        public virtual void RemoveRange(IEnumerable<TElement> elementsToRemove)
+        {
+            foreach (var element in elementsToRemove)
+            {
+                RemoveAll(element, out _, false);
+            }
+        }
+
+        /// <summary>
+        /// Clears the storage and sets it to the default data.
+        /// </summary>
+        /// <param name="save">Whether to save after resetting to default.</param>
+        public virtual void ResetToDefault(bool save = false)
+        {
+            Clear(false);
+            SetElements(defaultData);
+            if (save)
+                SaveData();
+        }
+
+        /// <summary>
+        /// Gets the total sum of all values in the storage.
+        /// </summary>
+        /// <returns>The total sum of all values.</returns>
+        public virtual TValue GetTotalSum()
+        {
+            return elements.Aggregate(default(TValue), (current, kvp) => Add(current, kvp.Value));
+        }
+
+        /// <summary>
+        /// Creates a deep copy of the current storage state.
+        /// </summary>
+        /// <returns>A new Dictionary representing the current state.</returns>
+        public virtual Dictionary<TElement, TValue> CreateDeepCopy()
+        {
+            return new Dictionary<TElement, TValue>(elements);
+        }
+
+        /// <summary>
+        /// Applies a transformation to all values in the storage.
+        /// </summary>
+        /// <param name="transformFunc">The function to apply to each value.</param>
+        /// <param name="save">Whether to save after the transformation.</param>
+        public virtual void TransformAllValues(Func<TValue, TValue> transformFunc, bool save = false)
+        {
+            foreach (var key in elements.Keys.ToList())
+            {
+                var oldValue = elements[key];
+                var newValue = transformFunc(oldValue);
+                elements[key] = newValue;
+                OnItemChanged?.Invoke(key, oldValue, newValue);
+            }
+
+            if (save) SaveData();
+        }
+
+        /// <summary>
+        /// Merges another storage into this one, combining values for matching elements.
+        /// </summary>
+        /// <param name="otherStorage">The other storage to merge from.</param>
+        /// <param name="save">Whether to save after merging.</param>
+        public virtual void MergeFrom(IStorageBase<TElement, TValue> otherStorage, bool save = false)
+        {
+            foreach (var kvp in otherStorage.GetAllElementValuePairs())
+            {
+                TryAdd(kvp.Key, kvp.Value, out _, false);
+            }
+
+            if (save) SaveData();
         }
     }
 }
