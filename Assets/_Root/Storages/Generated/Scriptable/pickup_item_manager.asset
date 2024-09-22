@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1363b8d7cfef498586d6fbf1789fdd42, type: 3}
+  m_Name: pickup_item_manager
+  m_EditorClassIdentifier: 
+  item: {fileID: 11400000, guid: 5e36f5c845bc6e54a818d57ad2d7bea0, type: 2}
+  inactiveControllers: []
+  activeControllers: []
+  homingControllers: []
+  detectionRadius: 5
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  repelDistance: 5
+  repelDuration: 0.2
+  repelEase: 5
+  closeDistance: 0.5
+  attractSpeed: 50
+  gizmoColor: {r: 0, g: 1, b: 0, a: 1}

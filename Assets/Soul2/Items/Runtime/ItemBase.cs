@@ -11,7 +11,6 @@ namespace Soul2.Items.Runtime
         [SerializeField] private Sprite icon;
         [SerializeField] private int maxStack = 1;
         [SerializeField] private bool consumable;
-        public abstract string Guid { get; }
         public string ItemName => itemName;
         public string Description => description;
         public Sprite Icon => icon;

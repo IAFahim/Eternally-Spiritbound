@@ -2,40 +2,36 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!78 &1
 TagManager:
-  serializedVersion: 2
-  tags:
-  - MainLight
-  - CinemachineTarget
-  - ScreenCamera
-  - cockpit_capitalLaser
+  serializedVersion: 3
+  tags: []
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Temp_Post
+  - 
   - Water
   - UI
-  - Terminal
-  - Location
-  - LookInteractor
-  - Screen
-  - Occluder
-  - Camera
-  - MainCameraOnly
-  - Oasis_TerrainBake
+  - 
+  - 
+  - 
+  - 
+  - Player
   - 
   - 
   - 
   - 
   - 
   - 
-  - Cockpit
-  - Cockpit_3DSkybox
-  - Cockpit_3DSkybox_BG
-  - Cockpit_Ally
-  - Cockpit_Invader
-  - Cockpit_BG
-  - Cockpit_DepthClear
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
   - 
   - 
   - 
@@ -49,32 +45,3 @@ TagManager:
   - Default
   - Screen
   - Lamps
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 

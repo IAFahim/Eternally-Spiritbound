@@ -4,7 +4,6 @@ namespace Soul2.Items.Runtime
 {
     public interface IItemBase
     {
-        public string Guid { get; }
         public string ItemName { get; }
         public string Description { get; }
         public Sprite Icon { get; }
