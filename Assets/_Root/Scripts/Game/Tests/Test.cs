@@ -1,4 +1,5 @@
 using System;
+using Alchemy.Inspector;
 using Pancake;
 using UnityEngine;
 
@@ -10,8 +11,14 @@ namespace _Root.Scripts.Game.Tests
         [Guid] public string guid;
         public XpLevel xpLevel;
         public StringIntStorage stringCountStorage;
-
+        
         private void OnEnable()
+        {
+            Debug.Log(stringCountStorage.Count);
+        }
+
+        [Button]
+        private void TestStorage()
         {
             stringCountStorage.LoadData(guid);
             int added;
@@ -20,6 +27,14 @@ namespace _Root.Scripts.Game.Tests
             stringCountStorage.SaveData();
             stringCountStorage.TryAdd("b", 2, out added);
             Debug.Log($"Added: {added}");
+        }
+
+        [Button]
+        public void TestRemove()
+        {
+            stringCountStorage.RemoveAll("c", out var removed);
+            Debug.Log($"Removed: {removed}");
+            stringCountStorage.SaveData();
         }
 
         private void XpTest()

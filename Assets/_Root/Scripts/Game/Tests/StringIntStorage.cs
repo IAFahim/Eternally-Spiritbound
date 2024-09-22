@@ -11,7 +11,12 @@ namespace _Root.Scripts.Game.Tests
         public string appendKey = "_string_int";
         public string DataKey => $"{Guid}{appendKey}";
 
-        public override void LoadData(string guid) => SetData(Data.Load(DataKey, startingElements));
+        public override void LoadData(string guid)
+        {
+            Guid = guid;
+            SetData(Data.Load(DataKey, startingElementReference));
+        }
+
         public override void SaveData(Pair<string, int>[] data) => Data.Save(DataKey, data);
     }
 }

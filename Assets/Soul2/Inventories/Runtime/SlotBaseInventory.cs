@@ -133,7 +133,7 @@ namespace Soul2.Inventories.Runtime
 
         public bool CanAddAll(IEnumerable<Pair<TElement, int>> items)
         {
-            var tempInventory = new Dictionary<TElement, int>(_elements);
+            var tempInventory = new Dictionary<TElement, int>(Elements);
             int availableSlots = AvailableSlots;
 
             foreach (var pair in items)

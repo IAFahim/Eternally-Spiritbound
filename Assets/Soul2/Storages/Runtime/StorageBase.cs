@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Soul2.Containers.RunTime;
 using UnityEngine;
 
@@ -9,42 +8,42 @@ namespace Soul2.Storages.Runtime
     [Serializable]
     public abstract class StorageBase<TElement, TValue> : IStorageBase<TElement, TValue>
     {
+        [SerializeField, Tooltip("Starting element when you load first time")]
+        protected Pair<TElement, TValue>[] startingElementReference;
+
+        protected Dictionary<TElement, TValue> Elements = new();
+        
+        public int Count => Elements.Count;
+
         public event Action<TElement, TValue, TValue> OnItemChanged;
-
-        [SerializeField] protected Pair<TElement, TValue>[] startingElements;
-        protected Dictionary<TElement, TValue> _elements;
-
-        public Pair<TElement, TValue>[] StartingElements => startingElements;
-        public int Count => _elements.Count;
+        public Pair<TElement, TValue>[] StartingElementReference => startingElementReference;
         public string Guid { get; set; }
 
-        public virtual void Initialize() => SetElements(startingElements);
-        
         protected virtual void SetElements(Pair<TElement, TValue>[] loadedData)
         {
-            _elements = new Dictionary<TElement, TValue>();
+            Elements.Clear();
             foreach (var pair in loadedData)
             {
-                if (_elements.TryGetValue(pair.Key, out var currentValue))
-                    _elements[pair.Key] = Add(currentValue, pair.Value);
+                if (Elements.TryGetValue(pair.Key, out var currentValue))
+                    Elements[pair.Key] = Add(currentValue, pair.Value);
                 else
-                    _elements.Add(pair.Key, pair.Value);
+                    Elements.Add(pair.Key, pair.Value);
             }
         }
 
         public virtual bool TryAdd(TElement element, TValue amount, out TValue added, bool saveOnSuccess = false)
         {
             added = default;
-            if (_elements.TryGetValue(element, out TValue currentAmount))
+            if (Elements.TryGetValue(element, out TValue currentAmount))
             {
                 var newAmount = Add(currentAmount, amount);
-                _elements[element] = newAmount;
+                Elements[element] = newAmount;
                 added = amount;
                 OnItemChanged?.Invoke(element, currentAmount, newAmount);
             }
             else
             {
-                _elements.Add(element, amount);
+                Elements.Add(element, amount);
                 added = amount;
                 OnItemChanged?.Invoke(element, default, amount);
             }
@@ -70,14 +69,14 @@ namespace Soul2.Storages.Runtime
         public virtual bool TryRemove(TElement element, TValue amount, out TValue removed, bool saveOnSuccess = false)
         {
             removed = default;
-            if (_elements.TryGetValue(element, out TValue currentAmount) && Compare(currentAmount, amount) >= 0)
+            if (Elements.TryGetValue(element, out TValue currentAmount) && Compare(currentAmount, amount) >= 0)
             {
                 var newAmount = Remove(currentAmount, amount);
-                _elements[element] = newAmount;
+                Elements[element] = newAmount;
                 removed = amount;
                 OnItemChanged?.Invoke(element, currentAmount, newAmount);
 
-                if (Compare(newAmount, default) == 0) _elements.Remove(element);
+                if (Compare(newAmount, default) == 0) Elements.Remove(element);
                 if (saveOnSuccess) SaveData();
                 return true;
             }
@@ -99,14 +98,28 @@ namespace Soul2.Storages.Runtime
             return failedToRemove.Count == 0;
         }
 
+        public bool RemoveAll(TElement elementsToRemove, out TValue removed, bool saveOnSuccess = false)
+        {
+            if (Elements.TryGetValue(elementsToRemove, out TValue currentAmount))
+            {
+                removed = currentAmount;
+                Elements.Remove(elementsToRemove);
+                if (saveOnSuccess) SaveData();
+                return true;
+            }
+
+            removed = default;
+            return false;
+        }
+
         public virtual bool HasEnough(TElement element, TValue amount)
         {
-            return _elements.TryGetValue(element, out var currentAmount) && Compare(currentAmount, amount) >= 0;
+            return Elements.TryGetValue(element, out var currentAmount) && Compare(currentAmount, amount) >= 0;
         }
 
         public virtual bool HasEnough(TElement element, TValue amount, out TValue remainingAmount)
         {
-            if (_elements.TryGetValue(element, out TValue currentAmount))
+            if (Elements.TryGetValue(element, out TValue currentAmount))
             {
                 remainingAmount = Remove(currentAmount, amount);
                 return Compare(remainingAmount, default) >= 0;
@@ -133,13 +146,13 @@ namespace Soul2.Storages.Runtime
 
         public virtual void Clear(bool save = false)
         {
-            _elements.Clear();
+            Elements.Clear();
             if (save) SaveData();
         }
 
         public virtual Dictionary<TElement, TValue> GetAllElements()
         {
-            return new Dictionary<TElement, TValue>(_elements);
+            return Elements;
         }
 
         public abstract void LoadData(string guid);
@@ -148,7 +161,16 @@ namespace Soul2.Storages.Runtime
 
         public virtual void SaveData()
         {
-            SaveData(_elements.Select(kvp => new Pair<TElement, TValue>(kvp.Key, kvp.Value)).ToArray());
+            // SaveData(Elements.Select(kvp => new Pair<TElement, TValue>(kvp.Key, kvp.Value)).ToArray());
+            var data = new Pair<TElement, TValue>[Elements.Count];
+            var index = 0;
+            foreach (var kvp in Elements)
+            {
+                data[index] = new Pair<TElement, TValue>(kvp.Key, kvp.Value);
+                index++;
+            }
+
+            SaveData(data);
         }
 
         public abstract TValue Add(TValue a, TValue b);
@@ -158,7 +180,7 @@ namespace Soul2.Storages.Runtime
         // New method to get the current amount of an element
         public virtual bool TryGetAmount(TElement element, out TValue amount)
         {
-            return _elements.TryGetValue(element, out amount);
+            return Elements.TryGetValue(element, out amount);
         }
     }
 }
