@@ -1,6 +1,7 @@
 using System;
+using _Root.Scripts.Game.Items.Runtime;
 using _Root.Scripts.Game.Levels;
-using _Root.Scripts.Game.PickableItems.Interaction;
+using _Root.Scripts.Game.QuickPickup.Runtime;
 using _Root.Scripts.Game.Storages;
 using Alchemy.Inspector;
 using Pancake;
@@ -14,28 +15,42 @@ namespace _Root.Scripts.Game.Tests
         [Guid] public string guid;
         public XpLevel xpLevel;
         public StringIntStorage stringCountStorage;
-        public PickupItemManager pickupItemManager;
-        public GameObject item;
+
+
+        public QuickItemPickupManager quickItemPickupManager;
+
+        public GameObject itemGameObject;
+        public GameItem gameItem;
 
         private void OnEnable()
         {
-            pickupItemManager.AddItem(item, item.transform.position, 1);
+            quickItemPickupManager.Enable(gameItem);
+            Target();
+        }
+
+        [Button]
+        public void Target()
+        {
+            gameItem.TryDrop(null, transform.position);
         }
 
         private void OnDisable()
         {
-            pickupItemManager.Clear();
+            quickItemPickupManager.Disable();
         }
 
         private void Update()
         {
-            pickupItemManager.CheckAll();
+            quickItemPickupManager.Process();
         }
 
+#if UNITY_EDITOR
         private void OnDrawGizmos()
         {
-            pickupItemManager.OnDrawGizmos();
+            quickItemPickupManager?.OnDrawGizmos();
         }
+#endif
+
 
         [Button]
         private void TestStorage()

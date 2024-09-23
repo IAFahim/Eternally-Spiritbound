@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Soul2.Containers.RunTime
+namespace Soul2.Serializers.Runtime
 {
     [Serializable]
     public class Pair<T, TV>

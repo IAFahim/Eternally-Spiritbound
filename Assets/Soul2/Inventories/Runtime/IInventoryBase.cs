@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Soul2.Containers.RunTime;
+using Soul2.Serializers.Runtime;
 
 namespace Soul2.Inventories.Runtime
 {

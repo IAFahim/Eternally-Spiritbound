@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Soul2.Containers.RunTime;
 using Soul2.Datas.Runtime.Interface;
+using Soul2.Serializers.Runtime;
 
 namespace Soul2.Storages.Runtime
 {
@@ -78,12 +78,12 @@ namespace Soul2.Storages.Runtime
         /// <summary>
         /// Adds two values together.
         /// </summary>
-        TValue Add(TValue a, TValue b);
+        public TValue Sum(TValue a, TValue b);
 
         /// <summary>
         /// Removes one value from another.
         /// </summary>
-        TValue Remove(TValue a, TValue b);
+        public TValue Sub(TValue a, TValue b);
 
         /// <summary>
         /// Compares two values.

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Soul2.Containers.RunTime;
+using Soul2.Serializers.Runtime;
 using Soul2.Storages.Runtime;
 using UnityEngine;
 
@@ -158,8 +158,8 @@ namespace Soul2.Inventories.Runtime
             return true;
         }
 
-        public override int Add(int a, int b) => a + b;
-        public override int Remove(int a, int b) => Mathf.Max(0, a - b);
+        public override int Sum(int a, int b) => a + b;
+        public override int Sub(int a, int b) => Mathf.Max(0, a - b);
         public override int Compare(int a, int b) => a.CompareTo(b);
 
         public abstract void OnItemAdded(TElement item, int amount);

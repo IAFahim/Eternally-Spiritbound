@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Soul2.Containers.RunTime;
 using Soul2.Serializers.Runtime;
 using UnityEngine;
 
@@ -59,7 +58,7 @@ namespace Soul2.Storages.Runtime
                 if (pair.Key == null) return;
 
                 if (elements.TryGetValue(pair.Key, out var currentValue))
-                    elements[pair.Key] = Add(currentValue, pair.Value);
+                    elements[pair.Key] = Sum(currentValue, pair.Value);
                 else
                     elements.Add(pair.Key, pair.Value);
             }
@@ -78,7 +77,7 @@ namespace Soul2.Storages.Runtime
             added = default;
             if (elements.TryGetValue(element, out TValue currentAmount))
             {
-                var newAmount = Add(currentAmount, amount);
+                var newAmount = Sum(currentAmount, amount);
                 elements[element] = newAmount;
                 added = amount;
                 OnItemChanged?.Invoke(element, currentAmount, newAmount);
@@ -130,7 +129,7 @@ namespace Soul2.Storages.Runtime
             removed = default;
             if (elements.TryGetValue(element, out TValue currentAmount) && Compare(currentAmount, amount) >= 0)
             {
-                var newAmount = Remove(currentAmount, amount);
+                var newAmount = Sub(currentAmount, amount);
                 elements[element] = newAmount;
                 removed = amount;
                 OnItemChanged?.Invoke(element, currentAmount, newAmount);
@@ -213,7 +212,7 @@ namespace Soul2.Storages.Runtime
         {
             if (elements.TryGetValue(element, out TValue currentAmount))
             {
-                remainingAmount = Remove(currentAmount, amount);
+                remainingAmount = Sub(currentAmount, amount);
                 return Compare(remainingAmount, default) >= 0;
             }
 
@@ -303,7 +302,7 @@ namespace Soul2.Storages.Runtime
         /// <param name="a">The first value.</param>
         /// <param name="b">The second value.</param>
         /// <returns>The sum of the two values.</returns>
-        public abstract TValue Add(TValue a, TValue b);
+        public abstract TValue Sum(TValue a, TValue b);
 
         /// <summary>
         /// Removes one value from another.
@@ -311,7 +310,7 @@ namespace Soul2.Storages.Runtime
         /// <param name="a">The value to remove from.</param>
         /// <param name="b">The value to remove.</param>
         /// <returns>The result of the removal.</returns>
-        public abstract TValue Remove(TValue a, TValue b);
+        public abstract TValue Sub(TValue a, TValue b);
 
         /// <summary>
         /// Compares two values.
@@ -434,7 +433,7 @@ namespace Soul2.Storages.Runtime
         /// <returns>The total sum of all values.</returns>
         public virtual TValue GetTotalSum()
         {
-            return elements.Aggregate(default(TValue), (current, kvp) => Add(current, kvp.Value));
+            return elements.Aggregate(default(TValue), (current, kvp) => Sum(current, kvp.Value));
         }
 
         /// <summary>

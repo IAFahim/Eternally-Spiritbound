@@ -1,10 +1,12 @@
 using System;
+using Pancake;
+using Soul2.Items.Runtime;
 using UnityEngine;
 
-namespace Soul2.Items.Runtime
+namespace _Root.Scripts.Game.Items.Runtime
 {
     [Serializable]
-    public abstract class ItemBase : ScriptableObject, IItemBase
+    public abstract class ItemBase : Event<GameItemDropEvent>, IItemBase
     {
         [SerializeField] private string itemName;
         [SerializeField, TextArea(3, 10)] public string description;
