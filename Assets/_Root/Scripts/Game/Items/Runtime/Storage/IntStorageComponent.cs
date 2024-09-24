@@ -1,4 +1,5 @@
-﻿using Soul.Storages.Runtime;
+﻿using _Root.Scripts.Game.Guid;
+using Soul.Storages.Runtime;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.Items.Runtime.Storage
@@ -6,11 +7,11 @@ namespace _Root.Scripts.Game.Items.Runtime.Storage
     public class IntStorageComponent : MonoBehaviour, IIntStorageReference<ItemBase>
     {
         public ItemStorage storage;
-        private string _guid;
+
         private void Awake()
         {
-            // TryGetComponent(I)
-            
+            TryGetComponent<IGuidProvider>(out var guidProvider);
+            storage.Guid = guidProvider.Guid;
         }
 
         public IStorageBase<ItemBase, int> Storage => storage;

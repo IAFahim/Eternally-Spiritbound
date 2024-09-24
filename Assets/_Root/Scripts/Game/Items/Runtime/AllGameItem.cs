@@ -1,4 +1,5 @@
-﻿using Soul.Serializers.Runtime;
+﻿using Alchemy.Inspector;
+using Soul.Serializers.Runtime;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.Items.Runtime
@@ -14,5 +15,16 @@ namespace _Root.Scripts.Game.Items.Runtime
         }
         
         public string this[GameItem key] => key;
+        
+        [Button]
+        public void CaptureGuid()
+        {
+            var dictionary = new UnityDictionary<string, GameItem>();
+            foreach (var (key, value) in items)
+            {
+                dictionary[value] = value;
+            }
+            items = dictionary;
+        }
     }
 }

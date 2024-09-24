@@ -283,6 +283,7 @@ MonoBehaviour:
     defaultData: []
     elements:
       list: []
+    allGameItem: {fileID: 0}
     appendKey: _string_int
   quickItemPickupManager:
     elementReference: {fileID: 0}
@@ -311,7 +312,7 @@ MonoBehaviour:
       delay: 1
       gizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   itemGameObject: {fileID: 0}
-  gameItem: {fileID: 11400000, guid: 5e36f5c845bc6e54a818d57ad2d7bea0, type: 2}
+  itemBase: {fileID: 11400000, guid: 5e36f5c845bc6e54a818d57ad2d7bea0, type: 2}
   references:
     version: 2
     RefIds: []
@@ -324,11 +325,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1875887889}
+  - component: {fileID: 1875887891}
+  - component: {fileID: 1875887890}
   - component: {fileID: 1875887888}
   - component: {fileID: 1875887887}
   - component: {fileID: 1875887886}
   - component: {fileID: 1875887885}
-  - component: {fileID: 1875887890}
   m_Layer: 10
   m_Name: Player
   m_TagString: Untagged
@@ -446,7 +448,7 @@ Transform:
   m_GameObject: {fileID: 1875887884}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.29, y: 1.09, z: 0}
+  m_LocalPosition: {x: 9.14, y: 1.09, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -468,7 +470,21 @@ MonoBehaviour:
     defaultData: []
     elements:
       list: []
+    allGameItem: {fileID: 11400000, guid: 60500ef7e30813440af707e176c0e250, type: 2}
     appendKey: _string_int
+--- !u!114 &1875887891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875887884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7bb8b47e0a344599e871f3d44ac4caa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  guid: b014b07aec124f7
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

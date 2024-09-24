@@ -1,4 +1,5 @@
 ﻿using System;
+using Alchemy.Inspector;
 using Pancake.Common;
 using Soul.Serializers.Runtime;
 using Soul.Storages.Runtime;
@@ -12,11 +13,12 @@ namespace _Root.Scripts.Game.Items.Runtime.Storage
         public string appendKey = "_string_int";
         public override string StorageKey => $"{Guid}{appendKey}";
         
-        public void Load()
-        {
-            
-        }
-        
+        [Button]
+        public void Load() => LoadData(Guid);
+
+        [Button]
+        public void Save() => SaveData();
+
         public override void LoadData(string guid)
         {
             Guid = guid;
