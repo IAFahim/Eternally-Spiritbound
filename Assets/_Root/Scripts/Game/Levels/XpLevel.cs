@@ -1,7 +1,7 @@
 ﻿using System;
 using Pancake.Common;
-using Soul2.Levels.Runtime;
-using Soul2.Serializers.Runtime;
+using Soul.Levels.Runtime;
+using Soul.Serializers.Runtime;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.Levels

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Soul2.QuickPickup.Runtime;
-using Soul2.Serializers.Runtime;
+using Soul.QuickPickup.Runtime;
+using Soul.Serializers.Runtime;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.QuickPickup.Runtime

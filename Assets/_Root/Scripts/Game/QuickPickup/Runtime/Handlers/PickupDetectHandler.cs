@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Soul2.QuickPickup.Runtime;
+using Soul.QuickPickup.Runtime;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.QuickPickup.Runtime.Handlers

@@ -1,11 +1,12 @@
 using System;
 using _Root.Scripts.Game.Items.Runtime;
+using _Root.Scripts.Game.Items.Runtime.Storage;
 using _Root.Scripts.Game.Levels;
 using _Root.Scripts.Game.QuickPickup.Runtime;
-using _Root.Scripts.Game.Storages;
 using Alchemy.Inspector;
 using Pancake;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Game.Tests
 {
@@ -14,24 +15,26 @@ namespace _Root.Scripts.Game.Tests
     {
         [Guid] public string guid;
         public XpLevel xpLevel;
-        public StringIntStorage stringCountStorage;
+        public ItemStorage stringCountStorage;
 
 
         public QuickItemPickupManager quickItemPickupManager;
 
         public GameObject itemGameObject;
-        public GameItem gameItem;
+
+        [FormerlySerializedAs("GameItem")] [FormerlySerializedAs("gameItem")]
+        public ItemBase itemBase;
 
         private void OnEnable()
         {
-            quickItemPickupManager.Enable(gameItem);
+            quickItemPickupManager.Enable(itemBase);
             Target();
         }
 
         [Button]
         public void Target()
         {
-            gameItem.TryDrop(null, transform.position);
+            itemBase.TrySpawn(transform.position, 1);
         }
 
         private void OnDisable()
@@ -50,27 +53,7 @@ namespace _Root.Scripts.Game.Tests
             quickItemPickupManager?.OnDrawGizmos();
         }
 #endif
-
-
-        [Button]
-        private void TestStorage()
-        {
-            stringCountStorage.LoadData(guid);
-            int added;
-            stringCountStorage.TryAdd("a", 1, out added);
-            Debug.Log($"Added: {added}");
-            stringCountStorage.SaveData();
-            stringCountStorage.TryAdd("b", 2, out added);
-            Debug.Log($"Added: {added}");
-        }
-
-        [Button]
-        public void TestRemove()
-        {
-            stringCountStorage.RemoveAll("c", out var removed);
-            Debug.Log($"Removed: {removed}");
-            stringCountStorage.SaveData();
-        }
+        
 
         private void XpTest()
         {

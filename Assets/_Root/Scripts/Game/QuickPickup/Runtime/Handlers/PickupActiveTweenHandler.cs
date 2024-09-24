@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using LitMotion;
 using LitMotion.Extensions;
-using Soul2.QuickPickup.Runtime;
+using Soul.QuickPickup.Runtime;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.QuickPickup.Runtime.Handlers
