@@ -18,6 +18,63 @@ namespace Soul.Modifiers.Runtime
         /// </summary>
         public float Value => baseValue * multiplier + additive;
 
+        
+        /// <summary>
+        /// Increases the value of the modifier by a specified amount, up to the given maximum base and additive values.
+        /// </summary>
+        /// <param name="value">The amount to increase the modifier by.</param>
+        /// <param name="maxBase">The maximum allowable base value.</param>
+        /// <param name="maxAdditive">The maximum allowable additive value.</param>
+        public void Increase(float value, float maxBase, float maxAdditive)
+        {
+            float oldValue = Value;
+            float remainingIncrease = value;
+
+            // First, fill up the base value
+            if (remainingIncrease > 0)
+            {
+                // Mathf.Min(100 - 0, 150 / 1) = 100
+                float baseIncrease = Mathf.Min(maxBase - baseValue, remainingIncrease / multiplier);
+                baseValue += baseIncrease;
+                // 150 - 100 = 50
+                remainingIncrease -= baseIncrease * multiplier;
+            }
+
+            // Then, if there's still increase to apply, add to the additive
+            if (remainingIncrease > 0)
+            {
+                additive = Mathf.Min(maxAdditive, additive + remainingIncrease);
+            }
+
+            OnValueChanged?.Invoke(this, oldValue, Value);
+        }
+
+        /// <summary>
+        /// Reduces the value of the modifier by a specified amount.
+        /// </summary>
+        /// <param name="value">The amount to reduce the modifier by.</param>
+        public void Reduce(float value)
+        {
+            float oldValue = Value;
+            float remainingReduction = value;
+
+            // First, reduce the base value
+            if (remainingReduction > 0)
+            {
+                float baseReduction = Mathf.Min(baseValue, remainingReduction / multiplier);
+                baseValue -= baseReduction;
+                remainingReduction -= baseReduction * multiplier;
+            }
+
+            // Then, if there's still reduction to apply, reduce the additive
+            if (remainingReduction > 0)
+            {
+                additive = Mathf.Max(0, additive - remainingReduction);
+            }
+
+            OnValueChanged?.Invoke(this, oldValue, Value);
+        }
+
         /// <summary>
         /// Creates a new Modifier instance.
         /// </summary>
