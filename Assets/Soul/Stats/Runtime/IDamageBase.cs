@@ -1,9 +1,7 @@
-﻿using UnityEngine;
-
-namespace Soul.Stats.Runtime
+﻿namespace Soul.Stats.Runtime
 {
-    public interface IDamageBase<in T>
+    public interface IDamageBase<in TAttackInfo, in TDamageInput, TDamageInfo>
     {
-        public bool TryDamage(T type, Vector3 position, float amount, out float damageTaken);
+        public bool TryDamage(TAttackInfo info, TDamageInput damageInfo, out TDamageInfo damageTaken);
     }
 }

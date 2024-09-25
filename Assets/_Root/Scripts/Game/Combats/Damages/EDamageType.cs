@@ -1,4 +1,4 @@
-﻿namespace _Root.Scripts.Game.Enums
+﻿namespace _Root.Scripts.Game.Combats.Damages
 {
     public enum EDamageType
     {
