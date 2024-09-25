@@ -1,26 +1,29 @@
+using _Root.Scripts.Game.Movements;
 using UnityEngine;
 
 public class AIFollowPlayer : MonoBehaviour
 {
-    [Header("Target and Vision")]
-    public Transform player; // Target to follow
+    [Header("Target and Vision")] public Transform player; // Target to follow
     public float visionRange = 20f;
     public float fieldOfView = 90f;
 
-    [Header("Movement")]
-    public float moveSpeed = 5f;
+    [Header("Movement")] public float moveSpeed = 5f;
     public float rotationSpeed = 5f;
 
-    [Header("Obstacle Avoidance")]
-    public float obstacleAvoidanceDistance = 5f;
+    [Header("Obstacle Avoidance")] public float obstacleAvoidanceDistance = 5f;
     public int numberOfRays = 3;
     public float rayAngleSpread = 30f;
 
     private Vector3 lastSeenPosition;
-    private Vector3 desiredDirection; // The main direction vector
+    public Vector3 desiredDirection; // The main direction vector
 
-    private void Start()
+    private IMove _move;
+    private IAcceleration _acceleration;
+
+    private void OnEnable()
     {
+        _move = GetComponent<IMove>();
+        _acceleration = GetComponent<IAcceleration>();
         lastSeenPosition = transform.position;
     }
 
@@ -31,9 +34,11 @@ public class AIFollowPlayer : MonoBehaviour
         {
             lastSeenPosition = player.position;
             desiredDirection = (player.position - transform.position).normalized;
+            _acceleration.Acceleration = 1f;
         }
         else
         {
+            _acceleration.Acceleration = 0f;
             desiredDirection = (lastSeenPosition - transform.position).normalized;
         }
 
@@ -42,7 +47,6 @@ public class AIFollowPlayer : MonoBehaviour
 
         // 3. Movement 
         MoveTowardsDesiredDirection();
-        
     }
 
 
@@ -50,6 +54,7 @@ public class AIFollowPlayer : MonoBehaviour
 
     private bool CanSeePlayer()
     {
+        if (player == null) return false;
         Vector3 toPlayer = player.position - transform.position;
         float distanceToPlayer = toPlayer.magnitude;
 
@@ -88,7 +93,8 @@ public class AIFollowPlayer : MonoBehaviour
             }
             else
             {
-                Debug.DrawLine(transform.position, transform.position + rayDirection * obstacleAvoidanceDistance, Color.green); // Clear Path Gizmo
+                Debug.DrawLine(transform.position, transform.position + rayDirection * obstacleAvoidanceDistance,
+                    Color.green); // Clear Path Gizmo
             }
         }
 
@@ -97,16 +103,18 @@ public class AIFollowPlayer : MonoBehaviour
 
     private void MoveTowardsDesiredDirection()
     {
-        Quaternion targetRotation = Quaternion.LookRotation(desiredDirection, Vector3.up);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        // Quaternion targetRotation = Quaternion.LookRotation(desiredDirection, Vector3.up);
+        // _move.Direction = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime)
+        // .eulerAngles;
 
-        transform.position += transform.forward * moveSpeed * Time.deltaTime;
+        _move.Direction = desiredDirection;
+        // transform.position += transform.forward * moveSpeed * Time.deltaTime;
     }
 
     private void DrawDebugGizmos()
     {
         // Draw the main desired direction vector
         Gizmos.color = Color.blue;
-        Gizmos.DrawLine(transform.position, transform.position + desiredDirection * 2f); 
+        Gizmos.DrawLine(transform.position, transform.position + desiredDirection * 2f);
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 namespace _Root.Scripts.Game.Movements
 {
     [RequireComponent(typeof(Rigidbody))]
-    public class BoatController : MonoBehaviour
+    public class BoatController : MonoBehaviour, IMove, IAcceleration
     {
         [Header("References")]
         public Rigidbody rb;
@@ -72,6 +72,7 @@ namespace _Root.Scripts.Game.Movements
 
         private void SetupInputActions()
         {
+            if(moveAction == null || accelerateAction == null) return;
             moveAction.action.Enable();
             moveAction.action.performed += OnMoveInput;
             moveAction.action.canceled += OnMoveInputCancel;
@@ -83,6 +84,7 @@ namespace _Root.Scripts.Game.Movements
 
         private void DisableInputActions()
         {
+            if(moveAction == null || accelerateAction == null) return;
             moveAction.action.Disable();
             moveAction.action.performed -= OnMoveInput;
             moveAction.action.canceled -= OnMoveInputCancel;
@@ -183,28 +185,34 @@ namespace _Root.Scripts.Game.Movements
             rb.linearVelocity *= waterDrag;
             rb.angularVelocity *= waterDrag;
         }
-
+        public float dampingFactor = 5f; // Adjust this value for smoother stabilization
         private void StabilizeBoat()
         {
-            Vector3 currentRotation = transform.rotation.eulerAngles;
+            // Get the current rotation in Euler angles
+            Vector3 currentRotation = transform.eulerAngles;
+
+            // Calculate the target rotation with zero X and Z tilt
+            Quaternion targetRotation = Quaternion.Euler(0f, currentRotation.y, 0f);
+
+            // Calculate the torque needed to reach the target rotation
             
-            // Normalize the angles to -180 to 180 range
-            float zTilt = (currentRotation.z > 180) ? currentRotation.z - 360 : currentRotation.z;
-            float xTilt = (currentRotation.x > 180) ? currentRotation.x - 360 : currentRotation.x;
-            
-            // Calculate stabilization torques
-            float zTorque = -zTilt * stabilizationTorque;
-            float xTorque = -xTilt * stabilizationTorque;
-            
-            // Clamp the tilts to the maximum allowed angle
-            zTorque = Mathf.Clamp(zTorque, -maxTiltAngle, maxTiltAngle);
-            xTorque = Mathf.Clamp(xTorque, -maxTiltAngle, maxTiltAngle);
-            
-            // Apply the stabilization torques with smooth interpolation
-            Vector3 targetTorque = new Vector3(xTorque, 0, zTorque);
-            Vector3 smoothedTorque = Vector3.Lerp(rb.angularVelocity, targetTorque, Time.fixedDeltaTime * tiltRecoverySpeed);
-            
-            rb.AddTorque(smoothedTorque, ForceMode.Acceleration);
+            Vector3 stabilizingTorque = Vector3.Cross(transform.up, targetRotation * Vector3.up) * stabilizationTorque;
+            stabilizingTorque -= rb.angularVelocity * dampingFactor; 
+
+            // Apply the stabilizing torque
+            rb.AddTorque(stabilizingTorque);
+        }
+
+        public Vector3 Direction
+        {
+            get => _moveDirection;
+            set => _moveDirection = value;
+        }
+
+        public float Acceleration
+        {
+            get => _accelerationInput;
+            set => _accelerationInput = value;
         }
     }
 }
