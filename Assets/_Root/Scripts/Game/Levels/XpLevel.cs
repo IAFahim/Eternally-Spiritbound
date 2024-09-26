@@ -9,15 +9,28 @@ namespace _Root.Scripts.Game.Levels
     [Serializable]
     public class XpLevel : XpLevelBase
     {
+        [SerializeField] private Pair<int, int> defaultData;
+        
         [SerializeField] private string appendKey = "_xp";
         public override string StorageKey => $"{Guid}{appendKey}";
+        public override void GetDefaultData(out int data)
+        {
+            data = defaultData.First;
+        }
+
         public override void LoadData(string guid)
         {
             Guid = guid;
-            SetData(Data.Load(StorageKey, new Pair<int, int>(1, 0)));
+            GetDefaultData(out var dataDefault);
+            SetData(Data.Load(StorageKey, dataDefault));
         }
 
-        public override void SaveData((int, int) data) => Data.Save(StorageKey, new Pair<int, int>(currentLevel, Xp));
+        public override void GetDefaultData(out Pair<int, int> data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void SaveData(Pair<int, int> data) => Data.Save(StorageKey, data);
         public override void SaveData(int data) => SaveData((data, Xp));
         public override void ClearStorage() => Data.DeleteKey(StorageKey);
     }

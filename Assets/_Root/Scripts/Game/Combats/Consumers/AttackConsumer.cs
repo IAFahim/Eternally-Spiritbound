@@ -2,6 +2,7 @@
 using _Root.Scripts.Game.Combats.Attacks;
 using _Root.Scripts.Game.Combats.Damages;
 using Soul.Modifiers.Runtime;
+using Soul.Reactives.Runtime;
 
 namespace _Root.Scripts.Game.Combats.Consumers
 {
@@ -10,14 +11,19 @@ namespace _Root.Scripts.Game.Combats.Consumers
     {
         public DamageInfluence damageInfluence;
         public AttackInfluence attackInfluence;
-        public event Action<AttackInfo, DamageInput, float> OnAttackConsumed; 
+        public event Action<AttackInfo, DamageInfo, float> OnAttackConsumed;
 
-        public bool DamageTaken(Modifier health, AttackInfo attackInfo, DamageInput damageInfo, out float damageTaken)
+        public bool DamageTaken(Reactive<float> health, AttackInfo attackInfo, out DamageInfo damageInfo)
         {
-            var damageStrength = damageInfluence.GetStrength(damageInfo.damageType);
             var attackStrength = attackInfluence.GetStrength(attackInfo.attackType);
-            damageTaken = damageInfo.damage * damageStrength * attackStrength;
-            health.Reduce(damageTaken);
+            var damageStrength = damageInfluence.GetStrength(attackInfo.damageType);
+            var damageTaken = attackInfo.damage * damageStrength * attackStrength;
+            health.Value -= damageTaken;
+            damageInfo = new DamageInfo
+            {
+                damaged = null,
+                damageTaken = damageTaken
+            };
             return true;
         }
     }

@@ -22,13 +22,17 @@ namespace Soul.Levels.Runtime
 
         public abstract string StorageKey { get; }
 
-        public void SetData(int level)
+        public abstract void GetDefaultData(out int dataDefault);
+
+        public void GetData(out int dataCurrent) => dataCurrent = CurrentLevel;
+
+        public void SetData(int dataNew)
         {
-            if (level <= 0) throw new ArgumentOutOfRangeException(nameof(level), "Level must be greater than 0.");
-            if (CurrentLevel == level) return;
+            if (dataNew <= 0) throw new ArgumentOutOfRangeException(nameof(dataNew), "Level must be greater than 0.");
+            if (CurrentLevel == dataNew) return;
             
             int oldLevel = CurrentLevel;
-            currentLevel = level;
+            currentLevel = dataNew;
             OnLevelChange?.Invoke(oldLevel, CurrentLevel);
         }
 

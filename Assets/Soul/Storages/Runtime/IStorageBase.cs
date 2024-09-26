@@ -113,14 +113,24 @@ namespace Soul.Storages.Runtime
         bool ContainsElement(TElement element);
 
         /// <summary>
-        /// Gets an IEnumerable of all elements in the storage.
+        /// Gets an Array of all element-value Pair in the storage.
         /// </summary>
-        Dictionary<TElement, TValue> GetAllElements();
-
+        Pair<TElement, TValue>[] GetArray();
+        
+        /// <summary>
+        /// Gets an Array of all element-value KeyValuePair in the storage.
+        /// </summary>
+        KeyValuePair<TElement, TValue>[] GetArrayKeyValuePair();
+        
         /// <summary>
         /// Gets an IEnumerable of all element-value pairs in the storage.
         /// </summary>
-        IEnumerable<KeyValuePair<TElement, TValue>> GetAllElementValuePairs();
+        IEnumerable<KeyValuePair<TElement, TValue>> GetIEnumerable();
+        
+        /// <summary>
+        /// Gets an Dictionary of all elements in the storage.
+        /// </summary>
+        Dictionary<TElement, TValue> GetDictionary();
 
         /// <summary>
         /// Adds multiple elements to the storage without saving.

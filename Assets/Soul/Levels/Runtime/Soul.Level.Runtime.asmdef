@@ -2,7 +2,8 @@
     "name": "Soul.Level.Runtime",
     "rootNamespace": "",
     "references": [
-        "GUID:794487ad33715414ea9a8ad0e73f7381"
+        "GUID:794487ad33715414ea9a8ad0e73f7381",
+        "GUID:0ce8820c9f0d48828499439bca7cd9a1"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

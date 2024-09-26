@@ -80,7 +80,7 @@ namespace Soul.Storages.Runtime
         /// <returns>True if the addition was successful, false otherwise.</returns>
         public virtual bool TryAdd(TElement element, TValue amount, out TValue added, bool saveOnSuccess = false)
         {
-            if (!CanAdd(element, amount, out var currentAmount)) 
+            if (!CanAdd(element, amount, out var currentAmount))
             {
                 added = default;
                 return false;
@@ -95,7 +95,7 @@ namespace Soul.Storages.Runtime
                 SaveData();
             return true;
         }
-        
+
 
         /// <summary>
         /// Tries to add multiple elements to the storage.
@@ -118,7 +118,7 @@ namespace Soul.Storages.Runtime
                 SaveData();
             return failedToAdd.Count == 0;
         }
-        
+
         public virtual bool CanRemove(TElement element, TValue amount, out TValue currentAmount)
         {
             if (elements.TryGetValue(element, out currentAmount)) return Compare(currentAmount, amount) >= 0;
@@ -136,7 +136,7 @@ namespace Soul.Storages.Runtime
         public virtual bool TryRemove(TElement element, TValue amount, out TValue removed, bool saveOnSuccess = false)
         {
             removed = default;
-            if (CanRemove(element,amount, out TValue currentAmount))
+            if (CanRemove(element, amount, out TValue currentAmount))
             {
                 var newAmount = Sub(currentAmount, amount);
                 elements[element] = newAmount;
@@ -269,13 +269,18 @@ namespace Soul.Storages.Runtime
         /// <param name="guid">The GUID of the data to load.</param>
         public abstract void LoadData(string guid);
 
+
+        public void GetDefaultData(out Pair<TElement, TValue>[] dataDefault) => dataDefault = this.defaultData;
+
+        public void GetData(out Pair<TElement, TValue>[] dataCurrent) => dataCurrent = GetArray();
+
         /// <summary>
         /// Sets the data in the storage.
         /// </summary>
-        /// <param name="data">The data to set.</param>
-        public virtual void SetData(Pair<TElement, TValue>[] data)
+        /// <param name="dataNew">The data to set.</param>
+        public virtual void SetData(Pair<TElement, TValue>[] dataNew)
         {
-            SetElements(data);
+            SetElements(dataNew);
         }
 
         /// <summary>
@@ -294,16 +299,10 @@ namespace Soul.Storages.Runtime
         /// </summary>
         public virtual void SaveData()
         {
-            var data = new Pair<TElement, TValue>[elements.Count];
-            var index = 0;
-            foreach (var kvp in elements)
-            {
-                data[index] = new Pair<TElement, TValue>(kvp.Key, kvp.Value);
-                index++;
-            }
-
+            var data = GetArray();
             SaveData(data);
         }
+
 
         /// <summary>
         /// Adds two values together.
@@ -326,7 +325,7 @@ namespace Soul.Storages.Runtime
         /// </summary>
         /// <param name="a">The first value.</param>
         /// <param name="b">The second value.</param>
-        /// <returns>A negative number if a is less than b, 0 if they are equal, and a positive number if a is greater than b.</returns>
+        /// <returns>A negative number if an is less than b, 0 if they are equal, and a positive number if an is greater than b.</returns>
         public abstract int Compare(TValue a, TValue b);
 
         /// <summary>
@@ -343,7 +342,7 @@ namespace Soul.Storages.Runtime
         /// Gets all elements in the storage.
         /// </summary>
         /// <returns>A dictionary of all elements and their amounts.</returns>
-        public virtual Dictionary<TElement, TValue> GetAllElements()
+        public virtual Dictionary<TElement, TValue> GetDictionary()
         {
             return new Dictionary<TElement, TValue>(elements);
         }
@@ -390,12 +389,38 @@ namespace Soul.Storages.Runtime
             return elements.ContainsKey(element);
         }
 
+        public Pair<TElement, TValue>[] GetArray()
+        {
+            var data = new Pair<TElement, TValue>[elements.Count];
+            var index = 0;
+            foreach (var kvp in elements)
+            {
+                data[index] = new Pair<TElement, TValue>(kvp.Key, kvp.Value);
+                index++;
+            }
+
+            return data;
+        }
+
+        public KeyValuePair<TElement, TValue>[] GetArrayKeyValuePair()
+        {
+            var data = new KeyValuePair<TElement, TValue>[elements.Count];
+            var index = 0;
+            foreach (var kvp in elements)
+            {
+                data[index] = kvp;
+                index++;
+            }
+
+            return data;
+        }
+
 
         /// <summary>
         /// Gets an IEnumerable of all element-value pairs in the storage.
         /// </summary>
         /// <returns>An IEnumerable of all element-value pairs.</returns>
-        public virtual IEnumerable<KeyValuePair<TElement, TValue>> GetAllElementValuePairs()
+        public virtual IEnumerable<KeyValuePair<TElement, TValue>> GetIEnumerable()
         {
             return elements;
         }
@@ -479,7 +504,7 @@ namespace Soul.Storages.Runtime
         /// <param name="save">Whether to save after merging.</param>
         public virtual void MergeFrom(IStorageBase<TElement, TValue> otherStorage, bool save = false)
         {
-            foreach (var kvp in otherStorage.GetAllElementValuePairs())
+            foreach (var kvp in otherStorage.GetIEnumerable())
             {
                 TryAdd(kvp.Key, kvp.Value, out _, false);
             }

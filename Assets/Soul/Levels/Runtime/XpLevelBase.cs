@@ -1,12 +1,13 @@
 ﻿using System;
 using Soul.Datas.Runtime.Interface;
+using Soul.Serializers.Runtime;
 using UnityEngine;
 using Math = System.Math;
 
 namespace Soul.Levels.Runtime
 {
     [Serializable]
-    public abstract class XpLevelBase : LevelBase, IStorageAdapter<(int, int)>
+    public abstract class XpLevelBase : LevelBase, IStorageAdapter<Pair<int, int>>
     {
         public event Action<int, int> OnXpChange;
         [SerializeField] protected int xp;
@@ -20,11 +21,15 @@ namespace Soul.Levels.Runtime
         public int XpToNextLevel => _xpToNextLevel;
         public float XpProgress => _xpToNextLevel > 0 ? (float)xp / _xpToNextLevel : 1f;
 
-        public void SetData((int, int) data)
+        public abstract void GetDefaultData(out Pair<int, int> dataDefault);
+
+        public void GetData(out Pair<int, int> dataCurrent) => dataCurrent = (currentLevel, xp);
+
+        public void SetData(Pair<int, int> dataNew)
         {
-            SetData(data.Item1);
+            SetData(dataNew.First);
             if (currentLevel >= maxLevel) return;
-            xp = data.Item2;
+            xp = dataNew.Second;
             _xpToNextLevel = CalculateXpToNextLevel(currentLevel, maxLevel, baseXp, xpMultiplier);
         }
 
@@ -57,7 +62,7 @@ namespace Soul.Levels.Runtime
             OnXpChange?.Invoke(xp, xp = 0);
         }
 
-        public abstract void SaveData((int, int) data);
+        public abstract void SaveData(Pair<int, int> data);
 
         public override void SaveData()
         {
