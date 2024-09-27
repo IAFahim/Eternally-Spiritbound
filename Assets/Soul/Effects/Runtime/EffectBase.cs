@@ -38,7 +38,6 @@ namespace Soul.Effects.Runtime
 
         public virtual void OnComplete() => EffectConsumer?.RemoveEffect(this);
         public virtual void Cancel() => EffectConsumer?.RemoveEffect(this);
-
         public virtual void Dispose() => Cancel();
     }
 }

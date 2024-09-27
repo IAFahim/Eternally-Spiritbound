@@ -135,7 +135,7 @@ namespace Pancake.MobileInput
 
         private Dictionary<Component, Vector3> _selectionPositionOffsets = new();
 
-        protected override void Init(TouchInput argument) { _touchInput = argument; }
+        protected override void Init(TouchInput allItemSo) { _touchInput = allItemSo; }
 
         public void Awake()
         {

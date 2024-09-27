@@ -7,6 +7,8 @@ namespace Soul.Combats.Runtime
     public interface IWeapon<in TAttacker, out TStrategy> : IParameterLessInitialize where TStrategy : ScriptableObject, IParameterLessInitialize
     {
         public TStrategy Strategy { get; }
-        public bool TryAttack(TAttacker attacker, Vector3 position, Vector3 direction, LayerMask layerMask);
+
+        public bool TryAttack(TAttacker attacker, Vector3 position, Vector3 direction, LayerMask layerMask,
+            float normalized = 0);
     }
 }

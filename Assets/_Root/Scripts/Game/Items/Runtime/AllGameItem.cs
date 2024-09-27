@@ -1,9 +1,11 @@
 ﻿using Alchemy.Inspector;
+using Sisus.Init;
 using Soul.Serializers.Runtime;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.Items.Runtime
 {
+    [Service]
     public class AllGameItem : ScriptableObject
     {
         public UnityDictionary<string ,GameItem> items;

@@ -1,5 +1,5 @@
 {
-    "name": "Game.Levels",
+    "name": "Game.Levels.Runtime",
     "rootNamespace": "",
     "references": [
         "GUID:2989ab55c65317d42817d95343997c64",

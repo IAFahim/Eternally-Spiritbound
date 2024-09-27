@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Soul.QuickPickup.Runtime;
 using Soul.Serializers.Runtime;
 using UnityEngine;
@@ -10,13 +9,11 @@ namespace _Root.Scripts.Game.QuickPickup.Runtime
     public abstract class QuickPickupManager<T>
     {
         private Pair<int, int>[] _skipFrameHandlers;
-        public T elementReference;
         [SerializeReference] public PickupHandler<T>[] handlers;
 
-        public virtual void Enable(T element, PickupHandler<T>[] handlers)
+        public virtual void Enable(PickupHandler<T>[] handlers)
         {
             this.handlers = handlers;
-            elementReference = element;
             for (var i = 0; i < handlers.Length - 1; i++)
             {
                 handlers[i].Next = handlers[i + 1];
@@ -32,9 +29,9 @@ namespace _Root.Scripts.Game.QuickPickup.Runtime
             }
         }
 
-        public void Add(GameObject gameObject, int amount)
+        public void Add(T element, Transform transform, int amount)
         {
-            var controller = new PickupContainer<T>(gameObject.transform, elementReference, amount);
+            var controller = new PickupContainer<T>(element, transform, amount);
             handlers[0].Handle(controller);
         }
 

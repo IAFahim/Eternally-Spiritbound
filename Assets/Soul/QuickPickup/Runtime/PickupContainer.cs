@@ -11,9 +11,9 @@ namespace Soul.QuickPickup.Runtime
         public Vector3 startPosition;
         public int amount;
         public Transform otherTransform;
-        
 
-        public PickupContainer(Transform transform, T element, int staringAmount)
+
+        public PickupContainer(T element, Transform transform , int staringAmount)
         {
             this.element = element;
             this.transform = transform;

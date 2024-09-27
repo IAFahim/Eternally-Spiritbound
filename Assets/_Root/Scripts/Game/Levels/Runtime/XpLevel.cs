@@ -4,7 +4,7 @@ using Soul.Levels.Runtime;
 using Soul.Serializers.Runtime;
 using UnityEngine;
 
-namespace _Root.Scripts.Game.Levels
+namespace _Root.Scripts.Game.Levels.Runtime
 {
     [Serializable]
     public class XpLevel : XpLevelBase

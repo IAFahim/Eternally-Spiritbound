@@ -2,6 +2,7 @@ using System;
 using _Root.Scripts.Game.Items.Runtime;
 using _Root.Scripts.Game.Items.Runtime.Storage;
 using _Root.Scripts.Game.Levels;
+using _Root.Scripts.Game.Levels.Runtime;
 using _Root.Scripts.Game.QuickPickup.Runtime;
 using Alchemy.Inspector;
 using Pancake;
@@ -18,7 +19,7 @@ namespace _Root.Scripts.Game.Tests
         public ItemStorage stringCountStorage;
 
 
-        public QuickItemPickupManager quickItemPickupManager;
+        [FormerlySerializedAs("quickItemPickupManagerBase")] public QuickItemPickupManager quickItemPickupManager;
 
         public GameObject itemGameObject;
 
@@ -27,7 +28,7 @@ namespace _Root.Scripts.Game.Tests
 
         private void OnEnable()
         {
-            quickItemPickupManager.Enable(itemBase);
+            // quickItemPickupManager.Enable(itemBase, 5, LayerMask.GetMask("Default"));
             Target();
         }
 
@@ -39,18 +40,18 @@ namespace _Root.Scripts.Game.Tests
 
         private void OnDisable()
         {
-            quickItemPickupManager.Disable();
+            quickItemPickupManager.Dispose();
         }
 
         private void Update()
         {
-            quickItemPickupManager.Process();
+            // quickItemPickupManager.Process();
         }
 
 #if UNITY_EDITOR
         private void OnDrawGizmos()
         {
-            quickItemPickupManager?.OnDrawGizmos();
+            // quickItemPickupManager?.OnDrawGizmos();
         }
 #endif
         

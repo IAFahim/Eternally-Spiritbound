@@ -1,8 +1,7 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace _Root.Scripts.Game.Movements
+namespace _Root.Scripts.Game.Movements.Runtime.Boats
 {
     [RequireComponent(typeof(Rigidbody))]
     public class BoatController : MonoBehaviour, IMove, IAcceleration
@@ -27,8 +26,6 @@ namespace _Root.Scripts.Game.Movements
 
         [Header("Stability Settings")]
         public float stabilizationTorque = 10f;
-        public float maxTiltAngle = 45f;
-        public float tiltRecoverySpeed = 2f;
 
         [Header("Input Actions")]
         public InputActionReference moveAction;
@@ -39,9 +36,9 @@ namespace _Root.Scripts.Game.Movements
         private bool _isReversing = false;
 
         [Header("Boat Stats")]
-        [SerializeField] private float _currentSpeed;
-        [SerializeField] private float _currentTurnRate;
-        [SerializeField] private float _currentBuoyancy;
+        private float _currentSpeed;
+        private float _currentTurnRate;
+        private float _currentBuoyancy;
 
         private void OnEnable()
         {

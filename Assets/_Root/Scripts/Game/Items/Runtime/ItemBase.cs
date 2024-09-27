@@ -18,6 +18,9 @@ namespace _Root.Scripts.Game.Items.Runtime
         [SerializeField] private Sprite icon;
         [SerializeField] private int maxStack;
         [SerializeField] private bool consumable;
+        
+        public float pickupRadius = 5f;
+        public bool autoPickup = true;
         public string ItemName => itemName;
         public string Description => description;
         public Sprite Icon => icon;

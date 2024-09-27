@@ -14,7 +14,7 @@ namespace Pancake
         [SerializeField] private UnityEvent<TArgument> reaction = new();
         private TEvent _event;
 
-        protected override void Init(TEvent @event) => _event = @event;
+        protected override void Init(TEvent allItemSo) => _event = allItemSo;
         private void OnEnable() => _event.AddListener(reaction.Invoke);
         private void OnDisable() => _event.RemoveListener(reaction.Invoke);
     }

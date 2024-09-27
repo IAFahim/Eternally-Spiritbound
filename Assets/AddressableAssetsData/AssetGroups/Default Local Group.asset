@@ -14,7 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_GroupName: Default Local Group
   m_GUID: e44c386d610d469408f6cf3b04ac0dbd
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 4b4ba72fb07efc6409a1bbb88f21acfb
+    m_Address: Assets/_Root/Storages/Generated/Scriptable/wood.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 2c8601dc2ee34bc4b8ca49c157e6a9c4, type: 2}
   m_SchemaSet:
