@@ -9,9 +9,9 @@ namespace _Root.Scripts.Game.QuickPickup.Runtime
     public abstract class QuickPickupManager<T>
     {
         private Pair<int, int>[] _skipFrameHandlers;
-        [SerializeReference] public PickupHandler<T>[] handlers;
+        [SerializeReference] public PickupHandlerBase<T>[] handlers;
 
-        public virtual void Enable(PickupHandler<T>[] handlers)
+        public virtual void Enable(PickupHandlerBase<T>[] handlers)
         {
             this.handlers = handlers;
             for (var i = 0; i < handlers.Length - 1; i++)
@@ -29,9 +29,8 @@ namespace _Root.Scripts.Game.QuickPickup.Runtime
             }
         }
 
-        public void Add(T element, Transform transform, int amount)
+        public void Add(T controller)
         {
-            var controller = new PickupContainer<T>(element, transform, amount);
             handlers[0].Handle(controller);
         }
 
@@ -52,7 +51,7 @@ namespace _Root.Scripts.Game.QuickPickup.Runtime
         {
             foreach (var handler in handlers)
             {
-                handler.Clear();
+                handler.Dispose();
             }
         }
 

@@ -431,25 +431,26 @@ MonoBehaviour:
   allGameItem: {fileID: 11400000, guid: 60500ef7e30813440af707e176c0e250, type: 2}
   itemPickupManager:
     handlers: []
-    detectHandler:
+    detectHandlerBase:
       skipFrame: 10
       detectionRadius: 5
       layerMask:
         serializedVersion: 2
         m_Bits: 1024
       gizmoColor: {r: 0, g: 1, b: 0, a: 1}
-    activeTweenHandler:
+    activeTweenHandlerBase:
       skipFrame: 10
       repelDistance: 5
       repelDuration: 0.5
+      upHeight: 10
       repelEase: 5
       gizmoColor: {r: 1, g: 0, b: 0, a: 1}
-    pickupHomingHandler:
+    pickupHomingHandlerBase:
       skipFrame: 0
       closeDistance: 0.5
       attractSpeed: 100
       gizmoColor: {r: 0, g: 0, b: 1, a: 1}
-    pickupRecycleHandler:
+    pickupRecycleHandlerBase:
       skipFrame: 0
       controllers: []
       delay: 1

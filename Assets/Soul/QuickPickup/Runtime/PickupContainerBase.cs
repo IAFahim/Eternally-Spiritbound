@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Soul.QuickPickup.Runtime
 {
     [Serializable]
-    public class PickupContainer<T>
+    public class PickupContainerBase<T>
     {
         public T element;
         public Transform transform;
@@ -13,7 +13,7 @@ namespace Soul.QuickPickup.Runtime
         public Transform otherTransform;
 
 
-        public PickupContainer(T element, Transform transform , int staringAmount)
+        public PickupContainerBase(T element, Transform transform , int staringAmount)
         {
             this.element = element;
             this.transform = transform;
@@ -21,6 +21,6 @@ namespace Soul.QuickPickup.Runtime
             amount = staringAmount;
         }
 
-        public static implicit operator Vector3(PickupContainer<T> pickupContainer) => pickupContainer.startPosition;
+        public static implicit operator Vector3(PickupContainerBase<T> pickupContainer) => pickupContainer.startPosition;
     }
 }

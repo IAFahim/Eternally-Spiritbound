@@ -19,12 +19,11 @@ namespace _Root.Scripts.Game.Tests
         public ItemStorage stringCountStorage;
 
 
-        [FormerlySerializedAs("quickItemPickupManagerBase")] public QuickItemPickupManager quickItemPickupManager;
+        public QuickItemPickupManager quickItemPickupManager;
 
         public GameObject itemGameObject;
 
-        [FormerlySerializedAs("GameItem")] [FormerlySerializedAs("gameItem")]
-        public ItemBase itemBase;
+        public GameItem itemBase;
 
         private void OnEnable()
         {

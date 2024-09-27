@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace _Root.Scripts.Game.Items.Runtime.Storage
 {
-    public class IntStorageComponent : MonoBehaviour, IIntStorageReference<ItemBase>
+    public class IntStorageComponent : MonoBehaviour, IItemStorage
     {
         public ItemStorage storage;
 
@@ -14,6 +14,6 @@ namespace _Root.Scripts.Game.Items.Runtime.Storage
             storage.Guid = guidProvider.Guid;
         }
 
-        public IStorageBase<ItemBase, int> Storage => storage;
+        public IStorageBase<GameItem, int> Storage => storage;
     }
 }

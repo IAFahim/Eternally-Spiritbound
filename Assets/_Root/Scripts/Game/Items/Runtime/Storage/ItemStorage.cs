@@ -7,7 +7,7 @@ using Soul.Storages.Runtime;
 namespace _Root.Scripts.Game.Items.Runtime.Storage
 {
     [Serializable]
-    public class ItemStorage : IntStorage<ItemBase>
+    public class ItemStorage : IntStorage<GameItem>
     {
         public AllGameItem allGameItem;
         public string appendKey = "_string_int";
@@ -26,13 +26,13 @@ namespace _Root.Scripts.Game.Items.Runtime.Storage
             SetData(ToGameItemPair(datas));
         }
 
-        public override void SaveData(Pair<ItemBase, int>[] data)
+        public override void SaveData(Pair<GameItem, int>[] data)
         {
             Pair<string, int>[] stringIntData = ToStringPair(data);
             Data.Save(StorageKey, stringIntData);
         }
 
-        public Pair<string, int>[] ToStringPair(Pair<ItemBase, int>[] datas)
+        public Pair<string, int>[] ToStringPair(Pair<GameItem, int>[] datas)
         {
             var result = new Pair<string, int>[datas.Length];
             for (var i = 0; i < datas.Length; i++)
@@ -44,13 +44,13 @@ namespace _Root.Scripts.Game.Items.Runtime.Storage
             return result;
         }
 
-        public Pair<ItemBase, int>[] ToGameItemPair(Pair<string, int>[] datas)
+        public Pair<GameItem, int>[] ToGameItemPair(Pair<string, int>[] datas)
         {
-            var result = new Pair<ItemBase, int>[datas.Length];
+            var result = new Pair<GameItem, int>[datas.Length];
             for (var i = 0; i < datas.Length; i++)
             {
                 var data = datas[i];
-                result[i] = new Pair<ItemBase, int>(allGameItem[data.Key], data.Value);
+                result[i] = new Pair<GameItem, int>(allGameItem[data.Key], data.Value);
             }
 
             return result;

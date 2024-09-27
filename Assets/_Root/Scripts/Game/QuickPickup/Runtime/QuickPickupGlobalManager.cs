@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using _Root.Scripts.Game.Items.Runtime;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -10,7 +9,7 @@ namespace _Root.Scripts.Game.QuickPickup.Runtime
     {
         public AllGameItem allGameItem;
         public QuickItemPickupManager itemPickupManager;
-        public List<ItemBase> autoPickList = new();
+        public List<GameItem> autoPickList = new();
         public int randomTest = 100;
         public float range = 1000;
         public float waterLevel = 0;

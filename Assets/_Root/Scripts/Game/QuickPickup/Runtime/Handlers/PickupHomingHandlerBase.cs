@@ -6,7 +6,7 @@ using UnityEngine;
 namespace _Root.Scripts.Game.QuickPickup.Runtime.Handlers
 {
     [Serializable]
-    public class PickupHomingHandler<T> : PickupHandler<T>
+    public class PickupHomingHandlerBase<T> : PickupHandlerBase<PickupContainer<T>>
     {
         [SerializeField] private float closeDistance = 0.5f;
         [SerializeField] private float attractSpeed = 5f;
@@ -35,7 +35,7 @@ namespace _Root.Scripts.Game.QuickPickup.Runtime.Handlers
             }
         }
 
-        public override void Clear()
+        public override void Dispose()
         {
             controllers.Clear();
         }

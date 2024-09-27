@@ -8,16 +8,18 @@ using UnityEngine;
 namespace _Root.Scripts.Game.QuickPickup.Runtime.Handlers
 {
     [Serializable]
-    public class PickupActiveTweenHandler<T> : PickupHandler<T>
+    public class PickupActiveTweenHandlerBase<T> : PickupHandlerBase<PickupContainer<T>>
     {
         [SerializeField] private float repelDistance = 2f;
         [SerializeField] private float repelDuration = 0.5f;
+        [SerializeField] private float upHeight = 1f;
         [SerializeField] private Ease repelEase = Ease.OutQuad;
         private readonly List<KeyValuePair<MotionHandle, PickupContainer<T>>> activeControllers = new();
 
         public override void Handle(PickupContainer<T> responsibility)
         {
-            activeControllers.Add(new KeyValuePair<MotionHandle, PickupContainer<T>>(SetTween(responsibility), responsibility));
+            activeControllers.Add(
+                new KeyValuePair<MotionHandle, PickupContainer<T>>(SetTween(responsibility), responsibility));
         }
 
         public override void Process()
@@ -35,7 +37,7 @@ namespace _Root.Scripts.Game.QuickPickup.Runtime.Handlers
 
         private MotionHandle SetTween(PickupContainer<T> pickupContainer)
         {
-            var pickupPosition = pickupContainer.transform.position;
+            var pickupPosition = pickupContainer.transform.position + new Vector3(0, upHeight, 0);
             var direction = pickupPosition - pickupContainer.otherTransform.position;
             var repelPosition = pickupPosition + direction.normalized * repelDistance;
             return LMotion.Create(pickupContainer.startPosition, repelPosition, repelDuration)
@@ -43,7 +45,7 @@ namespace _Root.Scripts.Game.QuickPickup.Runtime.Handlers
                 .BindToPosition(pickupContainer.transform);
         }
 
-        public override void Clear()
+        public override void Dispose()
         {
             foreach (var activeController in activeControllers)
             {
@@ -61,7 +63,8 @@ namespace _Root.Scripts.Game.QuickPickup.Runtime.Handlers
             Gizmos.color = gizmoColor;
             foreach (var activeController in activeControllers)
             {
-                Gizmos.DrawLine(activeController.Value.transform.position, activeController.Value.otherTransform.position);
+                Gizmos.DrawLine(activeController.Value.transform.position,
+                    activeController.Value.otherTransform.position);
             }
         }
 #endif

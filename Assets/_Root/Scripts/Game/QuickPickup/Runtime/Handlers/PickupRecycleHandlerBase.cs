@@ -8,7 +8,7 @@ using UnityEngine;
 namespace _Root.Scripts.Game.QuickPickup.Runtime.Handlers
 {
     [Serializable]
-    public class PickupRecycleHandler<T> : PickupHandler<T>
+    public class PickupRecycleHandlerBase<T> : PickupHandlerBase<PickupContainer<T>>
     {
         public List<Pair<PickupContainer<T>, float>> controllers;
         public int delay;
@@ -37,7 +37,7 @@ namespace _Root.Scripts.Game.QuickPickup.Runtime.Handlers
             }
         }
 
-        public override void Clear()
+        public override void Dispose()
         {
             controllers.Clear();
         }
