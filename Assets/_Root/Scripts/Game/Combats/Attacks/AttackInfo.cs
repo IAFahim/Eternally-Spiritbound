@@ -1,18 +1,17 @@
 ﻿using System;
-using _Root.Scripts.Game.Combats.Damages;
-using UnityEngine;
+using System.Collections.Generic;
 
 namespace _Root.Scripts.Game.Combats.Attacks
 {
     [Serializable]
     public class AttackInfo
     {
-        public GameObject attacker;
-        public EAttackType attackType;
-        public Vector3 position;
-        public EDamageType damageType;
-        public float damage;
-        public Action<DamageInfo> OnHit;
-        public Action OnMiss;
+        public float damage = 1;
+        public float speed = 10;
+        public float size = 1;
+        public float range = 1;
+        public float lifeTime = 10f;
+        public AttackType attackType;
+        public List<DamageType> damageTypes = new();
     }
 }

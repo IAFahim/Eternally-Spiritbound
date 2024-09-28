@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Soul.Effects.Runtime
 {
     [Serializable]
-    public abstract class Effect : IEffectBase, IDisposable
+    public abstract class Effect : ScriptableObject, IEffectBase, IDisposable
     {
         public float baseDuration;
         public float baseStrength;

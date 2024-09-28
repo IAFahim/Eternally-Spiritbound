@@ -1,11 +1,13 @@
 ﻿using System;
+using _Root.Scripts.Game.Combats.Attacks;
 using Soul.Stats.Runtime;
+using UnityEngine;
 
 namespace _Root.Scripts.Game.Combats.Damages
 {
     [Serializable]
-    public class DamageInfluence: InfluenceBase<EDamageType, float>
+    [CreateAssetMenu(fileName = "DamageInfluence", menuName = "Scriptable/Influence/DamageInfluence")]
+    public class DamageInfluence: InfluenceBase<DamageType, float>
     {
-        
     }
 }

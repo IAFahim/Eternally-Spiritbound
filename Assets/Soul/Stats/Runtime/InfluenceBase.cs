@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Soul.Stats.Runtime
 {
     [Serializable]
-    public class InfluenceBase<T, TV>
+    public class InfluenceBase<T, TV> : ScriptableObject
     {
         [SerializeField] protected TV defaultInfluence;
         [SerializeField] protected UnityDictionary<T, TV> influences;

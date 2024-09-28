@@ -199,7 +199,7 @@ GameObject:
   - component: {fileID: 1875887895}
   - component: {fileID: 1875887894}
   - component: {fileID: 1875887893}
-  m_Layer: 10
+  m_Layer: 15
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -325,13 +325,8 @@ MonoBehaviour:
   waveIntensity: 5
   waveFrequency: 1.41
   stabilizationTorque: 5
-  maxTiltAngle: 10
-  tiltRecoverySpeed: 1
   moveAction: {fileID: 0}
   accelerateAction: {fileID: 0}
-  _currentSpeed: 0
-  _currentTurnRate: 0
-  _currentBuoyancy: 0
   dampingFactor: 5
 --- !u!54 &1875887895
 Rigidbody:
