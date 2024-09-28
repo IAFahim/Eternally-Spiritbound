@@ -18,7 +18,7 @@ namespace _Root.Scripts.Game.QuickPickup.Runtime
         {
             foreach (var gameItem in allGameItem.items.Values)
             {
-                if (gameItem.autoPickup)
+                if (gameItem.pickUpDropStrategy.autoPickup)
                 {
                     autoPickList.Add(gameItem);
                 }

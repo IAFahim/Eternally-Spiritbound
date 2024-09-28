@@ -1,15 +1,17 @@
 using System;
+using _Root.Scripts.Game.Interactables;
 using Pancake;
 using Soul.Items.Runtime;
 using Soul.Storages.Runtime;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Game.Items.Runtime
 {
     [Serializable]
     [CreateAssetMenu(fileName = "Coin", menuName = "Scriptable/Items/New")]
-    public class GameItem : Event<ItemDropEvent>, IItemBase<GameObject>
+    public class GameItem : Event<ItemDropEvent>, IItemBase<GameObject>, IPickupStrategy
     {
         [Guid] public string guid;
         public AssetReferenceGameObject assetReferenceGameObject;
@@ -20,13 +22,15 @@ namespace _Root.Scripts.Game.Items.Runtime
         [SerializeField] private int maxStack;
         [SerializeField] private bool consumable;
 
-        public float pickupRadius = 5f;
-        public bool autoPickup = true;
+        public PickUpDropStrategy pickUpDropStrategy;
         public string ItemName => itemName;
         public string Description => description;
         public Sprite Icon => icon;
         public bool Consumable => consumable;
         public bool IsStackable => maxStack > 1;
+        
+        public bool AutoPickup => pickUpDropStrategy.autoPickup;
+        public float PickupRange => pickUpDropStrategy.range;
 
         public int MaxStack
         {
@@ -101,5 +105,7 @@ namespace _Root.Scripts.Game.Items.Runtime
 
         public static implicit operator AssetReferenceGameObject(GameItem itemBase) =>
             itemBase.assetReferenceGameObject;
+
+        
     }
 }

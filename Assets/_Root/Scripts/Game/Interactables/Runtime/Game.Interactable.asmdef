@@ -1,0 +1,16 @@
+{
+    "name": "Game.Interactable",
+    "rootNamespace": "",
+    "references": [
+        "GUID:5b0cd644839a47e4a0362e25f7100c02"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

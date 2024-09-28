@@ -5,8 +5,6 @@ using _Root.Scripts.Game.Items.Runtime.Storage;
 using _Root.Scripts.Game.QuickPickup.Runtime.Handlers;
 using Pancake.Pools;
 using Soul.QuickPickup.Runtime;
-using Soul.Storages.Runtime;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace _Root.Scripts.Game.QuickPickup.Runtime
@@ -16,16 +14,12 @@ namespace _Root.Scripts.Game.QuickPickup.Runtime
     {
         [NonSerialized] public Dictionary<GameItem, AddressableGameObjectPool> Pools;
 
-        [FormerlySerializedAs("detectHandler")]
         public PickupDetectHandlerBase<GameItem> detectHandlerBase;
 
-        [FormerlySerializedAs("activeTweenHandler")]
         public PickupActiveTweenHandlerBase<GameItem> activeTweenHandlerBase;
 
-        [FormerlySerializedAs("pickupHomingHandler")]
         public PickupHomingHandlerBase<GameItem> pickupHomingHandlerBase;
 
-        [FormerlySerializedAs("pickupRecycleHandler")]
         public PickupRecycleHandlerBase<GameItem> pickupRecycleHandlerBase;
 
         public void Setup(GameItem[] itemBases)

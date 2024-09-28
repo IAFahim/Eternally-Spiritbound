@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5797694716990356916}
   - component: {fileID: 1788971531955374469}
   - component: {fileID: 7173589960301882202}
-  - component: {fileID: -8011732571033842556}
+  - component: {fileID: -2451766213551060238}
   m_Layer: 0
   m_Name: wood
   m_TagString: Untagged
@@ -107,7 +107,7 @@ MonoBehaviour:
   AxisOffsetSpeed: {x: 0, y: 0, z: 0}
   steeringInput: {x: 0, y: 0, z: 0}
   speedUp: 10
---- !u!114 &-8011732571033842556
+--- !u!114 &-2451766213551060238
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -116,20 +116,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1343278616980531760}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c08470e2a2343b14e90107557e5208ed, type: 3}
+  m_Script: {fileID: 11500000, guid: 548c32762c1441ce8a79c761d5f9361a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visible: 1
-  renderers: []
-  style:
-    texture: {fileID: 0}
-    color: {r: 1, g: 1, b: 1, a: 1}
-    width: 32
-    height: 32
-  showArrow: 1
-  arrowStyle:
-    texture: {fileID: 2800000, guid: b14d512c127ad2545b2ce2126a7690c6, type: 3}
-    color: {r: 1, g: 0.5424528, b: 0.5424528, a: 1}
-    margin: 0
-    width: 24
-    height: 24
+  targetColor: {r: 1, g: 0, b: 0, a: 1}
+  visibleIndicator:
+    Prefab: {fileID: 0}
+  offscreenIndicator:
+    Prefab: {fileID: 0}
+  needDistanceText: 1
