@@ -3,7 +3,7 @@ using Soul.Combats.Runtime;
 
 namespace _Root.Scripts.Game.Combats.Weapons
 {
-    public interface IWeapon : IWeaponBase<AttackInfo, Attack, WeaponStrategyBase>
+    public interface IWeapon : IWeaponBase<AttackOrigin, AttackInfo, WeaponStrategyBase>
     {
     }
 }

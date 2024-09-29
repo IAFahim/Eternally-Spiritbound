@@ -39,7 +39,7 @@ public class AIFollowPlayer : MonoBehaviour
         else
         {
             _acceleration.Acceleration = 0f;
-            desiredDirection = (lastSeenPosition - transform.position).normalized;
+            desiredDirection = transform.forward;
         }
 
         // 2. Obstacle Avoidance (Raycast)
@@ -114,7 +114,6 @@ public class AIFollowPlayer : MonoBehaviour
     private void DrawDebugGizmos()
     {
         // Draw the main desired direction vector
-        Gizmos.color = Color.blue;
-        Gizmos.DrawLine(transform.position, transform.position + desiredDirection * 2f);
+        Debug.DrawRay(transform.position, desiredDirection * visionRange, Color.blue);
     }
 }

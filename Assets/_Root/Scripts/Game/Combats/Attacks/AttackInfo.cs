@@ -13,5 +13,7 @@ namespace _Root.Scripts.Game.Combats.Attacks
         public float lifeTime = 10f;
         public AttackType attackType;
         public List<DamageType> damageTypes = new();
+        
+        
     }
 }

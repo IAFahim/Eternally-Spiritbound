@@ -1,4 +1,5 @@
 ﻿using System;
+using Pancake;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.Combats.Attacks
@@ -6,7 +7,7 @@ namespace _Root.Scripts.Game.Combats.Attacks
     [Serializable]
     public class AttackOrigin
     {
-        public GameObject attacker;
+        public Optional<GameObject> attacker;
         public GameObject weapon;
         public Vector3 position;
         public Vector3 direction;

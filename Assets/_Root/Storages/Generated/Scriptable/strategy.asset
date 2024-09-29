@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackInfo:
     damage: 1
-    speed: 10
+    speed: 209.28
     size: 1
-    range: 1
+    range: 3.41
     lifeTime: 10
     attackType: {fileID: 0}
     damageTypes: []
