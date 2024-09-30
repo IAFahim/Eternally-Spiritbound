@@ -8,7 +8,7 @@ namespace Soul.Modifiers.Runtime
     public class Modifier : IEquatable<Modifier>
     {
         [SerializeField] private float baseValue;
-        [SerializeField] private float multiplier = 1f;
+        [SerializeField] private float rate;
         [SerializeField] private float additive;
 
         public event Action<Modifier, float, float> OnValueChanged;
@@ -16,75 +16,26 @@ namespace Soul.Modifiers.Runtime
         /// <summary>
         /// Gets the calculated value of the modifier.
         /// </summary>
-        public float Value => baseValue * multiplier + additive;
+        public float Value => baseValue * (1 + rate) + additive;
 
         
-        /// <summary>
-        /// Increases the value of the modifier by a specified amount, up to the given maximum base and additive values.
-        /// </summary>
-        /// <param name="value">The amount to increase the modifier by.</param>
-        /// <param name="maxBase">The maximum allowable base value.</param>
-        /// <param name="maxAdditive">The maximum allowable additive value.</param>
-        public void Increase(float value, float maxBase, float maxAdditive)
-        {
-            float oldValue = Value;
-            float remainingIncrease = value;
-
-            // First, fill up the base value
-            if (remainingIncrease > 0)
-            {
-                // Mathf.Min(100 - 0, 150 / 1) = 100
-                float baseIncrease = Mathf.Min(maxBase - baseValue, remainingIncrease / multiplier);
-                baseValue += baseIncrease;
-                // 150 - 100 = 50
-                remainingIncrease -= baseIncrease * multiplier;
-            }
-
-            // Then, if there's still increase to apply, add to the additive
-            if (remainingIncrease > 0)
-            {
-                additive = Mathf.Min(maxAdditive, additive + remainingIncrease);
-            }
-
-            OnValueChanged?.Invoke(this, oldValue, Value);
+        public Modifier(float baseValue){
+            this.baseValue = baseValue;
+            this.rate = 0;
+            this.additive = 0;
         }
-
-        /// <summary>
-        /// Reduces the value of the modifier by a specified amount.
-        /// </summary>
-        /// <param name="value">The amount to reduce the modifier by.</param>
-        public void Reduce(float value)
-        {
-            float oldValue = Value;
-            float remainingReduction = value;
-
-            // First, reduce the base value
-            if (remainingReduction > 0)
-            {
-                float baseReduction = Mathf.Min(baseValue, remainingReduction / multiplier);
-                baseValue -= baseReduction;
-                remainingReduction -= baseReduction * multiplier;
-            }
-
-            // Then, if there's still reduction to apply, reduce the additive
-            if (remainingReduction > 0)
-            {
-                additive = Mathf.Max(0, additive - remainingReduction);
-            }
-
-            OnValueChanged?.Invoke(this, oldValue, Value);
-        }
+        
 
         /// <summary>
         /// Creates a new Modifier instance.
         /// </summary>
         /// <param name="baseValue">The base value of the modifier.</param>
-        /// <param name="multiplier">The multiplier to apply to the base value. Defaults to 1.</param>
+        /// <param name="rate">The rate to apply to the base value. Defaults to 1.</param>
         /// <param name="additive">The additive value to apply after multiplication. Defaults to 0.</param>
-        public Modifier(float baseValue, float multiplier = 1f, float additive = 0f)
+        public Modifier(float baseValue, float rate, float additive = 0f)
         {
             this.baseValue = baseValue;
-            this.multiplier = multiplier;
+            this.rate = rate;
             this.additive = additive;
         }
 
@@ -100,14 +51,14 @@ namespace Soul.Modifiers.Runtime
             }
         }
 
-        public float Multiplier
+        public float Rate
         {
-            get => multiplier;
+            get => rate;
             set
             {
-                if (Mathf.Approximately(multiplier, value)) return;
+                if (Mathf.Approximately(rate, value)) return;
                 float oldValue = Value;
-                multiplier = value;
+                rate = value;
                 OnValueChanged?.Invoke(this, oldValue, Value);
             }
         }
@@ -131,17 +82,22 @@ namespace Soul.Modifiers.Runtime
         {
             float oldValue = Value;
             baseValue = baseVal;
-            multiplier = mul;
+            rate = mul;
             additive = add;
             OnValueChanged?.Invoke(this, oldValue, Value);
         }
 
+        public void SetBaseWithoutNotify(float baseVal)
+        {
+            baseValue = baseVal;
+        }
+
         /// <summary>
-        /// Applies a chance-based multiplier to the current Value.
+        /// Applies a chance-based rate to the current Value.
         /// </summary>
-        /// <param name="chance">The probability of applying the bonus multiplier. If >= 1, it's treated as a guaranteed multiplier.</param>
-        /// <param name="bonusMultiplier">The multiplier to apply if the chance check succeeds.</param>
-        /// <returns>The result of Value multiplied by the determined multiplier.</returns>
+        /// <param name="chance">The probability of applying the bonus rate. If >= 1, it's treated as a guaranteed rate.</param>
+        /// <param name="bonusMultiplier">The rate to apply if the chance check succeeds.</param>
+        /// <returns>The result of Value multiplied by the determined rate.</returns>
         public float ApplyChanceMultiplier(float chance, float bonusMultiplier)
         {
             float chanceMultiplier = chance >= 1f ? chance : Random.value < chance ? bonusMultiplier : 1f;
@@ -151,7 +107,7 @@ namespace Soul.Modifiers.Runtime
         /// <summary>
         /// Creates a deep copy of this Modifier.
         /// </summary>
-        public Modifier Clone() => new Modifier(baseValue, multiplier, additive);
+        public Modifier Clone() => new Modifier(baseValue, rate, additive);
 
         /// <summary>
         /// Combines this Modifier with another Modifier.
@@ -159,9 +115,9 @@ namespace Soul.Modifiers.Runtime
         public Modifier Combine(Modifier other)
         {
             return new Modifier(
-                this.baseValue * other.baseValue,
-                this.multiplier * other.multiplier,
-                this.additive + other.additive
+                baseValue * other.baseValue,
+                rate * other.rate,
+                additive + other.additive
             );
         }
 
@@ -173,7 +129,7 @@ namespace Soul.Modifiers.Runtime
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return baseValue.Equals(other.baseValue) && multiplier.Equals(other.multiplier) &&
+            return baseValue.Equals(other.baseValue) && rate.Equals(other.rate) &&
                    additive.Equals(other.additive);
         }
 
@@ -190,13 +146,13 @@ namespace Soul.Modifiers.Runtime
             unchecked
             {
                 var hashCode = baseValue.GetHashCode();
-                hashCode = (hashCode * 397) ^ multiplier.GetHashCode();
+                hashCode = (hashCode * 397) ^ rate.GetHashCode();
                 hashCode = (hashCode * 397) ^ additive.GetHashCode();
                 return hashCode;
             }
         }
 
         public string ToString(string format) => Value.ToString(format);
-        public override string ToString() => $"{baseValue} * {multiplier} + {additive} = {Value}";
+        public override string ToString() => $"{baseValue} * {rate} + {additive} = {Value}";
     }
 }

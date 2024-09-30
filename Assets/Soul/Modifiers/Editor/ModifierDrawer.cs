@@ -1,108 +1,101 @@
 ﻿using Soul.Modifiers.Runtime;
 using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace Soul.Modifiers.Editor
 {
     [CustomPropertyDrawer(typeof(Modifier))]
     public class ModifierDrawer : PropertyDrawer
     {
-        public override VisualElement CreatePropertyGUI(SerializedProperty property)
+        private const float PropertySpacing = 2f;
+        private const float HeaderHeight = 22f;
+        private const float PropertyHeight = 18f;
+        private static readonly Color HeaderColor = new Color(0.1f, 0.1f, 0.1f, 0.2f);
+        private static readonly Color ValueColor = new Color(0.2f, 0.8f, 0.2f);
+        private static readonly Color AlternateRowColor = new Color(0.5f, 0.5f, 0.5f, 0.1f);
+
+        private static readonly GUIContent[] PropertyLabels =
         {
-            var container = new VisualElement();
+            new GUIContent("Base", "The base value of the modifier"),
+            new GUIContent("Rate", "The rate applied to the base value"),
+            new GUIContent("Additive", "The value added after multiplication")
+        };
 
-            // Create the header
-            var header = new VisualElement
+        private static readonly string[] PropertyNames = { "baseValue", "rate", "additive" };
+
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        {
+            EditorGUI.BeginProperty(position, label, property);
+
+            var headerRect = new Rect(position.x, position.y, position.width, HeaderHeight);
+
+            EditorGUI.DrawRect(headerRect, HeaderColor);
+
+            // Foldout
+            bool isSmall = headerRect.width < 200;
+            float sideWidth = isSmall ? 40 : 200;
+            var foldoutRect = new Rect(headerRect.x, headerRect.y, headerRect.width - sideWidth, headerRect.height);
+            property.isExpanded = EditorGUI.Foldout(foldoutRect, property.isExpanded, label, true);
+
+            // Value display
+
+            var valueRect = new Rect(foldoutRect.xMax, foldoutRect.y, sideWidth, foldoutRect.height);
+
+            var style = new GUIStyle(EditorStyles.label)
             {
-                style =
-                {
-                    flexDirection = FlexDirection.Row,
-                    backgroundColor = new Color(0.1f, 0.1f, 0.1f, 0.2f),
-                    height = 22
-                }
+                alignment = TextAnchor.MiddleRight,
+                normal = { textColor = ValueColor },
+                fontStyle = FontStyle.Bold
             };
+            EditorGUI.LabelField(valueRect, LabelString(property, isSmall), style);
 
-            var foldout = new Foldout
+            if (property.isExpanded)
             {
-                text = property.displayName,
-                style =
-                {
-                    flexGrow = 1
-                },
-                value = property.isExpanded
-            };
-            header.Add(foldout);
-
-            var valueLabel = new Label
-            {
-                style =
-                {
-                    unityTextAlign = TextAnchor.MiddleRight,
-                    color = new Color(0.2f, 0.8f, 0.2f),
-                    unityFontStyleAndWeight = FontStyle.Bold,
-                    minWidth = 100
-                }
-            };
-            header.Add(valueLabel);
-
-            container.Add(header);
-
-            // Create the fields
-            var fieldsContainer = new VisualElement
-            {
-                style =
-                {
-                    display = property.isExpanded ? DisplayStyle.Flex : DisplayStyle.None
-                }
-            };
-
-            var baseValueField = new FloatField("Base");
-            var multiplierField = new FloatField("Multiplier");
-            var additiveField = new FloatField("Additive");
-
-            fieldsContainer.Add(baseValueField);
-            fieldsContainer.Add(multiplierField);
-            fieldsContainer.Add(additiveField);
-
-            container.Add(fieldsContainer);
-
-            baseValueField.BindProperty(property.FindPropertyRelative("baseValue"));
-            multiplierField.BindProperty(property.FindPropertyRelative("multiplier"));
-            additiveField.BindProperty(property.FindPropertyRelative("additive"));
-
-            void UpdateValueLabel()
-            {
-                var baseValue = property.FindPropertyRelative("baseValue").floatValue;
-                var multiplier = property.FindPropertyRelative("multiplier").floatValue;
-                var additive = property.FindPropertyRelative("additive").floatValue;
-
-                var value = baseValue * multiplier + additive;
-                var valueText = $"{baseValue}x{multiplier}+{additive} = {value:F2}";
-
-                valueLabel.text = valueText;
-
-                // Update the tooltip to show the full calculation
-                valueLabel.tooltip = valueText;
+                DrawProperties(position, property);
             }
 
-            baseValueField.RegisterValueChangedCallback(_ => UpdateValueLabel());
-            multiplierField.RegisterValueChangedCallback(_ => UpdateValueLabel());
-            additiveField.RegisterValueChangedCallback(_ => UpdateValueLabel());
+            EditorGUI.EndProperty();
+        }
 
-            // Handle foldout state changes
-            foldout.RegisterValueChangedCallback(evt =>
+
+        private string LabelString(SerializedProperty property, bool isSmall)
+        {
+            var baseValue = property.FindPropertyRelative("baseValue").floatValue;
+            var rate = property.FindPropertyRelative("rate").floatValue;
+            var additive = property.FindPropertyRelative("additive").floatValue;
+
+            var value = baseValue * (1 + rate) + additive;
+            return isSmall ? $"{value:F2}" : $"{baseValue}x{1 + rate}+{additive} = {value:F2}";
+        }
+
+        private void DrawProperties(Rect position, SerializedProperty property)
+        {
+            var propertyRect = new Rect(position.x, position.y + HeaderHeight, position.width, PropertyHeight);
+
+            for (int i = 0; i < PropertyNames.Length; i++)
             {
-                property.isExpanded = evt.newValue;
-                fieldsContainer.style.display = evt.newValue ? DisplayStyle.Flex : DisplayStyle.None;
-                property.serializedObject.ApplyModifiedProperties();
-            });
+                propertyRect.y += PropertySpacing;
 
-            // Initial update
-            UpdateValueLabel();
+                if (i % 2 == 1)
+                {
+                    EditorGUI.DrawRect(propertyRect, AlternateRowColor);
+                }
 
-            return container;
+                EditorGUI.PropertyField(propertyRect, property.FindPropertyRelative(PropertyNames[i]),
+                    PropertyLabels[i]);
+                propertyRect.y += PropertyHeight;
+            }
+        }
+
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        {
+            float height = HeaderHeight;
+            if (property.isExpanded)
+            {
+                height += (PropertyHeight + PropertySpacing) * PropertyNames.Length;
+            }
+
+            return height;
         }
     }
 }

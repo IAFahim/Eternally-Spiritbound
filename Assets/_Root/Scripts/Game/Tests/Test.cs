@@ -1,13 +1,12 @@
 using System;
 using _Root.Scripts.Game.Items.Runtime;
 using _Root.Scripts.Game.Items.Runtime.Storage;
-using _Root.Scripts.Game.Levels;
 using _Root.Scripts.Game.Levels.Runtime;
 using _Root.Scripts.Game.QuickPickup.Runtime;
+using _Root.Scripts.Game.Stats.Runtime;
 using Alchemy.Inspector;
 using Pancake;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Game.Tests
 {
@@ -17,6 +16,8 @@ namespace _Root.Scripts.Game.Tests
         [Guid] public string guid;
         public XpLevel xpLevel;
         public ItemStorage stringCountStorage;
+        
+        public StatDictionary statDictionary;
 
 
         public QuickItemPickupManager quickItemPickupManager;

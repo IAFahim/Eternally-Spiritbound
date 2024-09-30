@@ -501,6 +501,7 @@ GameObject:
   - component: {fileID: 1879169897}
   - component: {fileID: 1879169899}
   - component: {fileID: 1879169900}
+  - component: {fileID: 1879169901}
   m_Layer: 10
   m_Name: Main Boat
   m_TagString: Untagged
@@ -637,6 +638,461 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   guid: cfe4520306fd4c3
+--- !u!114 &1879169901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1879169892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47da757bf18c4a90910403eaf3c539e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  saved: 0
+  statsBase: {fileID: 0}
+  stats:
+    vitality:
+      health:
+        value:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        rate:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        delay:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      size:
+        baseValue: 0
+        rate: 0
+        additive: 0
+    defensive:
+      armor:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      shield:
+        value:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        rate:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        delay:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      dodgeChance:
+        baseValue: 0
+        rate: 0
+        additive: 0
+    movement:
+      speed:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      pickupRange:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      detectRange:
+        baseValue: 0
+        rate: 0
+        additive: 0
+    progression:
+      experience: 0
+      luck: 0
+    critical:
+      chance:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      damage:
+        baseValue: 0
+        rate: 0
+        additive: 0
+    ammo:
+      total:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      clipSize:
+        baseValue: 0
+        rate: 0
+        additive: 0
+    offensive:
+      damage:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      fireRate:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      cooldown:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      attackRange:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      reloadTime:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      accuracy:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      recoil:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      attackSize:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      attackSpeed:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      defensePenetration:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      elementalDamage:
+        baseValue: 0
+        rate: 0
+        additive: 0
+    statusEffects:
+      knockBack:
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      stun:
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      slow:
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      burn:
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      freeze:
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      poison:
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      bleed:
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      shock:
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      fear:
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      charm:
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      confusion:
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      sleep:
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      silence:
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      blind:
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      curse:
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      lightning:
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      water:
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      earth:
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      fire:
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      wind:
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      light:
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      dark:
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      physical:
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      magical:
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+  statsDictionary:
+    list:
+    - key: {fileID: 11400000, guid: bb1595f39ea43ea4c8ce8a953a109ae8, type: 2}
+      value:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      duplicatedKey: 0
 --- !u!1 &2048136530
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,5 +8,7 @@ namespace _Root.Scripts.Game.Guid
     {
         [Guid] public string guid;
         public string Guid => guid;
+        
+        public static implicit operator string(GuidProvider provider) => provider.guid;
     }
 }

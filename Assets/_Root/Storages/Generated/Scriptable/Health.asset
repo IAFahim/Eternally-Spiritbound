@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe77c37280294abab28b7e0d7fc0429c, type: 3}
   m_Name: Health
   m_EditorClassIdentifier: 
-  baseValue: 0
+  baseValue: 3
   statType: {fileID: 11400000, guid: 8549b2e6383d4f5408a2e6b31ddd0b4e, type: 2}
