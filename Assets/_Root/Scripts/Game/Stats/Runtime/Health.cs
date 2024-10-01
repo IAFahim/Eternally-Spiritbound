@@ -1,25 +1,25 @@
-﻿using Alchemy.Inspector;
+﻿using _Root.Scripts.Game.Stats.Runtime.Model;
+using Alchemy.Inspector;
+using Sisus.Init;
 using Soul.Modifiers.Runtime;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.Stats.Runtime
 {
-    public class Health : MonoBehaviour
+    public class Health : MonoBehaviour<LimitStat<Modifier>, Modifier, LimitStat<Modifier>, CriticalStats<Modifier>>
     {
-        private RegenStat<Modifier> health;
+        private LimitStat<Modifier> health;
         private Modifier armor;
-        private RegenStat<Modifier> shield;
+        private LimitStat<Modifier> shield;
         private CriticalStats<Modifier> criticalStats;
 
-        private void Awake()
+        protected override void Init(LimitStat<Modifier> firstArgument, Modifier secondArgument, LimitStat<Modifier> thirdArgument, CriticalStats<Modifier> fourthArgument)
         {
-            var entityStats = GetComponent<EntityStatsComponent>().entityStats;
-            health = entityStats.vitality.health;
-            armor = entityStats.defensive.armor;
-            shield = entityStats.defensive.shield;
-            criticalStats = entityStats.critical;
+            health = firstArgument;
+            armor = secondArgument;
+            shield = thirdArgument;
+            criticalStats = fourthArgument;
         }
-
 
         public float HealthPercentage => health.current / health.max.Value;
 
@@ -58,5 +58,7 @@ namespace _Root.Scripts.Game.Stats.Runtime
                 chanceMultiplier = 1f;
             return value * chanceMultiplier;
         }
+
+        
     }
 }

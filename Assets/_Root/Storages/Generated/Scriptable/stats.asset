@@ -19,19 +19,9 @@ MonoBehaviour:
         vitality:
           health:
             current:
-              baseValue: 5
-              rate: 0
-              additive: 0
+              value: 5
             max:
               baseValue: 5
-              rate: 0
-              additive: 0
-            regenRate:
-              baseValue: 0
-              rate: 0
-              additive: 0
-            delay:
-              baseValue: 0
               rate: 0
               additive: 0
           size:
@@ -45,18 +35,8 @@ MonoBehaviour:
             additive: 0
           shield:
             current:
-              baseValue: 0
-              rate: 0
-              additive: 0
+              value: 0
             max:
-              baseValue: 0
-              rate: 0
-              additive: 0
-            regenRate:
-              baseValue: 0
-              rate: 0
-              additive: 0
-            delay:
               baseValue: 0
               rate: 0
               additive: 0

@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace _Root.Scripts.Game.Stats.Runtime
+namespace _Root.Scripts.Game.Stats.Runtime.Model
 {
     [Serializable]
     public class DefensiveStats<T>
     {
         public T armor;
-        public RegenStat<T> shield;
+        public LimitStat<T> shield;
         public T dodgeChance;
     }
 }

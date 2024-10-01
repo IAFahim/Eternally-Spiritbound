@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace _Root.Scripts.Game.Stats.Runtime
+namespace _Root.Scripts.Game.Stats.Runtime.Model
 {
     [Serializable]
     public class ProgressionStats<T>

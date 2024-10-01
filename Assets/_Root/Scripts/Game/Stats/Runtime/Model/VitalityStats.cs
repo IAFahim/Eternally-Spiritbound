@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace _Root.Scripts.Game.Stats.Runtime
+namespace _Root.Scripts.Game.Stats.Runtime.Model
 {
     [Serializable]
     public class VitalityStats<T>
     {
-        public RegenStat<T> health;
+        public LimitStat<T> health;
         public T size;
         
     }
