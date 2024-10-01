@@ -7,5 +7,6 @@ namespace _Root.Scripts.Game.Stats.Runtime
     {
         public RegenStat<T> health;
         public T size;
+        
     }
 }

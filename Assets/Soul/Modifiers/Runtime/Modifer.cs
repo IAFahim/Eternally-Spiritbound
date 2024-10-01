@@ -20,6 +20,20 @@ namespace Soul.Modifiers.Runtime
         /// </summary>
         public float Value => baseValue * (1 + rate) + additive;
 
+        public bool MockRemaining(float subtract, out float remaining)
+        {
+            remaining = Value - subtract;
+            if (remaining < 0)
+            {
+                remaining = Mathf.Abs(remaining);
+                return true;
+            }
+
+            remaining = 0;
+            return false;
+        }
+        
+
 
         public Modifier(float baseValue)
         {
@@ -90,22 +104,26 @@ namespace Soul.Modifiers.Runtime
             OnValueChanged?.Invoke(this, oldValue, Value);
         }
 
+        public void SetWithoutNotify(Modifier other)
+        {
+            baseValue = other.baseValue;
+            rate = other.rate;
+            additive = other.additive;
+        }
+
+        public void SetWithoutNotify(float baseVal, float mul, float add)
+        {
+            baseValue = baseVal;
+            rate = mul;
+            additive = add;
+        }
+
         public void SetBaseWithoutNotify(float baseVal)
         {
             baseValue = baseVal;
         }
 
-        /// <summary>
-        /// Applies a chance-based rate to the current Value.
-        /// </summary>
-        /// <param name="chance">The probability of applying the bonus rate. If >= 1, it's treated as a guaranteed rate.</param>
-        /// <param name="bonusMultiplier">The rate to apply if the chance check succeeds.</param>
-        /// <returns>The result of Value multiplied by the determined rate.</returns>
-        public float ApplyChanceMultiplier(float chance, float bonusMultiplier)
-        {
-            float chanceMultiplier = chance >= 1f ? chance : Random.value < chance ? bonusMultiplier : 1f;
-            return Value * chanceMultiplier;
-        }
+        
 
         /// <summary>
         /// Creates a deep copy of this Modifier.
@@ -124,10 +142,6 @@ namespace Soul.Modifiers.Runtime
             );
         }
 
-        public static implicit operator float(Modifier modifier) => modifier.Value;
-
-        public static implicit operator Modifier(float value) => new Modifier(value);
-
         public bool Equals(Modifier other)
         {
             if (ReferenceEquals(null, other)) return false;
@@ -136,26 +150,14 @@ namespace Soul.Modifiers.Runtime
                    additive.Equals(other.additive);
         }
 
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
-            return Equals((Modifier)obj);
-        }
-
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                var hashCode = baseValue.GetHashCode();
-                hashCode = (hashCode * 397) ^ rate.GetHashCode();
-                hashCode = (hashCode * 397) ^ additive.GetHashCode();
-                return hashCode;
-            }
-        }
-
         public string ToString(string format) => Value.ToString(format);
         public override string ToString() => $"{baseValue} * {rate} + {additive} = {Value}";
+
+        public void Deconstruct(out float baseValue, out float rate, out float additive)
+        {
+            baseValue = this.baseValue;
+            rate = this.rate;
+            additive = this.additive;
+        }
     }
 }

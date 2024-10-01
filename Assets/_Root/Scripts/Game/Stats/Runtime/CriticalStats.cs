@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Game.Stats.Runtime
 {

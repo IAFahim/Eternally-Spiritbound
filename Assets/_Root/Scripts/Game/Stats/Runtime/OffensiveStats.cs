@@ -16,7 +16,5 @@ namespace _Root.Scripts.Game.Stats.Runtime
         public T attackSpeed;
         public T defensePenetration;
         public T elementalDamage;
-        
-        
     }
 }

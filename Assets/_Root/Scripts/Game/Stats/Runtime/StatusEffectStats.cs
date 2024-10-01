@@ -38,5 +38,6 @@ namespace _Root.Scripts.Game.Stats.Runtime
         public StatusEffectStat<T> dark;
         public StatusEffectStat<T> physical;
         public StatusEffectStat<T> magical;
+        
     }
 }

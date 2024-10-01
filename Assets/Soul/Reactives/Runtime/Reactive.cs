@@ -19,6 +19,11 @@ namespace Soul.Reactives.Runtime
                 OnChange?.Invoke(oldValue, this.value);
             }
         }
+        
+        public void SetValueWithoutNotify(T value)
+        {
+            this.value = value;
+        }
 
         public static implicit operator T(Reactive<T> reactive)
         {

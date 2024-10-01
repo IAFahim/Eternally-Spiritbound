@@ -306,6 +306,8 @@ GameObject:
   - component: {fileID: 1229146023}
   - component: {fileID: 1229146022}
   - component: {fileID: 1229146028}
+  - component: {fileID: 1229146029}
+  - component: {fileID: 1229146030}
   m_Layer: 15
   m_Name: Enemy
   m_TagString: Untagged
@@ -462,170 +464,25 @@ MonoBehaviour:
   numberOfRays: 22
   rayAngleSpread: 127.3
   desiredDirection: {x: 0, y: 0, z: 0}
---- !u!4 &1526682144 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f73270e2437c50e46ac93f6b278463a1, type: 3}
-  m_PrefabInstance: {fileID: 2065420677}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1879169892
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1879169893}
-  - component: {fileID: 1879169895}
-  - component: {fileID: 1879169896}
-  - component: {fileID: 1879169897}
-  - component: {fileID: 1879169899}
-  - component: {fileID: 1879169900}
-  - component: {fileID: 1879169901}
-  - component: {fileID: 1879169902}
-  m_Layer: 10
-  m_Name: Main Boat
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1879169893
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1879169892}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
-  m_Children:
-  - {fileID: 868793757}
-  - {fileID: 2048136531}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &1879169895
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1879169892}
-  serializedVersion: 4
-  m_Mass: 1000
-  m_Drag: 1
-  m_AngularDrag: 2
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &1879169896
+--- !u!114 &1229146029
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1879169892}
+  m_GameObject: {fileID: 1229146021}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a17b197a69ac46a081db05634b320d9e, type: 3}
+  m_Script: {fileID: 11500000, guid: 7db6ef6bf7254376a2c9e69c2b617e21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 1879169895}
-  lean:
-    leanAmount: {x: -10, y: 0, z: -10}
-    model: {fileID: 868793757}
-    boost: 10
-  maxForwardSpeed: 100
-  maxReverseSpeed: 100
-  turnTorque: 10
-  accelerationForce: 100
-  reverseAccelerationForce: 100
-  waterDrag: 0.99
-  waterLevel: 0
-  buoyancyForce: 100
-  waveIntensity: 5
-  waveFrequency: 1.41
-  stabilizationTorque: 5000
-  moveAction: {fileID: -1680190386980627800, guid: 9334937fad4e1ad4ba5357282c93ace5, type: 3}
-  accelerateAction: {fileID: -2099379676528639254, guid: 9334937fad4e1ad4ba5357282c93ace5, type: 3}
-  dampingFactor: 5
---- !u!136 &1879169897
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1879169892}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.82687414
-  m_Height: 4.8694935
-  m_Direction: 2
-  m_Center: {x: 0, y: 0.5, z: -0.5}
---- !u!114 &1879169899
+--- !u!114 &1229146030
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1879169892}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8dd1b6e4a9d6417ea8d68da35f549900, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  storage:
-    defaultData: []
-    elements:
-      list: []
-    allGameItem: {fileID: 11400000, guid: 60500ef7e30813440af707e176c0e250, type: 2}
-    appendKey: _string_int
---- !u!114 &1879169900
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1879169892}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7bb8b47e0a344599e871f3d44ac4caa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  titleGuid: {fileID: 11400000, guid: 31ce8a7468230ef4f8963fe0b07d0849, type: 2}
---- !u!114 &1879169901
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1879169892}
+  m_GameObject: {fileID: 1229146021}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 47da757bf18c4a90910403eaf3c539e1, type: 3}
@@ -635,9 +492,7 @@ MonoBehaviour:
     vitality:
       health:
         current:
-          baseValue: 0
-          rate: 0
-          additive: 0
+          value: 0
         max:
           baseValue: 0
           rate: 0
@@ -661,9 +516,7 @@ MonoBehaviour:
         additive: 0
       shield:
         current:
-          baseValue: 0
-          rate: 0
-          additive: 0
+          value: 0
         max:
           baseValue: 0
           rate: 0
@@ -1174,6 +1027,717 @@ MonoBehaviour:
           baseValue: 0
           rate: 0
           additive: 0
+  useGlobalStats: 0
+  entityStatsScriptable: {fileID: 0}
+--- !u!4 &1526682144 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f73270e2437c50e46ac93f6b278463a1, type: 3}
+  m_PrefabInstance: {fileID: 2065420677}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1879169892
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1879169893}
+  - component: {fileID: 1879169895}
+  - component: {fileID: 1879169896}
+  - component: {fileID: 1879169897}
+  - component: {fileID: 1879169899}
+  - component: {fileID: 1879169900}
+  - component: {fileID: 1879169901}
+  - component: {fileID: 1879169902}
+  m_Layer: 10
+  m_Name: Main Boat
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1879169893
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1879169892}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children:
+  - {fileID: 868793757}
+  - {fileID: 2048136531}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &1879169895
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1879169892}
+  serializedVersion: 4
+  m_Mass: 1000
+  m_Drag: 1
+  m_AngularDrag: 2
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &1879169896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1879169892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a17b197a69ac46a081db05634b320d9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 1879169895}
+  lean:
+    leanAmount: {x: -10, y: 0, z: -10}
+    model: {fileID: 868793757}
+    boost: 10
+  maxForwardSpeed: 100
+  maxReverseSpeed: 100
+  turnTorque: 10
+  accelerationForce: 100
+  reverseAccelerationForce: 100
+  waterDrag: 0.99
+  waterLevel: 0
+  buoyancyForce: 100
+  waveIntensity: 5
+  waveFrequency: 1.41
+  stabilizationTorque: 5000
+  moveAction: {fileID: -1680190386980627800, guid: 9334937fad4e1ad4ba5357282c93ace5, type: 3}
+  accelerateAction: {fileID: -2099379676528639254, guid: 9334937fad4e1ad4ba5357282c93ace5, type: 3}
+  dampingFactor: 5
+--- !u!136 &1879169897
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1879169892}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.82687414
+  m_Height: 4.8694935
+  m_Direction: 2
+  m_Center: {x: 0, y: 0.5, z: -0.5}
+--- !u!114 &1879169899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1879169892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dd1b6e4a9d6417ea8d68da35f549900, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  storage:
+    defaultData: []
+    elements:
+      list: []
+    allGameItem: {fileID: 11400000, guid: 60500ef7e30813440af707e176c0e250, type: 2}
+    appendKey: _string_int
+--- !u!114 &1879169900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1879169892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7bb8b47e0a344599e871f3d44ac4caa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  titleGuid: {fileID: 11400000, guid: 31ce8a7468230ef4f8963fe0b07d0849, type: 2}
+--- !u!114 &1879169901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1879169892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47da757bf18c4a90910403eaf3c539e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entityStats:
+    vitality:
+      health:
+        current:
+          value: 3
+        max:
+          baseValue: 3
+          rate: 0
+          additive: 0
+        regenRate:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        delay:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      size:
+        baseValue: 0
+        rate: 0
+        additive: 0
+    defensive:
+      armor:
+        baseValue: 1
+        rate: 0
+        additive: 0
+      shield:
+        current:
+          value: 0
+        max:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        regenRate:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        delay:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      dodgeChance:
+        baseValue: 0
+        rate: 0
+        additive: 0
+    movement:
+      speed:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      pickupRange:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      detectRange:
+        baseValue: 0
+        rate: 0
+        additive: 0
+    progression:
+      experience:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      luck:
+        baseValue: 0
+        rate: 0
+        additive: 0
+    critical:
+      chance:
+        baseValue: 0.9
+        rate: 0
+        additive: 0
+      damage:
+        baseValue: 0
+        rate: 0
+        additive: 0
+    ammo:
+      total:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      clipSize:
+        baseValue: 0
+        rate: 0
+        additive: 0
+    offensive:
+      damage:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      fireRate:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      cooldown:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      attackRange:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      reloadTime:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      accuracy:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      recoil:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      attackSize:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      attackSpeed:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      defensePenetration:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      elementalDamage:
+        baseValue: 0
+        rate: 0
+        additive: 0
+    statusEffects:
+      knockBack:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      stun:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      slow:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      burn:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      freeze:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      poison:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      bleed:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      shock:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      fear:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      charm:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      confusion:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      sleep:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      silence:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      blind:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      curse:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      lightning:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      water:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      earth:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      fire:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      wind:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      light:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      dark:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      physical:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      magical:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        amount:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        chance:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        duration:
+          baseValue: 0
+          rate: 0
+          additive: 0
+  useGlobalStats: 0
   entityStatsScriptable: {fileID: 11400000, guid: 689b746ed0d621c44925d8f7e4a23b41, type: 2}
 --- !u!114 &1879169902
 MonoBehaviour:
@@ -1187,16 +1751,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7db6ef6bf7254376a2c9e69c2b617e21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useLocalHealth: 1
-  useLocalMaxHealth: 1
-  currentHealth:
-    baseValue: 0
-    rate: 0
-    additive: 0
-  maxHealth:
-    baseValue: 0
-    rate: 0
-    additive: 0
 --- !u!1 &2048136530
 GameObject:
   m_ObjectHideFlags: 0
