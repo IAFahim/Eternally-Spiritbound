@@ -129,7 +129,6 @@ GameObject:
   - component: {fileID: 129839009}
   - component: {fileID: 129839008}
   - component: {fileID: 129839013}
-  - component: {fileID: 129839012}
   m_Layer: 0
   m_Name: Third Person Aim Camera
   m_TagString: Untagged
@@ -195,25 +194,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 23.116, y: 0, z: 0}
---- !u!114 &129839012
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 129839005}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89875cdc57c54474a8a74efd9b2a3b5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ScanRecursively: 1
-  SuppressInputWhileBlending: 1
-  IgnoreTimeScale: 1
-  m_ControllerManager:
-    Controllers: []
-  PlayerIndex: -1
-  AutoEnableInputs: 1
 --- !u!114 &129839013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -345,7 +325,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7bb8b47e0a344599e871f3d44ac4caa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  guid: cfe4520306fd4c3
+  titleGuid: {fileID: 11400000, guid: 31ce8a7468230ef4f8963fe0b07d0849, type: 2}
 --- !u!114 &1229146023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -502,6 +482,7 @@ GameObject:
   - component: {fileID: 1879169899}
   - component: {fileID: 1879169900}
   - component: {fileID: 1879169901}
+  - component: {fileID: 1879169902}
   m_Layer: 10
   m_Name: Main Boat
   m_TagString: Untagged
@@ -637,7 +618,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7bb8b47e0a344599e871f3d44ac4caa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  guid: cfe4520306fd4c3
+  titleGuid: {fileID: 11400000, guid: 31ce8a7468230ef4f8963fe0b07d0849, type: 2}
 --- !u!114 &1879169901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -650,16 +631,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47da757bf18c4a90910403eaf3c539e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saved: 0
-  statsBase: {fileID: 0}
-  stats:
+  entityStats:
     vitality:
       health:
-        value:
+        current:
           baseValue: 0
           rate: 0
           additive: 0
-        rate:
+        max:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        regenRate:
           baseValue: 0
           rate: 0
           additive: 0
@@ -677,11 +660,15 @@ MonoBehaviour:
         rate: 0
         additive: 0
       shield:
-        value:
+        current:
           baseValue: 0
           rate: 0
           additive: 0
-        rate:
+        max:
+          baseValue: 0
+          rate: 0
+          additive: 0
+        regenRate:
           baseValue: 0
           rate: 0
           additive: 0
@@ -707,8 +694,14 @@ MonoBehaviour:
         rate: 0
         additive: 0
     progression:
-      experience: 0
-      luck: 0
+      experience:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      luck:
+        baseValue: 0
+        rate: 0
+        additive: 0
     critical:
       chance:
         baseValue: 0
@@ -774,6 +767,10 @@ MonoBehaviour:
         additive: 0
     statusEffects:
       knockBack:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
         amount:
           baseValue: 0
           rate: 0
@@ -787,6 +784,10 @@ MonoBehaviour:
           rate: 0
           additive: 0
       stun:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
         amount:
           baseValue: 0
           rate: 0
@@ -800,6 +801,10 @@ MonoBehaviour:
           rate: 0
           additive: 0
       slow:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
         amount:
           baseValue: 0
           rate: 0
@@ -813,6 +818,10 @@ MonoBehaviour:
           rate: 0
           additive: 0
       burn:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
         amount:
           baseValue: 0
           rate: 0
@@ -826,6 +835,10 @@ MonoBehaviour:
           rate: 0
           additive: 0
       freeze:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
         amount:
           baseValue: 0
           rate: 0
@@ -839,6 +852,10 @@ MonoBehaviour:
           rate: 0
           additive: 0
       poison:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
         amount:
           baseValue: 0
           rate: 0
@@ -852,6 +869,10 @@ MonoBehaviour:
           rate: 0
           additive: 0
       bleed:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
         amount:
           baseValue: 0
           rate: 0
@@ -865,6 +886,10 @@ MonoBehaviour:
           rate: 0
           additive: 0
       shock:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
         amount:
           baseValue: 0
           rate: 0
@@ -878,6 +903,10 @@ MonoBehaviour:
           rate: 0
           additive: 0
       fear:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
         amount:
           baseValue: 0
           rate: 0
@@ -891,6 +920,10 @@ MonoBehaviour:
           rate: 0
           additive: 0
       charm:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
         amount:
           baseValue: 0
           rate: 0
@@ -904,6 +937,10 @@ MonoBehaviour:
           rate: 0
           additive: 0
       confusion:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
         amount:
           baseValue: 0
           rate: 0
@@ -917,6 +954,10 @@ MonoBehaviour:
           rate: 0
           additive: 0
       sleep:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
         amount:
           baseValue: 0
           rate: 0
@@ -930,6 +971,10 @@ MonoBehaviour:
           rate: 0
           additive: 0
       silence:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
         amount:
           baseValue: 0
           rate: 0
@@ -943,6 +988,10 @@ MonoBehaviour:
           rate: 0
           additive: 0
       blind:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
         amount:
           baseValue: 0
           rate: 0
@@ -956,6 +1005,10 @@ MonoBehaviour:
           rate: 0
           additive: 0
       curse:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
         amount:
           baseValue: 0
           rate: 0
@@ -969,6 +1022,10 @@ MonoBehaviour:
           rate: 0
           additive: 0
       lightning:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
         amount:
           baseValue: 0
           rate: 0
@@ -982,6 +1039,10 @@ MonoBehaviour:
           rate: 0
           additive: 0
       water:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
         amount:
           baseValue: 0
           rate: 0
@@ -995,6 +1056,10 @@ MonoBehaviour:
           rate: 0
           additive: 0
       earth:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
         amount:
           baseValue: 0
           rate: 0
@@ -1008,6 +1073,10 @@ MonoBehaviour:
           rate: 0
           additive: 0
       fire:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
         amount:
           baseValue: 0
           rate: 0
@@ -1021,6 +1090,10 @@ MonoBehaviour:
           rate: 0
           additive: 0
       wind:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
         amount:
           baseValue: 0
           rate: 0
@@ -1034,6 +1107,10 @@ MonoBehaviour:
           rate: 0
           additive: 0
       light:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
         amount:
           baseValue: 0
           rate: 0
@@ -1047,6 +1124,10 @@ MonoBehaviour:
           rate: 0
           additive: 0
       dark:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
         amount:
           baseValue: 0
           rate: 0
@@ -1060,6 +1141,10 @@ MonoBehaviour:
           rate: 0
           additive: 0
       physical:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
         amount:
           baseValue: 0
           rate: 0
@@ -1073,6 +1158,10 @@ MonoBehaviour:
           rate: 0
           additive: 0
       magical:
+        immunity:
+          baseValue: 0
+          rate: 0
+          additive: 0
         amount:
           baseValue: 0
           rate: 0
@@ -1085,14 +1174,29 @@ MonoBehaviour:
           baseValue: 0
           rate: 0
           additive: 0
-  statsDictionary:
-    list:
-    - key: {fileID: 11400000, guid: bb1595f39ea43ea4c8ce8a953a109ae8, type: 2}
-      value:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      duplicatedKey: 0
+  entityStatsScriptable: {fileID: 11400000, guid: 689b746ed0d621c44925d8f7e4a23b41, type: 2}
+--- !u!114 &1879169902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1879169892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db6ef6bf7254376a2c9e69c2b617e21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useLocalHealth: 1
+  useLocalMaxHealth: 1
+  currentHealth:
+    baseValue: 0
+    rate: 0
+    additive: 0
+  maxHealth:
+    baseValue: 0
+    rate: 0
+    additive: 0
 --- !u!1 &2048136530
 GameObject:
   m_ObjectHideFlags: 0

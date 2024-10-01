@@ -17,7 +17,6 @@ namespace _Root.Scripts.Game.Tests
         public XpLevel xpLevel;
         public ItemStorage stringCountStorage;
         
-        public StatDictionary statDictionary;
 
 
         public QuickItemPickupManager quickItemPickupManager;

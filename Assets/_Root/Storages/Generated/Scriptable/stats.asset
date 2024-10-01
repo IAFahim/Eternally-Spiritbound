@@ -1,0 +1,561 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91ca0b0d4e2248abb6483c059f4c0c33, type: 3}
+  m_Name: stats
+  m_EditorClassIdentifier: 
+  allStats:
+    list:
+    - key: {fileID: 11400000, guid: 31ce8a7468230ef4f8963fe0b07d0849, type: 2}
+      value:
+        vitality:
+          health:
+            current:
+              baseValue: 5
+              rate: 0
+              additive: 0
+            max:
+              baseValue: 5
+              rate: 0
+              additive: 0
+            regenRate:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            delay:
+              baseValue: 0
+              rate: 0
+              additive: 0
+          size:
+            baseValue: 0
+            rate: 0
+            additive: 0
+        defensive:
+          armor:
+            baseValue: 0
+            rate: 0
+            additive: 0
+          shield:
+            current:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            max:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            regenRate:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            delay:
+              baseValue: 0
+              rate: 0
+              additive: 0
+          dodgeChance:
+            baseValue: 0
+            rate: 0
+            additive: 0
+        movement:
+          speed:
+            baseValue: 0
+            rate: 0
+            additive: 0
+          pickupRange:
+            baseValue: 0
+            rate: 0
+            additive: 0
+          detectRange:
+            baseValue: 0
+            rate: 0
+            additive: 0
+        progression:
+          experience:
+            baseValue: 0
+            rate: 0
+            additive: 0
+          luck:
+            baseValue: 0
+            rate: 0
+            additive: 0
+        critical:
+          chance:
+            baseValue: 0
+            rate: 0
+            additive: 0
+          damage:
+            baseValue: 0
+            rate: 0
+            additive: 0
+        ammo:
+          total:
+            baseValue: 0
+            rate: 0
+            additive: 0
+          clipSize:
+            baseValue: 0
+            rate: 0
+            additive: 0
+        offensive:
+          damage:
+            baseValue: 0
+            rate: 0
+            additive: 0
+          fireRate:
+            baseValue: 0
+            rate: 0
+            additive: 0
+          cooldown:
+            baseValue: 0
+            rate: 0
+            additive: 0
+          attackRange:
+            baseValue: 0
+            rate: 0
+            additive: 0
+          reloadTime:
+            baseValue: 0
+            rate: 0
+            additive: 0
+          accuracy:
+            baseValue: 0
+            rate: 0
+            additive: 0
+          recoil:
+            baseValue: 0
+            rate: 0
+            additive: 0
+          attackSize:
+            baseValue: 0
+            rate: 0
+            additive: 0
+          attackSpeed:
+            baseValue: 0
+            rate: 0
+            additive: 0
+          defensePenetration:
+            baseValue: 0
+            rate: 0
+            additive: 0
+          elementalDamage:
+            baseValue: 0
+            rate: 0
+            additive: 0
+        statusEffects:
+          knockBack:
+            immunity:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            amount:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            chance:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            duration:
+              baseValue: 0
+              rate: 0
+              additive: 0
+          stun:
+            immunity:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            amount:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            chance:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            duration:
+              baseValue: 0
+              rate: 0
+              additive: 0
+          slow:
+            immunity:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            amount:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            chance:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            duration:
+              baseValue: 0
+              rate: 0
+              additive: 0
+          burn:
+            immunity:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            amount:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            chance:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            duration:
+              baseValue: 0
+              rate: 0
+              additive: 0
+          freeze:
+            immunity:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            amount:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            chance:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            duration:
+              baseValue: 0
+              rate: 0
+              additive: 0
+          poison:
+            immunity:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            amount:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            chance:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            duration:
+              baseValue: 0
+              rate: 0
+              additive: 0
+          bleed:
+            immunity:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            amount:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            chance:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            duration:
+              baseValue: 0
+              rate: 0
+              additive: 0
+          shock:
+            immunity:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            amount:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            chance:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            duration:
+              baseValue: 0
+              rate: 0
+              additive: 0
+          fear:
+            immunity:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            amount:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            chance:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            duration:
+              baseValue: 0
+              rate: 0
+              additive: 0
+          charm:
+            immunity:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            amount:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            chance:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            duration:
+              baseValue: 0
+              rate: 0
+              additive: 0
+          confusion:
+            immunity:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            amount:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            chance:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            duration:
+              baseValue: 0
+              rate: 0
+              additive: 0
+          sleep:
+            immunity:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            amount:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            chance:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            duration:
+              baseValue: 0
+              rate: 0
+              additive: 0
+          silence:
+            immunity:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            amount:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            chance:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            duration:
+              baseValue: 0
+              rate: 0
+              additive: 0
+          blind:
+            immunity:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            amount:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            chance:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            duration:
+              baseValue: 0
+              rate: 0
+              additive: 0
+          curse:
+            immunity:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            amount:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            chance:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            duration:
+              baseValue: 0
+              rate: 0
+              additive: 0
+          lightning:
+            immunity:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            amount:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            chance:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            duration:
+              baseValue: 0
+              rate: 0
+              additive: 0
+          water:
+            immunity:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            amount:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            chance:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            duration:
+              baseValue: 0
+              rate: 0
+              additive: 0
+          earth:
+            immunity:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            amount:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            chance:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            duration:
+              baseValue: 0
+              rate: 0
+              additive: 0
+          fire:
+            immunity:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            amount:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            chance:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            duration:
+              baseValue: 0
+              rate: 0
+              additive: 0
+          wind:
+            immunity:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            amount:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            chance:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            duration:
+              baseValue: 0
+              rate: 0
+              additive: 0
+          light:
+            immunity:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            amount:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            chance:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            duration:
+              baseValue: 0
+              rate: 0
+              additive: 0
+          dark:
+            immunity:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            amount:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            chance:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            duration:
+              baseValue: 0
+              rate: 0
+              additive: 0
+          physical:
+            immunity:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            amount:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            chance:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            duration:
+              baseValue: 0
+              rate: 0
+              additive: 0
+          magical:
+            immunity:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            amount:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            chance:
+              baseValue: 0
+              rate: 0
+              additive: 0
+            duration:
+              baseValue: 0
+              rate: 0
+              additive: 0
+      duplicatedKey: 0

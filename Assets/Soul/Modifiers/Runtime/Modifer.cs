@@ -7,7 +7,9 @@ namespace Soul.Modifiers.Runtime
     [Serializable]
     public class Modifier : IEquatable<Modifier>
     {
-        [SerializeField] private float baseValue;
+        [Newtonsoft.Json.JsonIgnore] [SerializeField]
+        private float baseValue;
+
         [SerializeField] private float rate;
         [SerializeField] private float additive;
 
@@ -18,13 +20,14 @@ namespace Soul.Modifiers.Runtime
         /// </summary>
         public float Value => baseValue * (1 + rate) + additive;
 
-        
-        public Modifier(float baseValue){
+
+        public Modifier(float baseValue)
+        {
             this.baseValue = baseValue;
             this.rate = 0;
             this.additive = 0;
         }
-        
+
 
         /// <summary>
         /// Creates a new Modifier instance.

@@ -10,8 +10,8 @@ namespace _Root.Scripts.Game.Items.Runtime.Storage
 
         private void Awake()
         {
-            TryGetComponent<IGuidProvider>(out var guidProvider);
-            storage.Guid = guidProvider.Guid;
+            TryGetComponent<ITitleGuidReference>(out var guidProvider);
+            storage.Guid = guidProvider.TitleGuid.guid;
         }
 
         public IStorageBase<GameItem, int> Storage => storage;

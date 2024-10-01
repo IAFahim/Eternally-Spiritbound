@@ -5,9 +5,9 @@ namespace _Root.Scripts.Game.Init_Tests
 {
     public class Client : MonoBehaviour<Service>
     {
-        protected override void Init(Service allItemSo)
+        protected override void Init(Service firstArgument)
         {
-            allItemSo.Greet();
+            firstArgument.Greet();
         }
     }
 

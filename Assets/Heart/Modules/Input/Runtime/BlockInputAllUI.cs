@@ -10,7 +10,7 @@ namespace Pancake.MobileInput
         private TouchInput _touchInput;
         private bool _wasTouchingLastFrame;
 
-        protected override void Init(TouchInput allItemSo) { _touchInput = allItemSo; }
+        protected override void Init(TouchInput firstArgument) { _touchInput = firstArgument; }
 
         private void Update()
         {

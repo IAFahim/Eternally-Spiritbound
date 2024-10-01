@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace _Root.Scripts.Game.Items.Runtime
 {
-    [Service]
     public class AllGameItem : ScriptableObject
     {
         public UnityDictionary<string ,GameItem> items;

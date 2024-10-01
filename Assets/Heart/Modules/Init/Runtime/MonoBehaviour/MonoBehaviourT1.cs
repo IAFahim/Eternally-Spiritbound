@@ -43,7 +43,7 @@ namespace Sisus.Init
 		#endif
 
 		/// <summary>
-		/// Provides the <see cref="Component"/> with the <paramref name="allItemSo">object</paramref> that it depends on.
+		/// Provides the <see cref="Component"/> with the <paramref name="firstArgument">object</paramref> that it depends on.
 		/// <para>
 		/// You can think of the <see cref="Init"/> function as a parameterized constructor alternative for the component.
 		/// </para>
@@ -61,8 +61,8 @@ namespace Sisus.Init
 		/// was added is <see cref="GameObject.activeInHierarchy">inactive</see> unlike some other initialization event functions such as Awake and OnEnable.
 		/// </para>
 		/// </summary>
-		/// <param name="allItemSo"> Object that this component depends on. </param>
-		protected abstract void Init(TArgument allItemSo);
+		/// <param name="firstArgument"> Object that this component depends on. </param>
+		protected abstract void Init(TArgument firstArgument);
 
 		/// <summary>
 		/// Assigns an argument received during initialization to a field or property by the <paramref name="memberName">given name</paramref>.
@@ -236,12 +236,12 @@ namespace Sisus.Init
 		}
 
 		/// <inheritdoc/>
-		void IInitializable<TArgument>.Init(TArgument allItemSo)
+		void IInitializable<TArgument>.Init(TArgument firstArgument)
 		{
 			initState = InitState.Initializing;
-			ValidateArgumentIfPlayMode(allItemSo, Context.MainThread);
+			ValidateArgumentIfPlayMode(firstArgument, Context.MainThread);
 
-			Init(allItemSo);
+			Init(firstArgument);
 
 			initState = InitState.Initialized;
 		}

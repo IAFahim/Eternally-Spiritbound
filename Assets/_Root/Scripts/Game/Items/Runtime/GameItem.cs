@@ -5,7 +5,6 @@ using Soul.Items.Runtime;
 using Soul.Storages.Runtime;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Game.Items.Runtime
 {

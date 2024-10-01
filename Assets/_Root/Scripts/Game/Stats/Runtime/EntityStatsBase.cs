@@ -3,12 +3,12 @@
 namespace _Root.Scripts.Game.Stats.Runtime
 {
     [Serializable]
-    public class Stats<T>
+    public class EntityStatsBase<T>
     {
         public VitalityStats<T> vitality;
         public DefensiveStats<T> defensive;
         public MovementStats<T> movement;
-        public ProgressionStats progression;
+        public ProgressionStats<T> progression;
         
         public CriticalStats<T> critical;
         public AmmoStats<T> ammo;

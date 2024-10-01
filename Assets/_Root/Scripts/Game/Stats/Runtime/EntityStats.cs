@@ -1,11 +1,10 @@
 ﻿using System;
+using Soul.Modifiers.Runtime;
 
 namespace _Root.Scripts.Game.Stats.Runtime
 {
     [Serializable]
-    public class ProgressionStats<T>
+    public class EntityStats : EntityStatsBase<Modifier>
     {
-        public T experience;
-        public T luck;
     }
 }
