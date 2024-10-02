@@ -1,0 +1,16 @@
+{
+    "name": "Soul.Combat.Runtime",
+    "rootNamespace": "",
+    "references": [
+        "GUID:67440d4ee4df47a1ae25d79fa9ebbfca"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

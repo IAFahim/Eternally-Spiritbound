@@ -1,4 +1,4 @@
-﻿namespace Soul.OverlapSugar
+﻿namespace Soul.OverlapSugar.Runtime
 {
     public enum OverlapType
     {

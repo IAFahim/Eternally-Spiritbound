@@ -20,7 +20,7 @@ namespace Soul.OverlapSugar.Runtime
         [Tooltip("Don't set it in Inspector, it shows the number of collider found")]
         public int foundSize;
 
-        private Collider[] overlapResults;
+        [NonSerialized] public Collider[] Colliders;
 
         public bool Initialized { get; private set; }
 
@@ -31,7 +31,7 @@ namespace Soul.OverlapSugar.Runtime
                 throw new ArgumentOutOfRangeException(nameof(resultsCapacity));
 #endif
             foundSize = 0;
-            overlapResults = new Collider[resultsCapacity];
+            Colliders = new Collider[resultsCapacity];
             Initialized = true;
         }
 
@@ -91,11 +91,11 @@ namespace Soul.OverlapSugar.Runtime
 
             foundSize = Physics.OverlapBoxNonAlloc(position,
                 boxSize * half,
-                overlapResults,
+                Colliders,
                 overlapPoint.rotation,
                 searchMask.value);
 
-            results = overlapResults;
+            results = Colliders;
             return foundSize;
         }
 
@@ -104,9 +104,9 @@ namespace Soul.OverlapSugar.Runtime
         {
             foundSize = Physics.OverlapSphereNonAlloc(position,
                 sphereRadius,
-                overlapResults,
+                Colliders,
                 searchMask.value);
-            results = overlapResults;
+            results = Colliders;
             return foundSize;
         }
 
@@ -130,7 +130,7 @@ namespace Soul.OverlapSugar.Runtime
             }
 
             Gizmos.color = foundColor;
-            for (int i = 0; i < foundSize; i++) Gizmos.DrawWireSphere(overlapResults[i].transform.position, 0.5f);
+            for (int i = 0; i < foundSize; i++) Gizmos.DrawWireSphere(Colliders[i].transform.position, 0.5f);
 #endif
         }
     }

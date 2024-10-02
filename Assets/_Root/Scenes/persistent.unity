@@ -435,7 +435,7 @@ MonoBehaviour:
       skipFrame: 10
       layerMask:
         serializedVersion: 2
-        m_Bits: 1024
+        m_Bits: 32768
       gizmoColor: {r: 0, g: 1, b: 0, a: 1}
     activeTweenHandlerBase:
       skipFrame: 10
