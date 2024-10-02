@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace _Root.Scripts.Game.Combats.Attacks
 {
@@ -13,7 +14,5 @@ namespace _Root.Scripts.Game.Combats.Attacks
         public float lifeTime = 10f;
         public AttackType attackType;
         public List<DamageType> damageTypes = new();
-        
-        
     }
 }
