@@ -631,6 +631,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entityStatsScriptable: {fileID: 11400000, guid: 689b746ed0d621c44925d8f7e4a23b41, type: 2}
+  cloneStats: 1
 --- !u!1 &2048136530
 GameObject:
   m_ObjectHideFlags: 0
@@ -643,7 +644,7 @@ GameObject:
   - component: {fileID: 2048136534}
   - component: {fileID: 2048136533}
   - component: {fileID: 2048136535}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}

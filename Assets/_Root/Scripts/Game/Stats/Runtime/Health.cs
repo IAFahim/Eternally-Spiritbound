@@ -1,24 +1,23 @@
 ﻿using _Root.Scripts.Game.Stats.Runtime.Model;
 using Alchemy.Inspector;
-using Sisus.Init;
 using Soul.Modifiers.Runtime;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.Stats.Runtime
 {
-    public class Health : MonoBehaviour<LimitStat<Modifier>, Modifier, LimitStat<Modifier>, CriticalStats<Modifier>>
+    public class Health
     {
-        private LimitStat<Modifier> health;
-        private Modifier armor;
-        private LimitStat<Modifier> shield;
-        private CriticalStats<Modifier> criticalStats;
+        private readonly LimitStat<Modifier> health;
+        private readonly Modifier armor;
+        private readonly LimitStat<Modifier> shield;
+        private readonly CriticalStats<Modifier> criticalStats;
 
-        protected override void Init(LimitStat<Modifier> firstArgument, Modifier secondArgument, LimitStat<Modifier> thirdArgument, CriticalStats<Modifier> fourthArgument)
+        public Health(EntityStats entityStats)
         {
-            health = firstArgument;
-            armor = secondArgument;
-            shield = thirdArgument;
-            criticalStats = fourthArgument;
+            health = entityStats.vitality.health;
+            armor = entityStats.defensive.armor;
+            shield = entityStats.defensive.shield;
+            criticalStats = entityStats.critical;
         }
 
         public float HealthPercentage => health.current / health.max.Value;
