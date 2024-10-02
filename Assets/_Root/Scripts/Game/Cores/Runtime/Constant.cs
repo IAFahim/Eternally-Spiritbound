@@ -1,5 +1,5 @@
 ﻿// ReSharper disable InconsistentNaming
-namespace _Root.Scripts.Game.Cores
+namespace _Root.Scripts.Game.Cores.Runtime
 {
     public static class Constant
     {

@@ -1,10 +1,10 @@
 ﻿using System;
 using Pancake.Common;
 using Pancake.Localization;
-using static _Root.Scripts.Game.Cores.Constant.User.DailyReward;
-using static _Root.Scripts.Game.Cores.Constant.User;
+using static _Root.Scripts.Game.Cores.Runtime.Constant.User.DailyReward;
+using static _Root.Scripts.Game.Cores.Runtime.Constant.User;
 
-namespace _Root.Scripts.Game.Cores
+namespace _Root.Scripts.Game.Cores.Runtime
 {
     public static class UserData
     {

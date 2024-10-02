@@ -1,4 +1,4 @@
-namespace _Root.Scripts.Game.Cores
+namespace _Root.Scripts.Game.Cores.Runtime
 {
     public enum EQuality
     {
