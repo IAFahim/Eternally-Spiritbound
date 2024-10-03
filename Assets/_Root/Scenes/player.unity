@@ -463,11 +463,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dd1b6e4a9d6417ea8d68da35f549900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  storage:
+  itemStorage:
     defaultData: []
     elements:
       list: []
-    allGameItem: {fileID: 11400000, guid: 60500ef7e30813440af707e176c0e250, type: 2}
     appendKey: _string_int
 --- !u!136 &1229146024
 CapsuleCollider:
@@ -724,11 +723,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dd1b6e4a9d6417ea8d68da35f549900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  storage:
+  itemStorage:
     defaultData: []
     elements:
       list: []
-    allGameItem: {fileID: 11400000, guid: 60500ef7e30813440af707e176c0e250, type: 2}
     appendKey: _string_int
 --- !u!114 &1879169900
 MonoBehaviour:
