@@ -1,6 +1,6 @@
 ﻿namespace Soul.Datas.Runtime.Interface
 {
-    public interface IStorageAdapter<T> : IStorageIdentifier, IDataAdapter<T>, IClearStorage
+    public interface IStorageAdapter<T> : IStorageInitializer, IStorageIdentifier, IDataAdapter<T>, IClearStorage
     {
         void LoadData(string guid);
         void SaveData(T data);

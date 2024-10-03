@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Soul.Serializers.Runtime;
@@ -22,9 +23,26 @@ namespace Soul.Storages.Runtime
         [SerializeField] protected UnityDictionary<TElement, TValue> elements = new();
 
         /// <summary>
+        /// Initializes the storage with either loaded data or default data.
+        /// </summary>
+        /// <param name="guid">The GUID of the data to load.</param>
+        /// <param name="load">If true, loads data using the GUID; otherwise, sets elements to default data.</param>
+        public void InitializeStorage(string guid, bool load)
+        {
+            if (load) LoadData(guid);
+            else SetElements(defaultData);
+        }
+
+        /// <summary>
         /// Event triggered when an item in the storage changes.
         /// </summary>
         public event Action<TElement, TValue, TValue> OnItemChanged;
+
+        /// <summary>
+        /// Gets all elements in the storage.
+        /// </summary>
+        /// <returns>The underlying dictionary of all elements and their amounts.</returns>
+        public UnityDictionary<TElement, TValue> Elements => elements;
 
         /// <summary>
         /// Gets the number of elements in the storage.
@@ -338,15 +356,6 @@ namespace Soul.Storages.Runtime
             return elements.GetValueOrDefault(element);
         }
 
-        /// <summary>
-        /// Gets all elements in the storage.
-        /// </summary>
-        /// <returns>A dictionary of all elements and their amounts.</returns>
-        public virtual Dictionary<TElement, TValue> GetDictionary()
-        {
-            return new Dictionary<TElement, TValue>(elements);
-        }
-
 
         /// <summary>
         /// Tries to get the amount of an element.
@@ -511,5 +520,23 @@ namespace Soul.Storages.Runtime
 
             if (save) SaveData();
         }
+
+        public IEnumerator<KeyValuePair<TElement, TValue>> GetEnumerator() => elements.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        public bool ContainsKey(TElement key)
+        {
+            return elements.ContainsKey(key);
+        }
+
+        public bool TryGetValue(TElement key, out TValue value)
+        {
+            return elements.TryGetValue(key, out value);
+        }
+
+        public TValue this[TElement key] => throw new NotImplementedException();
+
+        public IEnumerable<TElement> Keys => elements.Keys;
+        public IEnumerable<TValue> Values => elements.Values;
     }
 }

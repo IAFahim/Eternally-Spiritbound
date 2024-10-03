@@ -5,6 +5,7 @@ using _Root.Scripts.Game.Items.Runtime.Storage;
 using _Root.Scripts.Game.QuickPickup.Runtime.Handlers;
 using Pancake.Pools;
 using Soul.QuickPickup.Runtime;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace _Root.Scripts.Game.QuickPickup.Runtime
@@ -35,7 +36,6 @@ namespace _Root.Scripts.Game.QuickPickup.Runtime
             foreach (var itemBase in itemBases)
             {
                 Pools.Add(itemBase, new AddressableGameObjectPool(itemBase));
-                itemBase.AddListener(Add);
             }
             detectHandlerBase.HaveSpaceInInventory = HaveSpaceInInventory;
             pickupRecycleHandlerBase.onRecycle = OnRecycle;
@@ -73,11 +73,10 @@ namespace _Root.Scripts.Game.QuickPickup.Runtime
         }
 
 
-        private void Add(ItemDropEvent itemDropEvent)
+        public void Add(GameItem itemBase,  Vector3 position, int amount)
         {
-            var itemBase = itemDropEvent.ItemBase;
-            var gameObject = Pools[itemBase].Request(itemDropEvent.Position, Random.rotation);
-            var pickupContainer = new PickupContainer<GameItem>(itemBase, gameObject.transform, itemDropEvent.Amount);
+            var gameObject = Pools[itemBase].Request(position, Random.rotation);
+            var pickupContainer = new PickupContainer<GameItem>(itemBase, gameObject.transform, amount);
             Add(pickupContainer);
         }
 
@@ -88,7 +87,6 @@ namespace _Root.Scripts.Game.QuickPickup.Runtime
 
             foreach (var (itemBase, pool) in Pools)
             {
-                itemBase.RemoveListener(Add);
                 pool.Dispose();
             }
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Soul.Datas.Runtime.Interface;
 using Soul.Serializers.Runtime;
@@ -10,7 +11,10 @@ namespace Soul.Storages.Runtime
     /// </summary>
     /// <typeparam name="TElement">The type of elements stored.</typeparam>
     /// <typeparam name="TValue">The type of values associated with elements.</typeparam>
-    public interface IStorageBase<TElement, TValue>: IStorageAdapter<Pair<TElement, TValue>[]>
+    public interface IStorageBase<TElement, TValue> : IStorageAdapter<Pair<TElement, TValue>[]>,
+        IReadOnlyDictionary<TElement, TValue>,
+
+    IEnumerable<KeyValuePair<TElement, TValue>>, IClearStorage
         where TElement : notnull
         where TValue : IComparable<TValue>
     {
@@ -19,6 +23,8 @@ namespace Soul.Storages.Runtime
         /// </summary>
         event Action<TElement, TValue, TValue> OnItemChanged;
 
+        UnityDictionary<TElement, TValue> Elements { get; }
+        
         /// <summary>
         /// Gets the number of elements in the storage.
         /// </summary>
@@ -28,10 +34,10 @@ namespace Soul.Storages.Runtime
         /// Gets the default data for the storage.
         /// </summary>
         Pair<TElement, TValue>[] DefaultData { get; }
-        
+
 
         bool CanAdd(TElement element, TValue amount, out TValue currentAmount);
-        
+
         /// <summary>
         /// Tries to add an amount to an element in the storage.
         /// </summary>
@@ -40,7 +46,8 @@ namespace Soul.Storages.Runtime
         /// <summary>
         /// Tries to add multiple elements to the storage.
         /// </summary>
-        bool TryAdd(IEnumerable<Pair<TElement, TValue>> elementsToAdd, out List<Pair<TElement, TValue>> failedToAdd, bool saveOnSuccess = false);
+        bool TryAdd(IEnumerable<Pair<TElement, TValue>> elementsToAdd, out List<Pair<TElement, TValue>> failedToAdd,
+            bool saveOnSuccess = false);
 
         /// <summary>
         /// Tries to remove an amount from an element in the storage.
@@ -50,7 +57,8 @@ namespace Soul.Storages.Runtime
         /// <summary>
         /// Tries to remove multiple elements from the storage.
         /// </summary>
-        bool TryRemove(IEnumerable<Pair<TElement, TValue>> elementsToRemove, out List<Pair<TElement, TValue>> failedToRemove, bool saveOnSuccess = false);
+        bool TryRemove(IEnumerable<Pair<TElement, TValue>> elementsToRemove,
+            out List<Pair<TElement, TValue>> failedToRemove, bool saveOnSuccess = false);
 
         /// <summary>
         /// Removes all of a specific element from the storage.
@@ -70,7 +78,8 @@ namespace Soul.Storages.Runtime
         /// <summary>
         /// Checks if the storage has enough of multiple elements.
         /// </summary>
-        bool HasEnough(IEnumerable<Pair<TElement, TValue>> elementsToCheck, out List<Pair<TElement, TValue>> insufficientElements);
+        bool HasEnough(IEnumerable<Pair<TElement, TValue>> elementsToCheck,
+            out List<Pair<TElement, TValue>> insufficientElements);
 
         /// <summary>
         /// Clears all elements from the storage.
@@ -116,7 +125,7 @@ namespace Soul.Storages.Runtime
         /// Gets an Array of all element-value Pair in the storage.
         /// </summary>
         Pair<TElement, TValue>[] GetArray();
-        
+
         /// <summary>
         /// Gets an Array of all element-value KeyValuePair in the storage.
         /// </summary>
@@ -126,11 +135,6 @@ namespace Soul.Storages.Runtime
         /// Gets an IEnumerable of all element-value pairs in the storage.
         /// </summary>
         IEnumerable<KeyValuePair<TElement, TValue>> GetIEnumerable();
-        
-        /// <summary>
-        /// Gets an Dictionary of all elements in the storage.
-        /// </summary>
-        Dictionary<TElement, TValue> GetDictionary();
 
         /// <summary>
         /// Adds multiple elements to the storage without saving.

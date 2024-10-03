@@ -21,6 +21,8 @@ namespace Soul.Levels.Runtime
         }
 
         public abstract string StorageKey { get; }
+        
+        public abstract void InitializeStorage(string guid, bool load);
 
         public abstract void GetDefaultData(out int dataDefault);
 

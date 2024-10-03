@@ -18,7 +18,7 @@ namespace _Root.Scripts.Game.QuickPickup.Runtime
         {
             foreach (var gameItem in allGameItem.items.Values)
             {
-                if (gameItem.pickUpDropStrategy.autoPickup)
+                if (gameItem.AutoPickup)
                 {
                     autoPickList.Add(gameItem);
                 }
@@ -37,8 +37,8 @@ namespace _Root.Scripts.Game.QuickPickup.Runtime
             for (var i = 0; i < randomTest; i++)
             {
                 var randomItem = autoPickList[Random.Range(0, autoPickList.Count)];
-                var randomV2 = Random.insideUnitCircle * range;
-                randomItem.TrySpawn(transform.position + new Vector3(randomV2.x, waterLevel, randomV2.y), 1);
+                var randomV2 = Random.insideUnitCircle * range; 
+                itemPickupManager.Add(randomItem,transform.position + new Vector3(randomV2.x, waterLevel, randomV2.y), 1);
             }
         }
 

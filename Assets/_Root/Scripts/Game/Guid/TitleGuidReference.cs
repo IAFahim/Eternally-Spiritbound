@@ -1,5 +1,4 @@
-﻿using Pancake;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace _Root.Scripts.Game.Guid
 {

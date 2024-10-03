@@ -13,6 +13,17 @@ namespace _Root.Scripts.Game.Levels.Runtime
         
         [SerializeField] private string appendKey = "_xp";
         public override string StorageKey => $"{Guid}{appendKey}";
+        public override void InitializeStorage(string guid, bool load)
+        {
+            Guid = guid;
+            if (load) LoadData(guid);
+            else
+            {
+                GetDefaultData(out var data);
+                SetData(data);
+            }
+        }
+
         public override void GetDefaultData(out int data)
         {
             data = defaultData.First;
@@ -25,11 +36,7 @@ namespace _Root.Scripts.Game.Levels.Runtime
             SetData(Data.Load(StorageKey, dataDefault));
         }
 
-        public override void GetDefaultData(out Pair<int, int> data)
-        {
-            throw new NotImplementedException();
-        }
-
+        public override void GetDefaultData(out Pair<int, int> data) => data = defaultData;
         public override void SaveData(Pair<int, int> data) => Data.Save(StorageKey, data);
         public override void SaveData(int data) => SaveData((data, Xp));
         public override void ClearStorage() => Data.DeleteKey(StorageKey);
