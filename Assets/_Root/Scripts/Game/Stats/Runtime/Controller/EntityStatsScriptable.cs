@@ -2,7 +2,7 @@
 using Soul.Serializers.Runtime;
 using UnityEngine;
 
-namespace _Root.Scripts.Game.Stats.Runtime
+namespace _Root.Scripts.Game.Stats.Runtime.Controller
 {
     [CreateAssetMenu(fileName = "EntityStats", menuName = "Scriptable/Stats/EntityStats")]
     public class EntityStatsScriptable : ScriptableObject

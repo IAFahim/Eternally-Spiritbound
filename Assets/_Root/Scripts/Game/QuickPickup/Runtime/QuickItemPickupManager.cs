@@ -43,10 +43,10 @@ namespace _Root.Scripts.Game.QuickPickup.Runtime
 
         private bool HaveSpaceInInventory(PickupContainer<GameItem> pickupContainer)
         {
-            if (pickupContainer.otherTransform.TryGetComponent<IItemStorage>(out var storageReference))
+            if (pickupContainer.otherTransform.TryGetComponent<IGameItemStorageReference>(out var storageReference))
             {
-                pickupContainer.StorageReference = storageReference;
-                return storageReference.Storage.CanAdd(pickupContainer.element, pickupContainer.amount, out _);
+                pickupContainer.StorageReferenceReference = storageReference;
+                return storageReference.GameItemStorage.CanAdd(pickupContainer.element, pickupContainer.amount, out _);
             }
 
             return false;
@@ -57,7 +57,7 @@ namespace _Root.Scripts.Game.QuickPickup.Runtime
         {
             if (pickupContainer.otherTransform != null)
             {
-                pickupContainer.StorageReference.Storage.TryAdd(
+                pickupContainer.StorageReferenceReference.GameItemStorage.TryAdd(
                     pickupContainer.element, pickupContainer.amount, out var added
                 );
                 pickupContainer.amount -= added;

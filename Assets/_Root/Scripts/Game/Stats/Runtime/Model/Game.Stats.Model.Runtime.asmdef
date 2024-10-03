@@ -1,0 +1,17 @@
+{
+    "name": "Game.Stats.Model.Runtime",
+    "rootNamespace": "",
+    "references": [
+        "GUID:0ce8820c9f0d48828499439bca7cd9a1",
+        "GUID:d872fca1951d47d1b865976e46511f7e"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

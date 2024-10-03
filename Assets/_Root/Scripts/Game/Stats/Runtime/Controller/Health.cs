@@ -3,7 +3,7 @@ using Alchemy.Inspector;
 using Soul.Modifiers.Runtime;
 using UnityEngine;
 
-namespace _Root.Scripts.Game.Stats.Runtime
+namespace _Root.Scripts.Game.Stats.Runtime.Controller
 {
     public class Health
     {
@@ -12,12 +12,12 @@ namespace _Root.Scripts.Game.Stats.Runtime
         private readonly LimitStat<Modifier> shield;
         private readonly CriticalStats<Modifier> criticalStats;
 
-        public Health(EntityStats entityStats)
+        public Health(LimitStat<Modifier> health, Modifier armor, LimitStat<Modifier> shield, CriticalStats<Modifier> criticalStats)
         {
-            health = entityStats.vitality.health;
-            armor = entityStats.defensive.armor;
-            shield = entityStats.defensive.shield;
-            criticalStats = entityStats.critical;
+            this.health = health;
+            this.armor = armor;
+            this.shield = shield;
+            this.criticalStats = criticalStats;
         }
 
         public float HealthPercentage => health.current / health.max.Value;
@@ -26,7 +26,6 @@ namespace _Root.Scripts.Game.Stats.Runtime
         private void DamageTest(float damage)
         {
             Damage(damage, out var damageTaken);
-            Debug.Log($"Damage taken: {damageTaken}");
         }
 
         public void Damage(float damage, out float damageTaken)
@@ -57,7 +56,5 @@ namespace _Root.Scripts.Game.Stats.Runtime
                 chanceMultiplier = 1f;
             return value * chanceMultiplier;
         }
-
-        
     }
 }

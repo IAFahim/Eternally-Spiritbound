@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Game.Combats.Runtime.Weapons
 {
     public class Shoot : MonoBehaviour
     {
-        public Weapon Weapon;
+        [FormerlySerializedAs("weaponComponenet")] [FormerlySerializedAs("Weapon")] public WeaponComponent weaponComponent;
         
         void Update()
         {

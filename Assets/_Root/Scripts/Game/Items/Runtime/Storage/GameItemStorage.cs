@@ -7,9 +7,8 @@ using Soul.Storages.Runtime;
 namespace _Root.Scripts.Game.Items.Runtime.Storage
 {
     [Serializable]
-    public class ItemStorage : IntStorage<GameItem>
+    public class GameItemStorage : IntStorage<GameItem> 
     {
-        public AllGameItem allGameItem;
         public string appendKey = "_string_int";
         public override string StorageKey => $"{Guid}{appendKey}";
         
@@ -50,7 +49,7 @@ namespace _Root.Scripts.Game.Items.Runtime.Storage
             for (var i = 0; i < datas.Length; i++)
             {
                 var data = datas[i];
-                result[i] = new Pair<GameItem, int>(allGameItem[data.Key], data.Value);
+                result[i] = new Pair<GameItem, int>(AllGameItemSingletonScriptable.Instance[data.Key], data.Value);
             }
 
             return result;

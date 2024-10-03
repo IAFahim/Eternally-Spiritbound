@@ -1,0 +1,22 @@
+{
+    "name": "Game.Stats.Controller.Runtime",
+    "rootNamespace": "",
+    "references": [
+        "GUID:d872fca1951d47d1b865976e46511f7e",
+        "GUID:698d096167474a9ea2894daf814f6b40",
+        "GUID:2953aa809c908034bb137ea43ba7735d",
+        "GUID:d3d03dad5c0a42bf8683e627c42d2248",
+        "GUID:338a77e503bb417f8afb7c273def988b",
+        "GUID:0ce8820c9f0d48828499439bca7cd9a1",
+        "GUID:88be65f96b86746888c927a5c8ff3534"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

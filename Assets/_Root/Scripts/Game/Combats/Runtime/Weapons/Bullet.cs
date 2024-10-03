@@ -1,28 +1,22 @@
 ﻿using _Root.Scripts.Game.Combats.Runtime.Attacks;
-using _Root.Scripts.Game.Combats.Runtime.Damages;
-using Pancake.Common;
-using Sisus.Init;
+using _Root.Scripts.Game.Items.Runtime;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.Combats.Runtime.Weapons
 {
-    public class Bullet : MonoBehaviour, IInitializable<Attack>
+    [CreateAssetMenu(fileName = "Bullet", menuName = "Scriptable/Weapon/Bullet")]
+    public class Bullet : GameItem
     {
-        private Attack attackReference;
-        public void Init(Attack firstArgument)
-        {
-            attackReference = firstArgument;
-            App.Delay(attackReference.Info.lifeTime, OnTimeUp);
-        }
+        [Header("Weapon Strategy")] public AttackInfo attackInfo;
         
-        private void OnTimeUp()
-        {
-            attackReference.ReturnToPool(gameObject);
-        }
+        [SerializeField] private float fireRate = 1;
+        [SerializeField] private float minRange = 1;
+        [SerializeField] private float maxRange = 10;
+
+        public virtual float Damage => attackInfo.damage;
+        public virtual float FireRate => fireRate;
+        public virtual float Range(float normalizedRange) => normalizedRange * (maxRange - minRange) + minRange;
+        public static implicit operator AttackInfo(Bullet strategy) => strategy.attackInfo;
         
-        private void OnCollisionEnter(Collision other)
-        {
-            attackReference.OnAttackHit(new DamageInfo(other.gameObject, attackReference.Info.damage));
-        }
     }
 }
