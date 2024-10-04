@@ -1,0 +1,16 @@
+{
+    "name": "Soul.Ticker.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:f5b5f3e8d91f4345b62b02c77be86264"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

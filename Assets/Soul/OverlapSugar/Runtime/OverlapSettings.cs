@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Soul.OverlapSugar.Runtime
 {
@@ -73,6 +72,13 @@ namespace Soul.OverlapSugar.Runtime
             sphereRadius = radius;
         }
 
+        public void PerformOverlap()
+        {
+            PerformOverlap(out _);
+        }
+
+        public bool Found() => foundSize > 0;
+
         public int PerformOverlap(out Collider[] results)
         {
             Vector3 position = overlapPoint.TransformPoint(positionOffset);
@@ -133,5 +139,11 @@ namespace Soul.OverlapSugar.Runtime
             for (int i = 0; i < foundSize; i++) Gizmos.DrawWireSphere(Colliders[i].transform.position, 0.5f);
 #endif
         }
+
+        public static implicit operator LayerMask(OverlapSettings settings) => settings.searchMask;
+        public static implicit operator OverlapType(OverlapSettings settings) => settings.overlapType;
+        public static implicit operator int(OverlapSettings settings) => settings.foundSize;
+        public static implicit operator bool(OverlapSettings settings) => settings.foundSize > 0;
+        public static implicit operator Collider[](OverlapSettings settings) => settings.Colliders;
     }
 }

@@ -6,11 +6,12 @@ using Pancake.Pools;
 using Sisus.Init;
 using Soul.Modifiers.Runtime;
 using Soul.OverlapSugar.Runtime;
+using Soul.Tickers.Runtime;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.Combats.Runtime.Weapons
 {
-    public class WeaponComponent : MonoBehaviour<OffensiveStats<Modifier>>, IDisposable
+    public class WeaponComponent : MonoBehaviour, IInitializable<OffensiveStats<Modifier>>, IDisposable
     {
         public Vector3 direction;
         public Bullet strategy;
@@ -24,21 +25,17 @@ namespace _Root.Scripts.Game.Combats.Runtime.Weapons
 
         private AddressableGameObjectPool _bulletPool;
         public OverlapSettings overlapSettings;
-        public int skipFrame = 5;
-        private int _skippedFrame;
+        public IntervalTicker intervalTicker;
 
         private void OnEnable()
         {
             Initialize();
             lastFireTime = Time.time;
-            _skippedFrame = 0;
         }
-        
+
         private OffensiveStats<Modifier> _offensiveStats;
-        protected override void Init(OffensiveStats<Modifier> firstArgument)
-        {
-            _offensiveStats = firstArgument;
-        }
+
+        public void Init(OffensiveStats<Modifier> firstArgument) => _offensiveStats = firstArgument;
 
         public void Initialize()
         {
@@ -48,7 +45,7 @@ namespace _Root.Scripts.Game.Combats.Runtime.Weapons
 
         private void Update()
         {
-            if (overlapSettings.foundSize != 0)
+            if (overlapSettings.Found())
             {
                 fire = Time.time - lastFireTime >= strategy.FireRate;
                 var other = overlapSettings.Colliders[0].gameObject;
@@ -58,7 +55,6 @@ namespace _Root.Scripts.Game.Combats.Runtime.Weapons
                     direction = (other.transform.position - position).normalized;
                     transform.rotation =
                         Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime);
-
                     if (fire)
                     {
                         var origin = new AttackOrigin(
@@ -80,11 +76,7 @@ namespace _Root.Scripts.Game.Combats.Runtime.Weapons
 
         private void FixedUpdate()
         {
-            _skippedFrame++;
-            if (_skippedFrame < skipFrame) return;
-            _skippedFrame = 0;
-
-            int foundSize = overlapSettings.PerformOverlap(out _);
+            if (intervalTicker.TryTick()) overlapSettings.PerformOverlap();
         }
 
         public void Attack(AttackOrigin origin, AttackInfo attackInfo)
@@ -125,7 +117,5 @@ namespace _Root.Scripts.Game.Combats.Runtime.Weapons
             overlapSettings.DrawGizmos(Color.red, Color.green);
         }
 #endif
-
-        
     }
 }
