@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using _Root.Scripts.Game.Cores;
 using _Root.Scripts.Game.Cores.Runtime;
-using Alchemy.Serialization;
 using Cysharp.Threading.Tasks;
 using LitMotion;
 using LitMotion.Extensions;
@@ -10,6 +8,7 @@ using Pancake;
 using Pancake.Common;
 using Pancake.Component;
 using Pancake.Localization;
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,8 +16,7 @@ using VitalRouter;
 
 namespace _Root.Scripts.Game.Popups.DailyReward
 {
-    [AlchemySerialize]
-    public partial class DailyRewardDayElement : MonoBehaviour
+    public class DailyRewardDayElement : SerializedMonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI textDay;
         [SerializeField] private LocaleTextComponent localeTextDay;
@@ -28,7 +26,7 @@ namespace _Root.Scripts.Game.Popups.DailyReward
         [SerializeField] private Color defaultColor;
         [SerializeField] private Image imageCircleClaimed;
         [SerializeField] private Image imageTickClaimed;
-        [AlchemySerializeField, NonSerialized] private Dictionary<EDailyRewardDayStatus, GameObject> _dayStatusViews = new();
+        [SerializeField] private Dictionary<EDailyRewardDayStatus, GameObject> _dayStatusViews = new();
 
         private DailyRewardData _data;
         private Action _refreshAllElement;

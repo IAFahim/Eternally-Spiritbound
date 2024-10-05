@@ -10,6 +10,6 @@ namespace Pancake.MobileInput
 
         public void OnPointerDown(PointerEventData eventData) { _touchInput.OnEventTriggerPointerDown(eventData); }
 
-        protected override void Init(TouchInput firstArgument) { _touchInput = firstArgument; }
+        protected override void Init(TouchInput argument) { _touchInput = argument; }
     }
 }

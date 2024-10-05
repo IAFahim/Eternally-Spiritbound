@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using Alchemy.Serialization;
 using Cysharp.Threading.Tasks;
 using Pancake.UI;
 using TMPro;
@@ -9,11 +7,10 @@ using UnityEngine.UI;
 
 namespace _Root.Scripts.Game.Popups.Credit
 {
-    [AlchemySerialize]
-    public partial class CreditView : View
+    public class CreditView : View
     {
         [SerializeField] private List<CreditElement> elements;
-        [AlchemySerializeField, NonSerialized] private Dictionary<CreditElementType, GameObject> _prefabContainer = new();
+        [SerializeField] private Dictionary<CreditElementType, GameObject> _prefabContainer = new();
         [SerializeField] private Transform container;
         [SerializeField] private Button buttonClose;
 

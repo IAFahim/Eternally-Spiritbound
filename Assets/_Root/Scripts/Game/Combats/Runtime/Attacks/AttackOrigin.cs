@@ -1,6 +1,8 @@
 ﻿using System;
+using _Root.Scripts.Game.Stats.Runtime.Model;
 using Pancake;
 using Pancake.Pools;
+using Soul.Modifiers.Runtime;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.Combats.Runtime.Attacks
@@ -9,19 +11,23 @@ namespace _Root.Scripts.Game.Combats.Runtime.Attacks
     public class AttackOrigin
     {
         public Optional<GameObject> attacker;
+        public Optional<OffensiveStats<Modifier>> attackerOffensiveStats;
         public Optional<GameObject> target;
-        public GameObject weapon; 
+        public GameObject weaponComponent;
         public IObjectPool<GameObject> BulletPool;
         public Vector3 position;
         public Vector3 direction;
         public float normalizedRange;
 
-        public AttackOrigin(GameObject attacker, GameObject target, GameObject weapon,
-            IObjectPool<GameObject> bulletPool, Vector3 position, Vector3 direction, float normalizedRange)
+        public AttackOrigin(
+            GameObject attacker, GameObject target, GameObject weaponComponent, OffensiveStats<Modifier> attackerOffensiveStats,
+            IObjectPool<GameObject> bulletPool, Vector3 position, Vector3 direction, float normalizedRange
+        )
         {
             this.attacker = attacker;
+            this.attackerOffensiveStats = attackerOffensiveStats;
             this.target = target;
-            this.weapon = weapon;
+            this.weaponComponent = weaponComponent;
             BulletPool = bulletPool;
             this.position = position;
             this.direction = direction;

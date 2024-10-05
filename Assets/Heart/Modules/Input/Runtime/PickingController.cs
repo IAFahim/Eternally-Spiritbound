@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
-using Alchemy.Inspector;
+using Sirenix.OdinInspector;
 using Pancake.Common;
 using Sisus.Init;
 using UnityEngine.Events;
@@ -135,7 +135,7 @@ namespace Pancake.MobileInput
 
         private Dictionary<Component, Vector3> _selectionPositionOffsets = new();
 
-        protected override void Init(TouchInput firstArgument) { _touchInput = firstArgument; }
+        protected override void Init(TouchInput argument) { _touchInput = argument; }
 
         public void Awake()
         {

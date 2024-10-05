@@ -289,6 +289,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4acd881ca74540a49adbeb932210c0c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: component
+      Entry: 6
+      Data: 
 --- !u!114 &5695992426041291485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -609,6 +621,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c66699331357ddf4d8b9d1170618cd6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _prefabContainer
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[_Root.Scripts.Game.Popups.Credit.CreditElementType,
+        Game.Popups],[UnityEngine.GameObject, UnityEngine.CoreModule]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[_Root.Scripts.Game.Popups.Credit.CreditElementType,
+        Game.Popups]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   enabledSound: 0
   audioOpen:
     name: 
@@ -632,11 +679,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 38ef6a0a8a80c3d49a94ed6942b43220, type: 2}
   container: {fileID: 2485103165204280189}
   buttonClose: {fileID: 4487852404142314590}
-  __alchemySerializationData__Root_Scripts_Game_Popups_Credit_CreditView:
-    _prefabContainer:
-      isCreated: 1
-      data: '[]'
-    unityObjectReferences: []
 --- !u!114 &3447712721848528053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -649,6 +691,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b235054c0e47513499ab1a054c2fd969, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   usePrefabNameAsId: 1
   <Id>k__BackingField: 
   enterAnimations: []

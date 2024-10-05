@@ -33,8 +33,8 @@ namespace Sisus.Init
 	#if !INIT_ARGS_DISABLE_VALUE_PROVIDER_MENU_ITEMS
 	[ValueProviderMenu(MENU_NAME, WhereAny = Is.Class | Is.Interface, WhereNone = Is.BuiltIn | Is.Service, Order = 100f, Tooltip = "An instance of this dynamic service is expected to become available for the client at runtime.\n\nService can be a component that has the Service Tag, or an Object registered as a service in a Services component, that is located in another scene or prefab.\n\nThe service could also be manually registered in code using " + nameof(Service) + "." + nameof(Service.SetInstance) + ".")]
 	#endif
-	#if DEV_MODE
-	[CreateAssetMenu(fileName = MENU_NAME, menuName = CREATE_ASSET_MENU_GROUP + MENU_NAME)]
+	#if !INIT_ARGS_DISABLE_CREATE_ASSET_MENU_ITEMS
+	[CreateAssetMenu(fileName = MENU_NAME, menuName = CREATE_ASSET_MENU_GROUP + MENU_NAME, order = 1002)]
 	#endif
 	public sealed class ServiceProvider : ScriptableObject, IServiceProvider, System.IServiceProvider, IValueByTypeProvider, INullGuardByType
 	{
@@ -64,7 +64,7 @@ namespace Sisus.Init
 		/// if one is found in the project; otherwise, <see langword="null"/>.
 		/// </returns>
 		bool IValueByTypeProvider.TryGetFor<TService>([AllowNull] Component client, [MaybeNullWhen(false), NotNullWhen(true)] out TService service)
-			=> client != null ? Service.TryGet(out service) : Service.TryGetFor(client, out service);
+			=> client ? Service.TryGetFor(client, out service) : Service.TryGet(out service);
 
 		/// <returns>
 		/// Returns always <see langword="true"/> as long as <typeparamref name="TService"/> is not a value type.

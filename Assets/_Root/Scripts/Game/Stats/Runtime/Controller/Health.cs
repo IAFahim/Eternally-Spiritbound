@@ -1,5 +1,5 @@
 ﻿using _Root.Scripts.Game.Stats.Runtime.Model;
-using Alchemy.Inspector;
+using Sirenix.OdinInspector;
 using Soul.Modifiers.Runtime;
 using UnityEngine;
 

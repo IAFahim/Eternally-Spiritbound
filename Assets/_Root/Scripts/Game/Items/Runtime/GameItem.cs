@@ -2,7 +2,6 @@ using System;
 using _Root.Scripts.Game.Interactables;
 using _Root.Scripts.Game.Items.Runtime.Storage;
 using Pancake;
-using Pancake.Pools;
 using Soul.Items.Runtime;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -24,14 +23,14 @@ namespace _Root.Scripts.Game.Items.Runtime
         [SerializeField] private bool consumable;
 
         [SerializeField] private bool autoPickup;
-        [SerializeField] private float dropRange;
+        [SerializeField] private float pickupRange = 5;
         public string ItemName => itemName;
         public string Description => description;
         public Sprite Icon => icon;
         public bool Consumable => consumable;
         public bool IsStackable => maxStack > 1;
         public bool AutoPickup => autoPickup;
-        public float PickupRange => dropRange;
+        public float PickupRange => pickupRange;
         
         public int MaxStack
         {
@@ -40,7 +39,7 @@ namespace _Root.Scripts.Game.Items.Runtime
         }
 
 
-        public virtual void Initialize(GameObject user)
+        public virtual void Initialize(GameObject user, int amount)
         {
         }
         

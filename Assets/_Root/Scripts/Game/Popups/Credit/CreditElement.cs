@@ -1,4 +1,4 @@
-using Alchemy.Inspector;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.Popups.Credit

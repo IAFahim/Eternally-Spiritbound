@@ -1,8 +1,5 @@
-using System;
 using System.Collections.Generic;
-using _Root.Scripts.Game.Cores;
 using _Root.Scripts.Game.Cores.Runtime;
-using Alchemy.Serialization;
 using Cysharp.Threading.Tasks;
 using Pancake;
 using Pancake.Common;
@@ -13,8 +10,7 @@ using UnityEngine.UI;
 
 namespace _Root.Scripts.Game.Popups.DailyReward
 {
-    [AlchemySerialize]
-    public partial class DailyRewardView : View
+    public class DailyRewardView : View
     {
         [SerializeField] private Button buttonClose;
         [SerializeField] private DailyRewardDayElement dayPrefab;
@@ -23,7 +19,7 @@ namespace _Root.Scripts.Game.Popups.DailyReward
         [SerializeField] private DailyRewardData specialDayData;
         [SerializeField] private DailyRewardDayElement specialDayElement;
         [SerializeField] private ScrollRect scroll;
-        [AlchemySerializeField, NonSerialized] private Dictionary<EDailyRewardType, DayRewardComponent> _dayRewards = new();
+        [SerializeField] private Dictionary<EDailyRewardType, DayRewardComponent> _dayRewards = new();
         [SerializeField] private Color claimableColor;
         [SerializeField] private StringConstant coinCurrencyType;
         [SerializeField] private StringConstant gemCurrencyType;

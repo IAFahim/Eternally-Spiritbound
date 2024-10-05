@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using Alchemy.Inspector;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 // ReSharper disable InconsistentNaming

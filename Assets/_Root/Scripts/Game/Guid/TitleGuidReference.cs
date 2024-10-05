@@ -6,6 +6,6 @@ namespace _Root.Scripts.Game.Guid
     public class TitleGuidReference : MonoBehaviour, ITitleGuidReference
     {
         public TitleGuid titleGuid;
-        public TitleGuid TitleGuid => titleGuid; 
+        public TitleGuid TitleGuid => titleGuid;
     }
 }

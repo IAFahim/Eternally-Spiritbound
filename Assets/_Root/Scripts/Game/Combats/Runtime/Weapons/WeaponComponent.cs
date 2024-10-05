@@ -15,7 +15,7 @@ namespace _Root.Scripts.Game.Combats.Runtime.Weapons
     {
         public Vector3 direction;
         public Bullet strategy;
-        public float normalizedRange;
+        public float normalizedRange = 1;
         public Bullet Strategy => strategy;
 
         public bool fire;
@@ -35,7 +35,10 @@ namespace _Root.Scripts.Game.Combats.Runtime.Weapons
 
         private OffensiveStats<Modifier> _offensiveStats;
 
-        public void Init(OffensiveStats<Modifier> firstArgument) => _offensiveStats = firstArgument;
+        public void Init(OffensiveStats<Modifier> firstArgument)
+        {
+            _offensiveStats = firstArgument;
+        }
 
         public void Initialize()
         {
@@ -48,29 +51,18 @@ namespace _Root.Scripts.Game.Combats.Runtime.Weapons
             if (overlapSettings.Found())
             {
                 fire = Time.time - lastFireTime >= strategy.FireRate;
-                var other = overlapSettings.Colliders[0].gameObject;
-                if (other != null)
+                if (fire)
                 {
-                    transform.GetPositionAndRotation(out var position, out var rotation);
-                    direction = (other.transform.position - position).normalized;
-                    transform.rotation =
-                        Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime);
-                    if (fire)
-                    {
-                        var origin = new AttackOrigin(
-                            transform.parent.gameObject, other, gameObject, _bulletPool, transform.position,
-                            direction, normalizedRange
-                        );
-                        Attack(origin, (AttackInfo)strategy.attackInfo.Clone());
-
-                        fire = false;
-                        lastFireTime = Time.time;
-                    }
+                    var other = overlapSettings.Colliders[0].gameObject;
+                    direction = (other.transform.position - transform.position).normalized;
+                    var origin = new AttackOrigin(
+                        transform.parent.gameObject, other, gameObject, _offensiveStats,
+                        _bulletPool, transform.position, direction, normalizedRange
+                    );
+                    Attack(origin, strategy.offensiveStats);
+                    fire = false;
+                    lastFireTime = Time.time;
                 }
-            }
-            else
-            {
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, 0), Time.deltaTime);
             }
         }
 
@@ -79,7 +71,7 @@ namespace _Root.Scripts.Game.Combats.Runtime.Weapons
             if (intervalTicker.TryTick()) overlapSettings.PerformOverlap();
         }
 
-        public void Attack(AttackOrigin origin, AttackInfo attackInfo)
+        public void Attack(AttackOrigin origin, OffensiveStats<float> attackInfo)
         {
             _spawned = _bulletPool.Request(transform.position, transform.rotation, transform);
             readyAttack = new Attack(origin, attackInfo, OnAttackHit, OnAttackMiss, OnReturnToPool);

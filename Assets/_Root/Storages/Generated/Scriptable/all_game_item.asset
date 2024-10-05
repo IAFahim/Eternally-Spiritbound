@@ -12,11 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d3b6b46fab14c45962a199bafdf17e2, type: 3}
   m_Name: all_game_item
   m_EditorClassIdentifier: 
-  items:
-    list:
-    - key: dcca05cce410406
-      value: {fileID: 11400000, guid: 5e36f5c845bc6e54a818d57ad2d7bea0, type: 2}
-      duplicatedKey: 0
-    - key: c6e5cef427e0482
-      value: {fileID: 11400000, guid: 1cd129781017cad409f37f3bed68c2af, type: 2}
-      duplicatedKey: 0
+  gameItems:
+  - {fileID: 11400000, guid: 5e36f5c845bc6e54a818d57ad2d7bea0, type: 2}
+  - {fileID: 11400000, guid: 439424b3e6a167c47bd5e82d52f2639a, type: 2}
+  - {fileID: 11400000, guid: a08c7c885fd342541bbdfafac18552fa, type: 2}
+  - {fileID: 11400000, guid: 1cd129781017cad409f37f3bed68c2af, type: 2}

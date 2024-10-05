@@ -1,9 +1,5 @@
-using System;
 using System.Collections.Generic;
-using _Root.Scripts.Game.Cores;
 using _Root.Scripts.Game.Cores.Runtime;
-using Alchemy.Inspector;
-using Alchemy.Serialization;
 using Cysharp.Threading.Tasks;
 using Pancake;
 using Pancake.Common;
@@ -15,8 +11,7 @@ using UnityEngine.UI;
 
 namespace _Root.Scripts.Game.Popups.Setting
 {
-    [AlchemySerialize]
-    public partial class SettingView : View
+    public class SettingView : View
     {
         [SerializeField] private LocaleTextComponent textVersion;
         [SerializeField] private LocaleTextComponent textBgm;
@@ -24,7 +19,7 @@ namespace _Root.Scripts.Game.Popups.Setting
         [SerializeField] private LocaleTextComponent textVibrate;
         [SerializeField] private TextMeshProUGUI textUserId;
 
-        [SerializeField, HorizontalLine] private Button buttonMailbox;
+        [SerializeField, Space] private Button buttonMailbox;
         [SerializeField] private Button buttonCopyId;
         [SerializeField] private Button buttonGiftCode;
         [SerializeField] private UIButtonText buttonBgm;
@@ -36,17 +31,17 @@ namespace _Root.Scripts.Game.Popups.Setting
         [SerializeField] private Button buttonCredit;
         [SerializeField] private Button buttonBackup;
         [SerializeField] private Button buttonClose;
-        [AlchemySerializeField, NonSerialized] private Dictionary<SystemLanguage, UIButtonText> _buttonsLanguage = new();
-        [AlchemySerializeField, NonSerialized] private Dictionary<EQuality, UIButtonText> _buttonsQuality = new();
+        [SerializeField] private Dictionary<SystemLanguage, UIButtonText> _buttonsLanguage = new();
+        [SerializeField] private Dictionary<EQuality, UIButtonText> _buttonsQuality = new();
 
-        [SerializeField, HorizontalLine] private Color colorTurnOnInGroup;
+        [SerializeField, Space] private Color colorTurnOnInGroup;
         [SerializeField] private Color colorTurnOn;
         [SerializeField] private Color colorText;
 
-        [SerializeField, HorizontalLine] private LocaleText localeTextOn;
+        [SerializeField, Space] private LocaleText localeTextOn;
         [SerializeField] private LocaleText localeTextOff;
 
-        [SerializeField, HorizontalLine] private string groupFacebookURL;
+        [SerializeField, Space] private string groupFacebookURL;
         [SerializeField, PopupPickup] private string creditPopupKey;
         [SerializeField, PopupPickup] private string backupDataPopupKey;
 

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace PancakeEditor.Common
 {
@@ -34,45 +33,6 @@ namespace PancakeEditor.Common
 
 
         #region prop
-
-        public static GUIStyle ContentList
-        {
-            get
-            {
-                if (contentList != null) return contentList;
-                contentList = new GUIStyle {border = new RectOffset(2, 2, 2, 2), normal = {background = EditorResources.EvenBackground}};
-                return contentList;
-            }
-        }
-
-        public static GUIStyle BoxContent
-        {
-            get
-            {
-                if (contentBox != null) return contentBox;
-                contentBox = new GUIStyle
-                {
-                    border = new RectOffset(2, 2, 2, 2),
-                    normal = {background = EditorResources.BoxContentDark, scaledBackgrounds = new[] {EditorResources.BoxContentDark}}
-                };
-                return contentBox;
-            }
-        }
-
-        public static GUIStyle Box
-        {
-            get
-            {
-                if (box != null) return box;
-                box = new GUIStyle
-                {
-                    border = new RectOffset(2, 2, 2, 2),
-                    margin = new RectOffset(2, 2, 2, 2),
-                    normal = {background = EditorResources.BoxBackgroundDark, scaledBackgrounds = new[] {EditorResources.BoxBackgroundDark}}
-                };
-                return box;
-            }
-        }
 
         public static GUIStyle FoldoutButton
         {
@@ -194,6 +154,9 @@ namespace PancakeEditor.Common
         public static Color Error => Red;
         public static Color Warning => Orange;
         public static Color Notice => Orange;
+        public static Color HighlightBackground => EditorGUIUtility.isProSkin ? new Color(0.17f, 0.36f, 0.53f) : new Color(0.23f, 0.45f, 0.69f);
+        public static Color HighlightBackgroundInactive => EditorGUIUtility.isProSkin ? new Color(0.3f, 0.3f, 0.3f) : new Color(0.68f, 0.68f, 0.68f);
+        public static Color WindowBackground => EditorGUIUtility.isProSkin ? new Color(0.22f, 0.22f, 0.22f) : new Color(0.78f, 0.78f, 0.78f);
 
         #endregion
 

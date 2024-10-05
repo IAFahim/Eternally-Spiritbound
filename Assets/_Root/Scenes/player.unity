@@ -463,11 +463,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dd1b6e4a9d6417ea8d68da35f549900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  load: 0
   itemStorage:
     defaultData: []
-    elements:
-      list: []
     appendKey: _string_int
 --- !u!136 &1229146024
 CapsuleCollider:
@@ -604,10 +601,10 @@ GameObject:
   - component: {fileID: 1879169895}
   - component: {fileID: 1879169896}
   - component: {fileID: 1879169897}
-  - component: {fileID: 1879169899}
   - component: {fileID: 1879169900}
   - component: {fileID: 1879169903}
   - component: {fileID: 1879169904}
+  - component: {fileID: 1879169899}
   m_Layer: 15
   m_Name: Main Boat
   m_TagString: Untagged
@@ -724,13 +721,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dd1b6e4a9d6417ea8d68da35f549900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  load: 0
   itemStorage:
     defaultData:
     - keyFirst: {fileID: 11400000, guid: 439424b3e6a167c47bd5e82d52f2639a, type: 2}
-      valueSecond: 0
-    elements:
-      list: []
+      valueSecond: 1
     appendKey: _string_int
 --- !u!114 &1879169900
 MonoBehaviour:

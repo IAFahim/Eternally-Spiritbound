@@ -20,14 +20,14 @@ namespace Soul.Storages.Runtime
         [SerializeField, Tooltip("Starting elements when you load for the first time, useful for scriptable objects")]
         protected Pair<TElement, TValue>[] defaultData = Array.Empty<Pair<TElement, TValue>>();
 
-        [SerializeField] protected UnityDictionary<TElement, TValue> elements = new();
+        [SerializeField] protected Dictionary<TElement, TValue> elements = new();
 
         /// <summary>
         /// Initializes the storage with either loaded data or default data.
         /// </summary>
         /// <param name="guid">The GUID of the data to load.</param>
         /// <param name="load">If true, loads data using the GUID; otherwise, sets elements to default data.</param>
-        public void InitializeStorage(string guid, bool load)
+        public void InitializeStorage(string guid = "", bool load = false)
         {
             if (load) LoadData(guid);
             else SetElements(defaultData);
@@ -42,7 +42,7 @@ namespace Soul.Storages.Runtime
         /// Gets all elements in the storage.
         /// </summary>
         /// <returns>The underlying dictionary of all elements and their amounts.</returns>
-        public UnityDictionary<TElement, TValue> Elements => elements;
+        public Dictionary<TElement, TValue> Elements => elements;
 
         /// <summary>
         /// Gets the number of elements in the storage.

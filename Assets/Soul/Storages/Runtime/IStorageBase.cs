@@ -23,7 +23,7 @@ namespace Soul.Storages.Runtime
         /// </summary>
         event Action<TElement, TValue, TValue> OnItemChanged;
 
-        UnityDictionary<TElement, TValue> Elements { get; }
+        Dictionary<TElement, TValue> Elements { get; }
         
         /// <summary>
         /// Gets the number of elements in the storage.

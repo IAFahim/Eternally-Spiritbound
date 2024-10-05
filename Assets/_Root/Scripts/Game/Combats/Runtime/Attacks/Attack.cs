@@ -1,5 +1,6 @@
 ﻿using System;
 using _Root.Scripts.Game.Combats.Runtime.Damages;
+using _Root.Scripts.Game.Stats.Runtime.Model;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.Combats.Runtime.Attacks
@@ -7,10 +8,10 @@ namespace _Root.Scripts.Game.Combats.Runtime.Attacks
     [Serializable]
     public class Attack
     {
-        [SerializeField] private AttackInfo info;
+        [SerializeField] private OffensiveStats<float> info;
         [SerializeField] private AttackOrigin origin;
 
-        public AttackInfo Info
+        public OffensiveStats<float> Info
         {
             get => info;
             private set => info = value;
@@ -27,7 +28,7 @@ namespace _Root.Scripts.Game.Combats.Runtime.Attacks
         public event Action<Attack, GameObject> OnReturnToPoolEvent;
 
         public Attack(
-            AttackOrigin origin, AttackInfo info,
+            AttackOrigin origin, OffensiveStats<float> info,
             Action<Attack, DamageInfo> onAttackHit,
             Action<Attack, Vector3> onAttackMiss, 
             Action<Attack, GameObject> onReturnToPool

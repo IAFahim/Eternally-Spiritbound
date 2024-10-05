@@ -9,6 +9,15 @@ namespace Soul.Reactives.Runtime
         [SerializeField] protected T value;
         public event Action<T, T> OnChange;
 
+        public Reactive()
+        {
+        }
+
+        public Reactive(T value)
+        {
+            this.value = value;
+        }
+
         public virtual T Value
         {
             get => value;
@@ -19,7 +28,7 @@ namespace Soul.Reactives.Runtime
                 OnChange?.Invoke(oldValue, this.value);
             }
         }
-        
+
         public void SetValueWithoutNotify(T value)
         {
             this.value = value;

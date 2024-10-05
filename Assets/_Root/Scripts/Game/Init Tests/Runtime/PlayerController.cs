@@ -1,10 +1,10 @@
 using System;
-using Alchemy.Inspector;
 using Pancake.StatModifier;
+using Sirenix.OdinInspector;
 using Sisus.Init;
 using UnityEngine;
 
-namespace _Root.Scripts.Game.Init_Tests
+namespace _Root.Scripts.Game.Init_Tests.Runtime
 {
     [InitInEditMode(From.GameObject)]
     public class PlayerController : MonoBehaviour<Rigidbody, Camera, IStatModifierFactory>

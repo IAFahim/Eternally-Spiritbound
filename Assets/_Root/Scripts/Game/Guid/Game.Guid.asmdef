@@ -2,7 +2,8 @@
     "name": "Game.Guid",
     "rootNamespace": "",
     "references": [
-        "GUID:adac8d59ad7e8504f82d387cded797a7"
+        "GUID:adac8d59ad7e8504f82d387cded797a7",
+        "GUID:76ccd20425a997e4fa7d12750eb80eb1"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

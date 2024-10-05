@@ -16,7 +16,7 @@ namespace _Root.Scripts.Game.QuickPickup.Runtime
 
         private void OnEnable()
         {
-            foreach (var gameItem in allGameItem.items.Values)
+            foreach (var gameItem in allGameItem.gameItems)
             {
                 if (gameItem.AutoPickup)
                 {

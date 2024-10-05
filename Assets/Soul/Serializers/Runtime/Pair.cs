@@ -85,6 +85,13 @@ namespace Soul.Serializers.Runtime
         public static implicit operator Pair<T, TV>(KeyValuePair<T, TV> pair) => new() { Key = pair.Key, Value = pair.Value };
         
         public static implicit operator KeyValuePair<T, TV>(Pair<T, TV> pair) => new(pair.keyFirst, pair.valueSecond);
+
+
+        public void Deconstruct(out T first, out TV second)
+        {
+            first = this.keyFirst;
+            second = this.valueSecond;
+        }
     }
 
     public static class PairExtensions

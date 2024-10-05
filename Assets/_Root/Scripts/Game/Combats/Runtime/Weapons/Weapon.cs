@@ -9,9 +9,9 @@ namespace _Root.Scripts.Game.Combats.Runtime.Weapons
     public class Weapon : GameItem
     {
         public Bullet bullet;
-        public override void Initialize(GameObject user)
+        public override void Initialize(GameObject user, int amount)
         {
-            base.Initialize(user);
+            base.Initialize(user, amount);
             user.GetComponent<IWeaponLoader>().Add(this);
         }
     }

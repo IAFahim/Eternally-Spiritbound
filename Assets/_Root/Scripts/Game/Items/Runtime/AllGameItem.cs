@@ -1,18 +1,24 @@
-﻿using Alchemy.Inspector;
-using Sisus.Init;
-using Soul.Serializers.Runtime;
+﻿using System;
+using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.Items.Runtime
 {
     public class AllGameItem : ScriptableObject
     {
-        public UnityDictionary<string ,GameItem> items;
-        
+        public List<GameItem> gameItems;
+        private readonly Dictionary<string, GameItem> _dictionary= new();
+
+        private void OnEnable()
+        {
+            foreach (var item in gameItems) _dictionary.Add(item.guid, item);
+        }
+
         public GameItem this[string key]
         {
-            get => items[key];
-            set => items[key] = value;
+            get => _dictionary[key];
+            set => _dictionary[key] = value;
         }
         
         public string this[GameItem key] => key;
@@ -20,12 +26,18 @@ namespace _Root.Scripts.Game.Items.Runtime
         [Button]
         public void CaptureGuid()
         {
-            var dictionary = new UnityDictionary<string, GameItem>();
-            foreach (var (key, value) in items)
+            #if UNITY_EDITOR
+            gameItems.Clear();
+            string[] guids = UnityEditor.AssetDatabase.FindAssets("t:GameItem");
+            foreach (var guid in guids)
             {
-                dictionary[value] = value;
+                var path = UnityEditor.AssetDatabase.GUIDToAssetPath(guid);
+                var item = UnityEditor.AssetDatabase.LoadAssetAtPath<GameItem>(path);
+                gameItems.Add(item);
             }
-            items = dictionary;
+            #endif
         }
+        
+        
     }
 }
