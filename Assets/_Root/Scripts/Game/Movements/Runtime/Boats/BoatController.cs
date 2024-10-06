@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using _Root.Scripts.Game.Inputs.Runtime;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace _Root.Scripts.Game.Movements.Runtime.Boats
@@ -24,7 +25,6 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
         [Header("Stability Settings")] public float stabilizationTorque = 10f;
 
         [Header("Input Actions")] public InputActionReference moveAction;
-        public InputActionReference accelerateAction;
 
         private Vector3 _moveDirection;
         private float _accelerationInput;
@@ -71,26 +71,19 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
 
         private void SetupInputActions()
         {
-            if (moveAction == null || accelerateAction == null) return;
+            if (moveAction == null) return;
             moveAction.action.Enable();
             moveAction.action.performed += OnMoveInput;
             moveAction.action.canceled += OnMoveInputCancel;
-
-            accelerateAction.action.Enable();
-            accelerateAction.action.performed += OnAccelerateInput;
-            accelerateAction.action.canceled += OnAccelerateInput;
+            
         }
 
         private void DisableInputActions()
         {
-            if (moveAction == null || accelerateAction == null) return;
+            if (moveAction == null) return;
             moveAction.action.Disable();
             moveAction.action.performed -= OnMoveInput;
             moveAction.action.canceled -= OnMoveInputCancel;
-
-            accelerateAction.action.Disable();
-            accelerateAction.action.performed -= OnAccelerateInput;
-            accelerateAction.action.canceled -= OnAccelerateInput;
         }
 
 
@@ -117,16 +110,43 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
             }
             else _moveDirection = new Vector3(input.x, 0, input.y).normalized;
         }
-
+        
         private void OnMoveInputCancel(InputAction.CallbackContext context)
         {
             _moveDirection = Vector3.zero;
         }
+        
+        public float Acceleration
+        {
+            get => _accelerationInput;
+            set => _accelerationInput = value;
+        }
 
-        private void OnAccelerateInput(InputAction.CallbackContext context)
+        void IAccelerateInputConsumer.EnableAccelerateInput(InputActionReference accelerateAction)
+        {
+            accelerateAction.action.Enable();
+            accelerateAction.action.performed += ((IAccelerateInputConsumer)this).OnAccelerateInput;
+            accelerateAction.action.canceled += ((IAccelerateInputConsumer)this).OnAccelerateInputCancel;
+        }
+
+        void IAccelerateInputConsumer.OnAccelerateInput(InputAction.CallbackContext context)
         {
             _accelerationInput = context.ReadValue<float>();
         }
+        
+        void IAccelerateInputConsumer.OnAccelerateInputCancel(InputAction.CallbackContext context)
+        {
+            _accelerationInput = 0;
+        }
+
+        void IAccelerateInputConsumer.DisableAccelerateInput(InputActionReference accelerateAction)
+        {
+            accelerateAction.action.Disable();
+            accelerateAction.action.performed -= ((IAccelerateInputConsumer)this).OnAccelerateInput;
+            accelerateAction.action.canceled -= ((IAccelerateInputConsumer)this).OnAccelerateInputCancel;
+        }
+
+        
 
         private void UpdateLean()
         {
@@ -230,10 +250,6 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
             set => _moveDirection = value;
         }
 
-        public float Acceleration
-        {
-            get => _accelerationInput;
-            set => _accelerationInput = value;
-        }
+        
     }
 }

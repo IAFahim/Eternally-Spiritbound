@@ -73,7 +73,7 @@ namespace _Root.Scripts.Game.Combats.Runtime.Weapons
 
         public void Attack(AttackOrigin origin, OffensiveStats<float> attackInfo)
         {
-            _spawned = _bulletPool.Request(transform.position, transform.rotation, transform);
+            _spawned = _bulletPool.Request(transform.position, transform.rotation);
             readyAttack = new Attack(origin, attackInfo, OnAttackHit, OnAttackMiss, OnReturnToPool);
             _spawned.GetComponent<BulletComponent>().Init(readyAttack);
         }
