@@ -1,11 +1,13 @@
 ﻿using _Root.Scripts.Game.Inputs.Runtime;
+using _Root.Scripts.Game.MainGameObjectProviders.Runtime;
+using Pancake;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace _Root.Scripts.Game.Movements.Runtime.Boats
 {
     [RequireComponent(typeof(Rigidbody))]
-    public class BoatController : MonoBehaviour, IMove, IAcceleration
+    public class BoatController : MonoBehaviour, IMove, IAcceleration, IMainCameraProvider
     {
         [Header("References")] public Rigidbody rb;
         public Lean lean;
@@ -23,9 +25,6 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
         public float waveFrequency = 1f;
 
         [Header("Stability Settings")] public float stabilizationTorque = 10f;
-
-        [Header("Input Actions")] public InputActionReference moveAction;
-
         private Vector3 _moveDirection;
         private float _accelerationInput;
         private bool _isReversing = false;
@@ -34,23 +33,12 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
         private float _currentTurnRate;
         private float _currentBuoyancy;
 
-        [Header("Camera Settings")] public bool useCameraRelativeInput = true;
-        public Camera mainCamera;
+        public Optional<Camera> mainCamera;
 
 
         private void OnEnable()
         {
-            if (useCameraRelativeInput && mainCamera == null)
-            {
-                mainCamera = Camera.main;
-            }
             rb = GetComponent<Rigidbody>();
-            SetupInputActions();
-        }
-
-        private void OnDisable()
-        {
-            DisableInputActions();
         }
 
         private void Update()
@@ -69,33 +57,40 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
             StabilizeBoat();
         }
 
-        private void SetupInputActions()
+
+        public void EnableMoveInput(InputActionReference moveAction)
         {
-            if (moveAction == null) return;
             moveAction.action.Enable();
-            moveAction.action.performed += OnMoveInput;
-            moveAction.action.canceled += OnMoveInputCancel;
-            
+            moveAction.action.performed += ((IMoveInputConsumer)this).OnMoveInput;
+            moveAction.action.canceled += ((IMoveInputConsumer)this).OnMoveInputCancel;
         }
 
-        private void DisableInputActions()
+        void IMoveInputConsumer.OnMoveInput(InputAction.CallbackContext context)
         {
-            if (moveAction == null) return;
-            moveAction.action.Disable();
-            moveAction.action.performed -= OnMoveInput;
-            moveAction.action.canceled -= OnMoveInputCancel;
+            OnMoveInput(context);
         }
 
+        void IMoveInputConsumer.OnMoveInputCancel(InputAction.CallbackContext context)
+        {
+            OnMoveInputCancel(context);
+        }
+
+        public void DisableMoveInput(InputActionReference moveAction)
+        {
+            moveAction.action.Disable();
+            moveAction.action.performed -= ((IMoveInputConsumer)this).OnMoveInput;
+            moveAction.action.canceled -= ((IMoveInputConsumer)this).OnMoveInputCancel;
+        }
 
         private void OnMoveInput(InputAction.CallbackContext context)
         {
             Vector2 input = context.ReadValue<Vector2>();
 
-            if (useCameraRelativeInput && mainCamera != null)
+            if (mainCamera.Enabled)
             {
                 // Convert input to camera-relative direction
-                Vector3 cameraForward = mainCamera.transform.forward;
-                Vector3 cameraRight = mainCamera.transform.right;
+                Vector3 cameraForward = mainCamera.Value.transform.forward;
+                Vector3 cameraRight = mainCamera.Value.transform.right;
 
                 // Project vectors onto the horizontal plane
                 cameraForward.y = 0;
@@ -110,12 +105,12 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
             }
             else _moveDirection = new Vector3(input.x, 0, input.y).normalized;
         }
-        
+
         private void OnMoveInputCancel(InputAction.CallbackContext context)
         {
             _moveDirection = Vector3.zero;
         }
-        
+
         public float Acceleration
         {
             get => _accelerationInput;
@@ -133,7 +128,7 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
         {
             _accelerationInput = context.ReadValue<float>();
         }
-        
+
         void IAccelerateInputConsumer.OnAccelerateInputCancel(InputAction.CallbackContext context)
         {
             _accelerationInput = 0;
@@ -146,7 +141,6 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
             accelerateAction.action.canceled -= ((IAccelerateInputConsumer)this).OnAccelerateInputCancel;
         }
 
-        
 
         private void UpdateLean()
         {
@@ -250,6 +244,9 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
             set => _moveDirection = value;
         }
 
-        
+        public Camera MainCamera
+        {
+            set => mainCamera = value;
+        }
     }
 }

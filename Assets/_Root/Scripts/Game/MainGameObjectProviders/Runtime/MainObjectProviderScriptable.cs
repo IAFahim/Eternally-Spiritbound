@@ -1,8 +1,10 @@
-﻿using _Root.Scripts.Game.Inputs.Runtime;
+﻿using System;
+using _Root.Scripts.Game.Inputs.Runtime;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.InputSystem;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
 {
@@ -11,6 +13,8 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
         public AssetReferenceGameObject mainGameObjectAssetReference;
         public GameObject mainGameObjectInstance;
         public LayerMask layerMask;
+        public CinemachineCamera virtualCamera;
+        public Camera mainCamera;
 
         [Header("Input Actions")] public InputActionReference moveAction;
         public InputActionReference accelerateAction;
@@ -18,29 +22,46 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
         public GameObject lastFocusedGameObject;
         private IMoveInputConsumer lastMoveInputConsumer;
         private IAccelerateInputConsumer lastAccelerateInputConsumer;
+        private Action<GameObject> spawnedGameObjectCallBack;
 
-        public void SpawnMainGameObject(CinemachineCamera virtualCamera = null)
+        public void SpawnMainGameObject(Camera camera, Action<GameObject> spawnedGameObjectCallBack = null,
+            CinemachineCamera virtualCamera = null)
         {
-            Addressables.InstantiateAsync(mainGameObjectAssetReference).Completed += handle =>
-            {
-                mainGameObjectInstance = handle.Result;
-                if (virtualCamera) virtualCamera.Follow = mainGameObjectInstance.transform;
-                ProvideTo(mainGameObjectInstance);
-            };
+            mainCamera = camera;
+            this.spawnedGameObjectCallBack = spawnedGameObjectCallBack;
+            this.virtualCamera = virtualCamera;
+            Addressables.InstantiateAsync(mainGameObjectAssetReference).Completed += OnCompletedInstantiate;
+        }
+
+        void OnCompletedInstantiate(AsyncOperationHandle<GameObject> handle)
+        {
+            mainGameObjectInstance = handle.Result;
+            if (virtualCamera) virtualCamera.Follow = mainGameObjectInstance.transform;
+            ProvideTo(mainGameObjectInstance);
+            spawnedGameObjectCallBack?.Invoke(mainGameObjectInstance);
+            spawnedGameObjectCallBack = null;
         }
 
         public void ProvideTo(GameObject gameObject)
         {
             SetupGameObject(gameObject);
+            SetupMainCamera(gameObject);
             SetupMoveInput(gameObject);
             SetupAccelerateInput(gameObject);
         }
 
+        private void SetupMainCamera(GameObject gameObject)
+        {
+            var mainCameraProvider = gameObject.GetComponent<IMainCameraProvider>();
+            if (mainCameraProvider == null) return;
+            mainCameraProvider.MainCamera = mainCamera;
+        }
+
         private void SetupGameObject(GameObject gameObject)
         {
-            if (lastFocusedGameObject != null) lastFocusedGameObject.layer &= ~(1 << layerMask);
+            if (lastFocusedGameObject != null) lastFocusedGameObject.layer &= ~(layerMask);
             lastFocusedGameObject = gameObject;
-            lastFocusedGameObject.layer &= 1 << layerMask;
+            lastFocusedGameObject.layer |= 1 << layerMask;
         }
 
         private void SetupMoveInput(GameObject gameObject)
@@ -60,7 +81,7 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
             lastAccelerateInputConsumer = inputConsumer;
             lastAccelerateInputConsumer.EnableAccelerateInput(accelerateAction);
         }
-        
+
         public void OnDisable()
         {
             if (lastAccelerateInputConsumer != null)
@@ -68,13 +89,13 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
                 lastAccelerateInputConsumer.DisableAccelerateInput(accelerateAction);
                 lastAccelerateInputConsumer = null;
             }
-            
+
             if (lastMoveInputConsumer != null)
             {
                 lastMoveInputConsumer.DisableMoveInput(moveAction);
                 lastMoveInputConsumer = null;
             }
-            
+
             if (lastFocusedGameObject != null)
             {
                 lastFocusedGameObject.layer &= ~(1 << layerMask);

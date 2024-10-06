@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using _Root.Scripts.Game.Inputs.Runtime;
+using UnityEngine;
 
-namespace _Root.Scripts.Game.Movements
+namespace _Root.Scripts.Game.Movements.Runtime
 {
-    public interface IMove
+    public interface IMove: IMoveInputConsumer
     {
         public Vector3 Direction { get; set; }
     }
