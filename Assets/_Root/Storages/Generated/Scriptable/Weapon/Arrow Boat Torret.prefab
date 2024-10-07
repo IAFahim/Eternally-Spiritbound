@@ -136,14 +136,16 @@ MonoBehaviour:
   normalizedRange: 0
   fire: 0
   lastFireTime: 0
-  overlapSettings:
+  overlapNonAlloc:
     searchMask:
       serializedVersion: 2
-      m_Bits: 262144
+      m_Bits: 0
     overlapPoint: {fileID: 394304606174340685}
     overlapType: 0
-    boxSize: {x: 100, y: 10, z: 100}
+    boxSize: {x: 1, y: 1, z: 1}
     sphereRadius: 0.5
-    positionOffset: {x: 50, y: 0, z: 0}
+    positionOffset: {x: 0, y: 0, z: 0}
     foundSize: 0
-  skipFrame: 5
+  intervalTicker:
+    currentTick: 0
+    interval: 5

@@ -3,11 +3,13 @@ using _Root.Scripts.Game.Combats.Runtime.Attacks;
 using _Root.Scripts.Game.Combats.Runtime.Damages;
 using _Root.Scripts.Game.Stats.Runtime.Model;
 using Pancake.Pools;
+using Sirenix.OdinInspector;
 using Sisus.Init;
 using Soul.Modifiers.Runtime;
 using Soul.OverlapSugar.Runtime;
 using Soul.Tickers.Runtime;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Game.Combats.Runtime.Weapons
 {
@@ -24,7 +26,7 @@ namespace _Root.Scripts.Game.Combats.Runtime.Weapons
         private GameObject _spawned;
 
         private AddressableGameObjectPool _bulletPool;
-        public OverlapSettings overlapSettings;
+        public OverlapNonAlloc overlapNonAlloc;
         public IntervalTicker intervalTicker;
 
         private void OnEnable()
@@ -43,17 +45,17 @@ namespace _Root.Scripts.Game.Combats.Runtime.Weapons
         public void Initialize()
         {
             _bulletPool = new AddressableGameObjectPool(strategy.assetReferenceGameObject);
-            overlapSettings.Init(1);
+            overlapNonAlloc.Init(1);
         }
 
         private void Update()
         {
-            if (overlapSettings.Found())
+            if (overlapNonAlloc.Found())
             {
                 fire = Time.time - lastFireTime >= strategy.FireRate;
                 if (fire)
                 {
-                    var other = overlapSettings.Colliders[0].gameObject;
+                    var other = overlapNonAlloc.Colliders[0].gameObject;
                     direction = (other.transform.position - transform.position).normalized;
                     var origin = new AttackOrigin(
                         transform.parent.gameObject, other, gameObject, _offensiveStats,
@@ -68,7 +70,7 @@ namespace _Root.Scripts.Game.Combats.Runtime.Weapons
 
         private void FixedUpdate()
         {
-            if (intervalTicker.TryTick()) overlapSettings.PerformOverlap();
+            if (intervalTicker.TryTick()) overlapNonAlloc.PerformOverlap();
         }
 
         public void Attack(AttackOrigin origin, OffensiveStats<float> attackInfo)
@@ -106,7 +108,7 @@ namespace _Root.Scripts.Game.Combats.Runtime.Weapons
         {
             Gizmos.color = Color.red;
             Gizmos.DrawRay(transform.position, direction);
-            overlapSettings.DrawGizmos(Color.red, Color.green);
+            overlapNonAlloc.DrawGizmos(Color.red, Color.green);
         }
 #endif
     }

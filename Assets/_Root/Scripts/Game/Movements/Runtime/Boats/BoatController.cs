@@ -25,8 +25,8 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
         public float waveFrequency = 1f;
 
         [Header("Stability Settings")] public float stabilizationTorque = 10f;
-        private Vector3 _moveDirection;
-        private float _accelerationInput;
+        public Vector3 _moveDirection;
+        public float _accelerationInput;
         private bool _isReversing = false;
 
         [Header("Boat Stats")] private float _currentSpeed;

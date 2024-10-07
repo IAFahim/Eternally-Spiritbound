@@ -4,17 +4,17 @@ using UnityEngine;
 namespace Soul.OverlapSugar.Runtime
 {
     [Serializable]
-    public class OverlapSettings
+    public class OverlapNonAlloc
     {
-        [Header("Common")] public LayerMask searchMask;
+        public LayerMask searchMask;
         public Transform overlapPoint;
 
-        [Header("Overlap Area")] public OverlapType overlapType;
+        public OverlapType overlapType;
 
         public Vector3 boxSize = Vector3.one;
-        [Min(0f)] public float sphereRadius = 0.5f;
+        public float sphereRadius = 0.5f;
 
-        [Header("Offset")] [SerializeField] private Vector3 positionOffset;
+        [SerializeField] private Vector3 positionOffset;
 
         [Tooltip("Don't set it in Inspector, it shows the number of collider found")]
         public int foundSize;
@@ -140,10 +140,10 @@ namespace Soul.OverlapSugar.Runtime
 #endif
         }
 
-        public static implicit operator LayerMask(OverlapSettings settings) => settings.searchMask;
-        public static implicit operator OverlapType(OverlapSettings settings) => settings.overlapType;
-        public static implicit operator int(OverlapSettings settings) => settings.foundSize;
-        public static implicit operator bool(OverlapSettings settings) => settings.foundSize > 0;
-        public static implicit operator Collider[](OverlapSettings settings) => settings.Colliders;
+        public static implicit operator LayerMask(OverlapNonAlloc nonAlloc) => nonAlloc.searchMask;
+        public static implicit operator OverlapType(OverlapNonAlloc nonAlloc) => nonAlloc.overlapType;
+        public static implicit operator int(OverlapNonAlloc nonAlloc) => nonAlloc.foundSize;
+        public static implicit operator bool(OverlapNonAlloc nonAlloc) => nonAlloc.foundSize > 0;
+        public static implicit operator Collider[](OverlapNonAlloc nonAlloc) => nonAlloc.Colliders;
     }
 }
