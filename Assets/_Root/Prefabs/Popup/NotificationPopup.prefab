@@ -969,6 +969,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13551db48f9ed9348a7639462416c180, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   enabledSound: 0
   audioOpen:
     name: 
@@ -990,6 +999,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5270ebb47b036c645a3d6fcccffecc18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   usePrefabNameAsId: 1
   <Id>k__BackingField: 
   enterAnimations: []

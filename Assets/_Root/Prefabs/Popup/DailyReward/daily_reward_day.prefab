@@ -95,6 +95,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c1992c156abd9f459035acefaad4cc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _dayStatusViews
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[_Root.Scripts.Game.Popups.DailyReward.EDailyRewardDayStatus,
+        Game.Popups],[UnityEngine.GameObject, UnityEngine.CoreModule]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[_Root.Scripts.Game.Popups.DailyReward.EDailyRewardDayStatus,
+        Game.Popups]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   textDay: {fileID: 6881469445823706146}
   localeTextDay: {fileID: 1986768215430477963}
   content: {fileID: 3804220664136145951}
@@ -103,11 +138,6 @@ MonoBehaviour:
   defaultColor: {r: 0.63529414, g: 0.6509804, b: 0.65882355, a: 1}
   imageCircleClaimed: {fileID: 6911737977878481408}
   imageTickClaimed: {fileID: 3894877228717423006}
-  __alchemySerializationData__Root_Scripts_Game_Popups_DailyReward_DailyRewardDayElement:
-    _dayStatusViews:
-      isCreated: 1
-      data: '[]'
-    unityObjectReferences: []
 --- !u!1 &1784395222947911373
 GameObject:
   m_ObjectHideFlags: 0

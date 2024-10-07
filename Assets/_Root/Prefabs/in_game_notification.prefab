@@ -49,6 +49,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1837a88a31ca93418478fbd647540e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   imageBackgound: {fileID: 857076062723198421}
   localeTextMessage: {fileID: 66270452696272169}
   duration: 1.5
