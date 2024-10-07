@@ -14,9 +14,9 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
         {
             if (mainGameObjectInstance == null)
             {
-                mainObjectProviderScriptable.SpawnMainGameObject(mainCamera, SpawnedGameObjectCallBack, virtualCamera);
+                mainObjectProviderScriptable.SpawnMainGameObject(mainCamera, virtualCamera, SpawnedGameObjectCallBack);
             }
-            else mainObjectProviderScriptable.ProvideTo(mainGameObjectInstance);
+            else mainObjectProviderScriptable.ProvideTo(mainGameObjectInstance, mainCamera, virtualCamera);
         }
 
         private void SpawnedGameObjectCallBack(GameObject obj) => mainGameObjectInstance = obj;

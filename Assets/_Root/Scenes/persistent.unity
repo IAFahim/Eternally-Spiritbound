@@ -1020,6 +1020,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main Boat
       objectReference: {fileID: 0}
+    - target: {fileID: 5605311547021212894, guid: 946ea4e6aa4032a48bd434a7b2d0d743, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 7696365957442595197, guid: 946ea4e6aa4032a48bd434a7b2d0d743, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

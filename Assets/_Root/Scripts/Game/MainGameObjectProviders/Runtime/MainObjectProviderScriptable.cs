@@ -24,47 +24,53 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
         private IAccelerateInputConsumer lastAccelerateInputConsumer;
         private Action<GameObject> spawnedGameObjectCallBack;
 
-        public void SpawnMainGameObject(Camera camera, Action<GameObject> spawnedGameObjectCallBack = null,
-            CinemachineCamera virtualCamera = null)
+        public void SpawnMainGameObject(
+            Camera camera,
+            CinemachineCamera cinemachineCamera,
+            Action<GameObject> gameObjectCallBack)
         {
             mainCamera = camera;
-            this.spawnedGameObjectCallBack = spawnedGameObjectCallBack;
-            this.virtualCamera = virtualCamera;
+            spawnedGameObjectCallBack = gameObjectCallBack;
+            virtualCamera = cinemachineCamera;
             Addressables.InstantiateAsync(mainGameObjectAssetReference).Completed += OnCompletedInstantiate;
         }
 
         void OnCompletedInstantiate(AsyncOperationHandle<GameObject> handle)
         {
             mainGameObjectInstance = handle.Result;
-            if (virtualCamera) virtualCamera.Follow = mainGameObjectInstance.transform;
-            ProvideTo(mainGameObjectInstance);
+            AssignVirtualCamera(mainGameObjectInstance, mainCamera, virtualCamera);
+            ProvideTo(mainGameObjectInstance, mainCamera, virtualCamera);
             spawnedGameObjectCallBack?.Invoke(mainGameObjectInstance);
             spawnedGameObjectCallBack = null;
         }
 
-        public void ProvideTo(GameObject gameObject)
+        private void AssignVirtualCamera(GameObject gameObject, Camera camera, CinemachineCamera cinemachineCamera)
         {
-            SetupGameObject(gameObject);
-            SetupMainCamera(gameObject);
-            SetupMoveInput(gameObject);
-            SetupAccelerateInput(gameObject);
-        }
-
-        private void SetupMainCamera(GameObject gameObject)
-        {
+            if (cinemachineCamera) cinemachineCamera.Follow = mainGameObjectInstance.transform;
             var mainCameraProvider = gameObject.GetComponent<IMainCameraProvider>();
             if (mainCameraProvider == null) return;
-            mainCameraProvider.MainCamera = mainCamera;
+            mainCameraProvider.MainCamera = camera;
         }
 
-        private void SetupGameObject(GameObject gameObject)
+        public void ProvideTo(GameObject gameObject, Camera camera, CinemachineCamera cinemachineCamera)
+        {
+            mainGameObjectInstance = gameObject;
+            mainCamera = camera;
+            AssignVirtualCamera(gameObject, camera, cinemachineCamera);
+            AssignGameObject(gameObject);
+            AssignMoveInput(gameObject);
+            AssignAccelerateInput(gameObject);
+        }
+
+
+        private void AssignGameObject(GameObject gameObject)
         {
             if (lastFocusedGameObject != null) lastFocusedGameObject.layer &= ~(layerMask);
             lastFocusedGameObject = gameObject;
             lastFocusedGameObject.layer |= 1 << layerMask;
         }
 
-        private void SetupMoveInput(GameObject gameObject)
+        private void AssignMoveInput(GameObject gameObject)
         {
             lastMoveInputConsumer?.DisableMoveInput(moveAction);
             var inputConsumer = gameObject.GetComponent<IMoveInputConsumer>();
@@ -73,7 +79,7 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
             lastMoveInputConsumer.EnableMoveInput(moveAction);
         }
 
-        private void SetupAccelerateInput(GameObject gameObject)
+        private void AssignAccelerateInput(GameObject gameObject)
         {
             lastAccelerateInputConsumer?.DisableAccelerateInput(accelerateAction);
             var inputConsumer = gameObject.GetComponent<IAccelerateInputConsumer>();
