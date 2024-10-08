@@ -24,7 +24,7 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
 
         private void OnDisable()
         {
-            mainObjectProviderScriptable.OnDisable();
+            mainObjectProviderScriptable.Forget();
         }
     }
 }

@@ -35,6 +35,7 @@ namespace Soul.OverlapSugar.Runtime
             Initialized = true;
         }
 
+
         public void SetOverlapPoint(Transform newOverlapPoint)
         {
 #if DEBUG
@@ -62,8 +63,6 @@ namespace Soul.OverlapSugar.Runtime
             sphereRadius = radius;
         }
 
-        public void Perform() => Perform(out _);
-
         public bool Found() => foundSize > 0;
 
         public virtual int Perform(out Collider[] results)
@@ -71,7 +70,7 @@ namespace Soul.OverlapSugar.Runtime
             return Perform(overlapPoint.TransformPoint(positionOffset), out results);
         }
 
-        public int Perform(Vector3 position, out Collider[] results)
+        protected int Perform(Vector3 position, out Collider[] results)
         {
             return overlapType switch
             {
@@ -81,20 +80,20 @@ namespace Soul.OverlapSugar.Runtime
             };
         }
 
-        public int OverlapBox(Vector3 position, out Collider[] results)
+        private int OverlapBox(Vector3 position, out Collider[] results)
         {
             foundSize = Physics.OverlapBoxNonAlloc(position,
                 boxSize * Half,
                 Colliders,
                 overlapPoint.rotation,
                 searchMask.value);
-            
+
             results = Colliders;
             return foundSize;
         }
 
 
-        public int OverlapSphere(Vector3 position, out Collider[] results)
+        private int OverlapSphere(Vector3 position, out Collider[] results)
         {
             foundSize = Physics.OverlapSphereNonAlloc(position,
                 sphereRadius,

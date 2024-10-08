@@ -81,7 +81,7 @@ namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
 
         private void DetectObstacles()
         {
-            _obstacleDetector.Perform();
+            _obstacleDetector.Perform(out _);
         
             if (_obstacleDetector.Found())
             {

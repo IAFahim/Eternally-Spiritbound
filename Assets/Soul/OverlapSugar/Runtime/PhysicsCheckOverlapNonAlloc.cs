@@ -24,9 +24,10 @@ namespace Soul.OverlapSugar.Runtime
                 _ => throw new ArgumentOutOfRangeException(nameof(overlapType))
             };
 
-            return !quickCheck ? 0 : base.Perform(position, out results);
+            if (!quickCheck) return foundSize = 0;
+            return Perform(position, out results);
         }
-        
+
 
         public override void DrawGizmos(Color checkColor, Color hitColor)
         {

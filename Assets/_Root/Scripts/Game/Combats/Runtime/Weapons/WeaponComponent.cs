@@ -70,7 +70,7 @@ namespace _Root.Scripts.Game.Combats.Runtime.Weapons
 
         private void FixedUpdate()
         {
-            if (intervalTicker.TryTick()) overlapNonAlloc.Perform();
+            if (intervalTicker.TryTick()) overlapNonAlloc.Perform(out _);
         }
 
         public void Attack(AttackOrigin origin, OffensiveStats<float> attackInfo)

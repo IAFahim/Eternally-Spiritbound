@@ -54,6 +54,7 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
 
         public void ProvideTo(GameObject gameObject, Camera camera, CinemachineCamera cinemachineCamera)
         {
+            Clear();
             mainGameObjectInstance = gameObject;
             mainCamera = camera;
             AssignVirtualCamera(gameObject, camera, cinemachineCamera);
@@ -88,25 +89,19 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
             lastAccelerateInputConsumer.EnableAccelerateInput(accelerateAction);
         }
 
-        public void OnDisable()
+        private void Clear()
         {
-            if (lastAccelerateInputConsumer != null)
-            {
-                lastAccelerateInputConsumer.DisableAccelerateInput(accelerateAction);
-                lastAccelerateInputConsumer = null;
-            }
+            lastAccelerateInputConsumer?.DisableAccelerateInput(accelerateAction);
+            lastMoveInputConsumer?.DisableMoveInput(moveAction);
+            if (lastFocusedGameObject != null) lastFocusedGameObject.layer &= ~(1 << layerMask);
+            Forget();
+        }
 
-            if (lastMoveInputConsumer != null)
-            {
-                lastMoveInputConsumer.DisableMoveInput(moveAction);
-                lastMoveInputConsumer = null;
-            }
-
-            if (lastFocusedGameObject != null)
-            {
-                lastFocusedGameObject.layer &= ~(1 << layerMask);
-                lastFocusedGameObject = null;
-            }
+        public void Forget()
+        {
+            lastAccelerateInputConsumer = null;
+            lastMoveInputConsumer = null;
+            lastFocusedGameObject = null;
         }
     }
 }
