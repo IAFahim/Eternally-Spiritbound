@@ -1,4 +1,4 @@
-﻿namespace _Root.Scripts.Game.Interactables
+﻿namespace _Root.Scripts.Game.Interactables.Runtime
 {
     public interface IPickupStrategy
     {

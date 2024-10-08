@@ -45,7 +45,7 @@ namespace _Root.Scripts.Game.Combats.Runtime.Weapons
         public void Initialize()
         {
             _bulletPool = new AddressableGameObjectPool(strategy.assetReferenceGameObject);
-            overlapNonAlloc.Init(1);
+            overlapNonAlloc.Initialize(1);
         }
 
         private void Update()
@@ -70,7 +70,7 @@ namespace _Root.Scripts.Game.Combats.Runtime.Weapons
 
         private void FixedUpdate()
         {
-            if (intervalTicker.TryTick()) overlapNonAlloc.PerformOverlap();
+            if (intervalTicker.TryTick()) overlapNonAlloc.Perform();
         }
 
         public void Attack(AttackOrigin origin, OffensiveStats<float> attackInfo)

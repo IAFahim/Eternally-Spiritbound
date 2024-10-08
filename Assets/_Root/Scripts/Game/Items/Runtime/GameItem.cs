@@ -1,5 +1,6 @@
 using System;
 using _Root.Scripts.Game.Interactables;
+using _Root.Scripts.Game.Interactables.Runtime;
 using _Root.Scripts.Game.Items.Runtime.Storage;
 using Pancake;
 using Soul.Items.Runtime;

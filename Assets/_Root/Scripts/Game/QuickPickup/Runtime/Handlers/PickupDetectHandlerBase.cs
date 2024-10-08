@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using _Root.Scripts.Game.Interactables;
+using _Root.Scripts.Game.Interactables.Runtime;
 using Soul.QuickPickup.Runtime;
 using UnityEngine;
 

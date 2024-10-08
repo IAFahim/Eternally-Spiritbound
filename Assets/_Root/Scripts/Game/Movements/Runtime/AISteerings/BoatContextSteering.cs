@@ -58,7 +58,7 @@ namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
                 searchMask = obstacleLayer
             };
             _obstacleDetector.SetOverlapPoint(transform);
-            _obstacleDetector.Init(20);
+            _obstacleDetector.Initialize(20);
         }
 
         public Vector3 GetSteeringDirection()
@@ -81,7 +81,7 @@ namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
 
         private void DetectObstacles()
         {
-            _obstacleDetector.PerformOverlap();
+            _obstacleDetector.Perform();
         
             if (_obstacleDetector.Found())
             {
