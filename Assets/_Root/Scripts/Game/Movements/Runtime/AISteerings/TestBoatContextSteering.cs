@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
 {
@@ -15,6 +16,12 @@ namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
         private void Update()
         {
             steeringDirection = _steering.GetSteeringDirection();
+        }
+
+
+        private void OnCollisionEnter(Collision other)
+        {
+            gameObject.SetActive(false);
         }
     }
 }

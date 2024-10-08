@@ -16,5 +16,5 @@ AssetOrigin:
   productId: 71799
   packageName: Off Screen Target Indicator
   packageVersion: 3.0
-  assetPath: Assets/Pixel Play/Scripts/OffScreenIndicator/Target.cs
+  assetPath: Assets/Soul/Indicators/Runtime/Target.cs
   uploadId: 362973
