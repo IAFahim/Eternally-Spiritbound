@@ -7,16 +7,13 @@ namespace Soul.OverlapSugar.Runtime
     [Serializable]
     public class PhysicsCheck
     {
-        [Header("Common")]
         public LayerMask checkMask;
         public Transform checkPoint;
 
-        [Header("Check Parameters")]
         public OverlapType overlapType;
         public Vector3 boxSize = Vector3.one;
         [Min(0f)] public float sphereRadius = 0.5f;
 
-        [Header("Offset")]
         [SerializeField] private Vector3 positionOffset;
 
         public bool PerformCheck()
@@ -25,8 +22,8 @@ namespace Soul.OverlapSugar.Runtime
 
             return overlapType switch
             {
-                OverlapType.Box => CheckBox(position),
                 OverlapType.Sphere => CheckSphere(position),
+                OverlapType.Box => CheckBox(position),
                 _ => throw new ArgumentOutOfRangeException(nameof(OverlapType))
             };
         }
@@ -55,11 +52,11 @@ namespace Soul.OverlapSugar.Runtime
             Vector3 pos = positionOffset;
             switch (overlapType)
             {
-                case OverlapType.Box:
-                    Gizmos.DrawWireCube(pos, boxSize);
-                    break;
                 case OverlapType.Sphere:
                     Gizmos.DrawWireSphere(pos, sphereRadius);
+                    break;
+                case OverlapType.Box:
+                    Gizmos.DrawWireCube(pos, boxSize);
                     break;
             }
 #endif

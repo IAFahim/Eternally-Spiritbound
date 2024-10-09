@@ -9,7 +9,7 @@ namespace _Root.Scripts.Game.Interactables.Runtime
     {
         public PhysicsCheckOverlapNonAlloc playerOverlap;
         public IntervalTicker ticker;
-        private IInteract _lastInteract;
+        private IInteractableByGameObject _lastInteractedGameObject;
         public bool locked;
 
         private void Start()
@@ -19,14 +19,17 @@ namespace _Root.Scripts.Game.Interactables.Runtime
 
         private void Update()
         {
-            if (playerOverlap.foundSize > 0 && playerOverlap.Colliders[0].gameObject.TryGetComponent(out _lastInteract))
+            if (
+                playerOverlap.foundSize > 0 &&
+                playerOverlap.Colliders[0].gameObject.TryGetComponent(out _lastInteractedGameObject)
+            )
             {
-                _lastInteract.OnInteractEnter();
+                _lastInteractedGameObject.OnInteractStart(gameObject);
                 locked = true;
             }
             else if (locked)
             {
-                _lastInteract.OnInteractExit();
+                _lastInteractedGameObject.OnInteractEnd(gameObject);
                 locked = false;
             }
         }

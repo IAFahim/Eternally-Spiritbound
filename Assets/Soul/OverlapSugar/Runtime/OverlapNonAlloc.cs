@@ -13,7 +13,7 @@ namespace Soul.OverlapSugar.Runtime
         public OverlapType overlapType;
 
         public Vector3 boxSize = Vector3.one;
-        public float sphereRadius = 0.5f;
+        [Min(0f)] public float sphereRadius = 0.5f;
 
         [SerializeField] protected Vector3 positionOffset;
 
@@ -74,8 +74,8 @@ namespace Soul.OverlapSugar.Runtime
         {
             return overlapType switch
             {
-                OverlapType.Box => OverlapBox(position, out results),
                 OverlapType.Sphere => OverlapSphere(position, out results),
+                OverlapType.Box => OverlapBox(position, out results),
                 _ => throw new ArgumentOutOfRangeException(nameof(OverlapType))
             };
         }
@@ -113,11 +113,11 @@ namespace Soul.OverlapSugar.Runtime
 
             switch (overlapType)
             {
-                case OverlapType.Box:
-                    Gizmos.DrawWireCube(positionOffset, boxSize);
-                    break;
                 case OverlapType.Sphere:
                     Gizmos.DrawWireSphere(positionOffset, sphereRadius);
+                    break;
+                case OverlapType.Box:
+                    Gizmos.DrawWireCube(positionOffset, boxSize);
                     break;
                 default: throw new ArgumentOutOfRangeException(nameof(overlapType));
             }

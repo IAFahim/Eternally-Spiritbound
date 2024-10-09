@@ -24,11 +24,6 @@ namespace Soul.Storages.Runtime
         event Action<TElement, TValue, TValue> OnItemChanged;
 
         Dictionary<TElement, TValue> Elements { get; }
-        
-        /// <summary>
-        /// Gets the number of elements in the storage.
-        /// </summary>
-        int Count { get; }
 
         /// <summary>
         /// Gets the default data for the storage.

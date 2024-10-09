@@ -2,7 +2,7 @@
 {
     public enum OverlapType
     {
-        Box,
-        Sphere
+        Sphere,
+        Box
     }
 }

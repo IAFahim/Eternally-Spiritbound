@@ -19,8 +19,8 @@ namespace Soul.OverlapSugar.Runtime
             // First, perform the quick check
             bool quickCheck = overlapType switch
             {
-                OverlapType.Box => Physics.CheckBox(position, boxSize * Half, overlapPoint.rotation, searchMask.value),
                 OverlapType.Sphere => Physics.CheckSphere(position, sphereRadius, searchMask.value),
+                OverlapType.Box => Physics.CheckBox(position, boxSize * Half, overlapPoint.rotation, searchMask.value),
                 _ => throw new ArgumentOutOfRangeException(nameof(overlapType))
             };
 
@@ -39,11 +39,11 @@ namespace Soul.OverlapSugar.Runtime
 
             switch (overlapType)
             {
-                case OverlapType.Box:
-                    Gizmos.DrawWireCube(positionOffset, boxSize);
-                    break;
                 case OverlapType.Sphere:
                     Gizmos.DrawWireSphere(positionOffset, sphereRadius);
+                    break;
+                case OverlapType.Box:
+                    Gizmos.DrawWireCube(positionOffset, boxSize);
                     break;
             }
 

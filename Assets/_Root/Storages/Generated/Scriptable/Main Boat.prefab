@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 6810561477506268899}
   - component: {fileID: 5773400468706462673}
   - component: {fileID: 8276661147418209448}
+  - component: {fileID: 941730986846571965}
   m_Layer: 15
   m_Name: Main Boat
   m_TagString: Untagged
@@ -94,9 +95,11 @@ MonoBehaviour:
   waveIntensity: 5
   waveFrequency: 1.41
   stabilizationTorque: 5000
-  moveAction: {fileID: -1680190386980627800, guid: 9334937fad4e1ad4ba5357282c93ace5, type: 3}
-  useCameraRelativeInput: 1
-  mainCamera: {fileID: 0}
+  _moveDirection: {x: 0, y: 0, z: 0}
+  _accelerationInput: 0
+  mainCamera:
+    enabled: 0
+    value: {fileID: 0}
   dampingFactor: 5
 --- !u!136 &6521605703973692077
 CapsuleCollider:
@@ -235,6 +238,32 @@ MonoBehaviour:
     - keyFirst: {fileID: 11400000, guid: 439424b3e6a167c47bd5e82d52f2639a, type: 2}
       valueSecond: 1
     appendKey: _string_int
+--- !u!114 &941730986846571965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5605311547021212894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 244131e2005edc84ab577f6ef2ae7e29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerOverlap:
+    searchMask:
+      serializedVersion: 2
+      m_Bits: 0
+    overlapPoint: {fileID: 0}
+    overlapType: 0
+    boxSize: {x: 1, y: 1, z: 1}
+    sphereRadius: 0.5
+    positionOffset: {x: 0, y: 0, z: 0}
+    foundSize: 0
+  ticker:
+    currentTick: 0
+    interval: 5
+  locked: 0
 --- !u!1001 &4975240254575873633
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -290,6 +319,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: c272dabf493c3b641a6eebfd4e74ad3c, type: 3}
       propertyPath: m_Name
       value: boat-tow-a
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c272dabf493c3b641a6eebfd4e74ad3c, type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -2,16 +2,18 @@
 
 namespace _Root.Scripts.Game.Interactables.Runtime
 {
-    public class InteractableComponent : MonoBehaviour, IInteract
+    public class InteractableComponent : MonoBehaviour, IInteractableByGameObject
     {
-        public void OnInteractEnter()
+        public InteractableScriptable interactableScriptable;
+
+        public void OnInteractStart(GameObject initiator)
         {
-            Debug.Log("InteractEnter");
+            interactableScriptable.OnInteractStart(initiator);
         }
 
-        public void OnInteractExit()
+        public void OnInteractEnd(GameObject initiator)
         {
-            Debug.Log("InteractExit");
+            interactableScriptable.OnInteractEnd(initiator);
         }
     }
 }
