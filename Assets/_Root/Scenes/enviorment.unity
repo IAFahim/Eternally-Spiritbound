@@ -756,15 +756,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainObjectProvider: {fileID: 11400000, guid: 4c147b4345416824f8968062d60f760a, type: 2}
   spawnBatchConfigs:
-  - delaySeconds: 0
-    assetReference:
-      m_AssetGUID: bf0d8b0182b572f4b911cbdbb2f08a76
-      m_SubObjectName: 
-      m_SubObjectGUID: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 1
-    spawnStrategy: {fileID: 11400000, guid: f1811c693874a784f83210b1526588f0, type: 2}
-    max: 20
+  - {fileID: 11400000, guid: f1811c693874a784f83210b1526588f0, type: 2}
   activeSpawnBatchConfigs: []
 --- !u!1 &382458030
 GameObject:

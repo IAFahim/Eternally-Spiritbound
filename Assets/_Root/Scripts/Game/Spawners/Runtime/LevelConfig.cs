@@ -7,15 +7,15 @@ namespace _Root.Scripts.Game.Spawners.Runtime
     public class LevelConfig : MonoBehaviour
     {
         public MainObjectProviderScriptable mainObjectProvider;
-        public SpawnBatchConfig[] spawnBatchConfigs;
-        public List<SpawnBatchConfig> activeSpawnBatchConfigs;
+        public SpawnStrategy[] spawnBatchConfigs;
+        public List<SpawnState> activeSpawnBatchConfigs;
+        public List<SpawnState> inactiveSpawnBatchConfigs;
 
         public void Start()
         {
             foreach (var spawnBatchConfig in spawnBatchConfigs)
             {
-                spawnBatchConfig.Initialize();
-                activeSpawnBatchConfigs.Add(spawnBatchConfig);
+                activeSpawnBatchConfigs.Add(spawnBatchConfig.Initialize());
             }
         }
 
@@ -28,9 +28,16 @@ namespace _Root.Scripts.Game.Spawners.Runtime
                 var spawnBatchConfig = activeSpawnBatchConfigs[index];
                 if (!spawnBatchConfig.Update(position, deltaTime))
                 {
+                    inactiveSpawnBatchConfigs.Add(spawnBatchConfig);
                     activeSpawnBatchConfigs.Remove(spawnBatchConfig);
                 }
             }
+        }
+
+        private void OnDisable()
+        {
+            foreach (var spawnBatchConfig in activeSpawnBatchConfigs) spawnBatchConfig.Pool.Dispose();
+            foreach (var spawnBatchConfig in inactiveSpawnBatchConfigs) spawnBatchConfig.Pool.Dispose();
         }
     }
 }
