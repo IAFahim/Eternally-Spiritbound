@@ -1,4 +1,5 @@
 ﻿using System;
+using LitMotion;
 using Pancake.Pools;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -12,6 +13,7 @@ namespace _Root.Scripts.Game.Spawners.Runtime
         public AssetReferenceGameObject assetReference;
         public SpawnStrategy spawnStrategy;
         public int max;
+        private float _timePassedSceneLast;
         private int _count;
 
         private AddressableGameObjectPool _pool;
@@ -20,12 +22,20 @@ namespace _Root.Scripts.Game.Spawners.Runtime
         {
             _pool = new AddressableGameObjectPool(assetReference);
             _count = 0;
+            _timePassedSceneLast = 0;
         }
 
-        public bool Spawn(Vector3 origin)
+        public bool Update(Vector3 origin, float timeDelta)
         {
-            _count += spawnStrategy.Spawn(_pool, origin, max - _count);
-            return _count >= max;
+            _timePassedSceneLast += timeDelta;
+            if (_timePassedSceneLast >= delaySeconds)
+            {
+                _count += spawnStrategy.Spawn(_pool, origin, max - _count);
+                _timePassedSceneLast = 0;
+                return _count < max;    
+            }
+
+            return true;
         }
     }
 }

@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Boats
+  m_EditorClassIdentifier: 
+  m_GroupName: Boats
+  m_GUID: 013064ae7a16ba04b82f4b11ad06e13c
+  m_SerializeEntries:
+  - m_GUID: bf0d8b0182b572f4b911cbdbb2f08a76
+    m_Address: Assets/_Root/Prefabs/Boats/Enemy.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 2c8601dc2ee34bc4b8ca49c157e6a9c4, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 454161ddfd783d6448f47902303ce856, type: 2}
+    - {fileID: 11400000, guid: 351ab148d826a2741820eba3bf599564, type: 2}

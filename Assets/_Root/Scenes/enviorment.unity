@@ -630,6 +630,7 @@ GameObject:
   - component: {fileID: 369900244}
   - component: {fileID: 369900243}
   - component: {fileID: 369900242}
+  - component: {fileID: 369900247}
   m_Layer: 7
   m_Name: Cube
   m_TagString: Untagged
@@ -741,6 +742,30 @@ Transform:
   - {fileID: 303344537}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &369900247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 369900241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c8b847793d445eaae8c7a43846f4bce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainObjectProvider: {fileID: 11400000, guid: 4c147b4345416824f8968062d60f760a, type: 2}
+  spawnBatchConfigs:
+  - delaySeconds: 0
+    assetReference:
+      m_AssetGUID: bf0d8b0182b572f4b911cbdbb2f08a76
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
+    spawnStrategy: {fileID: 11400000, guid: f1811c693874a784f83210b1526588f0, type: 2}
+    max: 20
+  activeSpawnBatchConfigs: []
 --- !u!1 &382458030
 GameObject:
   m_ObjectHideFlags: 0
