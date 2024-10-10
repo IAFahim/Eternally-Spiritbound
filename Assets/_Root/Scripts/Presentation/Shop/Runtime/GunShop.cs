@@ -1,26 +1,28 @@
-﻿using _Root.Scripts.Game.Combats.Runtime.Weapons;
+﻿using System;
+using _Root.Scripts.Game.Combats.Runtime.Weapons;
 using _Root.Scripts.Game.Interactables.Runtime;
-using _Root.Scripts.Game.Items.Runtime.Storage;
 using UnityEngine;
 
 namespace _Root.Scripts.Presentation.Shop.Runtime
 {
-    [CreateAssetMenu(menuName = "Scriptable/Shop/GunShop")]
-    public class GunShop : InteractableScriptable
+    public class GunShop : InteractableComponent
     {
         public Weapon[] weapons;
 
-        public override void OnInteractStart(GameObject initiator)
+        public override void OnInteractHover(GameObject initiator)
         {
-            if (initiator.TryGetComponent<IGameItemStorageReference>(out var storageReference))
-            {
-                Debug.Log(storageReference.GameItemStorage.Count);
-            }
         }
 
-        public override void OnInteractEnd(GameObject initiator)
+        public override bool CanInteract(GameObject initiator) => true;
+
+        public override void OnInteractStart(GameObject initiator, Action onComplete)
         {
-            Debug.Log("End");
+            
+        }
+
+        public override void OnInteractExit(GameObject initiator)
+        {
+            
         }
     }
 }

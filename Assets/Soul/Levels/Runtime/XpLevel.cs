@@ -1,13 +1,11 @@
 ﻿using System;
-using Soul.Datas.Runtime.Interface;
 using Soul.Serializers.Runtime;
 using UnityEngine;
-using Math = System.Math;
 
 namespace Soul.Levels.Runtime
 {
     [Serializable]
-    public abstract class XpLevelBase : LevelBase, IStorageAdapter<Pair<int, int>>
+    public class XpLevel : Level
     {
         public event Action<int, int> OnXpChange;
         [SerializeField] protected int xp;
@@ -16,24 +14,18 @@ namespace Soul.Levels.Runtime
         [SerializeField] private float xpMultiplier = 1.5f;
         [SerializeField] private int maxLevel = 10;
         private int _xpToNextLevel;
-
+        
         public int Xp => xp;
         public int XpToNextLevel => _xpToNextLevel;
         public float XpProgress => _xpToNextLevel > 0 ? (float)xp / _xpToNextLevel : 1f;
-
-        public abstract void GetDefaultData(out Pair<int, int> dataDefault);
-
-        public void GetData(out Pair<int, int> dataCurrent) => dataCurrent = (currentLevel, xp);
-
-        public void SetData(Pair<int, int> dataNew)
+        
+        public void SetXpLevel(Pair<int, int> dataNew)
         {
-            SetData(dataNew.First);
             if (currentLevel >= maxLevel) return;
             xp = dataNew.Second;
             _xpToNextLevel = CalculateXpToNextLevel(currentLevel, maxLevel, baseXp, xpMultiplier);
         }
-
-
+        
         public void AddXp(int amount)
         {
             if (currentLevel >= maxLevel) return;
@@ -50,24 +42,16 @@ namespace Soul.Levels.Runtime
 
             OnXpChange?.Invoke(oldXp, xp);
         }
-
+        
         public virtual int CalculateXpToNextLevel(int currentLv, int maxLv, int xpBase, float xpMult)
         {
             if (currentLv >= maxLv) return 0;
             return (int)(xpBase * Math.Pow(xpMult, currentLv - 1));
         }
-
+        
         public void Reset()
         {
             OnXpChange?.Invoke(xp, xp = 0);
         }
-
-        public abstract void SaveData(Pair<int, int> data);
-
-        public override void SaveData()
-        {
-            SaveData((currentLevel, xp));
-        }
-
     }
 }

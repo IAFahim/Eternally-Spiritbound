@@ -45,27 +45,23 @@ namespace _Root.Scripts.Game.Combats.Runtime.Weapons
         public void Initialize()
         {
             _bulletPool = new AddressableGameObjectPool(strategy.assetReferenceGameObject);
-            overlapNonAlloc.Initialize(1);
+            overlapNonAlloc.Initialize();
         }
 
         private void Update()
         {
-            if (overlapNonAlloc.Found())
-            {
-                fire = Time.time - lastFireTime >= strategy.FireRate;
-                if (fire)
-                {
-                    var other = overlapNonAlloc.Colliders[0].gameObject;
-                    direction = (other.transform.position - transform.position).normalized;
-                    var origin = new AttackOrigin(
-                        transform.parent.gameObject, other, gameObject, _offensiveStats,
-                        _bulletPool, transform.position, direction, normalizedRange
-                    );
-                    Attack(origin, strategy.offensiveStats);
-                    fire = false;
-                    lastFireTime = Time.time;
-                }
-            }
+            if (!overlapNonAlloc.Found()) return;
+            fire = Time.time - lastFireTime >= strategy.FireRate;
+            if (!fire) return;
+            if (!overlapNonAlloc.TryGetClosest(out var other, out _)) return;
+            direction = (other.transform.position - transform.position).normalized;
+            var origin = new AttackOrigin(
+                transform.parent.gameObject, other.gameObject, gameObject, _offensiveStats,
+                _bulletPool, transform.position, direction, normalizedRange
+            );
+            Attack(origin, strategy.offensiveStats);
+            fire = false;
+            lastFireTime = Time.time;
         }
 
         private void FixedUpdate()

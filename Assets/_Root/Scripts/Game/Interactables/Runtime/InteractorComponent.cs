@@ -1,11 +1,11 @@
-using System;
+using Pancake;
 using Soul.OverlapSugar.Runtime;
 using Soul.Tickers.Runtime;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.Interactables.Runtime
 {
-    public class SingleInteractComponent : MonoBehaviour
+    public class InteractorComponent : GameComponent
     {
         public PhysicsCheckOverlapNonAlloc playerOverlap;
         public IntervalTicker ticker;
@@ -14,22 +14,22 @@ namespace _Root.Scripts.Game.Interactables.Runtime
 
         private void Start()
         {
-            playerOverlap.Initialize(1);
+            playerOverlap.Initialize();
         }
 
         private void Update()
         {
             if (
-                playerOverlap.foundSize > 0 &&
-                playerOverlap.Colliders[0].gameObject.TryGetComponent(out _lastInteractedGameObject)
+                playerOverlap.currentSize > 0 &&
+                playerOverlap.TryGetClosest(out Collider closestCollider, out _) &&
+                closestCollider.gameObject.TryGetComponent(out _lastInteractedGameObject)
             )
             {
-                _lastInteractedGameObject.OnInteractStart(gameObject);
-                locked = true;
+                locked = _lastInteractedGameObject.CanInteract(GameObject);
             }
             else if (locked)
             {
-                _lastInteractedGameObject.OnInteractEnd(gameObject);
+                _lastInteractedGameObject.OnInteractExit(GameObject);
                 locked = false;
             }
         }

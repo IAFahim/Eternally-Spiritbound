@@ -1,10 +1,12 @@
 ﻿using System;
+using Soul.Levels.Runtime;
 
 namespace _Root.Scripts.Game.Stats.Runtime.Model
 {
     [Serializable]
     public class EntityStatsBase<T> : ICloneable
     {
+        public XpLevel xpLevel;
         public VitalityStats<T> vitality;
         public DefensiveStats<T> defensive;
         public MovementStats<T> movement;

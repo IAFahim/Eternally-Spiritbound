@@ -24,7 +24,7 @@ namespace Soul.OverlapSugar.Runtime
                 _ => throw new ArgumentOutOfRangeException(nameof(overlapType))
             };
 
-            if (!quickCheck) return foundSize = 0;
+            if (!quickCheck) return currentSize = 0;
             return Perform(position, out results);
         }
 
@@ -35,7 +35,7 @@ namespace Soul.OverlapSugar.Runtime
             if (overlapPoint == null) return;
 
             Gizmos.matrix = overlapPoint.localToWorldMatrix;
-            Gizmos.color = foundSize > 0 ? hitColor : checkColor;
+            Gizmos.color = currentSize > 0 ? hitColor : checkColor;
 
             switch (overlapType)
             {
@@ -47,10 +47,10 @@ namespace Soul.OverlapSugar.Runtime
                     break;
             }
 
-            if (foundSize > 0 && Colliders != null)
+            if (currentSize > 0 && Colliders != null)
             {
                 Gizmos.color = hitColor;
-                for (int i = 0; i < foundSize; i++)
+                for (int i = 0; i < currentSize; i++)
                 {
                     if (Colliders[i] != null)
                         Gizmos.DrawWireSphere(Colliders[i].transform.position, 0.5f);

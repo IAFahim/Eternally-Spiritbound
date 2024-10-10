@@ -1,19 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace _Root.Scripts.Game.Interactables.Runtime
 {
-    public class InteractableComponent : MonoBehaviour, IInteractableByGameObject
+    public abstract class InteractableComponent : MonoBehaviour, IInteractableByGameObject
     {
-        public InteractableScriptable interactableScriptable;
-
-        public void OnInteractStart(GameObject initiator)
-        {
-            interactableScriptable.OnInteractStart(initiator);
-        }
-
-        public void OnInteractEnd(GameObject initiator)
-        {
-            interactableScriptable.OnInteractEnd(initiator);
-        }
+        public abstract void OnInteractHover(GameObject initiator);
+        public abstract bool CanInteract(GameObject initiator);
+        public abstract void OnInteractStart(GameObject initiator, Action onComplete);
+        public abstract void OnInteractExit(GameObject initiator);
     }
 }
