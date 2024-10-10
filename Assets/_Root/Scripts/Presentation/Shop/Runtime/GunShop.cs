@@ -8,12 +8,13 @@ namespace _Root.Scripts.Presentation.Shop.Runtime
     public class GunShop : InteractableComponent
     {
         public Weapon[] weapons;
+        public override bool CanInteract(GameObject initiator) => true;
 
         public override void OnInteractHover(GameObject initiator)
         {
+            
         }
 
-        public override bool CanInteract(GameObject initiator) => true;
 
         public override void OnInteractStart(GameObject initiator, Action onComplete)
         {

@@ -7,11 +7,11 @@ using Soul.Storages.Runtime;
 namespace _Root.Scripts.Game.Items.Runtime.Storage
 {
     [Serializable]
-    public class GameItemStorage : IntStorage<GameItem> 
+    public class GameItemStorage : IntStorage<GameItem>
     {
-        public string appendKey = "_string_int";
-        public override string StorageKey => $"{Guid}{appendKey}";
-        
+        private const string AppendKey = "_s";
+        public override string StorageKey => $"{Guid}{AppendKey}";
+
         [Button]
         public void Load() => LoadData(Guid);
 
@@ -21,7 +21,7 @@ namespace _Root.Scripts.Game.Items.Runtime.Storage
         public override void LoadData(string guid)
         {
             Guid = guid;
-            var datas= Data.Load(StorageKey,ToStringPair(DefaultData));
+            var datas = Data.Load(StorageKey, ToStringPair(DefaultData));
             SetData(ToGameItemPair(datas));
         }
 

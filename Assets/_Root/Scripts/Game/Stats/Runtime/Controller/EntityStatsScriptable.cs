@@ -14,7 +14,7 @@ namespace _Root.Scripts.Game.Stats.Runtime.Controller
 
         private void OnEnable()
         {
-            foreach (var (key, value) in stats) _dictionary.Add(key, value);
+            foreach (var (key, value) in stats) _dictionary.TryAdd(key, value);
         }
 
         public EntityStats GetStats(TitleGuid titleGuid) => _dictionary[titleGuid];

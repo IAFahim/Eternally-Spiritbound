@@ -1,5 +1,4 @@
-﻿using _Root.Scripts.Game.Combats.Runtime.Attacks;
-using _Root.Scripts.Game.Stats.Runtime.Model;
+﻿using _Root.Scripts.Game.Stats.Runtime.Model;
 using Soul.Stats.Runtime;
 
 namespace _Root.Scripts.Game.Combats.Runtime.Damages
