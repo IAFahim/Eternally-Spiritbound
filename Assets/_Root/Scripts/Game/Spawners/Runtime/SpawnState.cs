@@ -1,32 +1,35 @@
 ﻿using System;
 using Pancake.Pools;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Game.Spawners.Runtime
 {
     [Serializable]
     public class SpawnState
     {
-        public float timePassedSceneLast;
-        public int count;
-        public SpawnStrategy strategy;
-        public AddressableGameObjectPool Pool => strategy.Pool;
+        private SpawnStrategy _strategy;
+        private int _count;
+        private float _delay;
+        private float _interval;
+        public AddressableGameObjectPool Pool => _strategy.Pool;
 
         public SpawnState(SpawnStrategy strategy)
         {
-            this.strategy = strategy;
+            this._strategy = strategy;
         }
-        
-        public bool IsAlive(SpawnState spawnState) => spawnState.count < strategy.max;
+
+        public bool IsAlive(SpawnState spawnState) => spawnState._count <= _strategy.max;
 
         public bool Update(Vector3 origin, float timeDelta)
         {
-            timePassedSceneLast += timeDelta;
-            if (!(timePassedSceneLast >= strategy.delaySeconds)) return true;
-            count += strategy.Spawn(strategy.Pool, origin, strategy.max - count);
-            timePassedSceneLast = 0;
+            _delay += timeDelta;
+            if (_delay <= _strategy.delaySeconds) return true;
+            _interval += timeDelta;
+            if (_interval <= _strategy.intervalSeconds) return true;
+            _count += _strategy.Spawn(_strategy.Pool, origin, _strategy.max - _count);
+            _interval = 0;
             return IsAlive(this);
         }
-        
     }
 }

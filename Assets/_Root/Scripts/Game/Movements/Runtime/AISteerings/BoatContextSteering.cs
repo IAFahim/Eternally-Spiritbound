@@ -1,5 +1,6 @@
 ﻿using Soul.OverlapSugar.Runtime;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
 {
@@ -8,32 +9,29 @@ namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
         [Header("Steering Settings")] [SerializeField]
         private float detectRadius = 10f;
 
-        [SerializeField] private float avoidanceWeight = 2f;
+        [SerializeField] private float avoidanceWeight = 1.5f;
         [SerializeField] private float seekWeight = 1f;
         [SerializeField] private LayerMask obstacleLayer;
-        [SerializeField] private Transform playerTransform;
 
         [Header("Context Settings")] [SerializeField]
-        private int directions = 16; // Increased for smoother steering
+        private int directions = 8;
 
         [SerializeField] private float dangerDecayDistance = 5f;
 
-        [Header("Debug")] [SerializeField] private bool showDebugVisuals = true;
-        [SerializeField] private float debugRayLength = 2f;
+        [FormerlySerializedAs("_obstacleDetector")]
+        public PhysicsCheckOverlapNonAlloc obstacleDetector;
 
-        private OverlapNonAlloc _obstacleDetector;
         private float[] _interestArray;
         private float[] _dangerArray;
         private Vector3[] _directionVectors;
-
-        public Vector3 _resultDirection;
-        public Vector3 _lastNonZeroDirection;
-        public IMove move;
+        private Vector3 _resultDirection;
+        private Vector3 _lastNonZeroDirection;
+        private IMove _move;
 
         private void Start()
         {
             InitializeArrays();
-            move = GetComponent<IMove>();
+            _move = GetComponent<IMove>();
             InitializeObstacleDetector();
         }
 
@@ -52,23 +50,15 @@ namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
 
         private void InitializeObstacleDetector()
         {
-            _obstacleDetector = new OverlapNonAlloc
-            {
-                overlapType = OverlapType.Sphere,
-                sphereRadius = detectRadius,
-                searchMask = obstacleLayer
-            };
-            _obstacleDetector.SetOverlapPoint(transform);
-            _obstacleDetector.Initialize();
+            obstacleDetector.Initialize();
         }
 
-        public Vector3 GetSteeringDirection()
+        public void Steer(Vector3 position)
         {
             ClearArrays();
-            DetectObstacles();
-            CalculateInterest();
-
-            return CalculateResultDirection();
+            CheckAndProcessObstacle();
+            CalculateInterest(position);
+            _move.Direction = CalculateResultDirection();
         }
 
         private void ClearArrays()
@@ -80,10 +70,14 @@ namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
             }
         }
 
-        private void DetectObstacles()
+        private void FixedUpdate() => obstacleDetector.Perform(out _);
+
+
+        private void CheckAndProcessObstacle()
         {
-            if (_obstacleDetector.Perform(out Collider[] colliders) > 0) return;
-            for (var i = 0; i < _obstacleDetector.currentSize; i++) ProcessObstacle(colliders[i]);
+            if (obstacleDetector.Found()) return;
+            var colliders = obstacleDetector.GetFoundColliders();
+            for (var i = 0; i < obstacleDetector.currentSize; i++) ProcessObstacle(colliders[i]);
         }
 
         private void ProcessObstacle(Collider obstacle)
@@ -108,11 +102,9 @@ namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
             }
         }
 
-        private void CalculateInterest()
+        private void CalculateInterest(Vector3 position)
         {
-            if (playerTransform == null) return;
-
-            Vector3 toTarget = playerTransform.position - transform.position;
+            Vector3 toTarget = position - transform.position;
             toTarget.y = 0;
 
             if (toTarget.magnitude < 0.1f) return;
@@ -149,13 +141,13 @@ namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
             }
 
             var direction = _resultDirection != Vector3.zero ? _resultDirection : _lastNonZeroDirection;
-            move.Direction = direction;
             return _resultDirection;
         }
 
-        private void OnDrawGizmos()
+#if UNITY_EDITOR
+        private void OnDrawGizmosSelected()
         {
-            if (!Application.isPlaying || !showDebugVisuals) return;
+            if (!Application.isPlaying) return;
 
             // Draw direction vectors with color intensity based on interest/danger
             for (int i = 0; i < directions; i++)
@@ -165,15 +157,16 @@ namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
 
                 // Green for interest, Red for danger
                 Gizmos.color = new Color(danger, interest, 0, 0.5f);
-                Gizmos.DrawRay(transform.position, _directionVectors[i] * debugRayLength);
+                Gizmos.DrawRay(transform.position, _directionVectors[i] * dangerDecayDistance);
             }
 
             // Draw result direction
             Gizmos.color = Color.yellow;
-            Gizmos.DrawRay(transform.position, _resultDirection * debugRayLength * 1.2f);
+            Gizmos.DrawRay(transform.position, _resultDirection * dangerDecayDistance * 1.2f);
 
             // Use the provided DrawGizmos from OverlapNonAlloc
-            _obstacleDetector?.DrawGizmos(Color.yellow, Color.red);
+            obstacleDetector?.DrawGizmos(Color.yellow, Color.red);
         }
+#endif
     }
 }

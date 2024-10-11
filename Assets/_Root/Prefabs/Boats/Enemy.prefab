@@ -181,13 +181,19 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 262967
-  playerTransform: {fileID: 0}
   directions: 8
   dangerDecayDistance: 10
-  showDebugVisuals: 1
-  debugRayLength: 2
-  _resultDirection: {x: 0, y: 0, z: 0}
-  _lastNonZeroDirection: {x: 0, y: 0, z: 0}
+  obstacleDetector:
+    searchMask:
+      serializedVersion: 2
+      m_Bits: 32768
+    overlapPoint: {fileID: 4812040211412234257}
+    overlapType: 0
+    sphereRadius: 100
+    boxSize: {x: 1, y: 1, z: 1}
+    positionOffset: {x: 0, y: 0, z: 0}
+    maxCapacity: 4
+    currentSize: 0
 --- !u!114 &8420489221093117962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,7 +206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74515c59053a4ba3a662a21559d81e75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  steeringDirection: {x: 0, y: 0}
+  mainGameObjectProviders: {fileID: 11400000, guid: 4c147b4345416824f8968062d60f760a, type: 2}
 --- !u!1001 &1333086669684634853
 PrefabInstance:
   m_ObjectHideFlags: 0

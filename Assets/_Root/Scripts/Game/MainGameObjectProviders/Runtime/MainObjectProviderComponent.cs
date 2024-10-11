@@ -1,5 +1,4 @@
-﻿using Pancake;
-using Unity.Cinemachine;
+﻿using Unity.Cinemachine;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
@@ -11,12 +10,9 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
         public CinemachineCamera virtualCamera;
         public MainObjectProviderScriptable mainObjectProviderScriptable;
 
-        private void Start()
+        private void Awake()
         {
-            if (mainGameObjectInstance == null)
-            {
-                mainObjectProviderScriptable.SpawnMainGameObject(mainCamera, virtualCamera, SpawnedGameObjectCallBack);
-            }
+            if (mainGameObjectInstance == null) mainObjectProviderScriptable.SpawnMainGameObject(mainCamera, virtualCamera, SpawnedGameObjectCallBack);
             else mainObjectProviderScriptable.ProvideTo(mainGameObjectInstance, mainCamera, virtualCamera);
         }
 

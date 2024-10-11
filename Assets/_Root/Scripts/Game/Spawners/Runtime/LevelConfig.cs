@@ -1,43 +1,46 @@
 ﻿using System.Collections.Generic;
 using _Root.Scripts.Game.MainGameObjectProviders.Runtime;
+using Pancake;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.Spawners.Runtime
 {
     public class LevelConfig : MonoBehaviour
     {
-        public MainObjectProviderScriptable mainObjectProvider;
         public SpawnStrategy[] spawnBatchConfigs;
-        public List<SpawnState> activeSpawnBatchConfigs;
-        public List<SpawnState> inactiveSpawnBatchConfigs;
+        
+        private List<SpawnState> _activeSpawnBatchConfigs;
+        private List<SpawnState> _inactiveSpawnBatchConfigs;
 
         public void Start()
         {
+            _activeSpawnBatchConfigs = new List<SpawnState>();
+            _inactiveSpawnBatchConfigs = new List<SpawnState>();
             foreach (var spawnBatchConfig in spawnBatchConfigs)
             {
-                activeSpawnBatchConfigs.Add(spawnBatchConfig.Initialize());
+                _activeSpawnBatchConfigs.Add(spawnBatchConfig.Initialize());
             }
         }
 
         public void Update()
         {
-            var position = mainObjectProvider.mainGameObjectInstance.transform.position;
+            var position = transform.position;
             var deltaTime = Time.deltaTime;
-            for (var index = activeSpawnBatchConfigs.Count - 1; index >= 0; index--)
+            for (var index = _activeSpawnBatchConfigs.Count - 1; index >= 0; index--)
             {
-                var spawnBatchConfig = activeSpawnBatchConfigs[index];
+                var spawnBatchConfig = _activeSpawnBatchConfigs[index];
                 if (!spawnBatchConfig.Update(position, deltaTime))
                 {
-                    inactiveSpawnBatchConfigs.Add(spawnBatchConfig);
-                    activeSpawnBatchConfigs.Remove(spawnBatchConfig);
+                    _inactiveSpawnBatchConfigs.Add(spawnBatchConfig);
+                    _activeSpawnBatchConfigs.Remove(spawnBatchConfig);
                 }
             }
         }
 
         private void OnDisable()
         {
-            foreach (var spawnBatchConfig in activeSpawnBatchConfigs) spawnBatchConfig.Pool.Dispose();
-            foreach (var spawnBatchConfig in inactiveSpawnBatchConfigs) spawnBatchConfig.Pool.Dispose();
+            foreach (var spawnBatchConfig in _activeSpawnBatchConfigs) spawnBatchConfig.Pool.Dispose();
+            foreach (var spawnBatchConfig in _inactiveSpawnBatchConfigs) spawnBatchConfig.Pool.Dispose();
         }
     }
 }

@@ -1,12 +1,12 @@
-﻿using System;
+﻿using _Root.Scripts.Game.MainGameObjectProviders.Runtime;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
 {
-    public class TestBoatContextSteering : MonoBehaviour
+    public class TargetBoatContextSteering : MonoBehaviour
     {
+        [SerializeField] private MainObjectProviderScriptable mainGameObjectProviders;
         private BoatContextSteering _steering;
-        public Vector2 steeringDirection;
 
         private void Start()
         {
@@ -15,9 +15,8 @@ namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
 
         private void Update()
         {
-            steeringDirection = _steering.GetSteeringDirection();
+            _steering.Steer(mainGameObjectProviders.mainGameObjectInstance.transform.position);
         }
-
 
         private void OnCollisionEnter(Collision other)
         {
