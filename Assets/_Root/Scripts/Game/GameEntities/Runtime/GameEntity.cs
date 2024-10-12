@@ -19,7 +19,6 @@ namespace _Root.Scripts.Game.GameEntities.Runtime
         {
             _titleGuidReference = gameObject.GetComponent<ITitleGuidReference>();
             _entityStats = entityStatsScriptable.GetStats(_titleGuidReference.TitleGuid);
-
             _itemStorageReference = GetComponent<IGameItemStorageReference>();
         }
 
@@ -44,12 +43,22 @@ namespace _Root.Scripts.Game.GameEntities.Runtime
         {
             if (current <= 0)
             {
-                var deathCallBacks = GetComponents<IDeathCallBack>();
-                foreach (var deathCallBack in deathCallBacks) deathCallBack.OnDeath();
-                foreach (var (gameItem, value) in _itemStorageReference.GameItemStorage)
-                {
-                    if (gameItem.DropOnDeath) gameItem.OnDrop(gameObject, gameObject.transform.position, value);
-                }
+                AnnounceDeath();
+                DropItem();
+            }
+        }
+
+        private void AnnounceDeath()
+        {
+            var deathCallBacks = GetComponents<IDeathCallBack>();
+            foreach (var deathCallBack in deathCallBacks) deathCallBack.OnDeath();
+        }
+
+        private void DropItem()
+        {
+            foreach (var (gameItem, value) in _itemStorageReference.GameItemStorage)
+            {
+                if (gameItem.DropOnDeath) gameItem.OnDrop(gameObject, gameObject.transform.position, value);
             }
         }
     }

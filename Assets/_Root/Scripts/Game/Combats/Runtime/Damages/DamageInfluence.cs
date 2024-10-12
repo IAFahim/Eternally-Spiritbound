@@ -6,8 +6,8 @@ using UnityEngine;
 namespace _Root.Scripts.Game.Combats.Runtime.Damages
 {
     [Serializable]
-    [CreateAssetMenu(fileName = "DamageInfluence", menuName = "Scriptable/Influence/DamageInfluence")]
-    public class DamageInfluence: InfluenceBase<DamageType, float>
+    [CreateAssetMenu(fileName = "Damage Immunity", menuName = "Scriptable/Immunity/Damage")]
+    public class DamageInfluence: InfluenceScriptable<DamageType, float>
     {
     }
 }

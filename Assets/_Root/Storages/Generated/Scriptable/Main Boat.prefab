@@ -13,8 +13,6 @@ GameObject:
   - component: {fileID: 3804166669297714955}
   - component: {fileID: 6521605703973692077}
   - component: {fileID: 6507483202309687907}
-  - component: {fileID: 6810561477506268899}
-  - component: {fileID: 5773400468706462673}
   - component: {fileID: 8276661147418209448}
   - component: {fileID: 941730986846571965}
   m_Layer: 15
@@ -137,90 +135,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   titleGuid: {fileID: 11400000, guid: 31ce8a7468230ef4f8963fe0b07d0849, type: 2}
---- !u!114 &6810561477506268899
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5605311547021212894}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54b360a0b0fe4895b962505266ddc28f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  entityStatsScriptable: {fileID: 11400000, guid: 689b746ed0d621c44925d8f7e4a23b41, type: 2}
-  cloneStats: 1
---- !u!114 &5773400468706462673
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5605311547021212894}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06cce84ae1f04aa88d7aa614e9a4db88, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weapons: []
-  activeWeapons: []
-  offensiveStats:
-    damage:
-      baseValue: 0
-      rate: 0
-      additive: 0
-    lifeTime:
-      baseValue: 0
-      rate: 0
-      additive: 0
-    fireRate:
-      baseValue: 0
-      rate: 0
-      additive: 0
-    cooldown:
-      baseValue: 0
-      rate: 0
-      additive: 0
-    range:
-      baseValue: 0
-      rate: 0
-      additive: 0
-    reloadTime:
-      baseValue: 0
-      rate: 0
-      additive: 0
-    accuracy:
-      baseValue: 0
-      rate: 0
-      additive: 0
-    recoil:
-      baseValue: 0
-      rate: 0
-      additive: 0
-    size:
-      baseValue: 0
-      rate: 0
-      additive: 0
-    speed:
-      baseValue: 0
-      rate: 0
-      additive: 0
-    defensePenetration:
-      baseValue: 0
-      rate: 0
-      additive: 0
-    elementalDamage:
-      baseValue: 0
-      rate: 0
-      additive: 0
-    penetration:
-      current:
-        value: 0
-      max:
-        baseValue: 0
-        rate: 0
-        additive: 0
 --- !u!114 &8276661147418209448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,10 +148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemStorage:
-    defaultData:
-    - keyFirst: {fileID: 11400000, guid: 439424b3e6a167c47bd5e82d52f2639a, type: 2}
-      valueSecond: 1
-    appendKey: _string_int
+    defaultData: []
 --- !u!114 &941730986846571965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,16 +161,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 244131e2005edc84ab577f6ef2ae7e29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   playerOverlap:
     searchMask:
       serializedVersion: 2
-      m_Bits: 0
-    overlapPoint: {fileID: 0}
+      m_Bits: 128
+    overlapPoint: {fileID: 7696365957442595197}
     overlapType: 0
+    sphereRadius: 20
     boxSize: {x: 1, y: 1, z: 1}
-    sphereRadius: 0.5
     positionOffset: {x: 0, y: 0, z: 0}
-    foundSize: 0
+    maxCapacity: 4
+    currentSize: 0
   ticker:
     currentTick: 0
     interval: 5

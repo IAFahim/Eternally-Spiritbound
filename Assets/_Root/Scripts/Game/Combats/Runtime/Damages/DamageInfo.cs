@@ -4,7 +4,7 @@ using UnityEngine;
 namespace _Root.Scripts.Game.Combats.Runtime.Damages
 {
     [Serializable]
-    public class DamageInfo
+    public struct DamageInfo
     {
         public GameObject damaged;
         public float damageTaken;

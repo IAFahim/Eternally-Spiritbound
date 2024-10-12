@@ -1,7 +1,7 @@
 ﻿namespace Soul.Stats.Runtime
 {
-    public interface IDamageBase<in TAttackInfo, TDamageInfo>
+    public interface IDamageBase<in TAttack, TDamage>
     {
-        public bool TryDamage(TAttackInfo info, out TDamageInfo damageInfo);
+        public bool TryKill(TAttack attack, out TDamage damage);
     }
 }

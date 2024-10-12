@@ -3,14 +3,10 @@
     public interface IEffectBase
     {
         string EffectType { get; }
-        IEffectConsumerBase EffectConsumer { get; }
-        float EffectDuration { get; }
-        float EffectStrength { get; }
-        bool CanApply(IEffectConsumerBase consumer, out float effectStrength);
-        bool TryApply(IEffectConsumerBase consumer);
-        bool OnApply(IEffectConsumerBase consumer, float effectStrength);
-        void OnCantApply(IEffectConsumerBase consumer);
+        bool TryApply(IEffectConsumerBase consumer, float strength, float duration, float effectChance);
+        void OnApply(IEffectConsumerBase consumer, float strength, float duration, float effectChance);
+        void OnApplyFailed(IEffectConsumerBase consumer);
         void OnComplete();
-        void Cancel();
+        void CleanUp();
     }
 }
