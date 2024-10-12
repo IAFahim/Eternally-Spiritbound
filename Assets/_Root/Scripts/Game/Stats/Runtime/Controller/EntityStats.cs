@@ -7,5 +7,6 @@ namespace _Root.Scripts.Game.Stats.Runtime.Controller
     [Serializable]
     public class EntityStats : EntityStatsBase<Modifier>
     {
+        public Modifier contactDamage;
     }
 }

@@ -1,11 +1,17 @@
-﻿using _Root.Scripts.Game.Guid;
+﻿using _Root.Scripts.Game.Combats.Runtime.Attacks;
+using _Root.Scripts.Game.Combats.Runtime.Damages;
+using _Root.Scripts.Game.GameEntities.Runtime.Attacks;
+using _Root.Scripts.Game.Guid;
+using _Root.Scripts.Game.Interactables.Runtime;
 using _Root.Scripts.Game.Stats.Runtime.Controller;
 using _Root.Scripts.Game.Storages.Runtime;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.GameEntities.Runtime
 {
-    public class GameEntity : MonoBehaviour
+    [DisallowMultipleComponent, SelectionBase]
+    public class GameEntity : MonoBehaviour, IEntityStatsReference, IDamage
     {
         private ITitleGuidReference _titleGuidReference;
         private EntityStats _entityStats;
@@ -14,7 +20,8 @@ namespace _Root.Scripts.Game.GameEntities.Runtime
         public EntityStatsScriptable entityStatsScriptable;
         public bool cloneStats = true;
         private Health _health;
-
+        [ShowInInspector] public EntityStats EntityStats => _entityStats;
+        
         private void Awake()
         {
             _titleGuidReference = gameObject.GetComponent<ITitleGuidReference>();
@@ -60,6 +67,23 @@ namespace _Root.Scripts.Game.GameEntities.Runtime
             {
                 if (gameItem.DropOnDeath) gameItem.OnDrop(gameObject, gameObject.transform.position, value);
             }
+        }
+
+        public bool TryKill(AttackOrigin attackOrigin, out DamageInfo damage)
+        {
+            damage = new DamageInfo();
+            return false;
+        }
+
+        public bool TryKill(float damage, out DamageInfo damageInfo)
+        {
+            bool dead = _health.TryKill(damage, out var damageTaken);
+            damageInfo = new DamageInfo
+            {
+                damaged = gameObject,
+                damageTaken = damage
+            };
+            return dead;
         }
     }
 }

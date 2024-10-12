@@ -1,9 +1,9 @@
 ﻿using System;
 using _Root.Scripts.Game.Stats.Runtime.Model;
 using Pancake;
-using Pancake.Pools;
 using Soul.Modifiers.Runtime;
 using UnityEngine;
+using UnityEngine.Pool;
 
 namespace _Root.Scripts.Game.Combats.Runtime.Attacks
 {

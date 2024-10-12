@@ -12,7 +12,8 @@ namespace _Root.Scripts.Game.Stats.Runtime.Controller
         private readonly LimitStat<Modifier> shield;
         private readonly CriticalStats<Modifier> criticalStats;
 
-        public Health(LimitStat<Modifier> health, Modifier armor, LimitStat<Modifier> shield, CriticalStats<Modifier> criticalStats)
+        public Health(LimitStat<Modifier> health, Modifier armor, LimitStat<Modifier> shield,
+            CriticalStats<Modifier> criticalStats)
         {
             this.health = health;
             this.armor = armor;
@@ -25,10 +26,10 @@ namespace _Root.Scripts.Game.Stats.Runtime.Controller
         [Button]
         private void DamageTest(float damage)
         {
-            Damage(damage, out var damageTaken);
+            TryKill(damage, out var damageTaken);
         }
 
-        public void Damage(float damage, out float damageTaken)
+        public bool TryKill(float damage, out float damageTaken)
         {
             var afterCritDamage = ApplyChanceMultiplier(damage, criticalStats.chance.Value, criticalStats.damage.Value);
             var afterArmor = afterCritDamage - armor.Value;
@@ -36,6 +37,7 @@ namespace _Root.Scripts.Game.Stats.Runtime.Controller
             var afterShield = damageTaken - shield.current.Value;
             shield.current.Value = Mathf.Max(shield.current.Value - damageTaken, 0);
             health.current.Value -= Mathf.Max(damageTaken - shield.current.Value, 0);
+            return health.current.Value <= 0;
         }
 
         /// <summary>

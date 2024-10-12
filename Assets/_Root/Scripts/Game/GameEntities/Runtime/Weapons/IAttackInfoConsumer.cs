@@ -1,9 +1,10 @@
 ﻿using _Root.Scripts.Game.Combats.Runtime.Attacks;
+using _Root.Scripts.Game.GameEntities.Runtime.Attacks;
 
 namespace _Root.Scripts.Game.Combats.Runtime.Weapons
 {
     public interface IAttackInfoConsumer
     {
-        public Attack Attack { get; }
+        public AttackOrigin AttackOrigin { get; }
     }
 }

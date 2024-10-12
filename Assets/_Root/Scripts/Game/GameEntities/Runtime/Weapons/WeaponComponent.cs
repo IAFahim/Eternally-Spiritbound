@@ -1,33 +1,36 @@
 ﻿using System;
 using _Root.Scripts.Game.Combats.Runtime.Attacks;
 using _Root.Scripts.Game.Combats.Runtime.Damages;
+using _Root.Scripts.Game.Combats.Runtime.Weapons;
+using _Root.Scripts.Game.GameEntities.Runtime.Attacks;
 using _Root.Scripts.Game.Stats.Runtime.Model;
 using Pancake.Pools;
-using Sirenix.OdinInspector;
 using Sisus.Init;
 using Soul.Modifiers.Runtime;
 using Soul.OverlapSugar.Runtime;
 using Soul.Tickers.Runtime;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace _Root.Scripts.Game.Combats.Runtime.Weapons
+namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
 {
     public class WeaponComponent : MonoBehaviour, IInitializable<OffensiveStats<Modifier>>, IDisposable
     {
         public Vector3 direction;
-        public Bullet strategy;
         public float normalizedRange = 1;
+
+        public bool noDelayOnFirstFire = true;
+        public Bullet strategy;
         public Bullet Strategy => strategy;
 
         public bool fire;
         public float lastFireTime;
-        private Attack readyAttack;
+        private Attack _readyAttack;
         private GameObject _spawned;
 
         private AddressableGameObjectPool _bulletPool;
         public OverlapNonAlloc overlapNonAlloc;
         public IntervalTicker intervalTicker;
+        public WeaponOffensiveStats weaponOffensiveStats;
 
         private void OnEnable()
         {
@@ -45,13 +48,15 @@ namespace _Root.Scripts.Game.Combats.Runtime.Weapons
         public void Initialize()
         {
             _bulletPool = new AddressableGameObjectPool(strategy.assetReferenceGameObject);
+            weaponOffensiveStats = strategy.GetWeaponOffensiveStats(_offensiveStats);
             overlapNonAlloc.Initialize();
+            if (noDelayOnFirstFire) lastFireTime = Time.time - weaponOffensiveStats.fireRate;
         }
 
         private void Update()
         {
             if (!overlapNonAlloc.Found()) return;
-            fire = Time.time - lastFireTime >= strategy.FireRate;
+            fire = Time.time - lastFireTime >= weaponOffensiveStats.fireRate;
             if (!fire) return;
             if (!overlapNonAlloc.TryGetClosest(out var other, out _)) return;
             direction = (other.transform.position - transform.position).normalized;
@@ -59,7 +64,7 @@ namespace _Root.Scripts.Game.Combats.Runtime.Weapons
                 transform.parent.gameObject, other.gameObject, gameObject, _offensiveStats,
                 _bulletPool, transform.position, direction, normalizedRange
             );
-            Attack(origin, strategy.offensiveStats);
+            Attack(origin);
             fire = false;
             lastFireTime = Time.time;
         }
@@ -69,11 +74,12 @@ namespace _Root.Scripts.Game.Combats.Runtime.Weapons
             if (intervalTicker.TryTick()) overlapNonAlloc.Perform(out _);
         }
 
-        public void Attack(AttackOrigin origin, OffensiveStats<float> attackInfo)
+        public void Attack(AttackOrigin origin)
         {
+            weaponOffensiveStats = strategy.GetWeaponOffensiveStats(_offensiveStats);
             _spawned = _bulletPool.Request(transform.position, transform.rotation);
-            readyAttack = new Attack(origin, attackInfo, OnAttackHit, OnAttackMiss, OnReturnToPool);
-            _spawned.GetComponent<BulletComponent>().Init(readyAttack);
+            _readyAttack = new Attack(origin, weaponOffensiveStats, OnAttackHit, OnAttackMiss, OnReturnToPool);
+            _spawned.GetComponent<BulletComponent>().Init(_readyAttack);
         }
 
         private void OnAttackMiss(Attack arg1, Vector3 arg2)

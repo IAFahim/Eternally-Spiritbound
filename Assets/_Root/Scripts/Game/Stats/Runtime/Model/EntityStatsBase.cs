@@ -1,5 +1,4 @@
 ﻿using System;
-using Soul.Levels.Runtime;
 
 namespace _Root.Scripts.Game.Stats.Runtime.Model
 {

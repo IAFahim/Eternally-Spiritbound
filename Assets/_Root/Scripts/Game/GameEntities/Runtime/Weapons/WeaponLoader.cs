@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using _Root.Scripts.Game.Combats.Runtime.Weapons;
 using _Root.Scripts.Game.Stats.Runtime.Model;
 using Soul.Modifiers.Runtime;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-namespace _Root.Scripts.Game.Combats.Runtime.Weapons
+namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
 {
     public class WeaponLoader : MonoBehaviour, IWeaponLoader
     {
