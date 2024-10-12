@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using _Root.Scripts.Game.Items.Runtime;
-using _Root.Scripts.Game.Items.Runtime.Storage;
 using _Root.Scripts.Game.QuickPickup.Runtime.Handlers;
+using _Root.Scripts.Game.Storages.Runtime;
 using Pancake.Pools;
 using Soul.QuickPickup.Runtime;
 using UnityEngine;

@@ -7,15 +7,17 @@ namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
     {
         [SerializeField] private MainObjectProviderScriptable mainGameObjectProviders;
         private BoatContextSteering _steering;
+        private IMove _move;
 
         private void Start()
         {
             _steering = GetComponent<BoatContextSteering>();
+            _move = GetComponent<IMove>();
         }
 
         private void Update()
         {
-            _steering.Steer(mainGameObjectProviders.mainGameObjectInstance.transform.position);
+            _move.Direction = _steering.Steer(mainGameObjectProviders.mainGameObjectInstance.transform.position);
         }
 
         private void OnCollisionEnter(Collision other)

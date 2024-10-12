@@ -26,12 +26,10 @@ namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
         private Vector3[] _directionVectors;
         private Vector3 _resultDirection;
         private Vector3 _lastNonZeroDirection;
-        private IMove _move;
 
         private void Start()
         {
             InitializeArrays();
-            _move = GetComponent<IMove>();
             InitializeObstacleDetector();
         }
 
@@ -53,12 +51,12 @@ namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
             obstacleDetector.Initialize();
         }
 
-        public void Steer(Vector3 position)
+        public Vector3 Steer(Vector3 position)
         {
             ClearArrays();
             CheckAndProcessObstacle();
             CalculateInterest(position);
-            _move.Direction = CalculateResultDirection();
+            return CalculateResultDirection();
         }
 
         private void ClearArrays()

@@ -1,5 +1,5 @@
 ﻿using System;
-using _Root.Scripts.Game.Items.Runtime.Storage;
+using _Root.Scripts.Game.Storages.Runtime;
 using Soul.QuickPickup.Runtime;
 using UnityEngine;
 

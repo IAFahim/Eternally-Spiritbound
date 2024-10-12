@@ -58,6 +58,8 @@ MonoBehaviour:
           additive: 0
       progression:
         experience:
+          value: 0
+        experienceRate:
           baseValue: 0
           rate: 0
           additive: 0

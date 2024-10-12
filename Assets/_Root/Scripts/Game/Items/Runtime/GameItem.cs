@@ -1,7 +1,5 @@
 using System;
-using _Root.Scripts.Game.Interactables;
 using _Root.Scripts.Game.Interactables.Runtime;
-using _Root.Scripts.Game.Items.Runtime.Storage;
 using Pancake;
 using Soul.Items.Runtime;
 using UnityEngine;
@@ -11,7 +9,7 @@ namespace _Root.Scripts.Game.Items.Runtime
 {
     [Serializable]
     [CreateAssetMenu(fileName = "Coin", menuName = "Scriptable/Items/New")]
-    public class GameItem : ScriptableObject, IItemBase<GameObject>, IPickupStrategy
+    public class GameItem : Event<GameItemDropEvent>, IItemBase<GameObject>, IPickupStrategy
     {
         [Guid] public string guid;
         public bool shouldPool = true;
@@ -23,16 +21,19 @@ namespace _Root.Scripts.Game.Items.Runtime
         [SerializeField] private int maxStack;
         [SerializeField] private bool consumable;
 
+        [SerializeField] private bool dropOnDeath;
         [SerializeField] private bool autoPickup;
         [SerializeField] private float pickupRange = 5;
         public string ItemName => itemName;
         public string Description => description;
         public Sprite Icon => icon;
         public bool Consumable => consumable;
+        public bool DropOnDeath => dropOnDeath;
         public bool IsStackable => maxStack > 1;
         public bool AutoPickup => autoPickup;
         public float PickupRange => pickupRange;
-        
+
+
         public int MaxStack
         {
             get => maxStack;
@@ -40,39 +41,21 @@ namespace _Root.Scripts.Game.Items.Runtime
         }
 
 
-        public virtual void Initialize(GameObject user, int amount)
+        public virtual void OnAddedToInventory(GameObject user, int amount)
         {
         }
-        
-        public bool CanPick<TComponent>(GameObject picker, Vector3 position, int amount,
-            out TComponent pickerComponent) where TComponent : IGameItemStorageReference
+
+        public virtual void OnPick(GameObject picker)
         {
-            return picker.TryGetComponent(out pickerComponent) &&
-                   pickerComponent.GameItemStorage.CanAdd(this, amount, out _);
         }
 
-
-        public virtual bool TryPick(GameObject picker, Vector3 position, int amount)
+        public virtual void OnUse(GameObject user)
         {
-            return CanPick(picker, position, amount, out IGameItemStorageReference itemStorageReference) &&
-                   itemStorageReference.GameItemStorage.TryAdd(this, amount, out int added) && added == amount;
         }
 
-        public virtual bool CanUse<TComponent>(GameObject user, Vector3 position, int amount,
-            out TComponent userComponent) where TComponent : IGameItemStorageReference
+        public virtual void OnDrop(GameObject user, Vector3 position, int amount)
         {
-            return user.TryGetComponent(out userComponent) && userComponent.GameItemStorage.HasEnough(this, amount);
-        }
-
-        public virtual bool TryUse(GameObject user, Vector3 position, int amount)
-        {
-            if (CanUse(user, position, amount, out IGameItemStorageReference itemStorageReference))
-            {
-                itemStorageReference.GameItemStorage.TryRemove(this, amount, out _);
-                return true;
-            }
-
-            return false;
+            Trigger(new GameItemDropEvent(user, this, position, amount));
         }
 
 

@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b62e1bb978c24bf9bfd59f0ffbb66e6a, type: 3}
   m_Name: 3D Rand Annulus
   m_EditorClassIdentifier: 
-  delaySeconds: 10
-  intervalSeconds: 1
   assetReference:
     m_AssetGUID: bf0d8b0182b572f4b911cbdbb2f08a76
     m_SubObjectName: 
     m_SubObjectGUID: 
     m_SubObjectType: 
     m_EditorAssetChanged: 1
+  delaySeconds: 1
+  intervalSeconds: 1
   max: 20
   minRadius: 100
   maxRadius: 150

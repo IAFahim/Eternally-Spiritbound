@@ -10,11 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4812040211412234257}
   - component: {fileID: 7589321065733351887}
-  - component: {fileID: 6755126369491827642}
-  - component: {fileID: 7943169366095257837}
+  - component: {fileID: 3461412902412014383}
   - component: {fileID: 970737332303009931}
   - component: {fileID: 6222182846234257531}
-  - component: {fileID: 5684241796418062171}
+  - component: {fileID: 6755126369491827642}
+  - component: {fileID: 7943169366095257837}
   - component: {fileID: 4592830053980218533}
   - component: {fileID: 8420489221093117962}
   m_Layer: 18
@@ -67,6 +67,49 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &3461412902412014383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 759616323773402500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce5b3c68086d4e5fae1e624749d67a9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entityStatsScriptable: {fileID: 11400000, guid: 689b746ed0d621c44925d8f7e4a23b41, type: 2}
+  cloneStats: 1
+--- !u!114 &970737332303009931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 759616323773402500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dd1b6e4a9d6417ea8d68da35f549900, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorage:
+    defaultData:
+    - keyFirst: {fileID: 11400000, guid: 3c2adabcdf8aaef46be373b9297f1491, type: 2}
+      valueSecond: 1
+--- !u!114 &6222182846234257531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 759616323773402500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7bb8b47e0a344599e871f3d44ac4caa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  titleGuid: {fileID: 11400000, guid: 31ce8a7468230ef4f8963fe0b07d0849, type: 2}
 --- !u!114 &6755126369491827642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,45 +167,6 @@ CapsuleCollider:
   m_Height: 6.0679436
   m_Direction: 2
   m_Center: {x: 0, y: 1.3939831, z: -0.29963112}
---- !u!114 &970737332303009931
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 759616323773402500}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8dd1b6e4a9d6417ea8d68da35f549900, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemStorage:
-    defaultData: []
---- !u!114 &6222182846234257531
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 759616323773402500}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7bb8b47e0a344599e871f3d44ac4caa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  titleGuid: {fileID: 11400000, guid: 31ce8a7468230ef4f8963fe0b07d0849, type: 2}
---- !u!114 &5684241796418062171
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 759616323773402500}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d34c5e919f360944af37d7ce37114a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &4592830053980218533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,13 +180,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detectRadius: 100
-  avoidanceWeight: 1.5
+  avoidanceWeight: 2
   seekWeight: 1
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 262967
   directions: 8
-  dangerDecayDistance: 10
+  dangerDecayDistance: 100
   obstacleDetector:
     searchMask:
       serializedVersion: 2
