@@ -1,6 +1,5 @@
 ﻿using Soul.OverlapSugar.Runtime;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
 {
@@ -11,14 +10,12 @@ namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
 
         [SerializeField] private float avoidanceWeight = 1.5f;
         [SerializeField] private float seekWeight = 1f;
-        [SerializeField] private LayerMask obstacleLayer;
 
         [Header("Context Settings")] [SerializeField]
         private int directions = 8;
 
         [SerializeField] private float dangerDecayDistance = 5f;
 
-        [FormerlySerializedAs("_obstacleDetector")]
         public PhysicsCheckOverlapNonAlloc obstacleDetector;
 
         private float[] _interestArray;
@@ -53,7 +50,6 @@ namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
 
         public Vector3 Steer(Vector3 position)
         {
-            ClearArrays();
             CheckAndProcessObstacle();
             CalculateInterest(position);
             return CalculateResultDirection();
@@ -68,12 +64,16 @@ namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
             }
         }
 
-        private void FixedUpdate() => obstacleDetector.Perform(out _);
+        public void FixedUpdate()
+        {
+            ClearArrays();
+            obstacleDetector.Perform();
+        }
 
 
         private void CheckAndProcessObstacle()
         {
-            if (obstacleDetector.Found()) return;
+            if (!obstacleDetector.Found()) return;
             var colliders = obstacleDetector.GetFoundColliders();
             for (var i = 0; i < obstacleDetector.currentSize; i++) ProcessObstacle(colliders[i]);
         }

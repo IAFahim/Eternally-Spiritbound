@@ -24,7 +24,7 @@ namespace Soul.OverlapSugar.Runtime
         [Tooltip("Don't set it in Inspector, it shows the number of collider found")]
         public int currentSize;
 
-        protected Collider[] Colliders;
+        public Collider[] Colliders;
 
         public bool Initialized { get; private set; }
 
@@ -70,43 +70,40 @@ namespace Soul.OverlapSugar.Runtime
 
         public bool Found() => currentSize > 0;
 
-        public virtual int Perform(out Collider[] results)
+        public virtual int Perform()
         {
-            return Perform(overlapPoint.TransformPoint(positionOffset), out results);
+            return Perform(overlapPoint.TransformPoint(positionOffset));
         }
 
-        protected int Perform(Vector3 position, out Collider[] results)
+        protected int Perform(Vector3 position)
         {
             return overlapType switch
             {
-                OverlapType.Sphere => OverlapSphere(position, out results),
-                OverlapType.Box => OverlapBox(position, out results),
+                OverlapType.Sphere => OverlapSphere(position),
+                OverlapType.Box => OverlapBox(position),
                 _ => throw new ArgumentOutOfRangeException(nameof(OverlapType))
             };
         }
         
         public Collider[] GetFoundColliders() => Colliders;
 
-        private int OverlapBox(Vector3 position, out Collider[] results)
+        private int OverlapBox(Vector3 position)
         {
             currentSize = Physics.OverlapBoxNonAlloc(position,
                 boxSize * Half,
                 Colliders,
                 overlapPoint.rotation,
                 searchMask.value);
-
-            results = Colliders;
             return currentSize;
         }
 
 
-        private int OverlapSphere(Vector3 position, out Collider[] results)
+        private int OverlapSphere(Vector3 position)
         {
             currentSize = Physics.OverlapSphereNonAlloc(position,
                 sphereRadius,
                 Colliders,
                 searchMask.value);
-            results = Colliders;
             return currentSize;
         }
 

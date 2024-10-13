@@ -6,14 +6,12 @@ namespace Soul.OverlapSugar.Runtime
     [Serializable]
     public class PhysicsCheckOverlapNonAlloc : OverlapNonAlloc
     {
-        public override int Perform(out Collider[] results)
+        public override int Perform()
         {
 #if DEBUG
             if (!Initialized)
                 throw new InvalidOperationException("Must call Init before performing overlap checks");
 #endif
-
-            results = null;
             Vector3 position = overlapPoint.TransformPoint(positionOffset);
 
             // First, perform the quick check
@@ -25,7 +23,7 @@ namespace Soul.OverlapSugar.Runtime
             };
 
             if (!quickCheck) return currentSize = 0;
-            return Perform(position, out results);
+            return Perform(position);
         }
 
 

@@ -1,4 +1,5 @@
-﻿using _Root.Scripts.Game.MainGameObjectProviders.Runtime;
+﻿using System;
+using _Root.Scripts.Game.MainGameObjectProviders.Runtime;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
@@ -18,6 +19,11 @@ namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
         private void Update()
         {
             _move.Direction = _steering.Steer(mainGameObjectProviders.mainGameObjectInstance.transform.position);
+        }
+
+        public void FixedUpdate()
+        {
+            _steering.FixedUpdate();
         }
 
         private void OnCollisionEnter(Collision other)

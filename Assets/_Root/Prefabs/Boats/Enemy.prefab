@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 4592830053980218533}
   - component: {fileID: 8420489221093117962}
   - component: {fileID: 3260595637832130824}
+  - component: {fileID: 8256658712619696832}
   m_Layer: 18
   m_Name: Enemy
   m_TagString: Untagged
@@ -80,8 +81,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce5b3c68086d4e5fae1e624749d67a9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityStatsScriptable: {fileID: 11400000, guid: 689b746ed0d621c44925d8f7e4a23b41, type: 2}
-  cloneStats: 1
 --- !u!114 &970737332303009931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,24 +180,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detectRadius: 100
-  avoidanceWeight: 2
+  avoidanceWeight: 127.18
   seekWeight: 1
-  obstacleLayer:
-    serializedVersion: 2
-    m_Bits: 262967
   directions: 8
-  dangerDecayDistance: 5
+  dangerDecayDistance: 99
   obstacleDetector:
     searchMask:
       serializedVersion: 2
-      m_Bits: 32768
+      m_Bits: 263040
     overlapPoint: {fileID: 4812040211412234257}
     overlapType: 0
     sphereRadius: 100
     boxSize: {x: 1, y: 1, z: 1}
     positionOffset: {x: 0, y: 0, z: 0}
-    maxCapacity: 4
+    maxCapacity: 10
     currentSize: 0
+    Colliders: []
 --- !u!114 &8420489221093117962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,6 +224,151 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 32768
+--- !u!114 &8256658712619696832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 759616323773402500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f90d4f1fd98b4c7fab38751ec3bf783b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entityStats:
+    vitality:
+      health:
+        current:
+          value: 0
+        max:
+          baseValue: 3
+          rate: 0
+          additive: 0
+      size:
+        baseValue: 0
+        rate: 0
+        additive: 0
+    defensive:
+      immunity:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      armor:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      shield:
+        current:
+          value: 0
+        max:
+          baseValue: 0
+          rate: 0
+          additive: 0
+      dodgeChance:
+        baseValue: 0
+        rate: 0
+        additive: 0
+    movement:
+      speed:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      pickupRange:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      detectRange:
+        baseValue: 0
+        rate: 0
+        additive: 0
+    progression:
+      experience:
+        value: 0
+      experienceRate:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      luck:
+        baseValue: 0
+        rate: 0
+        additive: 0
+    critical:
+      chance:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      damage:
+        baseValue: 0
+        rate: 0
+        additive: 0
+    ammo:
+      total:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      clipSize:
+        baseValue: 0
+        rate: 0
+        additive: 0
+    offensive:
+      damage:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      lifeTime:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      fireRate:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      cooldown:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      range:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      reloadTime:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      accuracy:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      recoil:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      size:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      speed:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      defensePenetration:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      elementalDamage:
+        baseValue: 0
+        rate: 0
+        additive: 0
+      penetration:
+        enabled: 0
+        limitStat:
+          current:
+            value: 0
+          max:
+            baseValue: 0
+            rate: 0
+            additive: 0
 --- !u!1001 &1333086669684634853
 PrefabInstance:
   m_ObjectHideFlags: 0

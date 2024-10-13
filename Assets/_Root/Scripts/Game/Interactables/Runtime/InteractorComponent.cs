@@ -36,7 +36,7 @@ namespace _Root.Scripts.Game.Interactables.Runtime
 
         private void FixedUpdate()
         {
-            if (ticker.TryTick()) playerOverlap.Perform(out _);
+            if (ticker.TryTick()) playerOverlap.Perform();
         }
 
 #if UNITY_EDITOR

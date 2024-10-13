@@ -69,7 +69,7 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
 
         private void FixedUpdate()
         {
-            if (intervalTicker.TryTick()) overlapNonAlloc.Perform(out _);
+            if (intervalTicker.TryTick()) overlapNonAlloc.Perform();
         }
 
         public void Attack(AttackOrigin origin)
@@ -94,7 +94,7 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
 
         private void OnAttackHit(Attack arg1, DamageInfo arg2)
         {
-            Debug.Log("Hit: " + arg2.damaged.name);
+            Debug.Log("Hit: " + arg2.Damaged.name);
         }
 
         public void Dispose()

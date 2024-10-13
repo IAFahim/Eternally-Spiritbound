@@ -1,18 +1,16 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace _Root.Scripts.Game.GameEntities.Runtime.Damages
 {
-    [Serializable]
     public struct DamageInfo
     {
-        public GameObject damaged;
-        public float damageTaken;
+        public GameObject Damaged;
+        public float DamageDealt;
         
-        public DamageInfo(GameObject damaged, float damageTaken)
+        public DamageInfo(GameObject damaged, float damageDealt)
         {
-            this.damaged = damaged;
-            this.damageTaken = damageTaken;
+            this.Damaged = damaged;
+            this.DamageDealt = damageDealt;
         }
     }
 }
