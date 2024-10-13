@@ -3,41 +3,37 @@ using _Root.Scripts.Game.Stats.Runtime.Model;
 using Soul.Modifiers.Runtime;
 using Soul.Reactives.Runtime;
 
-namespace _Root.Scripts.Game.Combats.Runtime.Weapons
+namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
 {
     [Serializable]
-    public class WeaponOffensiveStats : OffensiveStats<float>
+    public class WeaponOffensiveStats
     {
-        public WeaponOffensiveStats(float damage, float lifeTime, float fireRate, float cooldown, float range,
-            float reloadTime, float accuracy, float recoil, float size, float speed, float defensePenetration,
-            float elementalDamage, EnableLimitStat<float> penetration) : base(damage, lifeTime, fireRate, cooldown,
-            range, reloadTime, accuracy, recoil, size, speed, defensePenetration, elementalDamage, penetration)
+        public OffensiveStats<float> value;
+        public OffensiveStats<float> Add(OffensiveStats<Modifier> playerStats)
         {
-        }
-
-        public WeaponOffensiveStats Build(OffensiveStats<Modifier> playerStats)
-        {
-            return new WeaponOffensiveStats
+            return new OffensiveStats<float>
             (
-                damage += playerStats.damage.Value,
-                lifeTime += playerStats.lifeTime.Value,
-                fireRate = fireRate + playerStats.fireRate.Value,
-                cooldown += playerStats.cooldown.Value,
-                range += playerStats.range.Value,
-                reloadTime += playerStats.reloadTime.Value,
-                accuracy += playerStats.accuracy.Value,
-                recoil += playerStats.recoil.Value,
-                size += playerStats.size.Value,
-                speed += playerStats.speed.Value,
-                defensePenetration += playerStats.defensePenetration.Value,
-                elementalDamage += playerStats.elementalDamage.Value,
-                penetration = new EnableLimitStat<float>
+                value.damage + playerStats.damage.Value,
+                value.lifeTime + playerStats.lifeTime.Value,
+                value.fireRate + playerStats.fireRate.Value,
+                value.cooldown + playerStats.cooldown.Value,
+                value.range + playerStats.range.Value,
+                value.reloadTime + playerStats.reloadTime.Value,
+                value.accuracy + playerStats.accuracy.Value,
+                value.recoil + playerStats.recoil.Value,
+                value.size + playerStats.size.Value,
+                value.speed + playerStats.speed.Value,
+                value.defensePenetration + playerStats.defensePenetration.Value,
+                value.elementalDamage + playerStats.elementalDamage.Value,
+                new EnableLimitStat<float>
                 {
-                    enabled = penetration.enabled && playerStats.penetration.enabled,
-                    current = new Reactive<float>(
-                        penetration.current.Value + playerStats.penetration.current.Value
-                    ),
-                    max = penetration.max + playerStats.penetration.max.Value
+                    enabled = value.penetration.enabled & playerStats.penetration.enabled,
+                    limitStat = new LimitStat<float>
+                    {
+                        current = new Reactive<float>(value.penetration.limitStat.current.Value
+                                                      + playerStats.penetration.limitStat.current.Value),
+                        max = value.penetration.limitStat.max + playerStats.penetration.limitStat.max.Value
+                    }
                 }
             );
         }

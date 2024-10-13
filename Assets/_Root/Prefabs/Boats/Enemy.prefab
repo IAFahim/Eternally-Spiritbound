@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 7943169366095257837}
   - component: {fileID: 4592830053980218533}
   - component: {fileID: 8420489221093117962}
+  - component: {fileID: 3260595637832130824}
   m_Layer: 18
   m_Name: Enemy
   m_TagString: Untagged
@@ -186,7 +187,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 262967
   directions: 8
-  dangerDecayDistance: 100
+  dangerDecayDistance: 5
   obstacleDetector:
     searchMask:
       serializedVersion: 2
@@ -211,6 +212,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainGameObjectProviders: {fileID: 11400000, guid: 4c147b4345416824f8968062d60f760a, type: 2}
+--- !u!114 &3260595637832130824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 759616323773402500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 671adce326884dcf9ca9cee3139af301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 32768
 --- !u!1001 &1333086669684634853
 PrefabInstance:
   m_ObjectHideFlags: 0

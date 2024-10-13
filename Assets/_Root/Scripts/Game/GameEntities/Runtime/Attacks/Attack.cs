@@ -1,6 +1,6 @@
 ﻿using System;
-using _Root.Scripts.Game.Combats.Runtime.Damages;
-using _Root.Scripts.Game.Combats.Runtime.Weapons;
+using _Root.Scripts.Game.GameEntities.Runtime.Damages;
+using _Root.Scripts.Game.GameEntities.Runtime.Weapons;
 using _Root.Scripts.Game.Stats.Runtime.Model;
 using UnityEngine;
 
@@ -29,7 +29,7 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Attacks
         public event Action<Attack, GameObject> OnReturnToPoolEvent;
 
         public Attack(
-            AttackOrigin origin, WeaponOffensiveStats info,
+            AttackOrigin origin, OffensiveStats<float> info,
             Action<Attack, DamageInfo> onAttackHit,
             Action<Attack, Vector3> onAttackMiss, 
             Action<Attack, GameObject> onReturnToPool

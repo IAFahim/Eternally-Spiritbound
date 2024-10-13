@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace _Root.Scripts.Game.Combats.Runtime.Damages
+namespace _Root.Scripts.Game.GameEntities.Runtime.Damages
 {
     [Serializable]
     public struct DamageInfo

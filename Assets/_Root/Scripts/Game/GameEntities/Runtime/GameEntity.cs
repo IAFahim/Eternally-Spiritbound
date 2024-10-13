@@ -1,8 +1,6 @@
-﻿using _Root.Scripts.Game.Combats.Runtime.Attacks;
-using _Root.Scripts.Game.Combats.Runtime.Damages;
-using _Root.Scripts.Game.GameEntities.Runtime.Attacks;
+﻿using _Root.Scripts.Game.GameEntities.Runtime.Attacks;
+using _Root.Scripts.Game.GameEntities.Runtime.Damages;
 using _Root.Scripts.Game.Guid;
-using _Root.Scripts.Game.Interactables.Runtime;
 using _Root.Scripts.Game.Stats.Runtime.Controller;
 using _Root.Scripts.Game.Storages.Runtime;
 using Sirenix.OdinInspector;
@@ -14,7 +12,7 @@ namespace _Root.Scripts.Game.GameEntities.Runtime
     public class GameEntity : MonoBehaviour, IEntityStatsReference, IDamage
     {
         private ITitleGuidReference _titleGuidReference;
-        private EntityStats _entityStats;
+        public EntityStats _entityStats;
         private IGameItemStorageReference _itemStorageReference;
 
         public EntityStatsScriptable entityStatsScriptable;
@@ -25,13 +23,12 @@ namespace _Root.Scripts.Game.GameEntities.Runtime
         private void Awake()
         {
             _titleGuidReference = gameObject.GetComponent<ITitleGuidReference>();
-            _entityStats = entityStatsScriptable.GetStats(_titleGuidReference.TitleGuid);
+            // _entityStats = entityStatsScriptable.GetStats(_titleGuidReference.TitleGuid);
             _itemStorageReference = GetComponent<IGameItemStorageReference>();
         }
 
         private void OnEnable()
         {
-            if (cloneStats) _entityStats = (EntityStats)_entityStats.Clone();
             _health = new Health(
                 _entityStats.vitality.health,
                 _entityStats.defensive.armor,
@@ -77,13 +74,13 @@ namespace _Root.Scripts.Game.GameEntities.Runtime
 
         public bool TryKill(float damage, out DamageInfo damageInfo)
         {
-            bool dead = _health.TryKill(damage, out var damageTaken);
+            bool isDead = _health.TryKill(damage, out var damageTaken);
             damageInfo = new DamageInfo
             {
                 damaged = gameObject,
-                damageTaken = damage
+                damageTaken = damageTaken
             };
-            return dead;
+            return isDead;
         }
     }
 }

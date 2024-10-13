@@ -3,7 +3,7 @@
 namespace _Root.Scripts.Game.Stats.Runtime.Model
 {
     [Serializable]
-    public class OffensiveStats<T>
+    public struct OffensiveStats<T>
     {
         public T damage;
         public T lifeTime;

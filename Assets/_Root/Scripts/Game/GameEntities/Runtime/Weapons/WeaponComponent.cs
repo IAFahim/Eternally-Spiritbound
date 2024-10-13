@@ -1,8 +1,6 @@
 ﻿using System;
-using _Root.Scripts.Game.Combats.Runtime.Attacks;
-using _Root.Scripts.Game.Combats.Runtime.Damages;
-using _Root.Scripts.Game.Combats.Runtime.Weapons;
 using _Root.Scripts.Game.GameEntities.Runtime.Attacks;
+using _Root.Scripts.Game.GameEntities.Runtime.Damages;
 using _Root.Scripts.Game.Stats.Runtime.Model;
 using Pancake.Pools;
 using Sisus.Init;
@@ -30,7 +28,7 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
         private AddressableGameObjectPool _bulletPool;
         public OverlapNonAlloc overlapNonAlloc;
         public IntervalTicker intervalTicker;
-        public WeaponOffensiveStats weaponOffensiveStats;
+        public OffensiveStats<float> weaponOffensiveStats;
 
         private void OnEnable()
         {

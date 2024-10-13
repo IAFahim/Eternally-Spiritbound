@@ -1,5 +1,4 @@
-﻿using _Root.Scripts.Game.Interactables.Runtime;
-using _Root.Scripts.Game.Stats.Runtime.Controller;
+﻿using _Root.Scripts.Game.Stats.Runtime.Controller;
 using Pancake.Common;
 using UnityEngine;
 
@@ -21,7 +20,7 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Damages
             {
                 if (other.gameObject.TryGetComponent<IDamage>(out var damage))
                 {
-                    damage.TryKill(_entityStatsReference.EntityStats.contactDamage.Value, out _);
+                    damage.TryKill(1, out _);
                 }
             }
         }

@@ -1,4 +1,4 @@
-﻿namespace _Root.Scripts.Game.Combats.Runtime.Weapons
+﻿namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
 {
     public interface IWeaponLoader
     {

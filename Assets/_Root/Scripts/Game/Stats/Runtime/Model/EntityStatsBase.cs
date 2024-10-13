@@ -3,7 +3,7 @@
 namespace _Root.Scripts.Game.Stats.Runtime.Model
 {
     [Serializable]
-    public class EntityStatsBase<T> : ICloneable
+    public class EntityStatsBase<T>
     {
         public VitalityStats<T> vitality;
         public DefensiveStats<T> defensive;
@@ -12,10 +12,5 @@ namespace _Root.Scripts.Game.Stats.Runtime.Model
         public CriticalStats<T> critical;
         public AmmoStats<T> ammo;
         public OffensiveStats<T> offensive;
-
-        public object Clone()
-        {
-            return MemberwiseClone();
-        }
     }
 }

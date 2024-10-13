@@ -1,7 +1,7 @@
 ﻿using System;
-using _Root.Scripts.Game.Combats.Runtime.Damages;
+using _Root.Scripts.Game.GameEntities.Runtime.Damages;
 
-namespace _Root.Scripts.Game.Combats.Runtime.Attacks
+namespace _Root.Scripts.Game.GameEntities.Runtime.Attacks
 {
     public struct AttackCallBack
     {

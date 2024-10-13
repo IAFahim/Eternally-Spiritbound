@@ -9,10 +9,6 @@ namespace Soul.Reactives.Runtime
         [SerializeField] protected T value;
         public event Action<T, T> OnChange;
 
-        public Reactive()
-        {
-        }
-
         public Reactive(T value)
         {
             this.value = value;

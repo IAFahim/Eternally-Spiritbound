@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using _Root.Scripts.Game.Combats.Runtime.Weapons;
 using _Root.Scripts.Game.Stats.Runtime.Model;
 using Soul.Modifiers.Runtime;
 using UnityEngine;

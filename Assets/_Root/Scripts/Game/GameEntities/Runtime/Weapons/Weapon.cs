@@ -1,9 +1,8 @@
 ﻿using System;
-using _Root.Scripts.Game.GameEntities.Runtime.Weapons;
 using _Root.Scripts.Game.Items.Runtime;
 using UnityEngine;
 
-namespace _Root.Scripts.Game.Combats.Runtime.Weapons
+namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
 {
     [CreateAssetMenu(fileName = "weapon", menuName = "Scriptable/Weapon/New")]
     [Serializable]

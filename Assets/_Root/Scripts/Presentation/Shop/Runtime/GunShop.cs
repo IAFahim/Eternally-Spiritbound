@@ -1,5 +1,5 @@
 ﻿using System;
-using _Root.Scripts.Game.Combats.Runtime.Weapons;
+using _Root.Scripts.Game.GameEntities.Runtime.Weapons;
 using _Root.Scripts.Game.Interactables.Runtime;
 using UnityEngine;
 
