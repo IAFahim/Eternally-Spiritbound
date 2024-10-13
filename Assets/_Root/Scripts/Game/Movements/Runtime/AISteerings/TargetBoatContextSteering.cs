@@ -1,5 +1,6 @@
 ﻿using System;
 using _Root.Scripts.Game.MainGameObjectProviders.Runtime;
+using Soul.Tickers.Runtime;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
@@ -9,6 +10,7 @@ namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
         [SerializeField] private MainObjectProviderScriptable mainGameObjectProviders;
         private BoatContextSteering _steering;
         private IMove _move;
+        public IntervalTicker ticker;
 
         private void Start()
         {
@@ -23,7 +25,7 @@ namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
 
         public void FixedUpdate()
         {
-            _steering.FixedUpdate();
+            if (ticker.TryTick()) _steering.FixedUpdate();
         }
 
         private void OnCollisionEnter(Collision other)

@@ -133,59 +133,7 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes:
-    - Name: _buttonsLanguage
-      Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[UnityEngine.SystemLanguage,
-        UnityEngine.CoreModule],[Pancake.UI.UIButtonText, Pancake.UGUI]], mscorlib
-    - Name: comparer
-      Entry: 7
-      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[UnityEngine.SystemLanguage,
-        UnityEngine.CoreModule]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: _buttonsQuality
-      Entry: 7
-      Data: 2|System.Collections.Generic.Dictionary`2[[_Root.Scripts.Game.Cores.Runtime.EQuality,
-        Game.Core.Runtime],[Pancake.UI.UIButtonText, Pancake.UGUI]], mscorlib
-    - Name: comparer
-      Entry: 7
-      Data: 3|System.Collections.Generic.EnumEqualityComparer`1[[_Root.Scripts.Game.Cores.Runtime.EQuality,
-        Game.Core.Runtime]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
+    SerializationNodes: []
   enabledSound: 0
   audioOpen:
     name: bgm_gameplay
@@ -193,29 +141,7 @@ MonoBehaviour:
   audioClose:
     name: bgm_gameplay
     id: 
-  textVersion: {fileID: 0}
-  textBgm: {fileID: 0}
-  textSfx: {fileID: 0}
-  textVibrate: {fileID: 0}
-  textUserId: {fileID: 0}
-  buttonMailbox: {fileID: 0}
-  buttonCopyId: {fileID: 0}
-  buttonGiftCode: {fileID: 0}
-  buttonBgm: {fileID: 0}
-  buttonSfx: {fileID: 0}
-  buttonVibrate: {fileID: 0}
-  buttonFacebook: {fileID: 0}
-  buttonTerm: {fileID: 0}
-  buttonPrivacy: {fileID: 0}
-  buttonCredit: {fileID: 0}
-  buttonBackup: {fileID: 0}
   buttonClose: {fileID: 8917448076246503423}
-  colorTurnOnInGroup: {r: 0.87843144, g: 0.24313727, b: 0.3372549, a: 1}
-  colorTurnOn: {r: 0.27450982, g: 0.33333334, b: 0.36078432, a: 1}
-  colorText: {r: 0.27450982, g: 0.32941177, b: 0.3529412, a: 1}
-  localeTextOn: {fileID: 11400000, guid: 8e26623782d62334c90ef287f9a08a2d, type: 2}
-  localeTextOff: {fileID: 11400000, guid: 8874c57fa858acf4aa16cb1c3e80db0b, type: 2}
-  groupFacebookURL: 
   creditPopupKey: CreditPopup
   backupDataPopupKey: BackupDataPopup
 --- !u!114 &3058685168928674365
@@ -418,7 +344,6 @@ GameObject:
   - component: {fileID: 4857225942996244333}
   - component: {fileID: 590380574997848767}
   - component: {fileID: 5064910594337385410}
-  - component: {fileID: 1099581163880724618}
   m_Layer: 5
   m_Name: text_setting
   m_TagString: Untagged
@@ -544,28 +469,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &1099581163880724618
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3085418281099817096}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aaab9ec5a991b7b4ebed25b289662232, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 5064910594337385410}
-  nullArgumentGuard: 3
-  firstArgument:
-    reference: {fileID: 11400000, guid: 2ac29ea01c144d04c87fb677c9e277eb, type: 2}
-    value: 
-  secondArgument:
-    reference: {fileID: 11400000, guid: f34abdf23624edd458a483aee76c5640, type: 2}
-    value: {fileID: 0}
-  disposeArgumentsOnDestroy: 0
-  asyncValueProviderArguments: 0
 --- !u!1 &6556911876562450267
 GameObject:
   m_ObjectHideFlags: 0
