@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a64f7cc1e0cd475284c6c0c212d6db52, type: 3}
+  m_Name: BoatNavigationUIProviderScriptable
+  m_EditorClassIdentifier: 
+  healthBarPrefab:
+    m_AssetGUID: d33ad5248591b394eb6fd583b92065c7
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 1
+  healthBar: {fileID: 0}

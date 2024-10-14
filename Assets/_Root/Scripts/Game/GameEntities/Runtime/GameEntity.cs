@@ -1,17 +1,20 @@
-﻿using _Root.Scripts.Game.GameEntities.Runtime.Attacks;
+﻿using System.Collections.Generic;
+using _Root.Scripts.Game.GameEntities.Runtime.Attacks;
 using _Root.Scripts.Game.GameEntities.Runtime.Damages;
 using _Root.Scripts.Game.Stats.Runtime.Controller;
 using _Root.Scripts.Game.Storages.Runtime;
+using _Root.Scripts.Game.UiLoaders.Runtime;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace _Root.Scripts.Game.GameEntities.Runtime
 {
     [DisallowMultipleComponent, SelectionBase]
-    public class GameEntity : MonoBehaviour, IDamage
+    public class GameEntity : MonoBehaviour, IDamage, IUIProvider
     {
+        [SerializeField] private UIProviderScriptable uiProviderScriptable;
         private IGameItemStorageReference _itemStorageReference;
         private IEntityStatsReference _entityStatsReference;
-
 
         private void Awake()
         {
@@ -64,5 +67,12 @@ namespace _Root.Scripts.Game.GameEntities.Runtime
         {
             return _entityStatsReference.EntityStats.TryKill(damage, out damageDelt);
         }
+
+        public void EnableUI(HashSet<GameObject> activeUiElementHashSet, Transform uISpawnPointTransform, GameObject otherGameObject)
+        {
+            uiProviderScriptable.EnableUI(activeUiElementHashSet, uISpawnPointTransform, otherGameObject);
+        }
+
+        public GameObject[] DisableUI(GameObject otherGameObject) => uiProviderScriptable.DisableUI(otherGameObject);
     }
 }

@@ -9,11 +9,19 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
         public Camera mainCamera;
         public CinemachineCamera virtualCamera;
         public MainObjectProviderScriptable mainObjectProviderScriptable;
+        public Transform uISpawnPoint;
 
         private void Awake()
         {
-            if (mainGameObjectInstance == null) mainObjectProviderScriptable.SpawnMainGameObject(mainCamera, virtualCamera, SpawnedGameObjectCallBack);
-            else mainObjectProviderScriptable.ProvideTo(mainGameObjectInstance, mainCamera, virtualCamera);
+            if (mainGameObjectInstance == null)
+                mainObjectProviderScriptable.SpawnMainGameObject(
+                    mainCamera,
+                    virtualCamera,
+                    SpawnedGameObjectCallBack,
+                    uISpawnPoint
+                );
+            else
+                mainObjectProviderScriptable.ProvideTo(mainGameObjectInstance, mainCamera, virtualCamera, uISpawnPoint);
         }
 
         private void SpawnedGameObjectCallBack(GameObject obj) => mainGameObjectInstance = obj;

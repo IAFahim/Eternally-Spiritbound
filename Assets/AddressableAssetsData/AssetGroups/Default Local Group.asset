@@ -40,6 +40,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d33ad5248591b394eb6fd583b92065c7
+    m_Address: Assets/_Root/Storages/UIProvider/BoatHealthUI.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 2c8601dc2ee34bc4b8ca49c157e6a9c4, type: 2}
   m_SchemaSet:
