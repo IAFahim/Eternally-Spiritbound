@@ -27,10 +27,5 @@ namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
         {
             if (ticker.TryTick()) _steering.FixedUpdate();
         }
-
-        private void OnCollisionEnter(Collision other)
-        {
-            gameObject.SetActive(false);
-        }
     }
 }

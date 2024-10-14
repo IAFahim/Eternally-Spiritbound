@@ -180,14 +180,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detectRadius: 100
-  avoidanceWeight: 127.18
+  avoidanceWeight: 1.2
   seekWeight: 1
   directions: 8
-  dangerDecayDistance: 99
+  dangerDecayDistance: 25
   obstacleDetector:
     searchMask:
       serializedVersion: 2
-      m_Bits: 263040
+      m_Bits: 896
     overlapPoint: {fileID: 4812040211412234257}
     overlapType: 0
     sphereRadius: 100
@@ -209,6 +209,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainGameObjectProviders: {fileID: 11400000, guid: 4c147b4345416824f8968062d60f760a, type: 2}
+  ticker:
+    currentTick: 0
+    interval: 5
 --- !u!114 &3260595637832130824
 MonoBehaviour:
   m_ObjectHideFlags: 0
