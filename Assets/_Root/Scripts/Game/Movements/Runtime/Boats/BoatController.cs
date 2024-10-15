@@ -110,8 +110,6 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
             _moveDirection = Vector3.zero;
         }
         
-
-
         private void UpdateLean()
         {
             lean.UpdateLean(_moveDirection);

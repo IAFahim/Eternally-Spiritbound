@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -8,63 +9,42 @@ namespace _Root.Scripts.Game.UiLoaders.Runtime
 {
     public abstract class UIProviderScriptable : ScriptableObject, IUIProvider
     {
-        protected GameObject TargetGameObject;
-        protected Dictionary<AssetReferenceGameObject, GameObject> ActiveUiElementDictionary;
-
-        public virtual void EnableUI(Dictionary<AssetReferenceGameObject, GameObject> activeUiElementDictionary,
+        public abstract void EnableUI(Dictionary<AssetReferenceGameObject, GameObject> activeUiElements,
             Transform uISpawnPointTransform,
-            GameObject targetGameObject)
-        {
-            TargetGameObject = targetGameObject;
-            ActiveUiElementDictionary = activeUiElementDictionary;
-        }
+            GameObject targetGameObject);
 
         protected void SetCache(
-            Dictionary<AssetReferenceGameObject, GameObject> activeUiElementDictionary, Transform uiSpawnPointTransform,
-            params CacheRequest[] cacheRequests)
+            Dictionary<AssetReferenceGameObject, GameObject> activeUiElementDictionary, Transform uiSpawnTransform,
+            params (AssetReferenceGameObject asset, Action<GameObject> Setup)[] cacheRequests)
         {
-            foreach (var cacheRequest in cacheRequests)
+            List<AssetReferenceGameObject> keysToKeep = new List<AssetReferenceGameObject>();
+            foreach (var (asset, setupCallback) in cacheRequests)
             {
-                if (activeUiElementDictionary.TryGetValue(cacheRequest.Asset, out GameObject uiElement))
-                    cacheRequest.Hit.Invoke(uiElement);
+                keysToKeep.Add(asset);
+                if (activeUiElementDictionary.TryGetValue(asset, out var uiElement)) setupCallback.Invoke(uiElement);
                 else
-                    Addressables.InstantiateAsync(cacheRequest.Asset, uiSpawnPointTransform).Completed
-                        += cacheRequest.Miss;
+                {
+                    Addressables.InstantiateAsync(asset, uiSpawnTransform).Completed +=
+                        handle => Setup(handle, setupCallback);
+                }
+            }
+
+            var keysToRemove = activeUiElementDictionary.Keys.Except(keysToKeep).ToList();
+            foreach (var key in keysToRemove)
+            {
+                Addressables.ReleaseInstance(activeUiElementDictionary[key]);
+                activeUiElementDictionary.Remove(key);
             }
         }
 
-        // private void Setup(AsyncOperationHandle<GameObject> operationHandle)
-        // {
-        //     if (operationHandle.Status == AsyncOperationStatus.Succeeded)
-        //     {
-        //         ActiveUiElementDictionary.Add(healthBarAsset, operationHandle.Result);
-        //         SetupHealthBar(operationHandle.Result);
-        //     }
-        // }
 
-        protected KeyValuePair<AssetReferenceGameObject, GameObject> InvalidateCacheEntry(
-            AssetReferenceGameObject assetReferenceGameObject, GameObject uiElement, Action<GameObject> beforeClean)
+        private void Setup(AsyncOperationHandle<GameObject> operationHandle, Action<GameObject> setupCallBack)
         {
-            beforeClean.Invoke(uiElement);
-            return new KeyValuePair<AssetReferenceGameObject, GameObject>(assetReferenceGameObject, uiElement);
+            if (operationHandle.Status != AsyncOperationStatus.Succeeded) return;
+            setupCallBack(operationHandle.Result);
         }
 
-        public abstract void DisableUI(Dictionary<AssetReferenceGameObject, GameObject> activeUiElementDictionary,
-            GameObject targetGameObject);
-    }
 
-    public struct CacheRequest
-    {
-        public readonly AssetReferenceGameObject Asset;
-        public readonly Action<GameObject> Hit;
-        public readonly Action<AsyncOperationHandle<GameObject>> Miss;
-
-        public CacheRequest(AssetReferenceGameObject asset, Action<GameObject> onHit,
-            Action<AsyncOperationHandle<GameObject>> onMiss)
-        {
-            Asset = asset;
-            Hit = onHit;
-            Miss = onMiss;
-        }
+        public abstract void DisableUI(GameObject targetGameObject);
     }
 }

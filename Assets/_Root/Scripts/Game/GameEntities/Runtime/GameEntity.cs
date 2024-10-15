@@ -68,13 +68,13 @@ namespace _Root.Scripts.Game.GameEntities.Runtime
             return _entityStatsReference.EntityStats.TryKill(damage, out damageDelt);
         }
 
-        public void EnableUI(Dictionary<AssetReferenceGameObject, GameObject> activeUiElementDictionary,
-            Transform uISpawnPointTransform, GameObject targetGameObject)
+        public void EnableUI(Dictionary<AssetReferenceGameObject, GameObject> activeUiElements,
+            Transform uISpawnPointTransform,
+            GameObject targetGameObject)
         {
-            uiProviderScriptable.EnableUI(activeUiElementDictionary, uISpawnPointTransform, targetGameObject);
+            uiProviderScriptable.EnableUI(activeUiElements, uISpawnPointTransform, targetGameObject);
         }
 
-        public void DisableUI(Dictionary<AssetReferenceGameObject, GameObject> activeUiElementDictionary,
-            GameObject targetGameObject) => uiProviderScriptable.DisableUI(activeUiElementDictionary, targetGameObject);
+        public void DisableUI(GameObject targetGameObject) => uiProviderScriptable.DisableUI(targetGameObject);
     }
 }

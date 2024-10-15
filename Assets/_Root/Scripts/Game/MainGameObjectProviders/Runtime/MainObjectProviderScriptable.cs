@@ -18,7 +18,9 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
         public LayerMask layerMask;
         public CinemachineCamera virtualCamera;
         public Camera mainCamera;
-        [FormerlySerializedAs("uISpawnPoint")] public Transform uISpawnPointTransform;
+
+        [FormerlySerializedAs("uISpawnPointTransform")]
+        public Transform uISpawnTransform;
 
         [Header("Input Actions")] public InputActionReference moveAction;
         public GameObject lastFocusedGameObject;
@@ -26,7 +28,7 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
         private IMoveInputConsumer _lastMoveInputConsumer;
         private Action<GameObject> _spawnedGameObjectCallBack;
         private IUIProvider _lastUiProvider;
-        private readonly Dictionary<AssetReferenceGameObject, GameObject> _activeUiElementDictionary = new();
+        private readonly Dictionary<AssetReferenceGameObject, GameObject> _activeUiElements = new();
 
         public void SpawnMainGameObject(Camera camera,
             CinemachineCamera cinemachineCamera,
@@ -35,14 +37,14 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
             mainCamera = camera;
             _spawnedGameObjectCallBack = gameObjectCallBack;
             virtualCamera = cinemachineCamera;
-            uISpawnPointTransform = uiSpawnPoint;
+            uISpawnTransform = uiSpawnPoint;
             Addressables.InstantiateAsync(mainGameObjectAssetReference).Completed += OnCompletedInstantiate;
         }
 
         void OnCompletedInstantiate(AsyncOperationHandle<GameObject> handle)
         {
             mainGameObjectInstance = handle.Result;
-            ProvideTo(mainGameObjectInstance, mainCamera, virtualCamera, uISpawnPointTransform);
+            ProvideTo(mainGameObjectInstance, mainCamera, virtualCamera, uISpawnTransform);
             _spawnedGameObjectCallBack?.Invoke(mainGameObjectInstance);
             _spawnedGameObjectCallBack = null;
         }
@@ -54,7 +56,7 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
             mainGameObjectInstance = gameObject;
             mainCamera = camera;
             virtualCamera = cinemachineCamera;
-            uISpawnPointTransform = uiSpanPoint;
+            uISpawnTransform = uiSpanPoint;
             AssignVirtualCamera(gameObject, camera, cinemachineCamera);
             AssignGameObject(gameObject);
             AssignMoveInput(gameObject);
@@ -63,9 +65,7 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
 
         private void AssignUI(GameObject gameObject)
         {
-            var uiProvider = gameObject.GetComponent<IUIProvider>();
-            if (uiProvider == null) return;
-            uiProvider.EnableUI(_activeUiElementDictionary, uISpawnPointTransform, gameObject);
+            gameObject.GetComponent<IUIProvider>().EnableUI(_activeUiElements, uISpawnTransform, gameObject);
         }
 
 
@@ -93,18 +93,22 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
             _lastMoveInputConsumer.EnableMoveInput(moveAction);
         }
 
-        
 
         private void UnlinkGameObject()
         {
             _lastMoveInputConsumer?.DisableMoveInput(moveAction);
             if (lastFocusedGameObject != null) lastFocusedGameObject.layer &= ~(1 << layerMask);
-            if (lastFocusedGameObject != null) _lastUiProvider.DisableUI(_activeUiElementDictionary, lastFocusedGameObject);
+            if (lastFocusedGameObject != null) _lastUiProvider.DisableUI(lastFocusedGameObject);
         }
 
         public void Forget()
         {
-            _activeUiElementDictionary.Clear();
+            foreach (var activeUiElement in _activeUiElements)
+            {
+                Addressables.ReleaseInstance(activeUiElement.Value);
+            }
+            _activeUiElements.Clear();
+            
             _lastUiProvider = null;
             _lastMoveInputConsumer = null;
             lastFocusedGameObject = null;
