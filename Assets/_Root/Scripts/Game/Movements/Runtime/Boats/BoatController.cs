@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 namespace _Root.Scripts.Game.Movements.Runtime.Boats
 {
     [RequireComponent(typeof(Rigidbody))]
-    public class BoatController : MonoBehaviour, IMove, IAcceleration, IMainCameraProvider
+    public class BoatController : MonoBehaviour, IMove, IMainCameraProvider
     {
         [Header("References")] public Rigidbody rb;
         public Lean lean;
@@ -25,15 +25,14 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
         public float waveFrequency = 1f;
 
         [Header("Stability Settings")] public float stabilizationTorque = 10f;
-        public Vector3 _moveDirection;
-        public float _accelerationInput;
+        private Vector3 _moveDirection;
         private bool _isReversing = false;
 
         [Header("Boat Stats")] private float _currentSpeed;
         private float _currentTurnRate;
         private float _currentBuoyancy;
 
-        public Optional<Camera> mainCamera;
+        private Optional<Camera> _mainCamera;
 
 
         private void OnEnable()
@@ -86,11 +85,11 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
         {
             Vector2 input = context.ReadValue<Vector2>();
 
-            if (mainCamera.Enabled)
+            if (_mainCamera.Enabled)
             {
                 // Convert input to camera-relative direction
-                Vector3 cameraForward = mainCamera.Value.transform.forward;
-                Vector3 cameraRight = mainCamera.Value.transform.right;
+                Vector3 cameraForward = _mainCamera.Value.transform.forward;
+                Vector3 cameraRight = _mainCamera.Value.transform.right;
 
                 // Project vectors onto the horizontal plane
                 cameraForward.y = 0;
@@ -110,36 +109,7 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
         {
             _moveDirection = Vector3.zero;
         }
-
-        public float Acceleration
-        {
-            get => _accelerationInput;
-            set => _accelerationInput = value;
-        }
-
-        void IAccelerateInputConsumer.EnableAccelerateInput(InputActionReference accelerateAction)
-        {
-            accelerateAction.action.Enable();
-            accelerateAction.action.performed += ((IAccelerateInputConsumer)this).OnAccelerateInput;
-            accelerateAction.action.canceled += ((IAccelerateInputConsumer)this).OnAccelerateInputCancel;
-        }
-
-        void IAccelerateInputConsumer.OnAccelerateInput(InputAction.CallbackContext context)
-        {
-            _accelerationInput = context.ReadValue<float>();
-        }
-
-        void IAccelerateInputConsumer.OnAccelerateInputCancel(InputAction.CallbackContext context)
-        {
-            _accelerationInput = 0;
-        }
-
-        void IAccelerateInputConsumer.DisableAccelerateInput(InputActionReference accelerateAction)
-        {
-            accelerateAction.action.Disable();
-            accelerateAction.action.performed -= ((IAccelerateInputConsumer)this).OnAccelerateInput;
-            accelerateAction.action.canceled -= ((IAccelerateInputConsumer)this).OnAccelerateInputCancel;
-        }
+        
 
 
         private void UpdateLean()
@@ -162,8 +132,7 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
 
         private void ApplyAcceleration()
         {
-            float targetAcceleration =
-                _accelerationInput * (_isReversing ? reverseAccelerationForce : accelerationForce);
+            float targetAcceleration = _isReversing ? reverseAccelerationForce : accelerationForce;
             Vector3 forceDirection = transform.forward * targetAcceleration;
             rb.AddForce(forceDirection, ForceMode.Acceleration);
 
@@ -246,7 +215,7 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
 
         public Camera MainCamera
         {
-            set => mainCamera = value;
+            set => _mainCamera = value;
         }
     }
 }

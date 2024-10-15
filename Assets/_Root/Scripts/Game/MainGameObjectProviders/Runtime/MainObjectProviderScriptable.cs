@@ -21,14 +21,12 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
         [FormerlySerializedAs("uISpawnPoint")] public Transform uISpawnPointTransform;
 
         [Header("Input Actions")] public InputActionReference moveAction;
-        public InputActionReference accelerateAction;
         public GameObject lastFocusedGameObject;
-        
+
         private IMoveInputConsumer _lastMoveInputConsumer;
-        private IAccelerateInputConsumer _lastAccelerateInputConsumer;
         private Action<GameObject> _spawnedGameObjectCallBack;
         private IUIProvider _lastUiProvider;
-        private readonly HashSet<GameObject> _spannedUIsHashset = new(); 
+        private readonly Dictionary<AssetReferenceGameObject, GameObject> _activeUiElementDictionary = new();
 
         public void SpawnMainGameObject(Camera camera,
             CinemachineCamera cinemachineCamera,
@@ -52,7 +50,7 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
         public void ProvideTo(GameObject gameObject, Camera camera, CinemachineCamera cinemachineCamera,
             Transform uiSpanPoint)
         {
-            Clear();
+            UnlinkGameObject();
             mainGameObjectInstance = gameObject;
             mainCamera = camera;
             virtualCamera = cinemachineCamera;
@@ -60,7 +58,6 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
             AssignVirtualCamera(gameObject, camera, cinemachineCamera);
             AssignGameObject(gameObject);
             AssignMoveInput(gameObject);
-            AssignAccelerateInput(gameObject);
             AssignUI(gameObject);
         }
 
@@ -68,7 +65,7 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
         {
             var uiProvider = gameObject.GetComponent<IUIProvider>();
             if (uiProvider == null) return;
-            uiProvider.EnableUI(_spannedUIsHashset, uISpawnPointTransform, gameObject);
+            uiProvider.EnableUI(_activeUiElementDictionary, uISpawnPointTransform, gameObject);
         }
 
 
@@ -96,29 +93,19 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
             _lastMoveInputConsumer.EnableMoveInput(moveAction);
         }
 
-        private void AssignAccelerateInput(GameObject gameObject)
-        {
-            _lastAccelerateInputConsumer?.DisableAccelerateInput(accelerateAction);
-            var inputConsumer = gameObject.GetComponent<IAccelerateInputConsumer>();
-            if (inputConsumer == null) return;
-            _lastAccelerateInputConsumer = inputConsumer;
-            _lastAccelerateInputConsumer.EnableAccelerateInput(accelerateAction);
-        }
+        
 
-        private void Clear()
+        private void UnlinkGameObject()
         {
-            _lastAccelerateInputConsumer?.DisableAccelerateInput(accelerateAction);
             _lastMoveInputConsumer?.DisableMoveInput(moveAction);
             if (lastFocusedGameObject != null) lastFocusedGameObject.layer &= ~(1 << layerMask);
-            if (lastFocusedGameObject != null) _lastUiProvider.DisableUI(lastFocusedGameObject);
-            Forget();
+            if (lastFocusedGameObject != null) _lastUiProvider.DisableUI(_activeUiElementDictionary, lastFocusedGameObject);
         }
 
         public void Forget()
         {
-            _spannedUIsHashset.Clear();
-            _lastUiProvider = null; 
-            _lastAccelerateInputConsumer = null;
+            _activeUiElementDictionary.Clear();
+            _lastUiProvider = null;
             _lastMoveInputConsumer = null;
             lastFocusedGameObject = null;
         }

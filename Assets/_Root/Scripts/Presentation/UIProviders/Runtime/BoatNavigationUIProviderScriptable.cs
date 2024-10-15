@@ -1,8 +1,12 @@
 ﻿using System.Collections.Generic;
 using _Root.Scripts.Game.Stats.Runtime.Controller;
 using _Root.Scripts.Game.UiLoaders.Runtime;
+using Soul.Modifiers.Runtime;
+using Soul.Reactives.Runtime;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.Serialization;
 using UnityProgressBar;
 
 namespace _Root.Scripts.Presentation.UIProviders.Runtime
@@ -11,39 +15,60 @@ namespace _Root.Scripts.Presentation.UIProviders.Runtime
         menuName = "Scriptable/UIProviders/BoatNavigationUIProviderScriptable")]
     public class BoatNavigationUIProviderScriptable : UIProviderScriptable
     {
-        public AssetReferenceGameObject healthBarPrefab;
-        public ProgressBar healthBar;
+        [FormerlySerializedAs("healthBarAssetReferenceGameObject")] [FormerlySerializedAs("healthBarPrefab")]
+        public AssetReferenceGameObject healthBarAsset;
 
-        public override void EnableUI(HashSet<GameObject> activeUiElementHashSet, Transform uISpawnPointTransform,
-            GameObject gameObject)
+        private ProgressBar _healthBarCache;
+        private EntityStats _entityStats;
+        private Reactive<float> _health;
+        private Modifier _maxHealth;
+
+        public override void EnableUI(Dictionary<AssetReferenceGameObject, GameObject> activeUiElementDictionary,
+            Transform uISpawnPointTransform,
+            GameObject targetGameObject)
         {
-            if (healthBar != null && activeUiElementHashSet.Contains(healthBar.gameObject)) return;
-            Addressables.InstantiateAsync(healthBarPrefab, uISpawnPointTransform).Completed += handle =>
+            base.EnableUI(activeUiElementDictionary, uISpawnPointTransform, targetGameObject);
+            SetCache(activeUiElementDictionary, uISpawnPointTransform,
+                new CacheRequest(healthBarAsset, SetupHealthBar, SpawnHealthBar)
+            );
+        }
+
+        private void SpawnHealthBar(AsyncOperationHandle<GameObject> operationHandle)
+        {
+            if (operationHandle.Status == AsyncOperationStatus.Succeeded)
             {
-                healthBar = handle.Result.GetComponent<ProgressBar>();
-                var entityStats = gameObject.GetComponent<IEntityStatsReference>().EntityStats;
-                entityStats.vitality.health.current.OnChange += OnCurrentHealthChange;
-                healthBar.SetValueWithoutNotify(entityStats.vitality.health.current.Value);
-                activeUiElementHashSet.Add(healthBar.gameObject);
-            };
+                ActiveUiElementDictionary.Add(healthBarAsset, operationHandle.Result);
+                SetupHealthBar(operationHandle.Result);
+            }
+        }
+
+        private void SetupHealthBar(GameObject spawnedHealthBar)
+        {
+            _healthBarCache = spawnedHealthBar.GetComponent<ProgressBar>();
+            _entityStats = TargetGameObject.GetComponent<IEntityStatsReference>().EntityStats;
+            _health = _entityStats.vitality.health.current;
+            _maxHealth = _entityStats.vitality.health.max;
+            _health.OnChange += OnCurrentHealthChange;
+            _healthBarCache.SetValueWithoutNotify(_health.Value);
+            ActiveUiElementDictionary.Add(healthBarAsset, spawnedHealthBar);
+        }
+
+        private void CleanHealthBar(GameObject uiElement)
+        {
+            _health.OnChange -= OnCurrentHealthChange;
         }
 
 
         private void OnCurrentHealthChange(float old, float current)
         {
-            healthBar.Value = current;
+            _healthBarCache.Value = current / _maxHealth.Value;
         }
 
-        public override GameObject[] DisableUI(GameObject gameObject)
+        public override void DisableUI(Dictionary<AssetReferenceGameObject, GameObject> activeUiElementDictionary,
+            GameObject targetGameObject)
         {
-            List<GameObject> uiElements = new List<GameObject>();
-            if (gameObject.TryGetComponent<IEntityStatsReference>(out var entityStatsReference))
-            {
-                entityStatsReference.EntityStats.vitality.health.current.OnChange -= OnCurrentHealthChange;
-                uiElements.Add(healthBar.gameObject);
-            }
-
-            return uiElements.ToArray();
+            var x = InvalidateCacheEntry(healthBarAsset, _healthBarCache.gameObject, CleanHealthBar);
+            activeUiElementDictionary.Add(x.Key, x.Value);
         }
     }
 }
