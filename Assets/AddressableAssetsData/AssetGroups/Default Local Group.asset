@@ -25,6 +25,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 37c8fdfec2ad2544591ab44b83d20da0
+    m_Address: Assets/_Root/Prefabs/Cinemachines/Cinemachine Character.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4b4ba72fb07efc6409a1bbb88f21acfb
     m_Address: Assets/_Root/Storages/Generated/Scriptable/wood.prefab
     m_ReadOnly: 0
@@ -37,6 +42,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 946ea4e6aa4032a48bd434a7b2d0d743
     m_Address: Assets/_Root/Storages/Generated/Scriptable/Main Boat.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b351a3825d6462c459ee036f28f7dd99
+    m_Address: Assets/_Root/Prefabs/Cinemachines/Cinemachine Boat.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

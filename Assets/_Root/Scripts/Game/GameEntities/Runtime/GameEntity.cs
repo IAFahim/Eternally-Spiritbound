@@ -1,20 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using _Root.Scripts.Game.GameEntities.Runtime.Attacks;
 using _Root.Scripts.Game.GameEntities.Runtime.Damages;
+using _Root.Scripts.Game.MainGameObjectProviders.Runtime;
 using _Root.Scripts.Game.Stats.Runtime.Controller;
 using _Root.Scripts.Game.Storages.Runtime;
-using _Root.Scripts.Game.UiLoaders.Runtime;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Game.GameEntities.Runtime
 {
     [DisallowMultipleComponent, SelectionBase]
-    public class GameEntity : MonoBehaviour, IDamage, IUIProvider
+    public class GameEntity : MonoBehaviour, IDamage, IFocusProvider
     {
-        [SerializeField] private UIProviderScriptable uiProviderScriptable;
+        [FormerlySerializedAs("viewProviderScriptable")] [FormerlySerializedAs("uiProviderScriptable")] [SerializeField]
+        private FocusProviderScriptable focusProviderScriptable;
+
         private IGameItemStorageReference _itemStorageReference;
         private IEntityStatsReference _entityStatsReference;
+        private Action _returnCallback;
 
         private void Awake()
         {
@@ -68,13 +73,16 @@ namespace _Root.Scripts.Game.GameEntities.Runtime
             return _entityStatsReference.EntityStats.TryKill(damage, out damageDelt);
         }
 
-        public void EnableUI(Dictionary<AssetReferenceGameObject, GameObject> activeUiElements,
+        public void SetFocus(Dictionary<AssetReferenceGameObject, GameObject> activeElements,
             Transform uISpawnPointTransform,
-            GameObject targetGameObject)
+            GameObject targetGameObject, Action returnFocusCallBack)
         {
-            uiProviderScriptable.EnableUI(activeUiElements, uISpawnPointTransform, targetGameObject);
+            _returnCallback = returnFocusCallBack;
+            focusProviderScriptable.SetFocus(activeElements, uISpawnPointTransform, targetGameObject, returnFocusCallBack);
         }
+        
+        public void ReturnFocusCallBack() => _returnCallback?.Invoke();
 
-        public void DisableUI(GameObject targetGameObject) => uiProviderScriptable.DisableUI(targetGameObject);
+        public void OnFocusLost(GameObject targetGameObject) => focusProviderScriptable.OnFocusLost(targetGameObject);
     }
 }

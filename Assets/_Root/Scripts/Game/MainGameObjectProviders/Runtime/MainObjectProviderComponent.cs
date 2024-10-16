@@ -1,5 +1,4 @@
-﻿using Unity.Cinemachine;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
 {
@@ -7,7 +6,6 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
     {
         public GameObject mainGameObjectInstance;
         public Camera mainCamera;
-        public CinemachineCamera virtualCamera;
         public MainObjectProviderScriptable mainObjectProviderScriptable;
         public Transform uISpawnPoint;
 
@@ -16,12 +14,11 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
             if (mainGameObjectInstance == null)
                 mainObjectProviderScriptable.SpawnMainGameObject(
                     mainCamera,
-                    virtualCamera,
                     SpawnedGameObjectCallBack,
                     uISpawnPoint
                 );
             else
-                mainObjectProviderScriptable.ProvideTo(mainGameObjectInstance, mainCamera, virtualCamera, uISpawnPoint);
+                mainObjectProviderScriptable.ProvideTo(mainGameObjectInstance, mainCamera, uISpawnPoint);
         }
 
         private void SpawnedGameObjectCallBack(GameObject obj) => mainGameObjectInstance = obj;

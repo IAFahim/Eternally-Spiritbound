@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a64f7cc1e0cd475284c6c0c212d6db52, type: 3}
-  m_Name: BoatNavigationUIProviderScriptable
+  m_Name: PlayerNavigationUIProviderScriptable 1
   m_EditorClassIdentifier: 
   healthBarAsset:
     m_AssetGUID: d33ad5248591b394eb6fd583b92065c7
@@ -19,7 +19,7 @@ MonoBehaviour:
     m_SubObjectType: 
     m_EditorAssetChanged: 1
   cinemachineAsset:
-    m_AssetGUID: b351a3825d6462c459ee036f28f7dd99
+    m_AssetGUID: 37c8fdfec2ad2544591ab44b83d20da0
     m_SubObjectName: 
     m_SubObjectGUID: 
     m_SubObjectType: 

@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using _Root.Scripts.Game.MainGameObjectProviders.Runtime;
 using _Root.Scripts.Game.Stats.Runtime.Controller;
-using _Root.Scripts.Game.UiLoaders.Runtime;
 using Pancake.Common;
 using Soul.Modifiers.Runtime;
 using Soul.Reactives.Runtime;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityProgressBar;
@@ -11,31 +13,43 @@ using UnityProgressBar;
 namespace _Root.Scripts.Presentation.UIProviders.Runtime
 {
     [CreateAssetMenu(fileName = "BoatNavigationUIProviderScriptable",
-        menuName = "Scriptable/UIProviders/BoatNavigationUIProviderScriptable")]
-    public class BoatNavigationUIProviderScriptable : UIProviderScriptable
+        menuName = "Scriptable/FocusProviders/BoatFocusProviderScriptable")]
+    public class BoatFocusProviderScriptable : FocusProviderScriptable
     {
         public AssetReferenceGameObject healthBarAsset;
+        public AssetReferenceGameObject cinemachineAsset;
+
         public float timeScaleStopDuration = .2f;
         public Material targetFlashMaterial;
 
+        private ProgressBar _healthBarCache;
+        private CinemachineCamera _cinemachineCache;
         private Material _targetOriginalMaterial;
         private Renderer _targetRenderer;
-        private ProgressBar _healthBarCache;
         private GameObject _targetGameObject;
         private EntityStats _entityStats;
         private Reactive<float> _health;
         private Modifier _maxHealth;
 
-        public override void EnableUI(Dictionary<AssetReferenceGameObject, GameObject> activeUiElements,
-            Transform uISpawnPointTransform,
-            GameObject targetGameObject)
+
+        public override void SetFocus(Dictionary<AssetReferenceGameObject, GameObject> activeElements,
+            Transform uISpawnPointTransform, GameObject targetGameObject, Action returnFocusCallBack)
         {
             _targetGameObject = targetGameObject;
             SetCache(
-                activeUiElements, uISpawnPointTransform,
-                (healthBarAsset, SetupHealthBar)
+                activeElements, uISpawnPointTransform,
+                (healthBarAsset, SetupHealthBar, true),
+                (cinemachineAsset, SetupCinemachine, false)
             );
         }
+
+
+        private void SetupCinemachine(GameObject spawnedCinemachine)
+        {
+            _cinemachineCache = spawnedCinemachine.GetComponent<CinemachineCamera>();
+            _cinemachineCache.Follow = _targetGameObject.transform;
+        }
+
 
         private void SetupHealthBar(GameObject spawnedHealthBar)
         {
@@ -62,18 +76,19 @@ namespace _Root.Scripts.Presentation.UIProviders.Runtime
             {
                 Time.timeScale = 0f;
             }
+
             _targetRenderer.material = targetFlashMaterial;
             _healthBarCache.Value = current / _maxHealth.Value;
             App.Delay(timeScaleStopDuration, RestoreTimeScale, useRealTime: true);
         }
 
-        public void RestoreTimeScale()
+        private void RestoreTimeScale()
         {
             Time.timeScale = 1;
             _targetRenderer.material = _targetOriginalMaterial;
         }
 
-        public override void DisableUI(GameObject targetGameObject)
+        public override void OnFocusLost(GameObject targetGameObject)
         {
             CleanHealthBar();
         }

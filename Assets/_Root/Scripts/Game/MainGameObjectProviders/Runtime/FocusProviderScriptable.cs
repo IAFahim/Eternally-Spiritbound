@@ -5,27 +5,30 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-namespace _Root.Scripts.Game.UiLoaders.Runtime
+namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
 {
-    public abstract class UIProviderScriptable : ScriptableObject, IUIProvider
+    public abstract class FocusProviderScriptable : ScriptableObject, IFocusProvider
     {
-        public abstract void EnableUI(Dictionary<AssetReferenceGameObject, GameObject> activeUiElements,
-            Transform uISpawnPointTransform,
-            GameObject targetGameObject);
+        public abstract void SetFocus(Dictionary<AssetReferenceGameObject, GameObject> activeElements,
+            Transform uISpawnPointTransform, GameObject targetGameObject, Action returnFocusCallBack);
 
         protected void SetCache(
             Dictionary<AssetReferenceGameObject, GameObject> activeUiElementDictionary, Transform uiSpawnTransform,
-            params (AssetReferenceGameObject asset, Action<GameObject> Setup)[] cacheRequests)
+            params (AssetReferenceGameObject asset, Action<GameObject> Setup, bool isUI)[] cacheRequests)
         {
             List<AssetReferenceGameObject> keysToKeep = new List<AssetReferenceGameObject>();
-            foreach (var (asset, setupCallback) in cacheRequests)
+            foreach (var (asset, setupCallback, isUI) in cacheRequests)
             {
                 keysToKeep.Add(asset);
                 if (activeUiElementDictionary.TryGetValue(asset, out var uiElement)) setupCallback.Invoke(uiElement);
                 else
                 {
-                    Addressables.InstantiateAsync(asset, uiSpawnTransform).Completed +=
-                        handle => Setup(handle, setupCallback);
+                    if (isUI)
+                    {
+                        Addressables.InstantiateAsync(asset, uiSpawnTransform).Completed +=
+                            handle => Setup(handle, setupCallback);
+                    }
+                    else Addressables.InstantiateAsync(asset).Completed += handle => Setup(handle, setupCallback);
                 }
             }
 
@@ -37,14 +40,12 @@ namespace _Root.Scripts.Game.UiLoaders.Runtime
             }
         }
 
-
         private void Setup(AsyncOperationHandle<GameObject> operationHandle, Action<GameObject> setupCallBack)
         {
             if (operationHandle.Status != AsyncOperationStatus.Succeeded) return;
             setupCallBack(operationHandle.Result);
         }
 
-
-        public abstract void DisableUI(GameObject targetGameObject);
+        public abstract void OnFocusLost(GameObject targetGameObject);
     }
 }
