@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a64f7cc1e0cd475284c6c0c212d6db52, type: 3}
-  m_Name: BoatNavigationUIProviderScriptable
+  m_Name: Boat Focus Provider
   m_EditorClassIdentifier: 
   healthBarAsset:
     m_AssetGUID: d33ad5248591b394eb6fd583b92065c7

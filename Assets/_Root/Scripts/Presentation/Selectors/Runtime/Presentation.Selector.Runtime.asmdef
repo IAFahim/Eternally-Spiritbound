@@ -1,0 +1,16 @@
+{
+    "name": "Presentation.Selector.Runtime",
+    "rootNamespace": "",
+    "references": [
+        "GUID:ed2f8cf08f5a4f87ab1664488c23442b"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

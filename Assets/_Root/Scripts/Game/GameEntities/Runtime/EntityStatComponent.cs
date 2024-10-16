@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace _Root.Scripts.Game.GameEntities.Runtime
 {
+    [DisallowMultipleComponent]
     public class EntityStatComponent : MonoBehaviour, IEntityStatsReference
     {
         public EntityStats entityStats;

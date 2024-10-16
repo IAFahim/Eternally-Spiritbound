@@ -1,0 +1,16 @@
+{
+    "name": "Soul.Selector.Runtime",
+    "rootNamespace": "",
+    "references": [
+        "GUID:10795a3c3b0d433409433db01ea7fa3e"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
