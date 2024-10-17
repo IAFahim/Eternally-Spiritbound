@@ -1,3 +1,4 @@
+using _Root.Scripts.Game.Inputs.Runtime;
 using _Root.Scripts.Game.MainGameObjectProviders.Runtime;
 using _Root.Scripts.Game.Utils.Runtime;
 using Pancake;
@@ -10,7 +11,7 @@ namespace _Root.Scripts.Game.Movements.Runtime.Character_Controller
     /// <summary>
     /// A floating-capsule oriented physics based character controller. Based on the approach devised by Toyful Games for Very Very Valet.
     /// </summary>
-    public class PhysicsBasedCharacterController : MonoBehaviour, IMainCameraProvider
+    public class PhysicsBasedCharacterController : MovementProviderComponent, IMainCameraProvider
     {
         [SerializeField] private Optional<Transform> parent;
         private Rigidbody _rb;
@@ -192,6 +193,8 @@ namespace _Root.Scripts.Game.Movements.Runtime.Character_Controller
         }
 
         private bool _prevGrounded = false;
+        public float lerpDuration = 0.3f;
+        public float _lerpElapsed = 0f;
 
         /// <summary>
         /// Determines and plays the appropriate character sounds, particle effects, then calls the appropriate methods to move and float the character.
@@ -199,11 +202,26 @@ namespace _Root.Scripts.Game.Movements.Runtime.Character_Controller
         private void FixedUpdate()
         {
             _moveInput = new Vector3(_moveContext.x, 0, _moveContext.y);
-
-            if (adjustInputsToCameraAngle)
+            if (stopMove)
             {
-                _moveInput = AdjustInputToFaceCamera(_moveInput);
+                if (_lerpElapsed < lerpDuration)
+                {
+                    _moveInput = Vector3.Lerp(_moveInput, Vector3.zero, _lerpElapsed / lerpDuration);
+                    _lerpElapsed += Time.fixedDeltaTime;
+                }
+                else
+                {
+                    _moveInput = Vector3.zero;
+                }
+
+                Debug.Log($"_moveInput: {_moveInput}");
             }
+            else
+            {
+                _lerpElapsed = 0f;
+            }
+
+            if (adjustInputsToCameraAngle) _moveInput = AdjustInputToFaceCamera(_moveInput);
 
             (bool rayHitGround, RaycastHit rayHit) = RaycastToGround();
 
@@ -349,14 +367,8 @@ namespace _Root.Scripts.Game.Movements.Runtime.Character_Controller
                 (rotAxis * (rotRadians * uprightSpringStrength)) - (_rb.angularVelocity * uprightSpringDamper));
         }
 
-        /// <summary>
-        /// Reads the player movement input.
-        /// </summary>
-        /// <param name="context">The move input's context.</param>
-        public void MoveInputAction(InputAction.CallbackContext context)
-        {
-            if (context.performed) _moveContext = context.ReadValue<Vector2>();
-        }
+        public bool stopMove = false;
+
 
         /// <summary>
         /// Reads the player jump input.
@@ -479,5 +491,10 @@ namespace _Root.Scripts.Game.Movements.Runtime.Character_Controller
         public Camera MainCamera { get; set; }
 
         public void SetParent(Transform parentTransform) => parent = parentTransform;
+
+        protected override void OnMoveInput(InputAction.CallbackContext context)
+        {
+            _moveContext = context.ReadValue<Vector2>();
+        }
     }
 }
