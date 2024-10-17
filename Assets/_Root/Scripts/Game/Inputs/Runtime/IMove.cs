@@ -1,7 +1,6 @@
-﻿using _Root.Scripts.Game.Inputs.Runtime;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace _Root.Scripts.Game.Movements.Runtime
+namespace _Root.Scripts.Game.Inputs.Runtime
 {
     public interface IMove: IMoveInputConsumer
     {

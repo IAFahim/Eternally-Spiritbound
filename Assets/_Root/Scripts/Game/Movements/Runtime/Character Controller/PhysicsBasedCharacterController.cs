@@ -1,449 +1,483 @@
-using System.Collections;
-using System.Collections.Generic;
+using _Root.Scripts.Game.MainGameObjectProviders.Runtime;
 using _Root.Scripts.Game.Utils.Runtime;
+using Pancake;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
-/// <summary>
-/// A floating-capsule oriented physics based character controller. Based on the approach devised by Toyful Games for Very Very Valet.
-/// </summary>
-public class PhysicsBasedCharacterController : MonoBehaviour
+namespace _Root.Scripts.Game.Movements.Runtime.Character_Controller
 {
-    private Rigidbody _rb;
-    private Vector3 _gravitationalForce;
-    private Vector3 _rayDir = Vector3.down;
-    private Vector3 _previousVelocity = Vector3.zero;
-    private Vector2 _moveContext;
-    private ParticleSystem.EmissionModule _emission;
-
-    [Header("Other:")]
-    [SerializeField] private bool _adjustInputsToCameraAngle = false;
-    [SerializeField] private LayerMask _terrainLayer;
-    [SerializeField] private ParticleSystem _dustParticleSystem;
-
-    private bool _shouldMaintainHeight = true;
-
-    [Header("Height Spring:")]
-    [SerializeField] private float _rideHeight = 1.75f; // rideHeight: desired distance to ground (Note, this is distance from the original raycast position (currently centre of transform)). 
-    [SerializeField] private float _rayToGroundLength = 3f; // rayToGroundLength: max distance of raycast to ground (Note, this should be greater than the rideHeight).
-    [SerializeField] public float _rideSpringStrength = 50f; // rideSpringStrength: strength of spring. (?)
-    [SerializeField] private float _rideSpringDamper = 5f; // rideSpringDampener: dampener of spring. (?)
-    [SerializeField] private Oscillator _squashAndStretchOcillator;
-
-
-    private enum lookDirectionOptions { velocity, acceleration, moveInput };
-    private Quaternion _uprightTargetRot = Quaternion.identity; // Adjust y value to match the desired direction to face.
-    private Quaternion _lastTargetRot;
-    private Vector3 _platformInitRot;
-    private bool didLastRayHit;
-
-    [Header("Upright Spring:")]
-    [SerializeField] private lookDirectionOptions _characterLookDirection = lookDirectionOptions.velocity;
-    [SerializeField] private float _uprightSpringStrength = 40f;
-    [SerializeField] private float _uprightSpringDamper = 5f;
-
-
-    private Vector3 _moveInput;
-    private float _speedFactor = 1f;
-    private float _maxAccelForceFactor = 1f;
-    private Vector3 _m_GoalVel = Vector3.zero;
-
-    [Header("Movement:")]
-    [SerializeField] private float _maxSpeed = 8f;
-    [SerializeField] private float _acceleration = 200f;
-    [SerializeField] private float _maxAccelForce = 150f;
-    [SerializeField] private float _leanFactor = 0.25f;
-    [SerializeField] private AnimationCurve _accelerationFactorFromDot;
-    [SerializeField] private AnimationCurve _maxAccelerationForceFactorFromDot;
-    [SerializeField] private Vector3 _moveForceScale = new Vector3(1f, 0f, 1f);
-
-
-    private Vector3 _jumpInput;
-    private float _timeSinceJumpPressed = 0f;
-    private float _timeSinceUngrounded = 0f;
-    private float _timeSinceJump = 0f;
-    private bool _jumpReady = true;
-    private bool _isJumping = false;
-
-    [Header("Jump:")]
-    [SerializeField] private float _jumpForceFactor = 10f;
-    [SerializeField] private float _riseGravityFactor = 5f;
-    [SerializeField] private float _fallGravityFactor = 10f; // typically > 1f (i.e. 5f).
-    [SerializeField] private float _lowJumpFactor = 2.5f;
-    [SerializeField] private float _jumpBuffer = 0.15f; // Note, jumpBuffer shouldn't really exceed the time of the jump.
-    [SerializeField] private float _coyoteTime = 0.25f;
-
     /// <summary>
-    /// Prepare frequently used variables.
+    /// A floating-capsule oriented physics based character controller. Based on the approach devised by Toyful Games for Very Very Valet.
     /// </summary>
-    private void Start()
+    public class PhysicsBasedCharacterController : MonoBehaviour, IMainCameraProvider
     {
-        _rb = GetComponent<Rigidbody>();
-        _gravitationalForce = Physics.gravity * _rb.mass;
+        [SerializeField] private Optional<Transform> parent;
+        private Rigidbody _rb;
+        private Vector3 _gravitationalForce;
+        private readonly Vector3 _rayDir = Vector3.down;
+        private Vector3 _previousVelocity = Vector3.zero;
+        private Vector2 _moveContext;
+        private ParticleSystem.EmissionModule _emission;
 
-        if (_dustParticleSystem)
-        {
-            _emission = _dustParticleSystem.emission; // Stores the module in a local variable
-            _emission.enabled = false; // Applies the new value directly to the Particle System
-        }
-    }
+        [Header("Other:")] [SerializeField] private bool adjustInputsToCameraAngle = false;
 
-    /// <summary>
-    /// Use the result of a Raycast to determine if the capsules distance from the ground is sufficiently close to the desired ride height such that the character can be considered 'grounded'.
-    /// </summary>
-    /// <param name="rayHitGround">Whether or not the Raycast hit anything.</param>
-    /// <param name="rayHit">Information about the ray.</param>
-    /// <returns>Whether or not the player is considered grounded.</returns>
-    private bool CheckIfGrounded(bool rayHitGround, RaycastHit rayHit)
-    {
-        bool grounded;
-        if (rayHitGround == true)
-        {
-            grounded = rayHit.distance <= _rideHeight * 1.3f; // 1.3f allows for greater leniancy (as the value will oscillate about the rideHeight).
-        }
-        else
-        {
-            grounded = false;
-        }
-        return grounded;
-    }
+        [FormerlySerializedAs("_terrainLayer")] [SerializeField]
+        private LayerMask terrainLayer;
 
-    /// <summary>
-    /// Gets the look desired direction for the character to look.
-    /// The method for determining the look direction is depends on the lookDirectionOption.
-    /// </summary>
-    /// <param name="lookDirectionOption">The factor which determines the look direction: velocity, acceleration or moveInput.</param>
-    /// <returns>The desired look direction.</returns>
-    private Vector3 GetLookDirection(lookDirectionOptions lookDirectionOption)
-    {
-        Vector3 lookDirection = Vector3.zero;
-        if (lookDirectionOption is lookDirectionOptions.velocity or lookDirectionOptions.acceleration)
+        [FormerlySerializedAs("_dustParticleSystem")] [SerializeField]
+        private ParticleSystem dustParticleSystem;
+
+        private bool _shouldMaintainHeight = true;
+
+
+        [FormerlySerializedAs("_rideHeight")]
+        [Header("Height Spring:")]
+        // rideHeight: desired distance to ground (Note, this is distance from the original raycast position (currently centre of transform)). 
+        [SerializeField]
+        private float rideHeight = 2f;
+
+        // rayToGroundLength: max distance of raycast to ground (Note, this should be greater than the rideHeight).
+        [FormerlySerializedAs("_rayToGroundLength")] [SerializeField]
+        private float rayToGroundLength = 3f;
+
+        [FormerlySerializedAs("_rideSpringStrength")] [SerializeField]
+        public float rideSpringStrength = 200f; // rideSpringStrength: strength of spring. (?)
+
+        [FormerlySerializedAs("_rideSpringDamper")] [SerializeField]
+        private float rideSpringDamper = 10f; // rideSpringDampener: dampener of spring. (?)
+
+        [FormerlySerializedAs("_squashAndStretchOcillator")] [SerializeField]
+        private Oscillator squashAndStretchOcillator;
+
+
+        private enum ELookDirectionOptions
         {
-            Vector3 velocity = _rb.linearVelocity;
-            velocity.y = 0f;
-            if (lookDirectionOption == lookDirectionOptions.velocity)
+            Velocity,
+            Acceleration,
+            MoveInput
+        };
+
+        private Quaternion
+            _uprightTargetRot = Quaternion.identity; // Adjust y value to match the desired direction to face.
+
+        private Quaternion _lastTargetRot;
+        private Vector3 _platformInitRot;
+        private bool _didLastRayHit;
+
+        [FormerlySerializedAs("_characterLookDirection")] [Header("Upright Spring:")] [SerializeField]
+        private ELookDirectionOptions characterELookDirection = ELookDirectionOptions.Velocity;
+
+        [FormerlySerializedAs("_uprightSpringStrength")] [SerializeField]
+        private float uprightSpringStrength = 40f;
+
+        [FormerlySerializedAs("_uprightSpringDamper")] [SerializeField]
+        private float uprightSpringDamper = 5f;
+
+
+        private Vector3 _moveInput;
+        private readonly float _speedFactor = 1f;
+        private readonly float _maxAccelForceFactor = 1f;
+        private Vector3 _mGoalVel = Vector3.zero;
+
+        [FormerlySerializedAs("_maxSpeed")] [Header("Movement:")] [SerializeField]
+        private float maxSpeed = 8f;
+
+        [SerializeField] private float acceleration = 400f;
+        [SerializeField] private float maxAccelForce = 300f;
+
+        [FormerlySerializedAs("_leanFactor")] [SerializeField]
+        private float leanFactor = 0.2f;
+
+        [FormerlySerializedAs("_accelerationFactorFromDot")] [SerializeField]
+        private AnimationCurve accelerationFactorFromDot;
+
+        [FormerlySerializedAs("_maxAccelerationForceFactorFromDot")] [SerializeField]
+        private AnimationCurve maxAccelerationForceFactorFromDot;
+
+        [FormerlySerializedAs("_moveForceScale")] [SerializeField]
+        private Vector3 moveForceScale = new(1f, 0f, 1f);
+
+
+        private Vector3 _jumpInput;
+        private float _timeSinceJumpPressed = 0f;
+        private float _timeSinceUngrounded = 0f;
+        private float _timeSinceJump = 0f;
+        private bool _jumpReady = true;
+        private bool _isJumping = false;
+
+        [FormerlySerializedAs("_jumpForceFactor")] [Header("Jump:")] [SerializeField]
+        private float jumpForceFactor = 10f;
+
+        [FormerlySerializedAs("_riseGravityFactor")] [SerializeField]
+        private float riseGravityFactor = 5f;
+
+        [FormerlySerializedAs("_fallGravityFactor")] [SerializeField]
+        private float fallGravityFactor = 10f; // typically > 1f (i.e. 5f).
+
+        [FormerlySerializedAs("_lowJumpFactor")] [SerializeField]
+        private float lowJumpFactor = 2.5f;
+
+        [FormerlySerializedAs("_jumpBuffer")] [SerializeField]
+        private float jumpBuffer = 0.15f; // Note, jumpBuffer shouldn't really exceed the time of the jump.
+
+        [FormerlySerializedAs("_coyoteTime")] [SerializeField]
+        private float coyoteTime = 0.25f;
+
+        /// <summary>
+        /// Prepare frequently used variables.
+        /// </summary>
+        private void Start()
+        {
+            _rb = GetComponent<Rigidbody>();
+            _gravitationalForce = Physics.gravity * _rb.mass;
+
+            if (dustParticleSystem)
             {
-                lookDirection = velocity;
+                _emission = dustParticleSystem.emission; // Stores the module in a local variable
+                _emission.enabled = false; // Applies the new value directly to the Particle System
+            }
+        }
+
+        /// <summary>
+        /// Use the result of a Raycast to determine if the capsules distance from the ground is sufficiently close to the desired ride height such that the character can be considered 'grounded'.
+        /// </summary>
+        /// <param name="rayHitGround">Whether the Raycast hit anything.</param>
+        /// <param name="rayHit">Information about the ray.</param>
+        /// <returns>Whether the player is considered grounded.</returns>
+        private bool CheckIfGrounded(bool rayHitGround, RaycastHit rayHit)
+        {
+            bool grounded;
+            if (rayHitGround == true)
+            {
+                grounded = rayHit.distance <=
+                           rideHeight *
+                           1.3f; // 1.3f allows for greater leniancy (as the value will oscillate about the rideHeight).
             }
             else
             {
-                Vector3 deltaVelocity = velocity - _previousVelocity;
-                _previousVelocity = velocity;
-                Vector3 acceleration = deltaVelocity / Time.fixedDeltaTime;
-                lookDirection = acceleration;
+                grounded = false;
             }
-        }
-        else if (lookDirectionOption == lookDirectionOptions.moveInput)
-        {
-            lookDirection = _moveInput;
-        }
-        return lookDirection;
-    }
 
-    private bool _prevGrounded = false;
-    /// <summary>
-    /// Determines and plays the appropriate character sounds, particle effects, then calls the appropriate methods to move and float the character.
-    /// </summary>
-    private void FixedUpdate()
-    {
-        _moveInput = new Vector3(_moveContext.x, 0, _moveContext.y);
-
-        if (_adjustInputsToCameraAngle)
-        {
-            _moveInput = AdjustInputToFaceCamera(_moveInput);
+            return grounded;
         }
 
-        (bool rayHitGround, RaycastHit rayHit) = RaycastToGround();
-
-        bool grounded = CheckIfGrounded(rayHitGround, rayHit);
-        if (grounded == true)
+        /// <summary>
+        /// Gets the look desired direction for the character to look.
+        /// The method for determining the look direction is depending on the lookDirectionOption.
+        /// </summary>
+        /// <param name="eLookDirectionOption">The factor which determines the look direction: velocity, acceleration or moveInput.</param>
+        /// <returns>The desired look direction.</returns>
+        private Vector3 GetLookDirection(ELookDirectionOptions eLookDirectionOption)
         {
-            
-
-            if (_dustParticleSystem)
+            Vector3 lookDirection = Vector3.zero;
+            if (eLookDirectionOption is ELookDirectionOptions.Velocity or ELookDirectionOptions.Acceleration)
             {
-                if (_emission.enabled == false)
+                Vector3 velocity = _rb.linearVelocity;
+                velocity.y = 0f;
+                if (eLookDirectionOption == ELookDirectionOptions.Velocity) lookDirection = velocity;
+                else
                 {
-                    _emission.enabled = true; // Applies the new value directly to the Particle System                  
+                    Vector3 deltaVelocity = velocity - _previousVelocity;
+                    _previousVelocity = velocity;
+                    lookDirection = deltaVelocity / Time.fixedDeltaTime;
                 }
             }
-
-            _timeSinceUngrounded = 0f;
-
-            if (_timeSinceJump > 0.2f)
+            else if (eLookDirectionOption == ELookDirectionOptions.MoveInput)
             {
-                _isJumping = false;
+                lookDirection = _moveInput;
             }
-        }
-        else
-        {
 
-            if (_dustParticleSystem)
+            return lookDirection;
+        }
+
+        private bool _prevGrounded = false;
+
+        /// <summary>
+        /// Determines and plays the appropriate character sounds, particle effects, then calls the appropriate methods to move and float the character.
+        /// </summary>
+        private void FixedUpdate()
+        {
+            _moveInput = new Vector3(_moveContext.x, 0, _moveContext.y);
+
+            if (adjustInputsToCameraAngle)
             {
-                if (_emission.enabled == true)
+                _moveInput = AdjustInputToFaceCamera(_moveInput);
+            }
+
+            (bool rayHitGround, RaycastHit rayHit) = RaycastToGround();
+
+            bool grounded = CheckIfGrounded(rayHitGround, rayHit);
+            if (grounded == true)
+            {
+                if (dustParticleSystem)
                 {
-                    _emission.enabled = false; // Applies the new value directly to the Particle System
+                    if (_emission.enabled == false)
+                    {
+                        _emission.enabled =
+                            true; // Applies the new value directly to the Particle System                  
+                    }
+                }
+
+                _timeSinceUngrounded = 0f;
+
+                if (_timeSinceJump > 0.2f)
+                {
+                    _isJumping = false;
                 }
             }
-
-            _timeSinceUngrounded += Time.fixedDeltaTime;
-        }
-
-        CharacterMove(_moveInput, rayHit);
-        CharacterJump(_jumpInput, grounded, rayHit);
-
-        if (rayHitGround && _shouldMaintainHeight)
-        {
-            MaintainHeight(rayHit);
-        }
-
-        Vector3 lookDirection = GetLookDirection(_characterLookDirection);
-        MaintainUpright(lookDirection, rayHit);
-
-        _prevGrounded = grounded;
-    }
-
-    /// <summary>
-    /// Perfom raycast towards the ground.
-    /// </summary>
-    /// <returns>Whether the ray hit the ground, and information about the ray.</returns>
-    private (bool, RaycastHit) RaycastToGround()
-    {
-        RaycastHit rayHit;
-        Ray rayToGround = new Ray(transform.position, _rayDir);
-        bool rayHitGround = Physics.Raycast(rayToGround, out rayHit, _rayToGroundLength, _terrainLayer.value);
-        //Debug.DrawRay(transform.position, _rayDir * _rayToGroundLength, Color.blue);
-        return (rayHitGround, rayHit);
-    }
-
-    /// <summary>
-    /// Determines the relative velocity of the character to the ground beneath,
-    /// Calculates and applies the oscillator force to bring the character towards the desired ride height.
-    /// Additionally applies the oscillator force to the squash and stretch oscillator, and any object beneath.
-    /// </summary>
-    /// <param name="rayHit">Information about the RaycastToGround.</param>
-    private void MaintainHeight(RaycastHit rayHit)
-    {
-        Vector3 vel = _rb.linearVelocity;
-        Vector3 otherVel = Vector3.zero;
-        Rigidbody hitBody = rayHit.rigidbody;
-        if (hitBody != null)
-        {
-            otherVel = hitBody.linearVelocity;
-        }
-        float rayDirVel = Vector3.Dot(_rayDir, vel);
-        float otherDirVel = Vector3.Dot(_rayDir, otherVel);
-
-        float relVel = rayDirVel - otherDirVel;
-        float currHeight = rayHit.distance - _rideHeight;
-        float springForce = (currHeight * _rideSpringStrength) - (relVel * _rideSpringDamper);
-        Vector3 maintainHeightForce = - _gravitationalForce + springForce * Vector3.down;
-        Vector3 oscillationForce = springForce * Vector3.down;
-        _rb.AddForce(maintainHeightForce);
-        _squashAndStretchOcillator.ApplyForce(oscillationForce);
-        //Debug.DrawLine(transform.position, transform.position + (_rayDir * springForce), Color.yellow);
-
-        // Apply force to objects beneath
-        if (hitBody != null)
-        {
-            hitBody.AddForceAtPosition(-maintainHeightForce, rayHit.point);
-        }
-    }
-
-    /// <summary>
-    /// Determines the desired y rotation for the character, with account for platform rotation.
-    /// </summary>
-    /// <param name="yLookAt">The input look rotation.</param>
-    /// <param name="rayHit">The rayHit towards the platform.</param>
-    private void CalculateTargetRotation(Vector3 yLookAt, RaycastHit rayHit = new RaycastHit())
-    {
-        if (didLastRayHit)
-        {
-            _lastTargetRot = _uprightTargetRot;
-            try
+            else
             {
-                _platformInitRot = transform.parent.rotation.eulerAngles;
+                if (dustParticleSystem)
+                {
+                    if (_emission.enabled == true)
+                    {
+                        _emission.enabled = false; // Applies the new value directly to the Particle System
+                    }
+                }
+
+                _timeSinceUngrounded += Time.fixedDeltaTime;
             }
-            catch
+
+            CharacterMove(_moveInput, rayHit);
+            CharacterJump(_jumpInput, grounded, rayHit);
+
+            if (rayHitGround && _shouldMaintainHeight)
             {
-                _platformInitRot = Vector3.zero;
+                MaintainHeight(rayHit);
             }
-        }
-        if (rayHit.rigidbody == null)
-        {
-            didLastRayHit = true;
-        }
-        else
-        {
-            didLastRayHit = false;
+
+            Vector3 lookDirection = GetLookDirection(characterELookDirection);
+            MaintainUpright(lookDirection, rayHit);
+
+            _prevGrounded = grounded;
         }
 
-        if (yLookAt != Vector3.zero)
+        /// <summary>
+        /// Perfom raycast towards the ground.
+        /// </summary>
+        /// <returns>Whether the ray hit the ground, and information about the ray.</returns>
+        private (bool, RaycastHit) RaycastToGround()
         {
-            _uprightTargetRot = Quaternion.LookRotation(yLookAt, Vector3.up);
-            _lastTargetRot = _uprightTargetRot;
-            try
-            {
-                _platformInitRot = transform.parent.rotation.eulerAngles;
-            }
-            catch
-            {
-                _platformInitRot = Vector3.zero;
-            }
+            Ray rayToGround = new Ray(transform.position, _rayDir);
+            bool rayHitGround = Physics.Raycast(rayToGround, out var rayHit, rayToGroundLength, terrainLayer.value);
+            //Debug.DrawRay(transform.position, _rayDir * _rayToGroundLength, Color.blue);
+            return (rayHitGround, rayHit);
         }
-        else
+
+        /// <summary>
+        /// Determines the relative velocity of the character to the ground beneath,
+        /// Calculates and applies the oscillator force to bring the character towards the desired ride height.
+        /// Additionally applies the oscillator force to the squash and stretch oscillator, and any object beneath.
+        /// </summary>
+        /// <param name="rayHit">Information about the RaycastToGround.</param>
+        private void MaintainHeight(RaycastHit rayHit)
         {
-            try
+            Vector3 vel = _rb.linearVelocity;
+            Vector3 otherVel = Vector3.zero;
+            Rigidbody hitBody = rayHit.rigidbody;
+            if (hitBody != null)
             {
-                Vector3 platformRot = transform.parent.rotation.eulerAngles;
+                otherVel = hitBody.linearVelocity;
+            }
+
+            float rayDirVel = Vector3.Dot(_rayDir, vel);
+            float otherDirVel = Vector3.Dot(_rayDir, otherVel);
+
+            float relVel = rayDirVel - otherDirVel;
+            float currHeight = rayHit.distance - rideHeight;
+            float springForce = (currHeight * rideSpringStrength) - (relVel * rideSpringDamper);
+            Vector3 maintainHeightForce = -_gravitationalForce + springForce * Vector3.down;
+            Vector3 oscillationForce = springForce * Vector3.down;
+            _rb.AddForce(maintainHeightForce);
+            squashAndStretchOcillator.ApplyForce(oscillationForce);
+            //Debug.DrawLine(transform.position, transform.position + (_rayDir * springForce), Color.yellow);
+
+            // Apply force to objects beneath
+            if (hitBody != null) hitBody.AddForceAtPosition(-maintainHeightForce, rayHit.point);
+        }
+
+        /// <summary>
+        /// Determines the desired y rotation for the character, with account for platform rotation.
+        /// </summary>
+        /// <param name="yLookAt">The input look rotation.</param>
+        /// <param name="rayHit">The rayHit towards the platform.</param>
+        private void CalculateTargetRotation(Vector3 yLookAt, RaycastHit rayHit = new RaycastHit())
+        {
+            if (_didLastRayHit)
+            {
+                _lastTargetRot = _uprightTargetRot;
+                _platformInitRot = parent ? parent.Value.rotation.eulerAngles : Vector3.zero;
+            }
+
+            _didLastRayHit = rayHit.rigidbody == null;
+
+            if (yLookAt != Vector3.zero)
+            {
+                _uprightTargetRot = Quaternion.LookRotation(yLookAt, Vector3.up);
+                _lastTargetRot = _uprightTargetRot;
+                _platformInitRot = parent ? parent.Value.rotation.eulerAngles : Vector3.zero;
+            }
+            else
+            {
+                if (!parent) return;
+                Vector3 platformRot = parent.Value.rotation.eulerAngles;
                 Vector3 deltaPlatformRot = platformRot - _platformInitRot;
                 float yAngle = _lastTargetRot.eulerAngles.y + deltaPlatformRot.y;
                 _uprightTargetRot = Quaternion.Euler(new Vector3(0f, yAngle, 0f));
             }
-            catch
-            {
+        }
 
+        /// <summary>
+        /// Adds torque to the character to keep the character upright, acting as a torsional oscillator (i.e. vertically flipped pendulum).
+        /// </summary>
+        /// <param name="yLookAt">The input look rotation.</param>
+        /// <param name="rayHit">The rayHit towards the platform.</param>
+        private void MaintainUpright(Vector3 yLookAt, RaycastHit rayHit = new RaycastHit())
+        {
+            CalculateTargetRotation(yLookAt, rayHit);
+
+            Quaternion currentRot = transform.rotation;
+            Quaternion toGoal = MathsUtils.ShortestRotation(_uprightTargetRot, currentRot);
+
+            toGoal.ToAngleAxis(out var rotDegrees, out var rotAxis);
+            rotAxis.Normalize();
+
+            float rotRadians = rotDegrees * Mathf.Deg2Rad;
+
+            _rb.AddTorque(
+                (rotAxis * (rotRadians * uprightSpringStrength)) - (_rb.angularVelocity * uprightSpringDamper));
+        }
+
+        /// <summary>
+        /// Reads the player movement input.
+        /// </summary>
+        /// <param name="context">The move input's context.</param>
+        public void MoveInputAction(InputAction.CallbackContext context)
+        {
+            if (context.performed) _moveContext = context.ReadValue<Vector2>();
+        }
+
+        /// <summary>
+        /// Reads the player jump input.
+        /// </summary>
+        /// <param name="context">The jump input's context.</param>
+        public void JumpInputAction(InputAction.CallbackContext context)
+        {
+            float jumpContext = context.ReadValue<float>();
+            _jumpInput = new Vector3(0, jumpContext, 0);
+
+            if (context.started) // button down
+            {
+                _timeSinceJumpPressed = 0f;
             }
         }
-    }
 
-    /// <summary>
-    /// Adds torque to the character to keep the character upright, acting as a torsional oscillator (i.e. vertically flipped pendulum).
-    /// </summary>
-    /// <param name="yLookAt">The input look rotation.</param>
-    /// <param name="rayHit">The rayHit towards the platform.</param>
-    private void MaintainUpright(Vector3 yLookAt, RaycastHit rayHit = new RaycastHit())
-    {
-        CalculateTargetRotation(yLookAt, rayHit);
-
-        Quaternion currentRot = transform.rotation;
-        Quaternion toGoal = MathsUtils.ShortestRotation(_uprightTargetRot, currentRot);
-
-        Vector3 rotAxis;
-        float rotDegrees;
-
-        toGoal.ToAngleAxis(out rotDegrees, out rotAxis);
-        rotAxis.Normalize();
-
-        float rotRadians = rotDegrees * Mathf.Deg2Rad;
-
-        _rb.AddTorque((rotAxis * (rotRadians * _uprightSpringStrength)) - (_rb.angularVelocity * _uprightSpringDamper));
-    }
-
-    /// <summary>
-    /// Reads the player movement input.
-    /// </summary>
-    /// <param name="context">The move input's context.</param>
-    public void MoveInputAction(InputAction.CallbackContext context)
-    {
-        _moveContext = context.ReadValue<Vector2>();
-    }
-
-    /// <summary>
-    /// Reads the player jump input.
-    /// </summary>
-    /// <param name="context">The jump input's context.</param>
-    public void JumpInputAction(InputAction.CallbackContext context)
-    {
-        float jumpContext = context.ReadValue<float>();
-        _jumpInput = new Vector3(0, jumpContext, 0);
-
-        if (context.started) // button down
+        /// <summary>
+        /// Adjusts the input, so that the movement matches input regardless of camera rotation.
+        /// </summary>
+        /// <param name="moveInput">The player movement input.</param>
+        /// <returns>The camera corrected movement input.</returns>
+        private Vector3 AdjustInputToFaceCamera(Vector3 moveInput)
         {
-            _timeSinceJumpPressed = 0f;
+            float facing = MainCamera.transform.eulerAngles.y;
+            return (Quaternion.Euler(0, facing, 0) * moveInput);
         }
-    }
 
-    /// <summary>
-    /// Adjusts the input, so that the movement matches input regardless of camera rotation.
-    /// </summary>
-    /// <param name="moveInput">The player movement input.</param>
-    /// <returns>The camera corrected movement input.</returns>
-    private Vector3 AdjustInputToFaceCamera(Vector3 moveInput)
-    {
-        float facing = Camera.main.transform.eulerAngles.y;
-        return (Quaternion.Euler(0, facing, 0) * moveInput);
-    }
-    
 
-    /// <summary>
-    /// Apply forces to move the character up to a maximum acceleration, with consideration to acceleration graphs.
-    /// </summary>
-    /// <param name="moveInput">The player movement input.</param>
-    /// <param name="rayHit">The rayHit towards the platform.</param>
-    private void CharacterMove(Vector3 moveInput, RaycastHit rayHit)
-    {
-        Vector3 m_UnitGoal = moveInput;
-        Vector3 unitVel = _m_GoalVel.normalized;
-        float velDot = Vector3.Dot(m_UnitGoal, unitVel);
-        float accel = _acceleration * _accelerationFactorFromDot.Evaluate(velDot);
-        Vector3 goalVel = m_UnitGoal * _maxSpeed * _speedFactor;
-        Vector3 otherVel = Vector3.zero;
-        Rigidbody hitBody = rayHit.rigidbody;
-        _m_GoalVel = Vector3.MoveTowards(_m_GoalVel,
-                                        goalVel,
-                                        accel * Time.fixedDeltaTime);
-        Vector3 neededAccel = (_m_GoalVel - _rb.linearVelocity) / Time.fixedDeltaTime;
-        float maxAccel = _maxAccelForce * _maxAccelerationForceFactorFromDot.Evaluate(velDot) * _maxAccelForceFactor;
-        neededAccel = Vector3.ClampMagnitude(neededAccel, maxAccel);
-        _rb.AddForceAtPosition(Vector3.Scale(neededAccel * _rb.mass, _moveForceScale), transform.position + new Vector3(0f, transform.localScale.y * _leanFactor, 0f)); // Using AddForceAtPosition in order to both move the player and cause the play to lean in the direction of input.
-    }
-
-    /// <summary>
-    /// Apply force to cause the character to perform a single jump, including coyote time and a jump input buffer.
-    /// </summary>
-    /// <param name="jumpInput">The player jump input.</param>
-    /// <param name="grounded">Whether or not the player is considered grounded.</param>
-    /// <param name="rayHit">The rayHit towards the platform.</param>
-    private void CharacterJump(Vector3 jumpInput, bool grounded, RaycastHit rayHit)
-    {
-        _timeSinceJumpPressed += Time.fixedDeltaTime;
-        _timeSinceJump += Time.fixedDeltaTime;
-        if (_rb.linearVelocity.y < 0)
+        /// <summary>
+        /// Apply forces to move the character up to a maximum acceleration, with consideration to acceleration graphs.
+        /// </summary>
+        /// <param name="moveInput">The player movement input.</param>
+        /// <param name="rayHit">The rayHit towards the platform.</param>
+        private void CharacterMove(Vector3 moveInput, RaycastHit rayHit)
         {
-            _shouldMaintainHeight = true;
-            _jumpReady = true;
-            if (!grounded)
-            {
-                // Increase downforce for a sudden plummet.
-                _rb.AddForce(_gravitationalForce * (_fallGravityFactor - 1f)); // Hmm... this feels a bit weird. I want a reactive jump, but I don't want it to dive all the time...
-            }
+            Vector3 unitGoal = moveInput;
+            Vector3 unitVel = _mGoalVel.normalized;
+            float velDot = Vector3.Dot(unitGoal, unitVel);
+            float accel = acceleration * accelerationFactorFromDot.Evaluate(velDot);
+            Vector3 goalVel = unitGoal * (maxSpeed * _speedFactor);
+            _mGoalVel = Vector3.MoveTowards(_mGoalVel,
+                goalVel,
+                accel * Time.fixedDeltaTime);
+            Vector3 neededAccel = (_mGoalVel - _rb.linearVelocity) / Time.fixedDeltaTime;
+            float maxAccel = maxAccelForce * maxAccelerationForceFactorFromDot.Evaluate(velDot) * _maxAccelForceFactor;
+            neededAccel = Vector3.ClampMagnitude(neededAccel, maxAccel);
+            _rb.AddForceAtPosition(Vector3.Scale(neededAccel * _rb.mass, moveForceScale),
+                transform.position +
+                new Vector3(0f, transform.localScale.y * leanFactor,
+                    0f)); // Using AddForceAtPosition in order to both move the player and cause the play to lean in the direction of input.
         }
-        else if (_rb.linearVelocity.y > 0)
+
+        /// <summary>
+        /// Apply force to cause the character to perform a single jump, including coyote time and a jump input buffer.
+        /// </summary>
+        /// <param name="jumpInput">The player jump input.</param>
+        /// <param name="grounded">Whether the player is considered grounded.</param>
+        /// <param name="rayHit">The rayHit towards the platform.</param>
+        private void CharacterJump(Vector3 jumpInput, bool grounded, RaycastHit rayHit)
         {
-            if (!grounded)
+            _timeSinceJumpPressed += Time.fixedDeltaTime;
+            _timeSinceJump += Time.fixedDeltaTime;
+            var linearVelocity = _rb.linearVelocity;
+            if (linearVelocity.y < 0)
             {
-                if (_isJumping)
+                _shouldMaintainHeight = true;
+                _jumpReady = true;
+                if (!grounded)
                 {
-                    _rb.AddForce(_gravitationalForce * (_riseGravityFactor - 1f));
-                }
-                if (jumpInput == Vector3.zero)
-                {
-                    // Impede the jump height to achieve a low jump.
-                    _rb.AddForce(_gravitationalForce * (_lowJumpFactor - 1f));
+                    // Increase downforce for a sudden plummet.
+                    // Hmm... this feels a bit weird. I want a reactive jump, but I don't want it to dive all the time...
+                    _rb.AddForce(_gravitationalForce * (fallGravityFactor - 1f));
                 }
             }
-        }
-
-        if (_timeSinceJumpPressed < _jumpBuffer)
-        {
-            if (_timeSinceUngrounded < _coyoteTime)
+            else if (linearVelocity.y > 0)
             {
-                if (_jumpReady)
+                if (!grounded)
                 {
-                    _jumpReady = false;
-                    _shouldMaintainHeight = false;
-                    _isJumping = true;
-                    _rb.linearVelocity = new Vector3(_rb.linearVelocity.x, 0f, _rb.linearVelocity.z); // Cheat fix... (see comment below when adding force to rigidbody).
-                    if (rayHit.distance != 0) // i.e. if the ray has hit
+                    if (_isJumping)
                     {
-                        _rb.position = new Vector3(_rb.position.x, _rb.position.y - (rayHit.distance - _rideHeight), _rb.position.z);
+                        _rb.AddForce(_gravitationalForce * (riseGravityFactor - 1f));
                     }
-                    _rb.AddForce(Vector3.up * _jumpForceFactor, ForceMode.Impulse); // This does not work very consistently... Jump height is affected by initial y velocity and y position relative to RideHeight... Want to adopt a fancier approach (more like PlayerMovement). A cheat fix to ensure consistency has been issued above...
-                    _timeSinceJumpPressed = _jumpBuffer; // So as to not activate further jumps, in the case that the player lands before the jump timer surpasses the buffer.
-                    _timeSinceJump = 0f;
+
+                    if (jumpInput == Vector3.zero)
+                    {
+                        // Impede the jump height to achieve a low jump.
+                        _rb.AddForce(_gravitationalForce * (lowJumpFactor - 1f));
+                    }
+                }
+            }
+
+            if (_timeSinceJumpPressed < jumpBuffer)
+            {
+                if (_timeSinceUngrounded < coyoteTime)
+                {
+                    if (_jumpReady)
+                    {
+                        _jumpReady = false;
+                        _shouldMaintainHeight = false;
+                        _isJumping = true;
+                        _rb.linearVelocity =
+                            new Vector3(linearVelocity.x, 0f,
+                                linearVelocity.z); // Cheat fix... (see comment below when adding force to rigidbody).
+                        if (rayHit.distance != 0) // i.e. if the ray has hit
+                        {
+                            var rbPos = _rb.position;
+                            _rb.position = new Vector3(rbPos.x, rbPos.y - (rayHit.distance - rideHeight), rbPos.z);
+                        }
+
+                        // This does not work very consistently... Jump height is affected by initial y velocity and y position relative to RideHeight... Want to adopt a fancier approach (more like PlayerMovement). A cheat fix to ensure consistency has been issued above...
+                        _rb.AddForce(Vector3.up * jumpForceFactor, ForceMode.Impulse);
+                        // So as to not activate further jumps, in the case that the player lands before the jump timer surpasses the buffer.
+                        _timeSinceJumpPressed = jumpBuffer;
+                        _timeSinceJump = 0f;
+                    }
                 }
             }
         }
+
+        public Camera MainCamera { get; set; }
+
+        public void SetParent(Transform parentTransform) => parent = parentTransform;
     }
 }

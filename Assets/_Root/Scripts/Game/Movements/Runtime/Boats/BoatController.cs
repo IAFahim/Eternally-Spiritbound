@@ -7,30 +7,25 @@ using UnityEngine.InputSystem;
 namespace _Root.Scripts.Game.Movements.Runtime.Boats
 {
     [RequireComponent(typeof(Rigidbody))]
-    public class BoatController : MonoBehaviour, IMove, IMainCameraProvider
+    public class BoatController : MovementProviderComponent, IMainCameraProvider
     {
         [Header("References")] public Rigidbody rb;
         public Lean lean;
 
-        [Header("Movement Settings")] public float maxForwardSpeed = 10f;
-        public float maxReverseSpeed = 5f;
-        public float turnTorque = 5f;
-        public float accelerationForce = 10f;
-        public float reverseAccelerationForce = 5f;
+        [Header("Movement Settings")] public float maxForwardSpeed = 100f;
+        public float maxReverseSpeed = 100f;
+        public float turnTorque = 10f;
+        public float accelerationForce = 100f;
+        public float reverseAccelerationForce = 100f;
         public float waterDrag = 0.99f;
 
-        [Header("Buoyancy Settings")] public float waterLevel = 0f;
-        public float buoyancyForce = 5f;
-        public float waveIntensity = 0.5f;
-        public float waveFrequency = 1f;
+        [Header("Buoyancy Settings")] public float waterLevel;
+        public float buoyancyForce = 100f;
+        public float waveIntensity = 5f;
+        public float waveFrequency = 1.41f;
 
-        [Header("Stability Settings")] public float stabilizationTorque = 10f;
-        private Vector3 _moveDirection;
-        private bool _isReversing = false;
-
-        [Header("Boat Stats")] private float _currentSpeed;
-        private float _currentTurnRate;
-        private float _currentBuoyancy;
+        [Header("Stability Settings")] public float stabilizationTorque = 5000f;
+        private bool _isReversing;
 
         private Optional<Camera> _mainCamera;
 
@@ -43,7 +38,6 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
         private void Update()
         {
             UpdateLean();
-            UpdateBoatStats();
         }
 
         private void FixedUpdate()
@@ -57,33 +51,9 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
         }
 
 
-        public void EnableMoveInput(InputActionReference moveAction)
+        protected override void OnMoveInput(InputAction.CallbackContext context)
         {
-            moveAction.action.Enable();
-            moveAction.action.performed += ((IMoveInputConsumer)this).OnMoveInput;
-            moveAction.action.canceled += ((IMoveInputConsumer)this).OnMoveInputCancel;
-        }
-
-        void IMoveInputConsumer.OnMoveInput(InputAction.CallbackContext context)
-        {
-            OnMoveInput(context);
-        }
-
-        void IMoveInputConsumer.OnMoveInputCancel(InputAction.CallbackContext context)
-        {
-            OnMoveInputCancel(context);
-        }
-
-        public void DisableMoveInput(InputActionReference moveAction)
-        {
-            moveAction.action.Disable();
-            moveAction.action.performed -= ((IMoveInputConsumer)this).OnMoveInput;
-            moveAction.action.canceled -= ((IMoveInputConsumer)this).OnMoveInputCancel;
-        }
-
-        private void OnMoveInput(InputAction.CallbackContext context)
-        {
-            Vector2 input = context.ReadValue<Vector2>();
+            Vector2 input = IsInputEnabled ? context.ReadValue<Vector2>() : Vector2.zero;
 
             if (_mainCamera.Enabled)
             {
@@ -100,27 +70,22 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
 
                 // Calculate the final direction based on camera orientation
                 Vector3 moveDir = (cameraRight * input.x + cameraForward * input.y).normalized;
-                _moveDirection = moveDir;
+                MoveDirection = moveDir;
             }
-            else _moveDirection = new Vector3(input.x, 0, input.y).normalized;
+            else MoveDirection = new Vector3(input.x, 0, input.y).normalized;
         }
 
         private void OnMoveInputCancel(InputAction.CallbackContext context)
         {
-            _moveDirection = Vector3.zero;
-        }
-        
-        private void UpdateLean()
-        {
-            lean.UpdateLean(_moveDirection);
+            MoveDirection = Vector3.zero;
         }
 
-        private void UpdateBoatStats()
+        private void UpdateLean()
         {
-            _currentSpeed = rb.linearVelocity.magnitude;
-            _currentTurnRate = rb.angularVelocity.magnitude;
-            _currentBuoyancy = transform.position.y - waterLevel;
+            lean.UpdateLean(MoveDirection);
         }
+
+        
 
         private void DetermineMovementDirection()
         {
@@ -144,10 +109,10 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
 
         private void ApplyTurning()
         {
-            if (_moveDirection.magnitude > 0)
+            if (MoveDirection.magnitude > 0)
             {
                 // Calculate the target rotation based on input
-                Quaternion targetRotation = Quaternion.LookRotation(_moveDirection, Vector3.up);
+                Quaternion targetRotation = Quaternion.LookRotation(MoveDirection, Vector3.up);
 
                 // Apply torque to rotate towards the target rotation
                 Vector3 torque = CalculateTorqueToTarget(targetRotation);
@@ -203,12 +168,6 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
 
             // Apply the stabilizing torque
             rb.AddTorque(stabilizingTorque);
-        }
-
-        public Vector3 Direction
-        {
-            get => _moveDirection;
-            set => _moveDirection = value;
         }
 
         public Camera MainCamera

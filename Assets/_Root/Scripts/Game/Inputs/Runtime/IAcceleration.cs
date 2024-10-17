@@ -1,6 +1,4 @@
-﻿using _Root.Scripts.Game.Inputs.Runtime;
-
-namespace _Root.Scripts.Game.Movements.Runtime
+﻿namespace _Root.Scripts.Game.Inputs.Runtime
 {
     public interface IAcceleration: IAccelerateInputConsumer
     {
