@@ -21,19 +21,11 @@ namespace _Root.Scripts.Game.Inputs.Runtime
             moveAction.action.canceled += ((IMoveInputConsumer)this).OnMoveInputCancel;
         }
 
-        void IMoveInputConsumer.OnMoveInput(InputAction.CallbackContext context)
-        {
-            Debug.Log($"context: {context.phase}");
-            OnMoveInput(context);
-        }
+        void IMoveInputConsumer.OnMoveInput(InputAction.CallbackContext context) => OnMoveInput(context);
 
         protected abstract void OnMoveInput(InputAction.CallbackContext context);
 
-        void IMoveInputConsumer.OnMoveInputCancel(InputAction.CallbackContext context)
-        {
-            Debug.Log($"context: {context.phase}");
-            OnMoveInputCancel(context);
-        }
+        void IMoveInputConsumer.OnMoveInputCancel(InputAction.CallbackContext context) => OnMoveInputCancel(context);
 
         public void DisableMoveInput(InputActionReference moveAction)
         {

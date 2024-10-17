@@ -74,11 +74,11 @@ namespace _Root.Scripts.Game.GameEntities.Runtime
         }
 
         public void SetFocus(Dictionary<AssetReferenceGameObject, GameObject> activeElements,
-            Transform uISpawnPointTransform,
+            TransformReferences transformReferences,
             GameObject targetGameObject, Action returnFocusCallBack)
         {
             _returnCallback = returnFocusCallBack;
-            focusProviderScriptable.SetFocus(activeElements, uISpawnPointTransform, targetGameObject, returnFocusCallBack);
+            focusProviderScriptable.SetFocus(activeElements, transformReferences, targetGameObject, returnFocusCallBack);
         }
         
         public void ReturnFocusCallBack() => _returnCallback?.Invoke();

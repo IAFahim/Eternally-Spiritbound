@@ -86,9 +86,8 @@ namespace EnhancedOnScreenControls
         }
 
         public void OnPointerUp(PointerEventData eventData)
-        {
+        { 
             SentDefaultValueToControl();
-            // SendValueToControl(Vector2.zero);
             handle.anchoredPosition = Vector2.zero;
 
             if (showOnlyWhenPressed)

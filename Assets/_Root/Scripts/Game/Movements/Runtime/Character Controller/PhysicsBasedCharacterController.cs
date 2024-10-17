@@ -18,38 +18,24 @@ namespace _Root.Scripts.Game.Movements.Runtime.Character_Controller
         private Vector3 _gravitationalForce;
         private readonly Vector3 _rayDir = Vector3.down;
         private Vector3 _previousVelocity = Vector3.zero;
-        private Vector2 _moveContext;
         private ParticleSystem.EmissionModule _emission;
 
         [Header("Other:")] [SerializeField] private bool adjustInputsToCameraAngle = false;
 
-        [FormerlySerializedAs("_terrainLayer")] [SerializeField]
-        private LayerMask terrainLayer;
+        [SerializeField] private LayerMask terrainLayer;
 
-        [FormerlySerializedAs("_dustParticleSystem")] [SerializeField]
-        private ParticleSystem dustParticleSystem;
+        [SerializeField] private ParticleSystem dustParticleSystem;
 
         private bool _shouldMaintainHeight = true;
 
-
-        [FormerlySerializedAs("_rideHeight")]
         [Header("Height Spring:")]
         // rideHeight: desired distance to ground (Note, this is distance from the original raycast position (currently centre of transform)). 
-        [SerializeField]
-        private float rideHeight = 2f;
-
+        [SerializeField] private float rideHeight = 2f;
         // rayToGroundLength: max distance of raycast to ground (Note, this should be greater than the rideHeight).
-        [FormerlySerializedAs("_rayToGroundLength")] [SerializeField]
-        private float rayToGroundLength = 3f;
-
-        [FormerlySerializedAs("_rideSpringStrength")] [SerializeField]
-        public float rideSpringStrength = 200f; // rideSpringStrength: strength of spring. (?)
-
-        [FormerlySerializedAs("_rideSpringDamper")] [SerializeField]
-        private float rideSpringDamper = 10f; // rideSpringDampener: dampener of spring. (?)
-
-        [FormerlySerializedAs("_squashAndStretchOcillator")] [SerializeField]
-        private Oscillator squashAndStretchOcillator;
+        [SerializeField] private float rayToGroundLength = 3f;
+        [SerializeField] public float rideSpringStrength = 200f; // rideSpringStrength: strength of spring. (?)
+        [SerializeField] private float rideSpringDamper = 10f; // rideSpringDampener: dampener of spring. (?)
+        [SerializeField] private Oscillator squashAndStretchOcillator;
 
 
         private enum ELookDirectionOptions
@@ -66,14 +52,12 @@ namespace _Root.Scripts.Game.Movements.Runtime.Character_Controller
         private Vector3 _platformInitRot;
         private bool _didLastRayHit;
 
-        [FormerlySerializedAs("_characterLookDirection")] [Header("Upright Spring:")] [SerializeField]
+        [Header("Upright Spring:")] [SerializeField]
         private ELookDirectionOptions characterELookDirection = ELookDirectionOptions.Velocity;
 
-        [FormerlySerializedAs("_uprightSpringStrength")] [SerializeField]
-        private float uprightSpringStrength = 40f;
+        [SerializeField] private float uprightSpringStrength = 40f;
 
-        [FormerlySerializedAs("_uprightSpringDamper")] [SerializeField]
-        private float uprightSpringDamper = 5f;
+        [SerializeField] private float uprightSpringDamper = 5f;
 
 
         private Vector3 _moveInput;
@@ -81,23 +65,14 @@ namespace _Root.Scripts.Game.Movements.Runtime.Character_Controller
         private readonly float _maxAccelForceFactor = 1f;
         private Vector3 _mGoalVel = Vector3.zero;
 
-        [FormerlySerializedAs("_maxSpeed")] [Header("Movement:")] [SerializeField]
-        private float maxSpeed = 8f;
+        [Header("Movement:")] [SerializeField] private float maxSpeed = 8f;
 
         [SerializeField] private float acceleration = 400f;
         [SerializeField] private float maxAccelForce = 300f;
-
-        [FormerlySerializedAs("_leanFactor")] [SerializeField]
-        private float leanFactor = 0.2f;
-
-        [FormerlySerializedAs("_accelerationFactorFromDot")] [SerializeField]
-        private AnimationCurve accelerationFactorFromDot;
-
-        [FormerlySerializedAs("_maxAccelerationForceFactorFromDot")] [SerializeField]
-        private AnimationCurve maxAccelerationForceFactorFromDot;
-
-        [FormerlySerializedAs("_moveForceScale")] [SerializeField]
-        private Vector3 moveForceScale = new(1f, 0f, 1f);
+        [SerializeField] private float leanFactor = 0.2f;
+        [SerializeField] private AnimationCurve accelerationFactorFromDot;
+        [SerializeField] private AnimationCurve maxAccelerationForceFactorFromDot;
+        [SerializeField] private Vector3 moveForceScale = new(1f, 0f, 1f);
 
 
         private Vector3 _jumpInput;
@@ -107,23 +82,18 @@ namespace _Root.Scripts.Game.Movements.Runtime.Character_Controller
         private bool _jumpReady = true;
         private bool _isJumping = false;
 
-        [FormerlySerializedAs("_jumpForceFactor")] [Header("Jump:")] [SerializeField]
-        private float jumpForceFactor = 10f;
+        [Header("Jump:")] [SerializeField] private float jumpForceFactor = 10f;
 
-        [FormerlySerializedAs("_riseGravityFactor")] [SerializeField]
-        private float riseGravityFactor = 5f;
+        [SerializeField] private float riseGravityFactor = 5f;
 
-        [FormerlySerializedAs("_fallGravityFactor")] [SerializeField]
-        private float fallGravityFactor = 10f; // typically > 1f (i.e. 5f).
+        [SerializeField] private float fallGravityFactor = 10f; // typically > 1f (i.e. 5f).
 
-        [FormerlySerializedAs("_lowJumpFactor")] [SerializeField]
-        private float lowJumpFactor = 2.5f;
+        [SerializeField] private float lowJumpFactor = 2.5f;
 
-        [FormerlySerializedAs("_jumpBuffer")] [SerializeField]
+        [SerializeField]
         private float jumpBuffer = 0.15f; // Note, jumpBuffer shouldn't really exceed the time of the jump.
 
-        [FormerlySerializedAs("_coyoteTime")] [SerializeField]
-        private float coyoteTime = 0.25f;
+        [SerializeField] private float coyoteTime = 0.25f;
 
         /// <summary>
         /// Prepare frequently used variables.
@@ -184,42 +154,19 @@ namespace _Root.Scripts.Game.Movements.Runtime.Character_Controller
                     lookDirection = deltaVelocity / Time.fixedDeltaTime;
                 }
             }
-            else if (eLookDirectionOption == ELookDirectionOptions.MoveInput)
-            {
-                lookDirection = _moveInput;
-            }
+            else if (eLookDirectionOption == ELookDirectionOptions.MoveInput) lookDirection = _moveInput;
 
             return lookDirection;
         }
 
         private bool _prevGrounded = false;
-        public float lerpDuration = 0.3f;
-        public float _lerpElapsed = 0f;
 
         /// <summary>
         /// Determines and plays the appropriate character sounds, particle effects, then calls the appropriate methods to move and float the character.
         /// </summary>
         private void FixedUpdate()
         {
-            _moveInput = new Vector3(_moveContext.x, 0, _moveContext.y);
-            if (stopMove)
-            {
-                if (_lerpElapsed < lerpDuration)
-                {
-                    _moveInput = Vector3.Lerp(_moveInput, Vector3.zero, _lerpElapsed / lerpDuration);
-                    _lerpElapsed += Time.fixedDeltaTime;
-                }
-                else
-                {
-                    _moveInput = Vector3.zero;
-                }
-
-                Debug.Log($"_moveInput: {_moveInput}");
-            }
-            else
-            {
-                _lerpElapsed = 0f;
-            }
+            _moveInput = new Vector3(MoveDirection.x, 0, MoveDirection.y);
 
             if (adjustInputsToCameraAngle) _moveInput = AdjustInputToFaceCamera(_moveInput);
 
@@ -494,7 +441,7 @@ namespace _Root.Scripts.Game.Movements.Runtime.Character_Controller
 
         protected override void OnMoveInput(InputAction.CallbackContext context)
         {
-            _moveContext = context.ReadValue<Vector2>();
+            MoveDirection = context.ReadValue<Vector2>();
         }
     }
 }

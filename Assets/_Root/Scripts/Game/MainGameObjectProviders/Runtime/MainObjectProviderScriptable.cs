@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using _Root.Scripts.Game.Inputs.Runtime;
-using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.InputSystem;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
 {
@@ -16,41 +14,40 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
         public GameObject mainGameObjectInstance;
         public LayerMask layerMask;
         public Camera mainCamera;
-
-        [FormerlySerializedAs("uISpawnPointTransform")]
-        public Transform uISpawnTransform;
-
         [Header("Input Actions")] public InputActionReference moveAction;
         public GameObject lastFocusedGameObject;
 
+        private TransformReferences _transformReferences;
         private IMoveInputConsumer _lastMoveInputConsumer;
         private Action<GameObject> _spawnedGameObjectCallBack;
         private IFocusProvider _lastFocusProvider;
         private readonly Dictionary<AssetReferenceGameObject, GameObject> _activeElements = new();
 
-        public void SpawnMainGameObject(Camera camera, Action<GameObject> gameObjectCallBack, Transform uiSpawnPoint)
+        public void Initialize(Camera camera, TransformReferences transformReferences)
         {
             mainCamera = camera;
+            _transformReferences = transformReferences;
+        }
+
+        public void SpawnMainGameObject(Action<GameObject> gameObjectCallBack)
+        {
             _spawnedGameObjectCallBack = gameObjectCallBack;
-            uISpawnTransform = uiSpawnPoint;
             Addressables.InstantiateAsync(mainGameObjectAssetReference).Completed += OnCompletedInstantiate;
         }
 
         void OnCompletedInstantiate(AsyncOperationHandle<GameObject> handle)
         {
             mainGameObjectInstance = handle.Result;
-            ProvideTo(mainGameObjectInstance, mainCamera,  uISpawnTransform);
+            ProvideTo(mainGameObjectInstance);
             _spawnedGameObjectCallBack?.Invoke(mainGameObjectInstance);
             _spawnedGameObjectCallBack = null;
         }
 
-        public void ProvideTo(GameObject gameObject, Camera camera, Transform uiSpanPoint)
+        public void ProvideTo(GameObject gameObject)
         {
             UnlinkGameObject();
             mainGameObjectInstance = gameObject;
-            mainCamera = camera;
-            uISpawnTransform = uiSpanPoint;
-            AssignCamera(gameObject, camera);
+            AssignCamera(gameObject, mainCamera);
             AssignGameObject(gameObject);
             AssignMoveInput(gameObject);
             AssignUI(gameObject);
@@ -58,12 +55,13 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
 
         private void AssignUI(GameObject gameObject)
         {
-            gameObject.GetComponent<IFocusProvider>().SetFocus(_activeElements, uISpawnTransform, gameObject, ReturnCallback);
+            _lastFocusProvider = gameObject.GetComponent<IFocusProvider>();
+            _lastFocusProvider.SetFocus(_activeElements, _transformReferences, gameObject, ReturnCallback);
         }
 
         private void ReturnCallback()
         {
-            ProvideTo(mainGameObjectInstance, mainCamera, uISpawnTransform);
+            ProvideTo(mainGameObjectInstance);
         }
 
 
@@ -104,8 +102,9 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
             {
                 Addressables.ReleaseInstance(activeUiElement.Value);
             }
+
             _activeElements.Clear();
-            
+
             _lastFocusProvider = null;
             _lastMoveInputConsumer = null;
             lastFocusedGameObject = null;

@@ -7,18 +7,17 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
         public GameObject mainGameObjectInstance;
         public Camera mainCamera;
         public MainObjectProviderScriptable mainObjectProviderScriptable;
-        public Transform uISpawnPoint;
+        public TransformReferences transformReferences;
 
         private void Awake()
         {
+            mainObjectProviderScriptable.Initialize(mainCamera, transformReferences);
             if (mainGameObjectInstance == null)
                 mainObjectProviderScriptable.SpawnMainGameObject(
-                    mainCamera,
-                    SpawnedGameObjectCallBack,
-                    uISpawnPoint
+                    SpawnedGameObjectCallBack
                 );
             else
-                mainObjectProviderScriptable.ProvideTo(mainGameObjectInstance, mainCamera, uISpawnPoint);
+                mainObjectProviderScriptable.ProvideTo(mainGameObjectInstance);
         }
 
         private void SpawnedGameObjectCallBack(GameObject obj) => mainGameObjectInstance = obj;

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using _Root.Scripts.Game.GameEntities.Runtime.Weapons;
 using _Root.Scripts.Game.Interactables.Runtime;
 using _Root.Scripts.Game.MainGameObjectProviders.Runtime;
+using _Root.Scripts.Presentation.FocusProvider.Runtime;
 using Soul.Selectors.Runtime;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -9,11 +11,13 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace _Root.Scripts.Presentation.Shop.Runtime
 {
-    public class BoatShop : InteractableComponent, ISelectionCallback
+    public class BoatShop : InteractableComponent, ISelectionCallback, IFocusProvider
     {
         public Weapon[] weapons;
         public MainObjectProviderScriptable mainObjectProviderScriptable;
+        public BoatShopFocusProviderScriptable boatShopFocusProviderScriptable;
         public AssetReferenceGameObject interactableSignPrefab;
+        public Vector3 spawnOffset;
 
         public override bool CanInteract(GameObject initiator) => true;
 
@@ -29,12 +33,13 @@ namespace _Root.Scripts.Presentation.Shop.Runtime
         private void OnInteractSignSpawnComplete(AsyncOperationHandle<GameObject> handle)
         {
             var interactableSign = handle.Result;
-            interactableSign.transform.position = transform.position;
+            interactableSign.transform.position = transform.TransformPoint(spawnOffset);
         }
 
 
         public override void OnInteractStart(GameObject initiator, Action onComplete)
         {
+            mainObjectProviderScriptable.ProvideTo(gameObject);
         }
 
         public override void OnHoverExit(GameObject initiator)
@@ -55,6 +60,25 @@ namespace _Root.Scripts.Presentation.Shop.Runtime
         public void OnReselected(RaycastHit hit)
         {
             Debug.Log("Reselected");
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawSphere(transform.TransformPoint(spawnOffset), .5f);
+        }
+
+        public void SetFocus(Dictionary<AssetReferenceGameObject, GameObject> activeElements,
+            TransformReferences transformReferences, GameObject targetGameObject,
+            Action returnFocusCallBack)
+        {
+            boatShopFocusProviderScriptable.SetFocus(activeElements, transformReferences, targetGameObject,
+                returnFocusCallBack);
+        }
+
+        public void OnFocusLost(GameObject targetGameObject)
+        {
+            boatShopFocusProviderScriptable.OnFocusLost(targetGameObject);
         }
     }
 }
