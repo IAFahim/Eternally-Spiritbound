@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace _Root.Scripts.Game.Interactables.Runtime
 {
-    public interface IInteractableByGameObject : IInteract<GameObject>
+    public interface IInteractableWithGameObject : IInteract<GameObject>
     {
     }
 }
