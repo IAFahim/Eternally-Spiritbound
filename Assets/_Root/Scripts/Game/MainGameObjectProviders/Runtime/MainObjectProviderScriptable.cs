@@ -35,6 +35,11 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
             Addressables.InstantiateAsync(mainGameObjectAssetReference).Completed += OnCompletedInstantiate;
         }
 
+        public void ReturnControlToLastGameObject()
+        {
+            ProvideTo(lastFocusedGameObject);
+        }
+
         void OnCompletedInstantiate(AsyncOperationHandle<GameObject> handle)
         {
             mainGameObjectInstance = handle.Result;
@@ -46,9 +51,8 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
         public void ProvideTo(GameObject gameObject)
         {
             UnlinkGameObject();
-            mainGameObjectInstance = gameObject;
-            AssignCamera(gameObject, mainCamera);
             AssignGameObject(gameObject);
+            AssignCamera(gameObject, mainCamera);
             AssignMoveInput(gameObject);
             AssignUI(gameObject);
         }
@@ -74,9 +78,9 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
 
         private void AssignGameObject(GameObject gameObject)
         {
-            if (lastFocusedGameObject != null) lastFocusedGameObject.layer &= ~(layerMask);
-            lastFocusedGameObject = gameObject;
-            lastFocusedGameObject.layer |= 1 << layerMask;
+            mainGameObjectInstance = gameObject;
+            if (gameObject != null) gameObject.layer &= ~(layerMask);
+            gameObject.layer |= 1 << layerMask;
         }
 
         private void AssignMoveInput(GameObject gameObject)
@@ -91,6 +95,8 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
 
         private void UnlinkGameObject()
         {
+            lastFocusedGameObject = mainGameObjectInstance;
+            if (lastFocusedGameObject == null) return;
             _lastMoveInputConsumer?.DisableMoveInput(moveAction);
             if (lastFocusedGameObject != null) lastFocusedGameObject.layer &= ~(1 << layerMask);
             if (lastFocusedGameObject != null) _lastFocusProvider.OnFocusLost(lastFocusedGameObject);
@@ -104,7 +110,7 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
             }
 
             _activeElements.Clear();
-
+            mainGameObjectInstance = null;
             _lastFocusProvider = null;
             _lastMoveInputConsumer = null;
             lastFocusedGameObject = null;

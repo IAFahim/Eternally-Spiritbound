@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: boat_shop_focus_provider_scriptable
   m_EditorClassIdentifier: 
   cinemachineAsset:
-    m_AssetGUID: 
+    m_AssetGUID: b351a3825d6462c459ee036f28f7dd99
     m_SubObjectName: 
     m_SubObjectGUID: 
     m_SubObjectType: 
-    m_EditorAssetChanged: 0
+    m_EditorAssetChanged: 1

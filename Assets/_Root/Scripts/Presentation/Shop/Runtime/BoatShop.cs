@@ -11,6 +11,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace _Root.Scripts.Presentation.Shop.Runtime
 {
+    [SelectionBase]
     public class BoatShop : InteractableComponent, ISelectionCallback, IFocusProvider
     {
         public Weapon[] weapons;
@@ -44,6 +45,11 @@ namespace _Root.Scripts.Presentation.Shop.Runtime
 
         public override void OnHoverExit(GameObject initiator)
         {
+            if (initiator == mainObjectProviderScriptable.lastFocusedGameObject)
+            {
+                mainObjectProviderScriptable.ReturnControlToLastGameObject();
+                return;
+            }
             Debug.Log("Hover Exit");
         }
 
