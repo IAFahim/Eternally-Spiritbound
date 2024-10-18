@@ -6,7 +6,8 @@ namespace Soul.Interactables.Runtime
     {
         public bool CanInteract(T initiator);
         public void OnInteractHoverEnter(T initiator);
-        public void OnInteractStart(T initiator, Action onComplete);
+        public void OnInteractStart(T initiator);
+        public void OnInteractEnd(T initiator);
         public void OnHoverExit(T initiator);
     }
 }

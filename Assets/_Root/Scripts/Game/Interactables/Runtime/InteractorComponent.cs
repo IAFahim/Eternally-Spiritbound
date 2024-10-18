@@ -1,4 +1,3 @@
-using System;
 using Sirenix.OdinInspector;
 using Soul.OverlapSugar.Runtime;
 using Soul.Tickers.Runtime;
@@ -6,12 +5,11 @@ using UnityEngine;
 
 namespace _Root.Scripts.Game.Interactables.Runtime
 {
-    public class InteractorByDistenceComponent : MonoBehaviour, IInteractorGameObject
+    public class InteractorComponent : MonoBehaviour, IInteractor
     {
-        public event Action<IInteractableWithGameObject> OnInteractorFound;
         public PhysicsCheckOverlapNonAlloc playerOverlap;
         public IntervalTicker ticker;
-        private IInteractableWithGameObject _lastInteractableWithGameObject;
+        private IInteractable _lastInteractable;
         public bool busy;
         public Collider _lastClosestCollider;
 
@@ -28,32 +26,33 @@ namespace _Root.Scripts.Game.Interactables.Runtime
                 if (_lastClosestCollider == null) SetupInteractable(closestCollider);
                 else if (_lastClosestCollider != closestCollider)
                 {
-                    _lastInteractableWithGameObject.OnHoverExit(gameObject);
+                    _lastInteractable.OnHoverExit(this);
                     SetupInteractable(closestCollider);
                 }
             }
             else if (_lastClosestCollider != null)
             {
-                _lastInteractableWithGameObject.OnHoverExit(gameObject);
+                _lastInteractable.OnHoverExit(this);
                 _lastClosestCollider = null;
-                _lastInteractableWithGameObject = null;
+                _lastInteractable = null;
             }
         }
 
         private void SetupInteractable(Collider closestCollider)
         {
             _lastClosestCollider = closestCollider;
-            _lastInteractableWithGameObject = closestCollider.GetComponent<IInteractableWithGameObject>();
-            _lastInteractableWithGameObject.OnInteractHoverEnter(gameObject);
-            OnInteractorFound?.Invoke(_lastInteractableWithGameObject);
+            _lastInteractable = closestCollider.GetComponent<IInteractable>();
+            _lastInteractable.OnInteractHoverEnter(this);
         }
+
+        public GameObject GameObject => gameObject;
 
         [Button]
         public void Interact()
         {
-            if (_lastInteractableWithGameObject == null) return;
+            if (_lastInteractable == null) return;
             busy = true;
-            _lastInteractableWithGameObject.OnInteractStart(gameObject, () => busy = false);
+            _lastInteractable.OnInteractStart(this);
         }
 
         private void FixedUpdate()

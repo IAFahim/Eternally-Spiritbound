@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 585195330352040544}
   - component: {fileID: 8340636105793721890}
   - component: {fileID: 1013018114690365424}
+  - component: {fileID: 1019628589819932354}
   m_Layer: 0
   m_Name: Click to Activate Shop
   m_TagString: Untagged
@@ -109,3 +110,15 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1019628589819932354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018406531993612082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 429aa332ecc14b708d982dc36772f279, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

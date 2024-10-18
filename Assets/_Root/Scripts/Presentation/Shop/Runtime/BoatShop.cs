@@ -4,7 +4,8 @@ using _Root.Scripts.Game.GameEntities.Runtime.Weapons;
 using _Root.Scripts.Game.Interactables.Runtime;
 using _Root.Scripts.Game.MainGameObjectProviders.Runtime;
 using _Root.Scripts.Presentation.FocusProvider.Runtime;
-using Soul.Selectors.Runtime;
+using _Root.Scripts.Presentation.Selectors.Runtime;
+using Pancake;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -12,60 +13,47 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 namespace _Root.Scripts.Presentation.Shop.Runtime
 {
     [SelectionBase]
-    public class BoatShop : InteractableComponent, ISelectionCallback, IFocusProvider
+    public class BoatShop : InteractableComponent, IFocusProvider
     {
         public Weapon[] weapons;
-        public MainObjectProviderScriptable mainObjectProviderScriptable;
         public BoatShopFocusProviderScriptable boatShopFocusProviderScriptable;
         public AssetReferenceGameObject interactableSignPrefab;
+        public Optional<InteractPasser> signInstance;
         public Vector3 spawnOffset;
 
-        public override bool CanInteract(GameObject initiator) => true;
+        public override bool CanInteract(IInteractor initiator) => true;
 
-        public override void OnInteractHoverEnter(GameObject initiator)
+        public override void OnInteractHoverEnter(IInteractor initiator)
         {
-            Debug.Log("Hovering");
-            if (initiator == mainObjectProviderScriptable.mainGameObjectInstance)
+            if (!signInstance)
             {
-                Addressables.InstantiateAsync(interactableSignPrefab).Completed += OnInteractSignSpawnComplete;
+                Addressables.InstantiateAsync(interactableSignPrefab, transform).Completed +=
+                    OnInteractSignSpawnComplete;
             }
+            else signInstance.Value.gameObject.SetActive(true);
         }
 
         private void OnInteractSignSpawnComplete(AsyncOperationHandle<GameObject> handle)
         {
-            var interactableSign = handle.Result;
-            interactableSign.transform.position = transform.TransformPoint(spawnOffset);
+            signInstance = handle.Result.GetComponent<InteractPasser>();
+            signInstance.Value.transform.position = transform.TransformPoint(spawnOffset);
         }
 
 
-        public override void OnInteractStart(GameObject initiator, Action onComplete)
+        public override void OnInteractStart(IInteractor initiator)
         {
-            mainObjectProviderScriptable.ProvideTo(gameObject);
+            
         }
 
-        public override void OnHoverExit(GameObject initiator)
+        public override void OnInteractEnd(IInteractor initiator)
         {
-            if (initiator == mainObjectProviderScriptable.lastFocusedGameObject)
-            {
-                mainObjectProviderScriptable.ReturnControlToLastGameObject();
-                return;
-            }
+            
+        }
+
+        public override void OnHoverExit(IInteractor initiator)
+        {
+            if (signInstance) signInstance.Value.gameObject.SetActive(false);
             Debug.Log("Hover Exit");
-        }
-
-        public void OnSelected(RaycastHit hit)
-        {
-            Debug.Log("Selected");
-        }
-
-        public void OnDeselected(RaycastHit hit)
-        {
-            Debug.Log("Deselected");
-        }
-
-        public void OnReselected(RaycastHit hit)
-        {
-            Debug.Log("Reselected");
         }
 
         private void OnDrawGizmosSelected()

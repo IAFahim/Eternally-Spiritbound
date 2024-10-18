@@ -22,6 +22,5 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 32768
+  mainCamera: {fileID: 0}
   moveAction: {fileID: -1680190386980627800, guid: 9334937fad4e1ad4ba5357282c93ace5, type: 3}
-  accelerateAction: {fileID: -2099379676528639254, guid: 9334937fad4e1ad4ba5357282c93ace5, type: 3}
-  lastFocusedGameObject: {fileID: 0}

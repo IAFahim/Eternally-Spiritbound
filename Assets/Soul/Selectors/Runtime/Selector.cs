@@ -8,13 +8,14 @@ using UnityEngine.EventSystems;
 namespace Soul.Selectors.Runtime
 {
     [Serializable]
-    public class Selector
+    public class Selector<T>
     {
         [SerializeField] private LayerMask selectableLayers = Physics.DefaultRaycastLayers;
         [SerializeField] private float waitForDrag = 0.1f;
         [SerializeField] private bool useMultipleCallbacks = false;
         [SerializeField] private UnityEvent<RaycastHit, ESelectionState> onSelectionEvent;
-        
+
+        private T _info;
         private Action _onOverUI;
         private Transform _currentSelection;
         private bool _canSelect = true;
@@ -25,11 +26,12 @@ namespace Soul.Selectors.Runtime
 
         // Efficient short-term caching
         private Transform _lastCheckedTransform;
-        private ISelectionCallback[] _cachedCallbacks;
+        private ISelectorBase<T>[] _cachedCallbacks;
 
-        public void Initialize(Camera camera, EventSystem eventSystemInstance, Action onOverUI,
+        public void Initialize(T info, Camera camera, EventSystem eventSystemInstance, Action onOverUI,
             CancellationTokenSource cts)
         {
+            _info = info;
             _mainCamera = camera;
             _eventSystem = eventSystemInstance;
             _onOverUI = onOverUI;
@@ -77,10 +79,6 @@ namespace Soul.Selectors.Runtime
             {
                 // Operation was canceled, we can safely ignore this
             }
-            catch (Exception e)
-            {
-                Debug.LogError(e);
-            }
             finally
             {
                 _selectProcessRunning = false;
@@ -107,53 +105,51 @@ namespace Soul.Selectors.Runtime
                         HandleNewSelection(selectionCallbacks, hit);
                     }
                 }
+                else if (_currentSelection != null)
+                {
+                    HandleDeselection(hit);
+                }
             }
-            else if (_currentSelection != null)
-            {
-                HandleDeselection(hit);
-            }
+            else if (_currentSelection != null) HandleDeselection(hit);
 
 #if UNITY_EDITOR
             if (_currentSelection != null) UnityEditor.EditorGUIUtility.PingObject(_currentSelection.gameObject);
 #endif
         }
 
-        private void HandleReselection(ISelectionCallback[] callbacks, RaycastHit hit)
+        private void HandleReselection(ISelectorBase<T>[] callbacks, RaycastHit hit)
         {
-            foreach (var callback in callbacks) callback.OnReselected(hit);
+            foreach (var callback in callbacks) callback.OnReselected(_info);
             onSelectionEvent.Invoke(hit, ESelectionState.Reselected);
         }
 
-        private void HandleNewSelection(ISelectionCallback[] callbacks, RaycastHit hit)
+        private void HandleNewSelection(ISelectorBase<T>[] callbacks, RaycastHit hit)
         {
-            if (_currentSelection != null)
-            {
-                HandleDeselection(hit);
-            }
+            if (_currentSelection != null) HandleDeselection(hit);
 
             _currentSelection = hit.transform;
-            foreach (var callback in callbacks) callback.OnSelected(hit);
+            foreach (var callback in callbacks) callback.OnSelected(_info);
             onSelectionEvent.Invoke(hit, ESelectionState.Selected);
         }
 
         private void HandleDeselection(RaycastHit hit)
         {
             var deselectedCallbacks = GetCallbacks(_currentSelection);
-            foreach (var callback in deselectedCallbacks) callback.OnDeselected(hit);
+            foreach (var callback in deselectedCallbacks) callback.OnDeselected(hit, _info);
             onSelectionEvent.Invoke(hit, ESelectionState.Deselected);
             _currentSelection = null;
         }
 
-        private ISelectionCallback[] GetCallbacks(Transform transform)
+        private ISelectorBase<T>[] GetCallbacks(Transform transform)
         {
             if (_lastCheckedTransform == transform && _cachedCallbacks != null) return _cachedCallbacks;
 
             _lastCheckedTransform = transform;
             _cachedCallbacks = useMultipleCallbacks
-                ? transform.GetComponentsInChildren<ISelectionCallback>()
-                : new[] { transform.GetComponent<ISelectionCallback>() };
+                ? transform.GetComponentsInChildren<ISelectorBase<T>>()
+                : new[] { transform.GetComponent<ISelectorBase<T>>() };
 
-            _cachedCallbacks = _cachedCallbacks[0] != null ? _cachedCallbacks : Array.Empty<ISelectionCallback>();
+            _cachedCallbacks = _cachedCallbacks[0] != null ? _cachedCallbacks : Array.Empty<ISelectorBase<T>>();
             return _cachedCallbacks;
         }
 

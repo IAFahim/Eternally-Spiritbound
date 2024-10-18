@@ -12,16 +12,15 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
     {
         public AssetReferenceGameObject mainGameObjectAssetReference;
         public GameObject mainGameObjectInstance;
-        public LayerMask layerMask;
         public Camera mainCamera;
         [Header("Input Actions")] public InputActionReference moveAction;
-        public GameObject lastFocusedGameObject;
 
         private TransformReferences _transformReferences;
-        private IMoveInputConsumer _lastMoveInputConsumer;
         private Action<GameObject> _spawnedGameObjectCallBack;
-        private IFocusProvider _lastFocusProvider;
         private readonly Dictionary<AssetReferenceGameObject, GameObject> _activeElements = new();
+
+        // Stack to store the focused GameObjects
+        private readonly Stack<GameObject> _focusStack = new();
 
         public void Initialize(Camera camera, TransformReferences transformReferences)
         {
@@ -35,11 +34,6 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
             Addressables.InstantiateAsync(mainGameObjectAssetReference).Completed += OnCompletedInstantiate;
         }
 
-        public void ReturnControlToLastGameObject()
-        {
-            ProvideTo(lastFocusedGameObject);
-        }
-
         void OnCompletedInstantiate(AsyncOperationHandle<GameObject> handle)
         {
             mainGameObjectInstance = handle.Result;
@@ -48,10 +42,15 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
             _spawnedGameObjectCallBack = null;
         }
 
-        public void ProvideTo(GameObject gameObject)
+        public void ProvideTo(GameObject gameObject, bool pushToPreviousStack = true)
         {
-            UnlinkGameObject();
-            AssignGameObject(gameObject);
+            if (mainGameObjectInstance != null && pushToPreviousStack)
+            {
+                UnLink(mainGameObjectInstance);
+                _focusStack.Push(mainGameObjectInstance);
+            }
+
+            mainGameObjectInstance = gameObject;
             AssignCamera(gameObject, mainCamera);
             AssignMoveInput(gameObject);
             AssignUI(gameObject);
@@ -59,47 +58,56 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
 
         private void AssignUI(GameObject gameObject)
         {
-            _lastFocusProvider = gameObject.GetComponent<IFocusProvider>();
-            _lastFocusProvider.SetFocus(_activeElements, _transformReferences, gameObject, ReturnCallback);
+            var focusProvider = gameObject.GetComponent<IFocusProvider>();
+            if (focusProvider != null)
+            {
+                focusProvider.SetFocus(_activeElements, _transformReferences, gameObject, ReturnCallback);
+            }
         }
 
         private void ReturnCallback()
         {
-            ProvideTo(mainGameObjectInstance);
+            ReturnToPreviousObject();
         }
 
+        public GameObject LastFocusedObject => _focusStack.Count > 0 ? _focusStack.Peek() : mainGameObjectInstance;
+
+        public void ReturnToPreviousObject()
+        {
+            if (_focusStack.Count == 0) return;
+            GameObject previousObject = _focusStack.Pop();
+            ProvideTo(previousObject, false);
+        }
 
         private void AssignCamera(GameObject gameObject, Camera camera)
         {
             var mainCameraProvider = gameObject.GetComponent<IMainCameraProvider>();
-            if (mainCameraProvider == null) return;
-            mainCameraProvider.MainCamera = camera;
-        }
-
-        private void AssignGameObject(GameObject gameObject)
-        {
-            mainGameObjectInstance = gameObject;
-            if (gameObject != null) gameObject.layer &= ~(layerMask);
-            gameObject.layer |= 1 << layerMask;
+            if (mainCameraProvider != null)
+            {
+                mainCameraProvider.MainCamera = camera;
+            }
         }
 
         private void AssignMoveInput(GameObject gameObject)
         {
-            _lastMoveInputConsumer?.DisableMoveInput(moveAction);
             var inputConsumer = gameObject.GetComponent<IMoveInputConsumer>();
-            if (inputConsumer == null) return;
-            _lastMoveInputConsumer = inputConsumer;
-            _lastMoveInputConsumer.EnableMoveInput(moveAction);
+            if (inputConsumer != null)
+            {
+                inputConsumer.EnableMoveInput(moveAction);
+            }
         }
 
-
-        private void UnlinkGameObject()
+        private void UnLink(GameObject currentObject)
         {
-            lastFocusedGameObject = mainGameObjectInstance;
-            if (lastFocusedGameObject == null) return;
-            _lastMoveInputConsumer?.DisableMoveInput(moveAction);
-            if (lastFocusedGameObject != null) lastFocusedGameObject.layer &= ~(1 << layerMask);
-            if (lastFocusedGameObject != null) _lastFocusProvider.OnFocusLost(lastFocusedGameObject);
+            if (currentObject.TryGetComponent(out IMoveInputConsumer moveInputConsumer))
+            {
+                moveInputConsumer.DisableMoveInput(moveAction);
+            }
+
+            if (currentObject.TryGetComponent<IFocusProvider>(out var focusProvider))
+            {
+                focusProvider.OnFocusLost(currentObject);
+            }
         }
 
         public void Forget()
@@ -110,10 +118,8 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
             }
 
             _activeElements.Clear();
+            _focusStack.Clear();
             mainGameObjectInstance = null;
-            _lastFocusProvider = null;
-            _lastMoveInputConsumer = null;
-            lastFocusedGameObject = null;
         }
     }
 }
