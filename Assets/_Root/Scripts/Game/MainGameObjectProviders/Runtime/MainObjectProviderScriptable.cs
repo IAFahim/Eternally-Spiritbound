@@ -42,14 +42,19 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
             _spawnedGameObjectCallBack = null;
         }
 
-        public void ProvideTo(GameObject gameObject, bool pushToPreviousStack = true)
+        public void ProvideTo(GameObject gameObject)
         {
-            if (mainGameObjectInstance != null && pushToPreviousStack)
+            if (mainGameObjectInstance != null)
             {
                 UnLink(mainGameObjectInstance);
                 _focusStack.Push(mainGameObjectInstance);
             }
 
+            Setup(gameObject);
+        }
+
+        private void Setup(GameObject gameObject)
+        {
             mainGameObjectInstance = gameObject;
             AssignCamera(gameObject, mainCamera);
             AssignMoveInput(gameObject);
@@ -65,10 +70,7 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
             }
         }
 
-        private void ReturnCallback()
-        {
-            ReturnToPreviousObject();
-        }
+        private void ReturnCallback() => ReturnToPreviousObject();
 
         public GameObject LastFocusedObject => _focusStack.Count > 0 ? _focusStack.Peek() : mainGameObjectInstance;
 
@@ -76,7 +78,7 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
         {
             if (_focusStack.Count == 0) return;
             GameObject previousObject = _focusStack.Pop();
-            ProvideTo(previousObject, false);
+            Setup(previousObject);
         }
 
         private void AssignCamera(GameObject gameObject, Camera camera)

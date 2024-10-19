@@ -12,14 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a64f7cc1e0cd475284c6c0c212d6db52, type: 3}
   m_Name: Boat Focus Provider
   m_EditorClassIdentifier: 
+  cinemachineAsset:
+    m_AssetGUID: b351a3825d6462c459ee036f28f7dd99
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 1
   healthBarAsset:
     m_AssetGUID: d33ad5248591b394eb6fd583b92065c7
     m_SubObjectName: 
     m_SubObjectGUID: 
     m_SubObjectType: 
     m_EditorAssetChanged: 1
-  cinemachineAsset:
-    m_AssetGUID: b351a3825d6462c459ee036f28f7dd99
+  joyStickAsset:
+    m_AssetGUID: 78d430a1d91773544b201049b83f5697
     m_SubObjectName: 
     m_SubObjectGUID: 
     m_SubObjectType: 

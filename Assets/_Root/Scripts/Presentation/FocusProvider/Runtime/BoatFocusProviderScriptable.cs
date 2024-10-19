@@ -15,11 +15,14 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
     public class BoatFocusProviderScriptable : FocusProviderCinemachineScriptable
     {
         public AssetReferenceGameObject healthBarAsset;
+        public AssetReferenceGameObject joyStickAsset;
 
         public float timeScaleStopDuration = .2f;
         public Material targetFlashMaterial;
 
         private ProgressBar _healthBarCache;
+        private GameObject _joyStickCache;
+        
         private Material _targetOriginalMaterial;
         private Renderer _targetRenderer;
         private EntityStats _entityStats;
@@ -33,9 +36,16 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
             TargetGameObject = targetGameObject;
             BuildCache(
                 activeElements,
+                (joyStickAsset,SetupJoystick, transformReferences.movingCanvasTransformPoint),
                 (healthBarAsset, SetupHealthBar, transformReferences.stillCanvasTransformPoint),
                 (cinemachineAsset, SetupCinemachine, null)
             );
+        }
+
+        private void SetupJoystick(GameObject obj)
+        {
+            _joyStickCache = obj;
+            _joyStickCache.SetActive(true);
         }
 
 

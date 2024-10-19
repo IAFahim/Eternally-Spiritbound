@@ -20,15 +20,17 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
             foreach (var (asset, setupCallback, spawnTransfrom) in cacheRequests)
             {
                 keysToKeep.Add(asset);
-                if (activeUiElementDictionary.TryGetValue(asset, out var uiElement)) setupCallback.Invoke(uiElement);
+                if (activeUiElementDictionary.TryGetValue(asset, out var element)) setupCallback.Invoke(element);
                 else
                 {
-                    if (spawnTransfrom)
+                    if (spawnTransfrom) Addressables.InstantiateAsync(asset, spawnTransfrom).Completed += Completed;
+                    else Addressables.InstantiateAsync(asset).Completed += Completed;
+
+                    void Completed(AsyncOperationHandle<GameObject> handle)
                     {
-                        Addressables.InstantiateAsync(asset, spawnTransfrom).Completed +=
-                            handle => Setup(handle, setupCallback);
+                        activeUiElementDictionary[asset] = handle.Result;
+                        AfterSpanSetup(handle, setupCallback);
                     }
-                    else Addressables.InstantiateAsync(asset).Completed += handle => Setup(handle, setupCallback);
                 }
             }
 
@@ -39,7 +41,7 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
             }
         }
 
-        private void Setup(AsyncOperationHandle<GameObject> operationHandle, Action<GameObject> setupCallBack)
+        private void AfterSpanSetup(AsyncOperationHandle<GameObject> operationHandle, Action<GameObject> setupCallBack)
         {
             if (operationHandle.Status != AsyncOperationStatus.Succeeded) return;
             setupCallBack(operationHandle.Result);

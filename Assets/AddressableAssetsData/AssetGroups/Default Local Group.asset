@@ -40,6 +40,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 78d430a1d91773544b201049b83f5697
+    m_Address: Assets/_Root/Storages/UIProvider/Enhanced On-Screen Stick.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8a4f57a5db431a849a6cd06bf3233908
     m_Address: Assets/_Root/Storages/Generated/Scriptable/Weapon/Arrow Boat Torret.prefab
     m_ReadOnly: 0
