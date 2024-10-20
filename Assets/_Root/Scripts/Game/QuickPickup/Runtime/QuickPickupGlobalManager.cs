@@ -48,15 +48,6 @@ namespace _Root.Scripts.Game.QuickPickup.Runtime
             itemPickupManager.Process();
         }
 
-        public void OnDisable()
-        {
-            foreach (var gameItem in autoPickList)
-            {
-                if(gameItem.Pool != null) gameItem.Pool.Dispose();
-            }
-            itemPickupManager.Dispose();
-        }
-
         private void OnDrawGizmosSelected()
         {
             itemPickupManager?.OnDrawGizmos();

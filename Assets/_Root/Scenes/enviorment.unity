@@ -737,8 +737,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   focusConsumerScriptable: {fileID: 0}
-  weapons:
-  - {fileID: 11400000, guid: 439424b3e6a167c47bd5e82d52f2639a, type: 2}
+  vehicles: []
   interactableSignPrefab:
     m_AssetGUID: 
     m_SubObjectName: 
@@ -1392,7 +1391,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   focusConsumerScriptable: {fileID: 11400000, guid: f95d67ed5f7b8f04f9fe559cf8ae31da, type: 2}
-  weapons: []
+  vehicles:
+  - {fileID: 11400000, guid: 98f279cc0517ecd4ba7ce5e280a7cf65, type: 2}
   interactableSignPrefab:
     m_AssetGUID: 1f6d1eab66d2ba44b898b321b0b61d42
     m_SubObjectName: 

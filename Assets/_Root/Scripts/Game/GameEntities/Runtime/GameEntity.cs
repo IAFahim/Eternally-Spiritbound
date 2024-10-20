@@ -53,7 +53,7 @@ namespace _Root.Scripts.Game.GameEntities.Runtime
             {
                 if (gameItem.DropOnDeath)
                 {
-                    gameItem.OnDrop(gameObject, gameObject.transform.position, value, null);
+                    gameItem.OnDrop(gameObject, gameObject.transform.position, value);
                     _itemStorageReference.GameItemStorage.TryRemove(gameItem, value, out _);
                 }
             }

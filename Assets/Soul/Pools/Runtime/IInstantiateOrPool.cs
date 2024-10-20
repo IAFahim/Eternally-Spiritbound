@@ -1,6 +1,6 @@
 ﻿using Pancake.Pools;
 
-namespace Soul.PoolHelpers.Runtime
+namespace Soul.Pools.Runtime
 {
     public interface IInstantiateOrPool
     {

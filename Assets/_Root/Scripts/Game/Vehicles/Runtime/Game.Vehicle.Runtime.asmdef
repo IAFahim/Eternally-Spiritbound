@@ -1,11 +1,11 @@
 {
-    "name": "Soul.PoolHelper.Runtime",
+    "name": "Game.Vehicle.Runtime",
     "rootNamespace": "",
     "references": [
-        "GUID:2953aa809c908034bb137ea43ba7735d",
         "GUID:9e24947de15b9834991c9d8411ea37cf",
         "GUID:84651a3751eca9349aac36a66bba901b",
-        "GUID:593a5b492d29ac6448b1ebf7f035ef33"
+        "GUID:adac8d59ad7e8504f82d387cded797a7",
+        "GUID:efd9a104bd8a459198be92df5525e105"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

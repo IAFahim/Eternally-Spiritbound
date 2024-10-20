@@ -12,6 +12,6 @@ namespace Soul.Items.Runtime
         void OnAddedToInventory(T user, int amount);
         void OnPick(T picker);
         void OnUse(T user);
-        void OnDrop(T user, Vector3 position, int amount, Action<GameObject> onDropped);
+        void OnDrop(T user, Vector3 position, int amount);
     }
 }

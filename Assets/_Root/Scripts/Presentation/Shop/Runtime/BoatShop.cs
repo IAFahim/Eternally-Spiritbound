@@ -1,6 +1,6 @@
-﻿using _Root.Scripts.Game.GameEntities.Runtime.Weapons;
-using _Root.Scripts.Game.Interactables.Runtime;
+﻿using _Root.Scripts.Game.Interactables.Runtime;
 using _Root.Scripts.Game.MainProviders.Runtime;
+using _Root.Scripts.Game.Vehicles.Runtime;
 using _Root.Scripts.Presentation.Selectors.Runtime;
 using Pancake;
 using UnityEngine;
@@ -12,7 +12,7 @@ namespace _Root.Scripts.Presentation.Shop.Runtime
     [SelectionBase]
     public class BoatShop : FocusConsumerComponent, IInteractable
     {
-        public Weapon[] weapons;
+        public Vehicle[] vehicles;
 
         public AssetReferenceGameObject interactableSignPrefab;
         public Optional<InteractPasser> signInstance;
@@ -24,13 +24,12 @@ namespace _Root.Scripts.Presentation.Shop.Runtime
         {
             if (!signInstance)
             {
-                Addressables.InstantiateAsync(interactableSignPrefab, transform).Completed +=
-                    OnInteractSignSpawnComplete;
+                Addressables.InstantiateAsync(interactableSignPrefab, transform).Completed += OnInteractInstantiate;
             }
             else signInstance.Value.gameObject.SetActive(true);
         }
 
-        private void OnInteractSignSpawnComplete(AsyncOperationHandle<GameObject> handle)
+        private void OnInteractInstantiate(AsyncOperationHandle<GameObject> handle)
         {
             signInstance = handle.Result.GetComponent<InteractPasser>();
             signInstance.Value.transform.position = transform.TransformPoint(spawnOffset);
