@@ -1,14 +1,16 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using _Root.Scripts.Game.Inputs.Runtime;
 using _Root.Scripts.Game.MainGameObjectProviders.Runtime;
+using _Root.Scripts.Game.MainProviders.Runtime;
 using Soul.Tickers.Runtime;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
 {
-    public class TargetBoatContextSteering : MonoBehaviour
+    public class TargetBoatContextSteering : MonoBehaviour, IFocusConsumer
     {
-        [SerializeField] private MainObjectProviderScriptable mainGameObjectProviders;
+        [SerializeField] private MainProviderScriptable mainGameProviders;
         private BoatContextSteering _steering;
         private IMove _move;
         public IntervalTicker ticker;
@@ -21,12 +23,26 @@ namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
 
         private void Update()
         {
-            _move.Direction = _steering.Steer(mainGameObjectProviders.mainGameObjectInstance.transform.position);
+            if (IsFocused) return;
+            _move.Direction = _steering.Steer(mainGameProviders.mainGameObjectInstance.transform.position);
         }
 
         public void FixedUpdate()
         {
             if (ticker.TryTick()) _steering.FixedUpdate();
+        }
+
+        public bool IsFocused { get; private set; }
+
+        public void SetFocus(Dictionary<AssetReferenceGameObject, GameObject> activeElements,
+            TransformReferences transformReferences, GameObject targetGameObject)
+        {
+            IsFocused = true;
+        }
+
+        public void OnFocusLost(GameObject targetGameObject)
+        {
+            IsFocused = false;
         }
     }
 }

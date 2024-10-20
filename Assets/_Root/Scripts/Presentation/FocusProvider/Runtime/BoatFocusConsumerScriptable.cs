@@ -12,7 +12,7 @@ using UnityProgressBar;
 namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 {
     [CreateAssetMenu(fileName = "BoatFocusProvider", menuName = "Scriptable/FocusProviders/Boat")]
-    public class BoatFocusProviderScriptable : FocusProviderCinemachineScriptable
+    public class BoatFocusConsumerScriptable : FocusConsumerCinemachineScriptable
     {
         public AssetReferenceGameObject healthBarAsset;
         public AssetReferenceGameObject joyStickAsset;
@@ -31,7 +31,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 
 
         public override void SetFocus(Dictionary<AssetReferenceGameObject, GameObject> activeElements,
-            TransformReferences transformReferences, GameObject targetGameObject, Action returnFocusCallBack)
+            TransformReferences transformReferences, GameObject targetGameObject)
         {
             TargetGameObject = targetGameObject;
             BuildCache(

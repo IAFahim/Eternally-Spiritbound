@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using _Root.Scripts.Game.Inputs.Runtime;
+using _Root.Scripts.Game.MainProviders.Runtime;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.InputSystem;
@@ -8,7 +9,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
 {
-    public class MainObjectProviderScriptable : ScriptableObject
+    public class MainProviderScriptable : ScriptableObject
     {
         public AssetReferenceGameObject mainGameObjectAssetReference;
         public GameObject mainGameObjectInstance;
@@ -58,19 +59,17 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
             mainGameObjectInstance = gameObject;
             AssignCamera(gameObject, mainCamera);
             AssignMoveInput(gameObject);
-            AssignUI(gameObject);
+            AssignFocus(gameObject);
         }
 
-        private void AssignUI(GameObject gameObject)
+        private void AssignFocus(GameObject gameObject)
         {
-            var focusProvider = gameObject.GetComponent<IFocusProvider>();
-            if (focusProvider != null)
+            var focusProviders = gameObject.GetComponents<IFocusConsumer>();
+            foreach (var focusProvider in focusProviders)
             {
-                focusProvider.SetFocus(_activeElements, _transformReferences, gameObject, ReturnCallback);
+                focusProvider.SetFocus(_activeElements, _transformReferences, gameObject);
             }
         }
-
-        private void ReturnCallback() => ReturnToPreviousObject();
 
         public GameObject LastFocusedObject => _focusStack.Count > 0 ? _focusStack.Peek() : mainGameObjectInstance;
 
@@ -106,10 +105,11 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
                 moveInputConsumer.DisableMoveInput(moveAction);
             }
 
-            if (currentObject.TryGetComponent<IFocusProvider>(out var focusProvider))
-            {
-                focusProvider.OnFocusLost(currentObject);
-            }
+            var mainCameraProviders = currentObject.GetComponents<IMainCameraProvider>();
+            foreach (var mainCameraProvider in mainCameraProviders) mainCameraProvider.MainCamera = null;
+
+            var focusProviders = currentObject.GetComponents<IFocusConsumer>();
+            foreach (var focusProvider in focusProviders) focusProvider.OnFocusLost(currentObject);
         }
 
         public void Forget()

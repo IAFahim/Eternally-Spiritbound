@@ -1,15 +1,10 @@
 {
-    "name": "Game.Movement",
+    "name": "Presentation.Platform.Runtime",
     "rootNamespace": "",
     "references": [
-        "GUID:75469ad4d38634e559750d17036d5f7c",
-        "GUID:d2cb8d325fb64758ae4c024f27594a20",
         "GUID:b81c8d36bf104616bbbb66c0238ec27a",
-        "GUID:adac8d59ad7e8504f82d387cded797a7",
-        "GUID:eb36288877644c37b229af3f5ff8580c",
-        "GUID:f5b5f3e8d91f4345b62b02c77be86264",
-        "GUID:5b0cd644839a47e4a0362e25f7100c02",
-        "GUID:9e24947de15b9834991c9d8411ea37cf"
+        "GUID:efd9a104bd8a459198be92df5525e105",
+        "GUID:dff2f1acf8454da583122f63cab0a5a6"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

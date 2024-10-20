@@ -1,11 +1,12 @@
 ﻿using _Root.Scripts.Game.MainGameObjectProviders.Runtime;
+using _Root.Scripts.Game.MainProviders.Runtime;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 {
-    public abstract class FocusProviderCinemachineScriptable : FocusProviderScriptable
+    public abstract class FocusConsumerCinemachineScriptable : FocusConsumerScriptable
     {
         public AssetReferenceGameObject cinemachineAsset;
         protected GameObject TargetGameObject;

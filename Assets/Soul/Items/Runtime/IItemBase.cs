@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Soul.Items.Runtime
 {
@@ -11,6 +12,6 @@ namespace Soul.Items.Runtime
         void OnAddedToInventory(T user, int amount);
         void OnPick(T picker);
         void OnUse(T user);
-        void OnDrop(T user, Vector3 position, int amount);
+        void OnDrop(T user, Vector3 position, int amount, Action<GameObject> onDropped);
     }
 }

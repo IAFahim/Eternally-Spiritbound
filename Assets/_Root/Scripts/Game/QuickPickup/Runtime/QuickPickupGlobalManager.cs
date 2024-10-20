@@ -26,6 +26,7 @@ namespace _Root.Scripts.Game.QuickPickup.Runtime
 
             itemPickupManager.Setup(autoPickList.ToArray());
         }
+        
 
         private void Start()
         {
@@ -49,6 +50,10 @@ namespace _Root.Scripts.Game.QuickPickup.Runtime
 
         public void OnDisable()
         {
+            foreach (var gameItem in autoPickList)
+            {
+                if(gameItem.Pool != null) gameItem.Pool.Dispose();
+            }
             itemPickupManager.Dispose();
         }
 

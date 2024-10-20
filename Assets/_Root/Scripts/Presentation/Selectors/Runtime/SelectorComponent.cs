@@ -3,13 +3,14 @@ using _Root.Scripts.Game.MainGameObjectProviders.Runtime;
 using Soul.Selectors.Runtime;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Presentation.Selectors.Runtime
 {
     public class SelectorComponent : MonoBehaviour
     {
-        [SerializeField] private MainObjectProviderScriptable mainObjectProvider;
-        [SerializeField] private Selector<MainObjectProviderScriptable> selector;
+        [FormerlySerializedAs("mainObjectProvider")] [SerializeField] private MainProviderScriptable mainProvider;
+        [SerializeField] private Selector<MainProviderScriptable> selector;
         [SerializeField] private Camera camera;
         [SerializeField] private EventSystem eventSystem;
         private CancellationTokenSource cts;
@@ -17,7 +18,7 @@ namespace _Root.Scripts.Presentation.Selectors.Runtime
         public void Awake()
         {
             cts = new CancellationTokenSource();
-            selector.Initialize(mainObjectProvider, camera, eventSystem, OnOverUI, cts);
+            selector.Initialize(mainProvider, camera, eventSystem, OnOverUI, cts);
         }
 
         private void OnOverUI()

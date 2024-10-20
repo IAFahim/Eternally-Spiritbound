@@ -50,7 +50,7 @@ namespace _Root.Scripts.Game.Storages.Runtime
             for (var i = 0; i < datas.Length; i++)
             {
                 var data = datas[i];
-                result[i] = new Pair<GameItem, int>(AllGameItemSingletonScriptable.Instance[data.Key], data.Value);
+                result[i] = new Pair<GameItem, int>(AllGameItem.Instance[data.Key], data.Value);
             }
 
             return result;

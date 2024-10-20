@@ -1,5 +1,6 @@
 using _Root.Scripts.Game.Inputs.Runtime;
 using _Root.Scripts.Game.MainGameObjectProviders.Runtime;
+using _Root.Scripts.Game.MainProviders.Runtime;
 using _Root.Scripts.Game.Utils.Runtime;
 using Pancake;
 using UnityEngine;
@@ -30,7 +31,9 @@ namespace _Root.Scripts.Game.Movements.Runtime.Character_Controller
 
         [Header("Height Spring:")]
         // rideHeight: desired distance to ground (Note, this is distance from the original raycast position (currently centre of transform)). 
-        [SerializeField] private float rideHeight = 2f;
+        [SerializeField]
+        private float rideHeight = 2f;
+
         // rayToGroundLength: max distance of raycast to ground (Note, this should be greater than the rideHeight).
         [SerializeField] private float rayToGroundLength = 3f;
         [SerializeField] public float rideSpringStrength = 200f; // rideSpringStrength: strength of spring. (?)
@@ -168,7 +171,7 @@ namespace _Root.Scripts.Game.Movements.Runtime.Character_Controller
         {
             _moveInput = new Vector3(MoveDirection.x, 0, MoveDirection.y);
 
-            if (adjustInputsToCameraAngle) _moveInput = AdjustInputToFaceCamera(_moveInput);
+            if (adjustInputsToCameraAngle && _mainCamera) _moveInput = AdjustInputToFaceCamera(_moveInput);
 
             (bool rayHitGround, RaycastHit rayHit) = RaycastToGround();
 
@@ -339,7 +342,7 @@ namespace _Root.Scripts.Game.Movements.Runtime.Character_Controller
         /// <returns>The camera corrected movement input.</returns>
         private Vector3 AdjustInputToFaceCamera(Vector3 moveInput)
         {
-            float facing = MainCamera.transform.eulerAngles.y;
+            float facing = _mainCamera.Value.transform.eulerAngles.y;
             return (Quaternion.Euler(0, facing, 0) * moveInput);
         }
 
@@ -435,7 +438,13 @@ namespace _Root.Scripts.Game.Movements.Runtime.Character_Controller
             }
         }
 
-        public Camera MainCamera { get; set; }
+        private Optional<Camera> _mainCamera;
+
+        public Camera MainCamera
+        {
+            get => _mainCamera.Value;
+            set => _mainCamera = value;
+        }
 
         public void SetParent(Transform parentTransform) => parent = parentTransform;
 

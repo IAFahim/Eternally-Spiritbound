@@ -2,7 +2,7 @@
 
 namespace Soul.Interactables.Runtime
 {
-    public interface IInteract<in T>
+    public interface IInteractableBase<in T>
     {
         public bool CanInteract(T initiator);
         public void OnInteractHoverEnter(T initiator);

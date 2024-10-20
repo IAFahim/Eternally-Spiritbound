@@ -1,5 +1,5 @@
 {
-    "name": "Soul.Items.Runtime",
+    "name": "Soul.Item.Runtime",
     "rootNamespace": "",
     "references": [
         "GUID:794487ad33715414ea9a8ad0e73f7381"

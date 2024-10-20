@@ -1,17 +1,18 @@
 ﻿using System.Collections.Generic;
-using Sirenix.OdinInspector;
+using Pancake;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.Items.Runtime
 {
-    public class AllGameItem : ScriptableObject
+    [CreateAssetMenu(fileName = "AllGameItem", menuName = "Scriptable/GameItem/New ALL")]
+    public class AllGameItem : ScriptableSettings<AllGameItem>
     {
         public List<GameItem> gameItems;
-        private readonly Dictionary<string, GameItem> _dictionary= new();
+        private readonly Dictionary<string, GameItem> _dictionary = new();
 
         private void OnEnable()
         {
-            foreach (var item in gameItems) _dictionary.Add(item.guid, item);
+            foreach (var item in gameItems) _dictionary.TryAdd(item.guid, item);
         }
 
         public GameItem this[string key]
@@ -19,13 +20,13 @@ namespace _Root.Scripts.Game.Items.Runtime
             get => _dictionary[key];
             set => _dictionary[key] = value;
         }
-        
+
         public string this[GameItem key] => key;
-        
-        [Button]
-        public void CaptureGuid()
+
+#if UNITY_EDITOR
+        [Sirenix.OdinInspector.Button]
+        private void CaptureGuid()
         {
-            #if UNITY_EDITOR
             gameItems.Clear();
             string[] guids = UnityEditor.AssetDatabase.FindAssets("t:GameItem");
             foreach (var guid in guids)
@@ -34,9 +35,7 @@ namespace _Root.Scripts.Game.Items.Runtime
                 var item = UnityEditor.AssetDatabase.LoadAssetAtPath<GameItem>(path);
                 gameItems.Add(item);
             }
-            #endif
         }
-        
-        
+#endif
     }
 }

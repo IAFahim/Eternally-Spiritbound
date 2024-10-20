@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
 {
@@ -6,25 +7,25 @@ namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
     {
         public GameObject mainGameObjectInstance;
         public Camera mainCamera;
-        public MainObjectProviderScriptable mainObjectProviderScriptable;
+        [FormerlySerializedAs("mainObjectProviderScriptable")] public MainProviderScriptable mainProviderScriptable;
         public TransformReferences transformReferences;
 
         private void Awake()
         {
-            mainObjectProviderScriptable.Initialize(mainCamera, transformReferences);
+            mainProviderScriptable.Initialize(mainCamera, transformReferences);
             if (mainGameObjectInstance == null)
-                mainObjectProviderScriptable.SpawnMainGameObject(
+                mainProviderScriptable.SpawnMainGameObject(
                     SpawnedGameObjectCallBack
                 );
             else
-                mainObjectProviderScriptable.ProvideTo(mainGameObjectInstance);
+                mainProviderScriptable.ProvideTo(mainGameObjectInstance);
         }
 
         private void SpawnedGameObjectCallBack(GameObject obj) => mainGameObjectInstance = obj;
 
         private void OnDisable()
         {
-            mainObjectProviderScriptable.Forget();
+            mainProviderScriptable.Forget();
         }
     }
 }

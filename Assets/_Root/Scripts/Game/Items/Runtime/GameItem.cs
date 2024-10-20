@@ -1,6 +1,7 @@
 using System;
 using _Root.Scripts.Game.Interactables.Runtime;
 using Pancake;
+using Pancake.Pools;
 using Soul.Items.Runtime;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -9,11 +10,11 @@ namespace _Root.Scripts.Game.Items.Runtime
 {
     [Serializable]
     [CreateAssetMenu(fileName = "Coin", menuName = "Scriptable/Items/New")]
-    public class GameItem : Event<GameItemDropEvent>, IItemBase<GameObject>, IPickupStrategy
+    public class GameItem : ScriptableObject, IItemBase<GameObject>, IPickupStrategy, IDropStrategy
     {
         [Guid] public string guid;
-        public bool shouldPool = true;
         public AssetReferenceGameObject assetReferenceGameObject;
+        public DropStrategyScriptable dropStrategy;
 
         [SerializeField] private string itemName;
         [SerializeField, TextArea(3, 10)] public string description;
@@ -33,6 +34,9 @@ namespace _Root.Scripts.Game.Items.Runtime
         public bool AutoPickup => autoPickup;
         public float PickupRange => pickupRange;
 
+        private AsyncAddressableGameObjectPool _pool;
+        
+        public AsyncAddressableGameObjectPool Pool => _pool;
 
         public int MaxStack
         {
@@ -52,10 +56,11 @@ namespace _Root.Scripts.Game.Items.Runtime
         public virtual void OnUse(GameObject user)
         {
         }
+        public float DropRange => dropStrategy.DropRange;
 
-        public virtual void OnDrop(GameObject user, Vector3 position, int amount)
+        public virtual void OnDrop(GameObject user, Vector3 position, int amount, Action<GameObject> onDropped)
         {
-            Trigger(new GameItemDropEvent(user, this, position, amount));
+            dropStrategy.OnDrop(_pool, position, amount, onDropped);
         }
 
 

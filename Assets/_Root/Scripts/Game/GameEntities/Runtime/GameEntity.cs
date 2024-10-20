@@ -1,25 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using _Root.Scripts.Game.GameEntities.Runtime.Attacks;
+﻿using _Root.Scripts.Game.GameEntities.Runtime.Attacks;
 using _Root.Scripts.Game.GameEntities.Runtime.Damages;
-using _Root.Scripts.Game.MainGameObjectProviders.Runtime;
+using _Root.Scripts.Game.MainProviders.Runtime;
 using _Root.Scripts.Game.Stats.Runtime.Controller;
 using _Root.Scripts.Game.Storages.Runtime;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Game.GameEntities.Runtime
 {
     [DisallowMultipleComponent, SelectionBase]
-    public class GameEntity : MonoBehaviour, IDamage, IFocusProvider
+    public class GameEntity : FocusConsumerComponent, IDamage
     {
-        [FormerlySerializedAs("viewProviderScriptable")] [FormerlySerializedAs("uiProviderScriptable")] [SerializeField]
-        private FocusProviderScriptable focusProviderScriptable;
-
         private IGameItemStorageReference _itemStorageReference;
         private IEntityStatsReference _entityStatsReference;
-        private Action _returnCallback;
+
 
         private void Awake()
         {
@@ -58,7 +51,11 @@ namespace _Root.Scripts.Game.GameEntities.Runtime
         {
             foreach (var (gameItem, value) in _itemStorageReference.GameItemStorage)
             {
-                if (gameItem.DropOnDeath) gameItem.OnDrop(gameObject, gameObject.transform.position, value);
+                if (gameItem.DropOnDeath)
+                {
+                    gameItem.OnDrop(gameObject, gameObject.transform.position, value, null);
+                    _itemStorageReference.GameItemStorage.TryRemove(gameItem, value, out _);
+                }
             }
         }
 
@@ -72,17 +69,5 @@ namespace _Root.Scripts.Game.GameEntities.Runtime
         {
             return _entityStatsReference.EntityStats.TryKill(damage, out damageDelt);
         }
-
-        public void SetFocus(Dictionary<AssetReferenceGameObject, GameObject> activeElements,
-            TransformReferences transformReferences,
-            GameObject targetGameObject, Action returnFocusCallBack)
-        {
-            _returnCallback = returnFocusCallBack;
-            focusProviderScriptable.SetFocus(activeElements, transformReferences, targetGameObject, returnFocusCallBack);
-        }
-        
-        public void ReturnFocusCallBack() => _returnCallback?.Invoke();
-
-        public void OnFocusLost(GameObject targetGameObject) => focusProviderScriptable.OnFocusLost(targetGameObject);
     }
 }

@@ -1,5 +1,5 @@
 ﻿using _Root.Scripts.Game.Inputs.Runtime;
-using _Root.Scripts.Game.MainGameObjectProviders.Runtime;
+using _Root.Scripts.Game.MainProviders.Runtime;
 using Pancake;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -84,8 +84,6 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
         {
             lean.UpdateLean(MoveDirection);
         }
-
-        
 
         private void DetermineMovementDirection()
         {

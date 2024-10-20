@@ -7,12 +7,11 @@ using UnityEngine.AddressableAssets;
 namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 {
     [CreateAssetMenu(fileName = "BoatShopFocusProvider", menuName = "Scriptable/FocusProviders/BoatShop")]
-    public class BoatShopFocusProviderScriptable : FocusProviderCinemachineScriptable
+    public class BoatShopFocusConsumerScriptable : FocusConsumerCinemachineScriptable
     {
 
         public override void SetFocus(Dictionary<AssetReferenceGameObject, GameObject> activeElements,
-            TransformReferences transformReferences, GameObject targetGameObject,
-            Action returnFocusCallBack)
+            TransformReferences transformReferences, GameObject targetGameObject)
         {
             TargetGameObject = targetGameObject;
             BuildCache(
