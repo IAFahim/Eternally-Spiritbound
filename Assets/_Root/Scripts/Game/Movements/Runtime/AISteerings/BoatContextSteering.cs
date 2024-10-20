@@ -16,7 +16,7 @@ namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
 
         [SerializeField] private float dangerDecayDistance = 5f;
 
-        public PhysicsCheckOverlapNonAlloc obstacleDetector;
+        public OverlapCheckedNonAlloc obstacleDetector;
 
         private float[] _interestArray;
         private float[] _dangerArray;

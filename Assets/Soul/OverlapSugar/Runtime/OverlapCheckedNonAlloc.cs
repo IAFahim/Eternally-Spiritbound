@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Soul.OverlapSugar.Runtime
 {
     [Serializable]
-    public class PhysicsCheckOverlapNonAlloc : OverlapNonAlloc
+    public class OverlapCheckedNonAlloc : OverlapNonAlloc
     {
         public override int Perform()
         {

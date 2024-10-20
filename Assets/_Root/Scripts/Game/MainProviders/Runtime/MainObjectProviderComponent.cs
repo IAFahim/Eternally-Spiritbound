@@ -1,13 +1,13 @@
-﻿using UnityEngine;
-using UnityEngine.Serialization;
+﻿using _Root.Scripts.Game.MainGameObjectProviders.Runtime;
+using UnityEngine;
 
-namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
+namespace _Root.Scripts.Game.MainProviders.Runtime
 {
     public class MainObjectProviderComponent : MonoBehaviour
     {
         public GameObject mainGameObjectInstance;
         public Camera mainCamera;
-        [FormerlySerializedAs("mainObjectProviderScriptable")] public MainProviderScriptable mainProviderScriptable;
+        public MainProviderScriptable mainProviderScriptable;
         public TransformReferences transformReferences;
 
         private void Awake()

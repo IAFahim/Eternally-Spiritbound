@@ -23,7 +23,11 @@ namespace _Root.Scripts.Game.MainProviders.Runtime
             foreach (var (asset, setupCallback, spawnTransform) in cacheRequests)
             {
                 keysToKeep.Add(asset);
-                if (activeUiElementDictionary.TryGetValue(asset, out var element)) setupCallback.Invoke(element);
+                if (activeUiElementDictionary.TryGetValue(asset, out var element))
+                {
+                    setupCallback.Invoke(element);
+                    element.SetActive(true);
+                }
                 else
                 {
                     if (spawnTransform) Addressables.InstantiateAsync(asset, spawnTransform).Completed += Completed;
@@ -33,6 +37,7 @@ namespace _Root.Scripts.Game.MainProviders.Runtime
                     {
                         activeUiElementDictionary[asset] = handle.Result;
                         AfterSpanSetup(handle, setupCallback);
+                        handle.Result.SetActive(true);
                     }
                 }
             }

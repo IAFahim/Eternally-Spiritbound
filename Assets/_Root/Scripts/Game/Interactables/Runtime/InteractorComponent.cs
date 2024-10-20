@@ -2,12 +2,13 @@ using Sirenix.OdinInspector;
 using Soul.OverlapSugar.Runtime;
 using Soul.Tickers.Runtime;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Game.Interactables.Runtime
 {
     public class InteractorComponent : MonoBehaviour, IInteractor
     {
-        public PhysicsCheckOverlapNonAlloc playerOverlap;
+        [FormerlySerializedAs("playerOverlap")] public OverlapCheckedNonAlloc playerOverlapChecked;
         public IntervalTicker ticker;
         private IInteractable _lastInteractable;
         public bool busy;
@@ -15,13 +16,13 @@ namespace _Root.Scripts.Game.Interactables.Runtime
 
         private void Start()
         {
-            playerOverlap.Initialize();
+            playerOverlapChecked.Initialize();
         }
 
         private void Update()
         {
             if (busy) return;
-            if (playerOverlap.TryGetClosest(out var closestCollider, out _))
+            if (playerOverlapChecked.TryGetClosest(out var closestCollider, out _))
             {
                 if (_lastClosestCollider == null) SetupInteractable(closestCollider);
                 else if (_lastClosestCollider != closestCollider)
@@ -57,13 +58,13 @@ namespace _Root.Scripts.Game.Interactables.Runtime
 
         private void FixedUpdate()
         {
-            if (!busy && ticker.TryTick()) playerOverlap.Perform();
+            if (!busy && ticker.TryTick()) playerOverlapChecked.Perform();
         }
 
 #if UNITY_EDITOR
         protected virtual void OnDrawGizmosSelected()
         {
-            playerOverlap.DrawGizmos(Color.red, Color.green);
+            playerOverlapChecked.DrawGizmos(Color.red, Color.green);
         }
 #endif
     }

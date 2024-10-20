@@ -5,7 +5,7 @@ namespace Soul.OverlapSugar.Runtime
 {
 
     [Serializable]
-    public class PhysicsCheck
+    public class OverLapCheck
     {
         public LayerMask checkMask;
         public Transform checkPoint;
@@ -88,7 +88,7 @@ namespace Soul.OverlapSugar.Runtime
         
 
         // Implicit operators for convenience
-        public static implicit operator bool(PhysicsCheck check) => check.PerformCheck();
-        public static implicit operator LayerMask(PhysicsCheck check) => check.checkMask;
+        public static implicit operator bool(OverLapCheck check) => check.PerformCheck();
+        public static implicit operator LayerMask(OverLapCheck check) => check.checkMask;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using _Root.Scripts.Game.Interactables.Runtime;
 using _Root.Scripts.Game.MainGameObjectProviders.Runtime;
+using _Root.Scripts.Game.MainProviders.Runtime;
 using UnityEngine;
 
 namespace _Root.Scripts.Presentation.Selectors.Runtime

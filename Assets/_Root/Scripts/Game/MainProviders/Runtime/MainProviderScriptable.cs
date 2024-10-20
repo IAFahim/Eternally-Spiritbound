@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using _Root.Scripts.Game.Inputs.Runtime;
-using _Root.Scripts.Game.MainProviders.Runtime;
+using _Root.Scripts.Game.MainGameObjectProviders.Runtime;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.InputSystem;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
+namespace _Root.Scripts.Game.MainProviders.Runtime
 {
     public class MainProviderScriptable : ScriptableObject
     {

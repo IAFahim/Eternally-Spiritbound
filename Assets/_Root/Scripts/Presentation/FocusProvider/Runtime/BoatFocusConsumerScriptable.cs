@@ -45,7 +45,6 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
         private void SetupJoystick(GameObject obj)
         {
             _joyStickCache = obj;
-            _joyStickCache.SetActive(true);
         }
 
 
@@ -59,7 +58,6 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
             _maxHealth = _entityStats.vitality.health.max;
             _health.OnChange += OnCurrentHealthChange;
             _healthBarCache.SetValueWithoutNotify(_health.Value);
-            _healthBarCache.gameObject.SetActive(true);
         }
 
         private void CleanHealthBar()
