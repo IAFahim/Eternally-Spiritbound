@@ -14,24 +14,24 @@ namespace _Root.Scripts.Presentation.Selectors.Runtime
             _interactableParent = GetComponentInParent<IInteractable>();
         }
 
-        public void OnSelected(MainProviderScriptable info)
+        public void OnSelected(MainStackScriptable info)
         {
             Pass(info);
         }
 
-        private void Pass(MainProviderScriptable info)
+        private void Pass(MainStackScriptable info)
         {
             var interactor = info.mainObject.GetComponent<IInteractor>();
-            info.ProvideTo(transform.parent.gameObject, false);
+            info.Push(transform.parent.gameObject, false);
             _interactableParent.OnInteractStart(interactor);
         }
 
-        public void OnDeselected(RaycastHit lastHitInfo, MainProviderScriptable info)
+        public void OnDeselected(RaycastHit lastHitInfo, MainStackScriptable info)
         {
-            info.ReturnToPreviousObject();
+            info.Pop();
         }
 
-        public void OnReselected(MainProviderScriptable info)
+        public void OnReselected(MainStackScriptable info)
         {
             Pass(info);
         }

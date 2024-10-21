@@ -1,13 +1,9 @@
 {
-    "name": "Presentation.Platform.Runtime",
+    "name": "Game.Tweens.Runtime",
     "rootNamespace": "",
     "references": [
-        "GUID:b81c8d36bf104616bbbb66c0238ec27a",
-        "GUID:efd9a104bd8a459198be92df5525e105",
-        "GUID:dff2f1acf8454da583122f63cab0a5a6",
-        "GUID:eb36288877644c37b229af3f5ff8580c",
-        "GUID:d2cb8d325fb64758ae4c024f27594a20",
-        "GUID:767a7bdbac754a5a8bf58a1c9875ddcf",
+        "GUID:3b570a5146f9d4f0fa107ed4559471a3",
+        "GUID:3aa1866a824b5472da50fe142777d95f",
         "GUID:f51ebe6a0ceec4240a699833d6309b23"
     ],
     "includePlatforms": [],

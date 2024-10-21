@@ -1,9 +1,10 @@
-﻿using System;
-using _Root.Scripts.Game.Inputs.Runtime;
+﻿using _Root.Scripts.Game.Inputs.Runtime;
 using _Root.Scripts.Game.Interactables.Runtime;
 using _Root.Scripts.Game.MainProviders.Runtime;
+using _Root.Scripts.Presentation.Tweens.Runtime;
 using Soul.OverlapSugar.Runtime;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Presentation.Platforms.Runtime
 {
@@ -11,8 +12,12 @@ namespace _Root.Scripts.Presentation.Platforms.Runtime
     {
         public GameObject boat;
         public OverlapCheckedNonAlloc overlapCheckedNonAlloc;
-        public MainProviderScriptable mainProviderScriptable;
+
+        [FormerlySerializedAs("mainProviderScriptable")]
+        public MainStackScriptable mainStackScriptable;
+
         public bool CanInteract(IInteractor initiator) => true;
+
 
         private void Awake()
         {
@@ -21,15 +26,20 @@ namespace _Root.Scripts.Presentation.Platforms.Runtime
 
         public void OnInteractHoverEnter(IInteractor initiator)
         {
-            if (initiator.GameObject == mainProviderScriptable.mainObject)
+            if (initiator.GameObject == mainStackScriptable.mainObject)
             {
                 if (overlapCheckedNonAlloc.Perform() > 0)
                 {
                     boat = overlapCheckedNonAlloc.Colliders[0].gameObject;
                     boat.GetComponent<IMove>().IsInputEnabled = true;
-                    mainProviderScriptable.ProvideTo(boat, true);
+                    CustomTween.Jump(initiator.GameObject.transform, 1, boat.transform.position, 1, ProvideToMainObject).Forget();
                 }
             }
+        }
+
+        private void ProvideToMainObject()
+        {
+            mainStackScriptable.Push(boat, true);
         }
 
         public void OnInteractStart(IInteractor initiator)
@@ -42,7 +52,6 @@ namespace _Root.Scripts.Presentation.Platforms.Runtime
 
         public void OnHoverExit(IInteractor initiator)
         {
-            
         }
 
         private void OnDrawGizmosSelected()

@@ -5,12 +5,13 @@ using _Root.Scripts.Game.MainProviders.Runtime;
 using Soul.Tickers.Runtime;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
 {
     public class TargetBoatContextSteering : MonoBehaviour, IFocusConsumer
     {
-        [SerializeField] private MainProviderScriptable mainGameProviders;
+        [FormerlySerializedAs("mainGameProviders")] [SerializeField] private MainStackScriptable mainGameStacks;
         private BoatContextSteering _steering;
         private IMove _move;
         public IntervalTicker ticker;
@@ -24,7 +25,7 @@ namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
         private void Update()
         {
             if (IsFocused) return;
-            _move.Direction = _steering.Steer(mainGameProviders.mainObject.transform.position);
+            _move.Direction = _steering.Steer(mainGameStacks.mainObject.transform.position);
         }
 
         public void FixedUpdate()

@@ -4,7 +4,7 @@ using Soul.Selectors.Runtime;
 
 namespace _Root.Scripts.Presentation.Selectors.Runtime
 {
-    public interface ISelector : ISelectorBase<MainProviderScriptable>
+    public interface ISelector : ISelectorBase<MainStackScriptable>
     {
         
     }

@@ -10,8 +10,8 @@ namespace _Root.Scripts.Presentation.Selectors.Runtime
 {
     public class SelectorComponent : MonoBehaviour
     {
-        [FormerlySerializedAs("mainObjectProvider")] [SerializeField] private MainProviderScriptable mainProvider;
-        [SerializeField] private Selector<MainProviderScriptable> selector;
+        [FormerlySerializedAs("mainProvider")] [FormerlySerializedAs("mainObjectProvider")] [SerializeField] private MainStackScriptable mainStack;
+        [SerializeField] private Selector<MainStackScriptable> selector;
         [SerializeField] private Camera camera;
         [SerializeField] private EventSystem eventSystem;
         private CancellationTokenSource cts;
@@ -19,7 +19,7 @@ namespace _Root.Scripts.Presentation.Selectors.Runtime
         public void Awake()
         {
             cts = new CancellationTokenSource();
-            selector.Initialize(mainProvider, camera, eventSystem, OnOverUI, cts);
+            selector.Initialize(mainStack, camera, eventSystem, OnOverUI, cts);
         }
 
         private void OnOverUI()

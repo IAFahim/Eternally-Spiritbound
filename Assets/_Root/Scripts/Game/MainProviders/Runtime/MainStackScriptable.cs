@@ -9,14 +9,15 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace _Root.Scripts.Game.MainProviders.Runtime
 {
-    public class MainProviderScriptable : ScriptableObject
+    public class MainStackScriptable : ScriptableObject
     {
         public AssetReferenceGameObject mainGameObjectAssetReference;
         public GameObject mainObject;
 
         public Camera mainCamera;
-        [Header("Input Actions")] 
-        [SerializeField] private InputActionReference moveAction;
+
+        [Header("Input Actions")] [SerializeField]
+        private InputActionReference moveAction;
 
         private GameObject _currentInstance;
         private TransformReferences _transformReferences;
@@ -41,12 +42,12 @@ namespace _Root.Scripts.Game.MainProviders.Runtime
         void OnCompletedInstantiate(AsyncOperationHandle<GameObject> handle)
         {
             _currentInstance = handle.Result;
-            ProvideTo(_currentInstance, true);
+            Push(_currentInstance, true);
             _spawnedGameObjectCallBack?.Invoke(_currentInstance);
             _spawnedGameObjectCallBack = null;
         }
 
-        public void ProvideTo(GameObject gameObject, bool isMain)
+        public void Push(GameObject gameObject, bool isMain)
         {
             if (_currentInstance != null)
             {
@@ -75,7 +76,7 @@ namespace _Root.Scripts.Game.MainProviders.Runtime
             }
         }
 
-        public void ReturnToPreviousObject()
+        public void Pop()
         {
             if (_focusStack.Count == 0) return;
             var (gameObject, isMain) = _focusStack.Pop();
