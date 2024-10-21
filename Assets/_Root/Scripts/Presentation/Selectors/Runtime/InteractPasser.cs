@@ -21,8 +21,8 @@ namespace _Root.Scripts.Presentation.Selectors.Runtime
 
         private void Pass(MainProviderScriptable info)
         {
-            var interactor = info.mainGameObjectInstance.GetComponent<IInteractor>();
-            info.ProvideTo(transform.parent.gameObject);
+            var interactor = info.mainObject.GetComponent<IInteractor>();
+            info.ProvideTo(transform.parent.gameObject, false);
             _interactableParent.OnInteractStart(interactor);
         }
 

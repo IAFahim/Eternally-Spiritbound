@@ -19,13 +19,14 @@ GameObject:
   - component: {fileID: 8420489221093117962}
   - component: {fileID: 3260595637832130824}
   - component: {fileID: 8256658712619696832}
-  m_Layer: 18
+  - component: {fileID: 5910252824789029543}
+  m_Layer: 15
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4812040211412234257
 Transform:
   m_ObjectHideFlags: 0
@@ -81,6 +82,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce5b3c68086d4e5fae1e624749d67a9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  focusConsumerScriptable: {fileID: 11400000, guid: 504908bcd412d3e43a5d0dc7df342b18, type: 2}
 --- !u!114 &970737332303009931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,6 +124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a17b197a69ac46a081db05634b320d9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInputEnabled: 0
   rb: {fileID: 7589321065733351887}
   lean:
     leanAmount: {x: -10, y: 0, z: -10}
@@ -138,11 +141,6 @@ MonoBehaviour:
   waveIntensity: 5
   waveFrequency: 1.41
   stabilizationTorque: 5000
-  _moveDirection: {x: 0, y: 0, z: 0}
-  _accelerationInput: 1
-  mainCamera:
-    enabled: 0
-    value: {fileID: 0}
   dampingFactor: 5
 --- !u!136 &7943169366095257837
 CapsuleCollider:
@@ -208,7 +206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74515c59053a4ba3a662a21559d81e75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainGameObjectProviders: {fileID: 11400000, guid: 4c147b4345416824f8968062d60f760a, type: 2}
+  mainGameProviders: {fileID: 0}
   ticker:
     currentTick: 0
     interval: 5
@@ -372,6 +370,22 @@ MonoBehaviour:
             baseValue: 0
             rate: 0
             additive: 0
+--- !u!114 &5910252824789029543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 759616323773402500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80c299e4af964d5ca4cedf04a1e5cfc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target:
+    enabled: 0
+    value: {fileID: 0}
+  targetingStrategy: {fileID: 0}
 --- !u!1001 &1333086669684634853
 PrefabInstance:
   m_ObjectHideFlags: 0

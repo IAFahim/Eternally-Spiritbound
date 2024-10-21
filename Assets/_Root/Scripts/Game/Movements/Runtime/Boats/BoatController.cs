@@ -42,12 +42,13 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
 
         private void FixedUpdate()
         {
+            ApplyBuoyancy();
+            StabilizeBoat();
+            if (!IsInputEnabled) return;
             DetermineMovementDirection();
             ApplyAcceleration();
             ApplyTurning();
-            ApplyBuoyancy();
             ApplyWaterDrag();
-            StabilizeBoat();
         }
 
 

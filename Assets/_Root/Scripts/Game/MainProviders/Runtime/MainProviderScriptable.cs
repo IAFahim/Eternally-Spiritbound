@@ -12,16 +12,19 @@ namespace _Root.Scripts.Game.MainProviders.Runtime
     public class MainProviderScriptable : ScriptableObject
     {
         public AssetReferenceGameObject mainGameObjectAssetReference;
-        public GameObject mainGameObjectInstance;
-        public Camera mainCamera;
-        [Header("Input Actions")] public InputActionReference moveAction;
+        public GameObject mainObject;
 
+        public Camera mainCamera;
+        [Header("Input Actions")] 
+        [SerializeField] private InputActionReference moveAction;
+
+        private GameObject _currentInstance;
         private TransformReferences _transformReferences;
         private Action<GameObject> _spawnedGameObjectCallBack;
         private readonly Dictionary<AssetReferenceGameObject, GameObject> _activeElements = new();
 
         // Stack to store the focused GameObjects
-        private readonly Stack<GameObject> _focusStack = new();
+        private readonly Stack<(GameObject gameObject, bool isMain)> _focusStack = new();
 
         public void Initialize(Camera camera, TransformReferences transformReferences)
         {
@@ -37,26 +40,27 @@ namespace _Root.Scripts.Game.MainProviders.Runtime
 
         void OnCompletedInstantiate(AsyncOperationHandle<GameObject> handle)
         {
-            mainGameObjectInstance = handle.Result;
-            ProvideTo(mainGameObjectInstance);
-            _spawnedGameObjectCallBack?.Invoke(mainGameObjectInstance);
+            _currentInstance = handle.Result;
+            ProvideTo(_currentInstance, true);
+            _spawnedGameObjectCallBack?.Invoke(_currentInstance);
             _spawnedGameObjectCallBack = null;
         }
 
-        public void ProvideTo(GameObject gameObject)
+        public void ProvideTo(GameObject gameObject, bool isMain)
         {
-            if (mainGameObjectInstance != null)
+            if (_currentInstance != null)
             {
-                UnLink(mainGameObjectInstance);
-                _focusStack.Push(mainGameObjectInstance);
+                UnLink(_currentInstance);
+                _focusStack.Push((_currentInstance, isMain));
             }
 
-            Setup(gameObject);
+            Setup(gameObject, isMain);
         }
 
-        private void Setup(GameObject gameObject)
+        private void Setup(GameObject gameObject, bool isMain)
         {
-            mainGameObjectInstance = gameObject;
+            if (isMain) mainObject = gameObject;
+            _currentInstance = gameObject;
             AssignCamera(gameObject, mainCamera);
             AssignMoveInput(gameObject);
             AssignFocus(gameObject);
@@ -71,13 +75,11 @@ namespace _Root.Scripts.Game.MainProviders.Runtime
             }
         }
 
-        public GameObject LastFocusedObject => _focusStack.Count > 0 ? _focusStack.Peek() : mainGameObjectInstance;
-
         public void ReturnToPreviousObject()
         {
             if (_focusStack.Count == 0) return;
-            GameObject previousObject = _focusStack.Pop();
-            Setup(previousObject);
+            var (gameObject, isMain) = _focusStack.Pop();
+            Setup(gameObject, isMain);
         }
 
         private void AssignCamera(GameObject gameObject, Camera camera)
@@ -121,7 +123,7 @@ namespace _Root.Scripts.Game.MainProviders.Runtime
 
             _activeElements.Clear();
             _focusStack.Clear();
-            mainGameObjectInstance = null;
+            _currentInstance = null;
         }
     }
 }

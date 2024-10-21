@@ -5,8 +5,14 @@ namespace _Root.Scripts.Game.Inputs.Runtime
 {
     public abstract class MovementProviderComponent : MonoBehaviour, IMove
     {
-        public bool IsInputEnabled { get; set; } = true;
+        public bool isInputEnabled;
         protected Vector3 MoveDirection;
+
+        public bool IsInputEnabled
+        {
+            get => isInputEnabled;
+            set => isInputEnabled = value;
+        }
 
         public Vector3 Direction
         {

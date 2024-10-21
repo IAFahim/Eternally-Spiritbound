@@ -4465,6 +4465,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boat: {fileID: 8405357654962127236}
+  overlapCheckedNonAlloc:
+    searchMask:
+      serializedVersion: 2
+      m_Bits: 32768
+    overlapPoint: {fileID: 1646946136}
+    overlapType: 0
+    sphereRadius: 6
+    boxSize: {x: 1, y: 1, z: 1}
+    positionOffset: {x: 0.12, y: 0.12, z: 0.12}
+    maxCapacity: 1
+    currentSize: 0
+    Colliders: []
   mainProviderScriptable: {fileID: 11400000, guid: 4c147b4345416824f8968062d60f760a, type: 2}
 --- !u!1001 &1778883617
 PrefabInstance:
@@ -5203,14 +5215,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
-    - target: {fileID: 759616323773402500, guid: bf0d8b0182b572f4b911cbdbb2f08a76, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3461412902412014383, guid: bf0d8b0182b572f4b911cbdbb2f08a76, type: 3}
-      propertyPath: focusConsumerScriptable
-      value: 
-      objectReference: {fileID: 11400000, guid: 504908bcd412d3e43a5d0dc7df342b18, type: 2}
     - target: {fileID: 4812040211412234257, guid: bf0d8b0182b572f4b911cbdbb2f08a76, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -5254,32 +5258,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 759616323773402500, guid: bf0d8b0182b572f4b911cbdbb2f08a76, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8405357654962127237}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf0d8b0182b572f4b911cbdbb2f08a76, type: 3}
 --- !u!1 &8405357654962127236 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 759616323773402500, guid: bf0d8b0182b572f4b911cbdbb2f08a76, type: 3}
   m_PrefabInstance: {fileID: 8405357654962127235}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8405357654962127237
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8405357654962127236}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80c299e4af964d5ca4cedf04a1e5cfc1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target:
-    enabled: 0
-    value: {fileID: 0}
-  targetingStrategy: {fileID: 0}
 --- !u!1001 &8636643823324110365
 PrefabInstance:
   m_ObjectHideFlags: 0

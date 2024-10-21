@@ -24,7 +24,7 @@ namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
         private void Update()
         {
             if (IsFocused) return;
-            _move.Direction = _steering.Steer(mainGameProviders.mainGameObjectInstance.transform.position);
+            _move.Direction = _steering.Steer(mainGameProviders.mainObject.transform.position);
         }
 
         public void FixedUpdate()

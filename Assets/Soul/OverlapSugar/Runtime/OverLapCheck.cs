@@ -16,7 +16,7 @@ namespace Soul.OverlapSugar.Runtime
 
         [SerializeField] private Vector3 positionOffset;
 
-        public bool PerformCheck()
+        public bool Perform()
         {
             Vector3 position = checkPoint.TransformPoint(positionOffset);
 
@@ -45,7 +45,7 @@ namespace Soul.OverlapSugar.Runtime
 #if UNITY_EDITOR
             if (checkPoint == null) return;
 
-            bool hasHit = PerformCheck();
+            bool hasHit = Perform();
             Gizmos.matrix = checkPoint.localToWorldMatrix;
             Gizmos.color = hasHit ? hitColor : checkColor;
 
@@ -88,7 +88,7 @@ namespace Soul.OverlapSugar.Runtime
         
 
         // Implicit operators for convenience
-        public static implicit operator bool(OverLapCheck check) => check.PerformCheck();
+        public static implicit operator bool(OverLapCheck check) => check.Perform();
         public static implicit operator LayerMask(OverLapCheck check) => check.checkMask;
     }
 }

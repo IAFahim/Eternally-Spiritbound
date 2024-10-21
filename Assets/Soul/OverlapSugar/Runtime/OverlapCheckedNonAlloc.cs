@@ -32,9 +32,9 @@ namespace Soul.OverlapSugar.Runtime
 #if UNITY_EDITOR
             if (overlapPoint == null) return;
 
-            Gizmos.matrix = overlapPoint.localToWorldMatrix;
             Gizmos.color = currentSize > 0 ? hitColor : checkColor;
-
+            // overlapPoint.localToWorldMatrix but ignore scale
+            Gizmos.matrix = Matrix4x4.TRS(overlapPoint.position, overlapPoint.rotation, Vector3.one);
             switch (overlapType)
             {
                 case OverlapType.Sphere:

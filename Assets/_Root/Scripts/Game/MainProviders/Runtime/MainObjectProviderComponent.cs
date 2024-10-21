@@ -18,7 +18,7 @@ namespace _Root.Scripts.Game.MainProviders.Runtime
                     SpawnedGameObjectCallBack
                 );
             else
-                mainProviderScriptable.ProvideTo(mainGameObjectInstance);
+                mainProviderScriptable.ProvideTo(mainGameObjectInstance, true);
         }
 
         private void SpawnedGameObjectCallBack(GameObject obj) => mainGameObjectInstance = obj;
