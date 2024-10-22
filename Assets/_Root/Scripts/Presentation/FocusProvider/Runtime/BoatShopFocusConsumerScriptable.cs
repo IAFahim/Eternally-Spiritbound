@@ -1,14 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using _Root.Scripts.Game.FocusProvider.Runtime;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.UI;
 
 namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 {
     [CreateAssetMenu(fileName = "BoatShopFocusProvider", menuName = "Scriptable/FocusProviders/BoatShop")]
     public class BoatShopFocusConsumerScriptable : FocusConsumerCinemachineScriptable
     {
+        public AssetReferenceGameObject boatShopCloseButton;
+        private Button _closeButton;
 
         public override void SetFocus(Dictionary<AssetReferenceGameObject, GameObject> activeElements,
             TransformReferences transformReferences, GameObject targetGameObject)
@@ -16,8 +18,32 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
             TargetGameObject = targetGameObject;
             BuildCache(
                 activeElements,
-                (cinemachineAsset, SetupCinemachine, null)
+                (cinemachineAsset, SetupCinemachine, null),
+                (boatShopCloseButton, SetupCloseButton, transformReferences.stillCanvasTransformPoint)
             );
+        }
+
+        private void SetupCloseButton(GameObject gameObject)
+        {
+            FocusScriptable.Instance.Peek().OnPop += Pop;
+            _closeButton = gameObject.GetComponent<Button>();
+            _closeButton.onClick.AddListener(TryPopAndActiveLast);
+        }
+
+        private void Pop(FocusScriptable obj)
+        {
+            OnFocusLost(TargetGameObject);
+        }
+
+        public override void OnFocusLost(GameObject targetGameObject)
+        {
+            base.OnFocusLost(targetGameObject);
+            _closeButton.onClick.RemoveListener(TryPopAndActiveLast);
+        }
+
+        private void TryPopAndActiveLast()
+        {
+            FocusScriptable.Instance.TryPopAndActiveLast();
         }
     }
 }

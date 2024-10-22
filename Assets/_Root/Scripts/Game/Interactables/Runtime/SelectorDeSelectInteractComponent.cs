@@ -12,25 +12,19 @@ namespace _Root.Scripts.Game.Interactables.Runtime
         [SerializeField] private UnityEvent selectedEvent;
         [SerializeField] private UnityEvent deselectedEvent;
 
-        private void Awake()
+        public void Active(IInteractable interactable)
         {
-            _interactableParent = GetComponentInParent<IInteractable>();
-        }
-
-        public void Active()
-        {
+            _interactableParent = interactable;
             activeEvent.Invoke();
         }
 
         public void OnSelected(FocusScriptable info)
         {
             Pass(info);
-            selectedEvent.Invoke();
         }
 
         public void OnDeselected(RaycastHit lastHitInfo, FocusScriptable info)
         {
-            info.TryPopAndActiveLast();
             _interactableParent.OnInteractEnd(info);
             deselectedEvent.Invoke();
         }
@@ -43,11 +37,12 @@ namespace _Root.Scripts.Game.Interactables.Runtime
         private void Pass(FocusScriptable info)
         {
             _interactableParent.OnInteractStart(info);
+            selectedEvent.Invoke();
         }
 
-        public void OnReselected(FocusScriptable _)
+        public void OnReselected(FocusScriptable focusScriptable)
         {
-            // Do nothing
+            Pass(focusScriptable);
         }
     }
 }

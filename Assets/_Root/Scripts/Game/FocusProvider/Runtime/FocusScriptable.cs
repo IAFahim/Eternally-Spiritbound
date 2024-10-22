@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using _Root.Scripts.Game.Inputs.Runtime;
+using Pancake;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -9,7 +10,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace _Root.Scripts.Game.FocusProvider.Runtime
 {
-    public class FocusScriptable : ScriptableObject
+    public class FocusScriptable : ScriptableSettings<FocusScriptable>
     {
         public AssetReferenceGameObject mainGameObjectAssetReference;
         public GameObject mainObject;
@@ -77,12 +78,14 @@ namespace _Root.Scripts.Game.FocusProvider.Runtime
             Setup(_focusStack.Peek());
             return true;
         }
+        
+        public FocusInfo Peek() => _focusStack.Peek();
 
         private bool Pop()
         {
             if (_focusStack.Count <= 1) return false;
             var lastFocusInfo = _focusStack.Pop();
-            lastFocusInfo.Pop?.Invoke(this);
+            lastFocusInfo.OnPop?.Invoke(this);
             return true;
         }
 
