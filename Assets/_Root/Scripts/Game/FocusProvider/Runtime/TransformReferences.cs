@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace _Root.Scripts.Game.MainGameObjectProviders.Runtime
+namespace _Root.Scripts.Game.FocusProvider.Runtime
 {
     [Serializable]
     public class TransformReferences

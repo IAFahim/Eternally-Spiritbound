@@ -1,5 +1,5 @@
-﻿using _Root.Scripts.Game.Inputs.Runtime;
-using _Root.Scripts.Game.MainProviders.Runtime;
+﻿using _Root.Scripts.Game.FocusProvider.Runtime;
+using _Root.Scripts.Game.Inputs.Runtime;
 using Pancake;
 using UnityEngine;
 using UnityEngine.InputSystem;

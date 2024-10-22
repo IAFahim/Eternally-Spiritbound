@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using _Root.Scripts.Game.Inputs.Runtime;
-using _Root.Scripts.Game.MainGameObjectProviders.Runtime;
+using Pancake;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.InputSystem;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-namespace _Root.Scripts.Game.MainProviders.Runtime
+namespace _Root.Scripts.Game.FocusProvider.Runtime
 {
-    public class MainStackScriptable : ScriptableObject
+    public class FocusScriptable : ScriptableSettings<FocusScriptable>
     {
         public AssetReferenceGameObject mainGameObjectAssetReference;
         public GameObject mainObject;

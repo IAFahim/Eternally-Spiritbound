@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using _Root.Scripts.Game.MainGameObjectProviders.Runtime;
+using _Root.Scripts.Game.FocusProvider.Runtime;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 

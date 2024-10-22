@@ -1,6 +1,5 @@
 ﻿using _Root.Scripts.Game.GameEntities.Runtime.Attacks;
 using _Root.Scripts.Game.GameEntities.Runtime.Damages;
-using _Root.Scripts.Game.MainProviders.Runtime;
 using _Root.Scripts.Game.Stats.Runtime.Controller;
 using _Root.Scripts.Game.Storages.Runtime;
 using UnityEngine;
@@ -8,11 +7,10 @@ using UnityEngine;
 namespace _Root.Scripts.Game.GameEntities.Runtime
 {
     [DisallowMultipleComponent, SelectionBase]
-    public class GameEntity : FocusConsumerComponent, IDamage
+    public class GameEntity : MonoBehaviour, IDamage
     {
         private IGameItemStorageReference _itemStorageReference;
         private IEntityStatsReference _entityStatsReference;
-
 
         private void Awake()
         {

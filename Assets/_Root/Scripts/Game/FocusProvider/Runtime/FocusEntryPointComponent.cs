@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using _Root.Scripts.Game.MainGameObjectProviders.Runtime;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-namespace _Root.Scripts.Game.MainProviders.Runtime
+namespace _Root.Scripts.Game.FocusProvider.Runtime
 {
-    public class FocusConsumerComponent : MonoBehaviour, IFocusConsumer
+    [DisallowMultipleComponent]
+    public class FocusEntryPointComponent : MonoBehaviour, IFocusConsumer
     {
         [SerializeField] private FocusConsumerScriptable focusConsumerScriptable;
 

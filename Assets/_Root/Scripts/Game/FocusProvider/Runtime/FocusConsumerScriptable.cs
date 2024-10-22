@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using _Root.Scripts.Game.MainGameObjectProviders.Runtime;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-namespace _Root.Scripts.Game.MainProviders.Runtime
+namespace _Root.Scripts.Game.FocusProvider.Runtime
 {
     public abstract class FocusConsumerScriptable : ScriptableObject, IFocusConsumer
     {

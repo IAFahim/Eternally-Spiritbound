@@ -1,3 +1,4 @@
+using _Root.Scripts.Game.FocusProvider.Runtime;
 using Sirenix.OdinInspector;
 using Soul.OverlapSugar.Runtime;
 using Soul.Tickers.Runtime;
@@ -11,10 +12,14 @@ namespace _Root.Scripts.Game.Interactables.Runtime
         [FormerlySerializedAs("playerOverlap")]
         public OverlapCheckedNonAlloc playerOverlapChecked;
 
+        private IFocusConsumer _focusConsumerReference;
         public IntervalTicker ticker;
         private IInteractable _lastInteractable;
         public bool busy;
         public Collider _lastClosestCollider;
+
+
+        private void Awake() => _focusConsumerReference = GetComponent<IFocusConsumer>();
 
         private void Start()
         {
@@ -70,5 +75,6 @@ namespace _Root.Scripts.Game.Interactables.Runtime
             playerOverlapChecked.DrawGizmos(Color.red, Color.green);
         }
 #endif
+        public bool IsFocused => _focusConsumerReference.IsFocused;
     }
 }

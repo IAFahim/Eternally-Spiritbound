@@ -1,6 +1,5 @@
+using _Root.Scripts.Game.FocusProvider.Runtime;
 using _Root.Scripts.Game.Inputs.Runtime;
-using _Root.Scripts.Game.MainGameObjectProviders.Runtime;
-using _Root.Scripts.Game.MainProviders.Runtime;
 using _Root.Scripts.Game.Utils.Runtime;
 using Pancake;
 using UnityEngine;

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
+using _Root.Scripts.Game.FocusProvider.Runtime;
 using _Root.Scripts.Game.Inputs.Runtime;
-using _Root.Scripts.Game.MainGameObjectProviders.Runtime;
-using _Root.Scripts.Game.MainProviders.Runtime;
 using Soul.Tickers.Runtime;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -11,7 +10,7 @@ namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
 {
     public class TargetBoatContextSteering : MonoBehaviour, IFocusConsumer
     {
-        [FormerlySerializedAs("mainGameProviders")] [SerializeField] private MainStackScriptable mainGameStacks;
+        [FormerlySerializedAs("mainGameProviders")] [SerializeField] private FocusScriptable mainGameStacks;
         private BoatContextSteering _steering;
         private IMove _move;
         public IntervalTicker ticker;

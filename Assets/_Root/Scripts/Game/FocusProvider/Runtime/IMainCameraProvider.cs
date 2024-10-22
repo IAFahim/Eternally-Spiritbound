@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace _Root.Scripts.Game.MainProviders.Runtime
+namespace _Root.Scripts.Game.FocusProvider.Runtime
 {
     public interface IMainCameraProvider
     {

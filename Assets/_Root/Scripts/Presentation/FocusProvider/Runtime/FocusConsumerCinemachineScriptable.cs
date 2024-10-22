@@ -1,5 +1,4 @@
-﻿using _Root.Scripts.Game.MainGameObjectProviders.Runtime;
-using _Root.Scripts.Game.MainProviders.Runtime;
+﻿using _Root.Scripts.Game.FocusProvider.Runtime;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
