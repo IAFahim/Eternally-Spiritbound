@@ -8,7 +8,9 @@ namespace _Root.Scripts.Game.Interactables.Runtime
 {
     public class InteractorComponent : MonoBehaviour, IInteractor
     {
-        [FormerlySerializedAs("playerOverlap")] public OverlapCheckedNonAlloc playerOverlapChecked;
+        [FormerlySerializedAs("playerOverlap")]
+        public OverlapCheckedNonAlloc playerOverlapChecked;
+
         public IntervalTicker ticker;
         private IInteractable _lastInteractable;
         public bool busy;
@@ -42,7 +44,8 @@ namespace _Root.Scripts.Game.Interactables.Runtime
         private void SetupInteractable(Collider closestCollider)
         {
             _lastClosestCollider = closestCollider;
-            _lastInteractable = closestCollider.GetComponent<IInteractable>();
+            var parentOrSelf = closestCollider.transform.parent ?? closestCollider.transform;
+            _lastInteractable = parentOrSelf.GetComponent<IInteractable>();
             _lastInteractable.OnInteractHoverEnter(this);
         }
 

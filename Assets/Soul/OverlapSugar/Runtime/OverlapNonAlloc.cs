@@ -13,7 +13,7 @@ namespace Soul.OverlapSugar.Runtime
 
         public OverlapType overlapType;
 
-        [Range(0f, 10000)] public float sphereRadius = 0.5f;
+        public float sphereRadius = 0.5f;
         public Vector3 boxSize = Vector3.one;
 
         [SerializeField] protected Vector3 positionOffset;

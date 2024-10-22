@@ -1,16 +1,14 @@
 ﻿using System.Threading;
-using _Root.Scripts.Game.MainGameObjectProviders.Runtime;
 using _Root.Scripts.Game.MainProviders.Runtime;
 using Soul.Selectors.Runtime;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Presentation.Selectors.Runtime
 {
     public class SelectorComponent : MonoBehaviour
     {
-        [FormerlySerializedAs("mainProvider")] [FormerlySerializedAs("mainObjectProvider")] [SerializeField] private MainStackScriptable mainStack;
+        [SerializeField] private MainStackScriptable mainStack;
         [SerializeField] private Selector<MainStackScriptable> selector;
         [SerializeField] private Camera camera;
         [SerializeField] private EventSystem eventSystem;

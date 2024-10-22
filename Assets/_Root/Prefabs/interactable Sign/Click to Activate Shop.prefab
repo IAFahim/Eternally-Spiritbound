@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8340636105793721890}
   - component: {fileID: 1013018114690365424}
   - component: {fileID: 1019628589819932354}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Click to Activate Shop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
