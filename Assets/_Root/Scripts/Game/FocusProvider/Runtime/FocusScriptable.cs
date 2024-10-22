@@ -19,7 +19,6 @@ namespace _Root.Scripts.Game.FocusProvider.Runtime
         [Header("Input Actions")] [SerializeField]
         private InputActionReference moveAction;
 
-        private GameObject _currentInstance;
         private TransformReferences _transformReferences;
         private Action<GameObject> _spawnedGameObjectCallBack;
         private readonly Dictionary<AssetReferenceGameObject, GameObject> _activeElements = new();
@@ -41,20 +40,15 @@ namespace _Root.Scripts.Game.FocusProvider.Runtime
 
         void OnCompletedInstantiate(AsyncOperationHandle<GameObject> handle)
         {
-            _currentInstance = handle.Result;
-            Push(new FocusInfo(_currentInstance, true, null));
-            _spawnedGameObjectCallBack?.Invoke(_currentInstance);
+            Push(new FocusInfo(handle.Result, true, null));
+            _spawnedGameObjectCallBack?.Invoke(handle.Result);
             _spawnedGameObjectCallBack = null;
         }
 
         public void Push(FocusInfo focusInfo)
         {
-            if (_currentInstance != null)
-            {
-                UnLink(_currentInstance);
-                _focusStack.Push(new FocusInfo(_currentInstance, false, null));
-            }
-
+            if(_focusStack.Count>0) UnLink(_focusStack.Peek().GameObject);
+            _focusStack.Push(focusInfo);
             Setup(focusInfo);
         }
 
@@ -62,10 +56,9 @@ namespace _Root.Scripts.Game.FocusProvider.Runtime
         private void Setup(FocusInfo focusInfo)
         {
             if (focusInfo.IsMain) mainObject = focusInfo.GameObject;
-            _currentInstance = focusInfo.GameObject;
-            AssignCamera(_currentInstance, mainCamera);
-            AssignMoveInput(_currentInstance);
-            AssignFocus(_currentInstance);
+            AssignCamera(focusInfo.GameObject, mainCamera);
+            AssignMoveInput(focusInfo.GameObject);
+            AssignFocus(focusInfo.GameObject);
         }
 
         private void AssignFocus(GameObject gameObject)
@@ -78,12 +71,19 @@ namespace _Root.Scripts.Game.FocusProvider.Runtime
         }
 
         [Button]
-        public void Pop()
+        public bool TryPopAndActiveLast()
         {
-            if (_focusStack.Count == 0) return;
-            var focusInfo = _focusStack.Pop();
-            focusInfo.Pop?.Invoke(this);
-            Setup(focusInfo);
+            if (!Pop()) return false;
+            Setup(_focusStack.Peek());
+            return true;
+        }
+
+        private bool Pop()
+        {
+            if (_focusStack.Count <= 1) return false;
+            var lastFocusInfo = _focusStack.Pop();
+            lastFocusInfo.Pop?.Invoke(this);
+            return true;
         }
 
         private void AssignCamera(GameObject gameObject, Camera camera)
@@ -127,7 +127,6 @@ namespace _Root.Scripts.Game.FocusProvider.Runtime
 
             _activeElements.Clear();
             _focusStack.Clear();
-            _currentInstance = null;
         }
     }
 }

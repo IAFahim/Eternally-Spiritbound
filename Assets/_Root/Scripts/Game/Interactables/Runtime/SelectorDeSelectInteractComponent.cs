@@ -30,7 +30,7 @@ namespace _Root.Scripts.Game.Interactables.Runtime
 
         public void OnDeselected(RaycastHit lastHitInfo, FocusScriptable info)
         {
-            info.Pop();
+            info.TryPopAndActiveLast();
             _interactableParent.OnInteractEnd(info);
             deselectedEvent.Invoke();
         }
