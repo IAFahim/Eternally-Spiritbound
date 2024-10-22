@@ -10,8 +10,8 @@ namespace _Root.Scripts.Game.Pools.Runtime
 
         private void OnDisable()
         {
-            scriptablePool.Dispose();
-            asyncScriptablePool.Dispose();
+            scriptablePool.ClearAll();
+            asyncScriptablePool.ClearAll();
         }
     }
 }

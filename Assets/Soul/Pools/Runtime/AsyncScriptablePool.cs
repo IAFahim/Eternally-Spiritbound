@@ -9,7 +9,7 @@ using UnityEngine.AddressableAssets;
 
 namespace Soul.Pools.Runtime
 {
-    public class AsyncScriptablePool : ScriptableSettings<AsyncScriptablePool>, IDisposable
+    public class AsyncScriptablePool : ScriptableSettings<AsyncScriptablePool>
     {
         [ShowInInspector] private Dictionary<AssetReferenceGameObject, AsyncAddressableGameObjectPool> _pools = new();
 
@@ -51,14 +51,14 @@ namespace Soul.Pools.Runtime
             _pools[assetReferenceGameObject].Return(gameObject);
         }
         
-        public void Dispose(AssetReferenceGameObject assetReferenceGameObject)
+        public void ClearAll(AssetReferenceGameObject assetReferenceGameObject)
         {
-            _pools[assetReferenceGameObject].Dispose();
+            _pools[assetReferenceGameObject].Clear();
         }
 
-        public void Dispose()
+        public void ClearAll()
         {
-            foreach (var pool in _pools) pool.Value.Dispose();
+            foreach (var pool in _pools) pool.Value.Clear();
         }
         
     }

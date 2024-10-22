@@ -6,6 +6,7 @@ using UnityEngine.AddressableAssets;
 namespace _Root.Scripts.Game.FocusProvider.Runtime
 {
     [DisallowMultipleComponent]
+    [SelectionBase]
     public class FocusEntryPointComponent : MonoBehaviour, IFocusConsumer
     {
         [SerializeField] private FocusConsumerScriptable focusConsumerScriptable;

@@ -1,19 +1,16 @@
 ﻿using _Root.Scripts.Game.FocusProvider.Runtime;
 using Pancake;
+using Soul.Pools.Runtime;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
-using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Game.Interactables.Runtime
 {
-    [SelectionBase]
     public class InteractableFocusConsumer : MonoBehaviour, IInteractable
     {
-        [FormerlySerializedAs("interactableSignPrefab")]
         public AssetReferenceGameObject confirmAsset;
 
-        [FormerlySerializedAs("signInstance")] public Optional<InteractConformer> confirmInstance;
+        public Optional<SelectorDeSelectInteractComponent> confirmInstance;
         public Vector3 spawnOffset;
 
         public bool CanInteract(IInteractor initiator) => true;
@@ -23,49 +20,59 @@ namespace _Root.Scripts.Game.Interactables.Runtime
             if (initiator.IsFocused) ActiveConfirm();
         }
 
-
-        public virtual void OnInteractStart(IInteractor initiator)
+        public void OnInteractStart(FocusScriptable initiator)
         {
-            if (initiator.IsFocused)
-            {
-                DeactivateConfirm();
-                FocusScriptable.Instance.Push(gameObject, true);
-            }
+            initiator.Push(new(gameObject, false, OnInteractEnd));
         }
+        
 
-        public virtual void OnInteractEnd(IInteractor initiator)
+        public void OnInteractEnd(FocusScriptable focusScriptable)
         {
-            if (initiator.IsFocused)
-            {
-                ActiveConfirm();
-                FocusScriptable.Instance.Pop();
-            }
+            HideConfirmInteract();
         }
 
         public void OnHoverExit(IInteractor initiator)
         {
-            if (initiator.IsFocused) DeactivateConfirm();
+            if (initiator.IsFocused) HideConfirmInteract();
         }
 
-        private void DeactivateConfirm()
+        private void HideConfirmInteract()
         {
-            if (confirmInstance) confirmInstance.Value.gameObject.SetActive(false);
+            confirmInstance.Value.OnDeselectedWithoutClick();
         }
+
 
         private void ActiveConfirm()
         {
             if (!confirmInstance)
             {
-                Addressables.InstantiateAsync(confirmAsset, transform).Completed += OnConfirmInstantiateComplete;
+                confirmInstance = ScriptablePool.Instance.Request(
+                    confirmAsset,
+                    transform.TransformPoint(spawnOffset),
+                    Quaternion.identity,
+                    transform
+                ).GetComponent<SelectorDeSelectInteractComponent>();
             }
-            else confirmInstance.Value.gameObject.SetActive(true);
+            
+            confirmInstance.Value.Active();
         }
 
-        private void OnConfirmInstantiateComplete(AsyncOperationHandle<GameObject> handle)
+
+        private void OnDisable()
         {
-            confirmInstance = handle.Result.GetComponent<InteractConformer>();
-            confirmInstance.Value.transform.position = transform.TransformPoint(spawnOffset);
+            if (confirmInstance) ScriptablePool.Instance.Return(confirmAsset, confirmInstance.Value.gameObject);
         }
+        
+        public virtual void OnInteractEnd(IInteractor initiator)
+        {
+            // Do nothing
+        }
+        
+        public virtual void OnInteractStart(IInteractor initiator)
+        {
+            // Do nothing
+        }
+
 
 #if UNITY_EDITOR
         private void OnDrawGizmosSelected()

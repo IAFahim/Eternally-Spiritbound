@@ -763,7 +763,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30ce0e9b66e941baa9cc341460840106, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  focusConsumerScriptable: {fileID: 0}
   confirmAsset:
     m_AssetGUID: 
     m_SubObjectName: 
@@ -1249,6 +1248,7 @@ GameObject:
   m_Component:
   - component: {fileID: 683179231}
   - component: {fileID: 683179232}
+  - component: {fileID: 683179233}
   m_Layer: 7
   m_Name: Shop
   m_TagString: Untagged
@@ -1284,7 +1284,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30ce0e9b66e941baa9cc341460840106, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  focusConsumerScriptable: {fileID: 11400000, guid: f95d67ed5f7b8f04f9fe559cf8ae31da, type: 2}
   confirmAsset:
     m_AssetGUID: 1f6d1eab66d2ba44b898b321b0b61d42
     m_SubObjectName: 
@@ -1295,6 +1294,19 @@ MonoBehaviour:
     enabled: 0
     value: {fileID: 0}
   spawnOffset: {x: 0, y: 3, z: 0}
+--- !u!114 &683179233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 683179230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a928920dbbf4f9fbdddd300464f2173, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  focusConsumerScriptable: {fileID: 11400000, guid: f95d67ed5f7b8f04f9fe559cf8ae31da, type: 2}
 --- !u!1 &807881383
 GameObject:
   m_ObjectHideFlags: 0

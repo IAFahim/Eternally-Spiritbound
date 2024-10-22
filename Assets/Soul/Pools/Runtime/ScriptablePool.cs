@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Pancake;
 using Pancake.Pools;
 using Sirenix.OdinInspector;
@@ -8,9 +7,10 @@ using UnityEngine.AddressableAssets;
 
 namespace Soul.Pools.Runtime
 {
-    public class ScriptablePool : ScriptableSettings<ScriptablePool>, IDisposable
+    public class ScriptablePool : ScriptableSettings<ScriptablePool>
     {
         [ShowInInspector] private Dictionary<AssetReferenceGameObject, AddressableGameObjectPool> _pools = new();
+        bool _isDisposed;
 
         public GameObject Request(AssetReferenceGameObject assetReferenceGameObject)
         {
@@ -69,6 +69,7 @@ namespace Soul.Pools.Runtime
 
         public void Return(AssetReferenceGameObject assetReferenceGameObject, GameObject gameObject)
         {
+            if (_isDisposed) return;
             if (!_pools.ContainsKey(assetReferenceGameObject))
             {
                 _pools[assetReferenceGameObject] = new AddressableGameObjectPool(assetReferenceGameObject);
@@ -77,14 +78,14 @@ namespace Soul.Pools.Runtime
             _pools[assetReferenceGameObject].Return(gameObject);
         }
 
-        public void Dispose(AssetReferenceGameObject assetReferenceGameObject)
+        public void ClearAll(AssetReferenceGameObject assetReferenceGameObject)
         {
-            _pools[assetReferenceGameObject].Dispose();
+            _pools[assetReferenceGameObject].Clear();
         }
 
-        public void Dispose()
+        public void ClearAll()
         {
-            foreach (var pool in _pools) pool.Value.Dispose();
+            foreach (var pool in _pools) pool.Value.Clear();
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using _Root.Scripts.Game.Inputs.Runtime;
-using Pancake;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.InputSystem;
@@ -9,7 +9,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace _Root.Scripts.Game.FocusProvider.Runtime
 {
-    public class FocusScriptable : ScriptableSettings<FocusScriptable>
+    public class FocusScriptable : ScriptableObject
     {
         public AssetReferenceGameObject mainGameObjectAssetReference;
         public GameObject mainObject;
@@ -25,7 +25,7 @@ namespace _Root.Scripts.Game.FocusProvider.Runtime
         private readonly Dictionary<AssetReferenceGameObject, GameObject> _activeElements = new();
 
         // Stack to store the focused GameObjects
-        private readonly Stack<(GameObject gameObject, bool isMain)> _focusStack = new();
+        private readonly Stack<FocusInfo> _focusStack = new();
 
         public void Initialize(Camera camera, TransformReferences transformReferences)
         {
@@ -42,29 +42,30 @@ namespace _Root.Scripts.Game.FocusProvider.Runtime
         void OnCompletedInstantiate(AsyncOperationHandle<GameObject> handle)
         {
             _currentInstance = handle.Result;
-            Push(_currentInstance, true);
+            Push(new FocusInfo(_currentInstance, true, null));
             _spawnedGameObjectCallBack?.Invoke(_currentInstance);
             _spawnedGameObjectCallBack = null;
         }
 
-        public void Push(GameObject gameObject, bool isMain)
+        public void Push(FocusInfo focusInfo)
         {
             if (_currentInstance != null)
             {
                 UnLink(_currentInstance);
-                _focusStack.Push((_currentInstance, isMain));
+                _focusStack.Push(new FocusInfo(_currentInstance, false, null));
             }
 
-            Setup(gameObject, isMain);
+            Setup(focusInfo);
         }
 
-        private void Setup(GameObject gameObject, bool isMain)
+
+        private void Setup(FocusInfo focusInfo)
         {
-            if (isMain) mainObject = gameObject;
-            _currentInstance = gameObject;
-            AssignCamera(gameObject, mainCamera);
-            AssignMoveInput(gameObject);
-            AssignFocus(gameObject);
+            if (focusInfo.IsMain) mainObject = focusInfo.GameObject;
+            _currentInstance = focusInfo.GameObject;
+            AssignCamera(_currentInstance, mainCamera);
+            AssignMoveInput(_currentInstance);
+            AssignFocus(_currentInstance);
         }
 
         private void AssignFocus(GameObject gameObject)
@@ -76,11 +77,13 @@ namespace _Root.Scripts.Game.FocusProvider.Runtime
             }
         }
 
+        [Button]
         public void Pop()
         {
             if (_focusStack.Count == 0) return;
-            var (gameObject, isMain) = _focusStack.Pop();
-            Setup(gameObject, isMain);
+            var focusInfo = _focusStack.Pop();
+            focusInfo.Pop?.Invoke(this);
+            Setup(focusInfo);
         }
 
         private void AssignCamera(GameObject gameObject, Camera camera)

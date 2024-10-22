@@ -18,7 +18,7 @@ namespace _Root.Scripts.Game.FocusProvider.Runtime
                     SpawnedGameObjectCallBack
                 );
             else
-                focusScriptable.Push(mainGameObjectInstance, true);
+                focusScriptable.Push(new FocusInfo(mainGameObjectInstance, true, null));
         }
 
         private void SpawnedGameObjectCallBack(GameObject obj) => mainGameObjectInstance = obj;
