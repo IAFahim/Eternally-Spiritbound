@@ -9,6 +9,8 @@ namespace _Root.Scripts.Game.Interactables.Runtime
 {
     public class InteractorComponent : MonoBehaviour, IInteractor
     {
+        [SerializeField] private bool addInteractableAsParentAndHide = true;
+
         [FormerlySerializedAs("playerOverlap")]
         public OverlapCheckedNonAlloc playerOverlapChecked;
 
@@ -55,6 +57,25 @@ namespace _Root.Scripts.Game.Interactables.Runtime
         }
 
         public GameObject GameObject => gameObject;
+
+        public void OnInteractStart(IInteractable interactable)
+        {
+            if (addInteractableAsParentAndHide)
+            {
+                transform.SetParent(interactable.GameObject.transform);
+                GameObject.SetActive(false);
+            }
+        }
+
+        public void OnInteractEnd(IInteractable interactable)
+        {
+            if (addInteractableAsParentAndHide)
+            {
+                transform.SetParent(interactable.GameObject.transform);
+                GameObject.SetActive(false);
+            }
+        }
+
 
         [Button]
         public void Interact()

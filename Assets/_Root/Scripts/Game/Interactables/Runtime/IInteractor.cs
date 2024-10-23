@@ -6,6 +6,7 @@ namespace _Root.Scripts.Game.Interactables.Runtime
     public interface IInteractor: IFocusAble
     {
         public GameObject GameObject { get; }
-        public void Interact();
+        public void OnInteractStart(IInteractable interactable);
+        public void OnInteractEnd(IInteractable interactable);
     }
 }

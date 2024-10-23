@@ -1,19 +1,21 @@
 ﻿using _Root.Scripts.Game.FocusProvider.Runtime;
+using Pancake.Common;
 using Soul.Pools.Runtime;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 namespace _Root.Scripts.Game.Interactables.Runtime
 {
-    public class FocusConformer : MonoBehaviour, IInteractable
+    public class FocusInteractConfirmComponent : MonoBehaviour, IInteractable
     {
         [SerializeField] private AssetReferenceGameObject confirmAsset;
         [SerializeField] private bool isMain;
 
-        [SerializeField] private SelectorDeSelectInteractComponent confirmInstance;
+        private IInteractableConfirmHelper _interactableConfirmHelper;
         [SerializeField] private Vector3 spawnOffset;
 
         public bool hasFocus;
+        public GameObject GameObject => gameObject;
         public virtual bool CanInteract(IInteractor initiator) => true;
 
         public void OnInteractHoverEnter(IInteractor initiator)
@@ -21,64 +23,67 @@ namespace _Root.Scripts.Game.Interactables.Runtime
             if (initiator.IsFocused) ActiveConfirm();
         }
 
-        public void OnInteractStart(FocusScriptable initiator)
+        public void OnInteractStart(FocusScriptable focusScriptable, IInteractor interactor)
         {
             hasFocus = true;
-            initiator.Push(new FocusInfo(gameObject, isMain, OnInteractEnd));
+            interactor.OnInteractStart(this);
+            focusScriptable.Push(new FocusInfo(gameObject, isMain, OnInteractEnd));
         }
-        
-        public void OnInteractEnd(FocusScriptable focusScriptable)
+
+        private void OnInteractEnd(FocusScriptable obj)
         {
             HideConfirmInteract();
             hasFocus = false;
         }
+
+        public void OnInteractEnd(FocusScriptable focusScriptable, IInteractor interactor)
+        {
+        }
+
 
         public void OnHoverExit(IInteractor initiator)
         {
             if (initiator.GameObject == FocusScriptable.Instance.mainObject)
             {
                 if (hasFocus) FocusScriptable.Instance.TryPopAndActiveLast();
-                ScriptablePool.Instance.Return(confirmAsset, confirmInstance.gameObject);
-                confirmInstance = null;
+                ScriptablePool.Instance.Return(confirmAsset, _interactableConfirmHelper.GameObject);
+                _interactableConfirmHelper = null;
             }
         }
 
         private void HideConfirmInteract()
         {
-            confirmInstance.OnDeselectedWithoutClick();
+            _interactableConfirmHelper.Hide();
         }
 
 
         private void ActiveConfirm()
         {
-            if (!confirmInstance)
-            {
-                confirmInstance = ScriptablePool.Instance.Request(
-                    confirmAsset,
-                    transform.TransformPoint(spawnOffset),
-                    Quaternion.identity
-                ).GetComponent<SelectorDeSelectInteractComponent>();
-            }
+            _interactableConfirmHelper ??= ScriptablePool.Instance.Request(
+                confirmAsset,
+                transform.TransformPoint(spawnOffset),
+                Quaternion.identity
+            ).GetComponent<IInteractableConfirmHelper>();
 
-            confirmInstance.Active(this);
+            _interactableConfirmHelper.Active(this);
         }
 
 
         private void OnDisable()
         {
-            if (confirmInstance) ScriptablePool.Instance.Return(confirmAsset, confirmInstance.gameObject);
+            if (_interactableConfirmHelper == null || _interactableConfirmHelper.GameObject.OrNull()) return;
+            ScriptablePool.Instance.Return(confirmAsset, _interactableConfirmHelper.GameObject);
         }
 
         public virtual void OnInteractEnd(IInteractor initiator)
         {
-            // Do nothing
+            initiator.OnInteractEnd(this);
         }
 
         public virtual void OnInteractStart(IInteractor initiator)
         {
             // Do nothing
         }
-
 
 #if UNITY_EDITOR
         private void OnDrawGizmosSelected()

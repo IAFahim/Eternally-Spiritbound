@@ -8,7 +8,7 @@ namespace _Root.Scripts.Game.Vehicles.Runtime
     {
         public FocusEntryPointComponent focusEntryPointComponent;
         public GameObject driver;
-
+        public GameObject GameObject => gameObject;
         public bool CanInteract(IInteractor initiator) => driver == null;
 
         public abstract void OnInteractHoverEnter(IInteractor initiator);
@@ -18,8 +18,9 @@ namespace _Root.Scripts.Game.Vehicles.Runtime
         public abstract void OnInteractEnd(IInteractor initiator);
 
         public abstract void OnHoverExit(IInteractor initiator);
-        public abstract void OnInteractStart(FocusScriptable focusScriptable);
 
-        public abstract void OnInteractEnd(FocusScriptable focusScriptable);
+        public abstract void OnInteractStart(FocusScriptable focusScriptable, IInteractor interactor);
+
+        public abstract void OnInteractEnd(FocusScriptable focusScriptable, IInteractor interactor);
     }
 }
