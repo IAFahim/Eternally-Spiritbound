@@ -11,8 +11,7 @@ namespace _Root.Scripts.Game.FocusProvider.Runtime
     {
         public bool IsFocused { get; set; }
 
-        public abstract void SetFocus(Dictionary<AssetReferenceGameObject, GameObject> activeElements,
-            TransformReferences transformReferences, GameObject targetGameObject);
+        public abstract void SetFocus(FocusReferences focusReferences);
 
         protected void BuildCache(
             Dictionary<AssetReferenceGameObject, GameObject> activeUiElementDictionary,

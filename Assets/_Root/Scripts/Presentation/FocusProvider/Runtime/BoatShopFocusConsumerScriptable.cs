@@ -12,14 +12,13 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
         public AssetReferenceGameObject boatShopCloseButton;
         private Button _closeButton;
 
-        public override void SetFocus(Dictionary<AssetReferenceGameObject, GameObject> activeElements,
-            TransformReferences transformReferences, GameObject targetGameObject)
+        public override void SetFocus(FocusReferences focusReferences)
         {
-            TargetGameObject = targetGameObject;
+            TargetGameObject = focusReferences.currentGameObject;
             BuildCache(
-                activeElements,
+                focusReferences.ActiveElements,
                 (cinemachineAsset, SetupCinemachine, null),
-                (boatShopCloseButton, SetupCloseButton, transformReferences.stillCanvasTransformPoint)
+                (boatShopCloseButton, SetupCloseButton, focusReferences.stillCanvasTransformPoint)
             );
         }
 

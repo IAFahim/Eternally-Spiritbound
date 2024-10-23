@@ -19,12 +19,10 @@ namespace _Root.Scripts.Game.FocusProvider.Runtime
 
         private Action _returnCallback;
 
-        public void SetFocus(Dictionary<AssetReferenceGameObject, GameObject> activeElements,
-            TransformReferences transformReferences,
-            GameObject targetGameObject)
+        public void SetFocus(FocusReferences focusReferences)
         {
             IsFocused = true;
-            focusConsumerScriptable.SetFocus(activeElements, transformReferences, targetGameObject);
+            focusConsumerScriptable.SetFocus(focusReferences);
         }
 
         public void OnFocusLost(GameObject targetGameObject)

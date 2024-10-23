@@ -22,7 +22,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 
         private ProgressBar _healthBarCache;
         private GameObject _joyStickCache;
-        
+
         private Material _targetOriginalMaterial;
         private Renderer _targetRenderer;
         private EntityStats _entityStats;
@@ -30,14 +30,13 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
         private Modifier _maxHealth;
 
 
-        public override void SetFocus(Dictionary<AssetReferenceGameObject, GameObject> activeElements,
-            TransformReferences transformReferences, GameObject targetGameObject)
+        public override void SetFocus(FocusReferences focusReferences)
         {
-            TargetGameObject = targetGameObject;
+            TargetGameObject = focusReferences.currentGameObject;
             BuildCache(
-                activeElements,
-                (joyStickAsset,SetupJoystick, transformReferences.movingCanvasTransformPoint),
-                (healthBarAsset, SetupHealthBar, transformReferences.stillCanvasTransformPoint),
+                focusReferences.ActiveElements,
+                (joyStickAsset, SetupJoystick, focusReferences.movingCanvasTransformPoint),
+                (healthBarAsset, SetupHealthBar, focusReferences.stillCanvasTransformPoint),
                 (cinemachineAsset, SetupCinemachine, null)
             );
         }

@@ -8,11 +8,11 @@ namespace _Root.Scripts.Game.FocusProvider.Runtime
         public GameObject mainGameObjectInstance;
         public Camera mainCamera;
         [FormerlySerializedAs("mainStackScriptable")] [FormerlySerializedAs("mainProviderScriptable")] public FocusScriptable focusScriptable;
-        public TransformReferences transformReferences;
+        [FormerlySerializedAs("transformReferences")] public FocusReferences focusReferences;
 
         private void Awake()
         {
-            focusScriptable.Initialize(mainCamera, transformReferences);
+            focusScriptable.Initialize(mainCamera, focusReferences);
             if (mainGameObjectInstance == null)
                 focusScriptable.SpawnMainGameObject(
                     SpawnedGameObjectCallBack

@@ -20,17 +20,16 @@ namespace _Root.Scripts.Game.FocusProvider.Runtime
         [Header("Input Actions")] [SerializeField]
         private InputActionReference moveAction;
 
-        private TransformReferences _transformReferences;
+        private FocusReferences _focusReferences;
         private Action<GameObject> _spawnedGameObjectCallBack;
-        private readonly Dictionary<AssetReferenceGameObject, GameObject> _activeElements = new();
 
         // Stack to store the focused GameObjects
         private readonly Stack<FocusInfo> _focusStack = new();
 
-        public void Initialize(Camera camera, TransformReferences transformReferences)
+        public void Initialize(Camera camera, FocusReferences focusReferences)
         {
             mainCamera = camera;
-            _transformReferences = transformReferences;
+            _focusReferences = focusReferences;
         }
 
         public void SpawnMainGameObject(Action<GameObject> gameObjectCallBack)
@@ -48,7 +47,7 @@ namespace _Root.Scripts.Game.FocusProvider.Runtime
 
         public void Push(FocusInfo focusInfo)
         {
-            if(_focusStack.Count>0) UnLink(_focusStack.Peek().GameObject);
+            if (_focusStack.Count > 0) UnLink(_focusStack.Peek().GameObject);
             _focusStack.Push(focusInfo);
             Setup(focusInfo);
         }
@@ -67,7 +66,8 @@ namespace _Root.Scripts.Game.FocusProvider.Runtime
             var focusProviders = gameObject.GetComponents<IFocusConsumer>();
             foreach (var focusProvider in focusProviders)
             {
-                focusProvider.SetFocus(_activeElements, _transformReferences, gameObject);
+                _focusReferences.currentGameObject = gameObject;
+                focusProvider.SetFocus(_focusReferences);
             }
         }
 
@@ -78,7 +78,7 @@ namespace _Root.Scripts.Game.FocusProvider.Runtime
             Setup(_focusStack.Peek());
             return true;
         }
-        
+
         public FocusInfo Peek() => _focusStack.Peek();
 
         private bool Pop()
@@ -123,12 +123,7 @@ namespace _Root.Scripts.Game.FocusProvider.Runtime
 
         public void Forget()
         {
-            foreach (var activeUiElement in _activeElements)
-            {
-                Addressables.ReleaseInstance(activeUiElement.Value);
-            }
-
-            _activeElements.Clear();
+            _focusReferences.Clear();
             _focusStack.Clear();
         }
     }

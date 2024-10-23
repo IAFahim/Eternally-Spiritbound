@@ -1,16 +1,17 @@
-﻿using System.Collections.Generic;
-using _Root.Scripts.Game.FocusProvider.Runtime;
+﻿using _Root.Scripts.Game.FocusProvider.Runtime;
 using _Root.Scripts.Game.Inputs.Runtime;
+using Pancake.Common;
 using Soul.Tickers.Runtime;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
 {
     public class TargetBoatContextSteering : MonoBehaviour, IFocusConsumer
     {
-        [FormerlySerializedAs("mainGameProviders")] [SerializeField] private FocusScriptable mainGameStacks;
+        [FormerlySerializedAs("mainGameProviders")] [SerializeField]
+        private FocusScriptable mainGameStacks;
+
         private BoatContextSteering _steering;
         private IMove _move;
         public IntervalTicker ticker;
@@ -18,31 +19,43 @@ namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
         private void Start()
         {
             _steering = GetComponent<BoatContextSteering>();
-            _move = GetComponent<IMove>();
+            if (!IsFocused) AddListener();
         }
 
-        private void Update()
+        private void AddListener()
         {
-            if (IsFocused) return;
+            App.AddListener(EUpdateMode.Update, OnUpdate);
+            App.AddListener(EUpdateMode.FixedUpdate, OnFixedUpdate);
+        }
+
+        private void RemoveListener()
+        {
+            App.RemoveListener(EUpdateMode.Update, OnUpdate);
+            App.RemoveListener(EUpdateMode.FixedUpdate, OnFixedUpdate);
+        }
+
+        private void OnUpdate()
+        {
             _move.Direction = _steering.Steer(mainGameStacks.mainObject.transform.position);
         }
 
-        public void FixedUpdate()
+        private void OnFixedUpdate()
         {
             if (ticker.TryTick()) _steering.FixedUpdate();
         }
 
         public bool IsFocused { get; private set; }
 
-        public void SetFocus(Dictionary<AssetReferenceGameObject, GameObject> activeElements,
-            TransformReferences transformReferences, GameObject targetGameObject)
+        public void SetFocus(FocusReferences focusReferences)
         {
             IsFocused = true;
+            AddListener();
         }
 
         public void OnFocusLost(GameObject targetGameObject)
         {
             IsFocused = false;
+            RemoveListener();
         }
     }
 }
