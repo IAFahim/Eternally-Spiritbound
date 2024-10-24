@@ -74,8 +74,8 @@ namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
         private void CheckAndProcessObstacle()
         {
             if (!obstacleDetector.Found()) return;
-            var colliders = obstacleDetector.GetFoundColliders();
-            for (var i = 0; i < obstacleDetector.currentSize; i++) ProcessObstacle(colliders[i]);
+            int colliderCount = obstacleDetector.GetColliders(out var colliders);
+            for (var i = 0; i < colliderCount; i++) ProcessObstacle(colliders[i]);
         }
 
         private void ProcessObstacle(Collider obstacle)

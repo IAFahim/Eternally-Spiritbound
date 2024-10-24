@@ -4,12 +4,11 @@ using UnityEngine;
 
 namespace _Root.Scripts.Game.Ai.Runtime
 {
-    public class TargetComponent : MonoBehaviour, ITarget, IFocusConsumer
+    public class TargetComponent : MonoBehaviour, ITarget
     {
         [SerializeField] private Optional<GameObject> target;
         [SerializeField] private TargetingStrategy targetingStrategy;
-        public bool IsFocused { get; }
-
+        
         public Optional<GameObject> Target => target;
 
         private void Update()
@@ -18,17 +17,6 @@ namespace _Root.Scripts.Game.Ai.Runtime
             {
                 target = newTarget;
             }
-        }
-
-
-        public void SetFocus(FocusReferences focusReferences)
-        {
-            
-        }
-
-        public void OnFocusLost(GameObject targetGameObject)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

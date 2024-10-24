@@ -5,7 +5,7 @@ using UnityEngine.AddressableAssets;
 
 namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 {
-    public abstract class FocusConsumerCinemachineScriptable : FocusConsumerScriptable
+    public abstract class FocusControllerCinemachineScriptable : FocusControllerScriptable
     {
         public AssetReferenceGameObject cinemachineAsset;
         protected GameObject TargetGameObject;

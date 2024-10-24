@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using _Root.Scripts.Game.FocusProvider.Runtime;
+﻿using _Root.Scripts.Game.FocusProvider.Runtime;
 using _Root.Scripts.Game.Stats.Runtime.Controller;
 using Pancake.Common;
 using Soul.Modifiers.Runtime;
@@ -12,7 +10,7 @@ using UnityProgressBar;
 namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 {
     [CreateAssetMenu(fileName = "BoatFocusProvider", menuName = "Scriptable/FocusProviders/Boat")]
-    public class BoatFocusConsumerScriptable : FocusConsumerCinemachineScriptable
+    public class BoatFocusControllerScriptable : FocusControllerCinemachineScriptable
     {
         public AssetReferenceGameObject healthBarAsset;
         public AssetReferenceGameObject joyStickAsset;

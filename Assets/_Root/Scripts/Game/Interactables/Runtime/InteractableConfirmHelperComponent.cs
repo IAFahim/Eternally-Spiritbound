@@ -1,5 +1,7 @@
 ﻿using _Root.Scripts.Game.FocusProvider.Runtime;
 using _Root.Scripts.Game.Selectors.Runtime;
+using Soul.Interactables.Runtime;
+using Soul.Selectors.Runtime;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -14,6 +16,7 @@ namespace _Root.Scripts.Game.Interactables.Runtime
 
         private IInteractable _interactableParent;
         public GameObject GameObject => gameObject;
+        
 
         public void Active(IInteractable interactable)
         {
@@ -21,24 +24,19 @@ namespace _Root.Scripts.Game.Interactables.Runtime
             activeEvent.Invoke();
         }
 
-        public void OnSelected(FocusScriptable info)
+        public void OnSelected(RaycastHit hit)
         {
-            Pass(info);
+            InteractStart();
         }
 
-        public void OnDeselected(RaycastHit lastHitInfo, FocusScriptable info)
+        public void OnDeselected(RaycastHit lastHitInfo, RaycastHit hit)
         {
-            if (endInteractOnDeselect)
-            {
-                _interactableParent.OnInteractEnd(info, info.mainObject.GetComponent<IInteractor>());
-                FocusScriptable.Instance.TryPopAndActiveLast();
-                Hide();
-            }
+            if (endInteractOnDeselect) InteractEnd();
         }
 
-        public void OnReselected(FocusScriptable focusScriptable)
+        public void OnReselected(RaycastHit hit)
         {
-            Pass(focusScriptable);
+            InteractStart();
         }
 
         public void Hide()
@@ -46,10 +44,17 @@ namespace _Root.Scripts.Game.Interactables.Runtime
             deselectedEvent.Invoke();
         }
 
-        private void Pass(FocusScriptable info)
+        private void InteractStart()
         {
-            _interactableParent.OnInteractStart(info, info.mainObject.GetComponent<IInteractor>());
+            _interactableParent.OnInteractionStarted(FocusScriptable.Instance.mainObject.GetComponent<IInteractor>());
             selectedEvent.Invoke();
+        }
+
+        private void InteractEnd()
+        {
+            _interactableParent.OnInteractionEnded(FocusScriptable.Instance.mainObject.GetComponent<IInteractor>());
+            FocusScriptable.Instance.TryPopAndActiveLast();
+            Hide();
         }
     }
 }

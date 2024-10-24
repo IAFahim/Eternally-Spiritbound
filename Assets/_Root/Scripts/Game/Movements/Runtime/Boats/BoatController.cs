@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 namespace _Root.Scripts.Game.Movements.Runtime.Boats
 {
     [RequireComponent(typeof(Rigidbody))]
-    public class BoatController : MovementProviderComponent, IMainCameraProvider, IFocusConsumer
+    public class BoatController : MovementProviderComponent, IMainCameraProvider
     {
         [Header("References")] public Rigidbody rb;
         public Lean lean;
@@ -172,19 +172,6 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
         public Camera MainCamera
         {
             set => _mainCamera = value;
-        }
-
-        public bool IsFocused { get; private set; }
-
-        public void SetFocus(FocusReferences focusReferences)
-        {
-            IsFocused = true;
-            isInputEnabled = true;
-        }
-
-        public void OnFocusLost(GameObject targetGameObject)
-        {
-            IsFocused = false;
         }
     }
 }

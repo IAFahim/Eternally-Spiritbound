@@ -763,15 +763,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30ce0e9b66e941baa9cc341460840106, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  confirmAsset:
-    m_AssetGUID: 
-    m_SubObjectName: 
-    m_SubObjectGUID: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  isMain: 0
-  spawnOffset: {x: 0, y: 0, z: 0}
-  hasFocus: 0
 --- !u!65 &369900243
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1321,15 +1312,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 683179231}
-  - component: {fileID: 683179232}
   - component: {fileID: 683179233}
+  - component: {fileID: 683179232}
   m_Layer: 7
   m_Name: Shop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &683179231
 Transform:
   m_ObjectHideFlags: 0
@@ -1339,7 +1330,7 @@ Transform:
   m_GameObject: {fileID: 683179230}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -168.69, y: 3, z: 244.45007}
+  m_LocalPosition: {x: -162.45, y: 3, z: 234.72}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1358,15 +1349,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30ce0e9b66e941baa9cc341460840106, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  confirmAsset:
-    m_AssetGUID: 1f6d1eab66d2ba44b898b321b0b61d42
-    m_SubObjectName: 
-    m_SubObjectGUID: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 1
-  isMain: 0
-  spawnOffset: {x: 0, y: 3, z: 0}
-  hasFocus: 0
 --- !u!114 &683179233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1379,7 +1361,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a928920dbbf4f9fbdddd300464f2173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  focusConsumerScriptable: {fileID: 11400000, guid: f95d67ed5f7b8f04f9fe559cf8ae31da, type: 2}
+  isFocused: 0
+  focusControllerScriptable: {fileID: 11400000, guid: f95d67ed5f7b8f04f9fe559cf8ae31da, type: 2}
 --- !u!1 &807881383
 GameObject:
   m_ObjectHideFlags: 0

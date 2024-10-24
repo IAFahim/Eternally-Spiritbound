@@ -21,10 +21,11 @@ namespace Soul.OverlapSugar.Runtime
         [Tooltip("The max number of colliders that can be found")]
         public int maxCapacity = 4;
 
+        [FormerlySerializedAs("currentSize")]
         [Tooltip("Don't set it in Inspector, it shows the number of collider found")]
-        public int currentSize;
+        public int colliderFound;
 
-        public Collider[] Colliders;
+        protected Collider[] FoundColliders;
 
         public bool Initialized { get; private set; }
 
@@ -34,8 +35,8 @@ namespace Soul.OverlapSugar.Runtime
             if (maxCapacity <= 0)
                 throw new ArgumentOutOfRangeException(nameof(maxCapacity));
 #endif
-            currentSize = 0;
-            Colliders = new Collider[maxCapacity];
+            colliderFound = 0;
+            FoundColliders = new Collider[maxCapacity];
             Initialized = true;
         }
 
@@ -68,7 +69,7 @@ namespace Soul.OverlapSugar.Runtime
             sphereRadius = radius;
         }
 
-        public bool Found() => currentSize > 0;
+        public bool Found() => colliderFound > 0;
 
         public virtual int Perform()
         {
@@ -84,42 +85,47 @@ namespace Soul.OverlapSugar.Runtime
                 _ => throw new ArgumentOutOfRangeException(nameof(OverlapType))
             };
         }
-        
-        public Collider[] GetFoundColliders() => Colliders;
+
+
+        public int GetColliders(out Collider[] foundColliders)
+        {
+            foundColliders = FoundColliders;
+            return colliderFound;
+        }
 
         private int OverlapBox(Vector3 position)
         {
-            currentSize = Physics.OverlapBoxNonAlloc(position,
+            colliderFound = Physics.OverlapBoxNonAlloc(position,
                 boxSize * Half,
-                Colliders,
+                FoundColliders,
                 overlapPoint.rotation,
                 searchMask.value);
-            return currentSize;
+            return colliderFound;
         }
 
 
         private int OverlapSphere(Vector3 position)
         {
-            currentSize = Physics.OverlapSphereNonAlloc(position,
+            colliderFound = Physics.OverlapSphereNonAlloc(position,
                 sphereRadius,
-                Colliders,
+                FoundColliders,
                 searchMask.value);
-            return currentSize;
+            return colliderFound;
         }
 
         public bool TryGetClosest(out Collider closestCollider, out float distance)
         {
             closestCollider = null;
             distance = float.MaxValue;
-            if (currentSize == 0) return false;
+            if (colliderFound == 0) return false;
 
-            for (int i = 0; i < currentSize; i++)
+            for (int i = 0; i < colliderFound; i++)
             {
-                float currentDistance = Vector3.Distance(Colliders[i].transform.position, overlapPoint.position);
+                float currentDistance = Vector3.Distance(FoundColliders[i].transform.position, overlapPoint.position);
                 if (currentDistance < distance)
                 {
                     distance = currentDistance;
-                    closestCollider = Colliders[i];
+                    closestCollider = FoundColliders[i];
                 }
             }
 
@@ -130,15 +136,15 @@ namespace Soul.OverlapSugar.Runtime
         {
             furthestCollider = null;
             distance = float.MinValue;
-            if (currentSize == 0) return false;
+            if (colliderFound == 0) return false;
 
-            for (int i = 0; i < currentSize; i++)
+            for (int i = 0; i < colliderFound; i++)
             {
-                float currentDistance = Vector3.Distance(Colliders[i].transform.position, overlapPoint.position);
+                float currentDistance = Vector3.Distance(FoundColliders[i].transform.position, overlapPoint.position);
                 if (currentDistance > distance)
                 {
                     distance = currentDistance;
-                    furthestCollider = Colliders[i];
+                    furthestCollider = FoundColliders[i];
                 }
             }
 
@@ -151,7 +157,7 @@ namespace Soul.OverlapSugar.Runtime
             if (overlapPoint == null) return;
 
             Gizmos.matrix = overlapPoint.localToWorldMatrix;
-            Gizmos.color = currentSize > 0 ? foundColor : overlapColor;
+            Gizmos.color = colliderFound > 0 ? foundColor : overlapColor;
 
             switch (overlapType)
             {
@@ -165,7 +171,7 @@ namespace Soul.OverlapSugar.Runtime
             }
 
             Gizmos.color = foundColor;
-            for (int i = 0; i < currentSize; i++) Gizmos.DrawWireSphere(Colliders[i].transform.position, 0.5f);
+            for (int i = 0; i < colliderFound; i++) Gizmos.DrawWireSphere(FoundColliders[i].transform.position, 0.5f);
 #endif
         }
     }

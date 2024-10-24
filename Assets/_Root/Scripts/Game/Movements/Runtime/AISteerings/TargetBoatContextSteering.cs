@@ -1,4 +1,5 @@
-﻿using _Root.Scripts.Game.FocusProvider.Runtime;
+﻿using System;
+using _Root.Scripts.Game.FocusProvider.Runtime;
 using _Root.Scripts.Game.Inputs.Runtime;
 using Pancake.Common;
 using Soul.Tickers.Runtime;
@@ -19,7 +20,7 @@ namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
         private void Start()
         {
             _steering = GetComponent<BoatContextSteering>();
-            if (!IsFocused) AddListener();
+            AddListener();
         }
 
         private void AddListener()
@@ -44,18 +45,10 @@ namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
             if (ticker.TryTick()) _steering.FixedUpdate();
         }
 
-        public bool IsFocused { get; private set; }
 
-        public void SetFocus(FocusReferences focusReferences)
-        {
-            IsFocused = true;
-            AddListener();
-        }
+        public void SetFocus(FocusReferences focusReferences) => AddListener();
+        public void OnFocusLost(GameObject targetGameObject) => RemoveListener();
 
-        public void OnFocusLost(GameObject targetGameObject)
-        {
-            IsFocused = false;
-            RemoveListener();
-        }
+        private void OnDisable() => RemoveListener();
     }
 }

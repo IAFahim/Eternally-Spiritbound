@@ -7,9 +7,8 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace _Root.Scripts.Game.FocusProvider.Runtime
 {
-    public abstract class FocusConsumerScriptable : ScriptableObject, IFocusConsumer
+    public abstract class FocusControllerScriptable : ScriptableObject
     {
-        public bool IsFocused { get; set; }
 
         public abstract void SetFocus(FocusReferences focusReferences);
 

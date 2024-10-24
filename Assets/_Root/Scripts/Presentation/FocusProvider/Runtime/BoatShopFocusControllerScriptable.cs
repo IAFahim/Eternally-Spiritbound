@@ -7,7 +7,7 @@ using UnityEngine.UI;
 namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 {
     [CreateAssetMenu(fileName = "BoatShopFocusProvider", menuName = "Scriptable/FocusProviders/BoatShop")]
-    public class BoatShopFocusConsumerScriptable : FocusConsumerCinemachineScriptable
+    public class BoatShopFocusControllerScriptable : FocusControllerCinemachineScriptable
     {
         public AssetReferenceGameObject boatShopCloseButton;
         private Button _closeButton;

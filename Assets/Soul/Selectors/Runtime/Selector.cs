@@ -8,14 +8,13 @@ using UnityEngine.EventSystems;
 namespace Soul.Selectors.Runtime
 {
     [Serializable]
-    public class Selector<T>
+    public class Selector
     {
         [SerializeField] private LayerMask selectableLayers = Physics.DefaultRaycastLayers;
         [SerializeField] private float waitForDrag = 0.1f;
         [SerializeField] private bool useMultipleCallbacks = false;
         [SerializeField] private UnityEvent<RaycastHit, ESelectionState> onSelectionEvent;
 
-        private T _info;
         private Action _onOverUI;
         private Transform _currentSelection;
         private bool _canSelect = true;
@@ -23,15 +22,15 @@ namespace Soul.Selectors.Runtime
         private EventSystem _eventSystem;
         private Camera _mainCamera;
         private CancellationTokenSource _cts;
+        private RaycastHit _lastHit;
 
         // Efficient short-term caching
         private Transform _lastCheckedTransform;
-        private ISelectorBase<T>[] _cachedCallbacks;
+        private ISelector[] _cachedCallbacks;
 
-        public void Initialize(T info, Camera camera, EventSystem eventSystemInstance, Action onOverUI,
+        public void Initialize(Camera camera, EventSystem eventSystemInstance, Action onOverUI,
             CancellationTokenSource cts)
         {
-            _info = info;
             _mainCamera = camera;
             _eventSystem = eventSystemInstance;
             _onOverUI = onOverUI;
@@ -112,44 +111,45 @@ namespace Soul.Selectors.Runtime
             }
             else if (_currentSelection != null) HandleDeselection(hit);
 
+            _lastHit = hit;
 #if UNITY_EDITOR
             if (_currentSelection != null) UnityEditor.EditorGUIUtility.PingObject(_currentSelection.gameObject);
 #endif
         }
 
-        private void HandleReselection(ISelectorBase<T>[] callbacks, RaycastHit hit)
+        private void HandleReselection(ISelector[] callbacks, RaycastHit hit)
         {
-            foreach (var callback in callbacks) callback.OnReselected(_info);
+            foreach (var callback in callbacks) callback.OnReselected(hit);
             onSelectionEvent.Invoke(hit, ESelectionState.Reselected);
         }
 
-        private void HandleNewSelection(ISelectorBase<T>[] callbacks, RaycastHit hit)
+        private void HandleNewSelection(ISelector[] callbacks, RaycastHit hit)
         {
             if (_currentSelection != null) HandleDeselection(hit);
 
             _currentSelection = hit.transform;
-            foreach (var callback in callbacks) callback.OnSelected(_info);
+            foreach (var callback in callbacks) callback.OnSelected(hit);
             onSelectionEvent.Invoke(hit, ESelectionState.Selected);
         }
 
         private void HandleDeselection(RaycastHit hit)
         {
             var deselectedCallbacks = GetCallbacks(_currentSelection);
-            foreach (var callback in deselectedCallbacks) callback.OnDeselected(hit, _info);
+            foreach (var callback in deselectedCallbacks) callback.OnDeselected(_lastHit, hit);
             onSelectionEvent.Invoke(hit, ESelectionState.Deselected);
             _currentSelection = null;
         }
 
-        private ISelectorBase<T>[] GetCallbacks(Transform transform)
+        private ISelector[] GetCallbacks(Transform transform)
         {
             if (_lastCheckedTransform == transform && _cachedCallbacks != null) return _cachedCallbacks;
 
             _lastCheckedTransform = transform;
             _cachedCallbacks = useMultipleCallbacks
-                ? transform.GetComponentsInChildren<ISelectorBase<T>>()
-                : new[] { transform.GetComponent<ISelectorBase<T>>() };
+                ? transform.GetComponentsInChildren<ISelector>()
+                : new[] { transform.GetComponent<ISelector>() };
 
-            _cachedCallbacks = _cachedCallbacks[0] != null ? _cachedCallbacks : Array.Empty<ISelectorBase<T>>();
+            _cachedCallbacks = _cachedCallbacks[0] != null ? _cachedCallbacks : Array.Empty<ISelector>();
             return _cachedCallbacks;
         }
 

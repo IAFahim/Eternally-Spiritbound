@@ -1,34 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 namespace _Root.Scripts.Game.FocusProvider.Runtime
 {
     [DisallowMultipleComponent]
     [SelectionBase]
-    public class FocusEntryPointComponent : MonoBehaviour, IFocusConsumer
+    public class FocusEntryPointComponent : MonoBehaviour, IFocusConsumer, IFocus
     {
-        [SerializeField] private FocusConsumerScriptable focusConsumerScriptable;
+        [SerializeField] private bool isFocused;
+        [SerializeField] private FocusControllerScriptable focusControllerScriptable;
 
         public bool IsFocused
         {
-            get => focusConsumerScriptable.IsFocused;
-            private set => focusConsumerScriptable.IsFocused = value;
+            get => isFocused;
+            private set => isFocused = value;
         }
-
-        private Action _returnCallback;
 
         public void SetFocus(FocusReferences focusReferences)
         {
             IsFocused = true;
-            focusConsumerScriptable.SetFocus(focusReferences);
+            focusControllerScriptable.SetFocus(focusReferences);
         }
 
         public void OnFocusLost(GameObject targetGameObject)
         {
             IsFocused = false;
-            focusConsumerScriptable.OnFocusLost(targetGameObject);
+            focusControllerScriptable.OnFocusLost(targetGameObject);
         }
     }
 }
