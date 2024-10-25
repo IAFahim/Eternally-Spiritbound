@@ -763,6 +763,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30ce0e9b66e941baa9cc341460840106, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactableConfirmHelperAsset:
+    m_AssetGUID: 
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  offset: {x: 0, y: 5, z: 0}
 --- !u!65 &369900243
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1349,6 +1356,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30ce0e9b66e941baa9cc341460840106, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactableConfirmHelperAsset:
+    m_AssetGUID: 1f6d1eab66d2ba44b898b321b0b61d42
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 1
+  offset: {x: 0, y: 5, z: 0}
 --- !u!114 &683179233
 MonoBehaviour:
   m_ObjectHideFlags: 0
