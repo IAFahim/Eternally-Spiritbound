@@ -40,19 +40,20 @@ namespace _Root.Scripts.Game.Interactables.Runtime
 
         public void Hide()
         {
+            Debug.Log("Hide");
             deselectedEvent.Invoke();
         }
 
         private void InteractStart()
         {
-            _interactableParent.OnInteractionStarted(FocusScriptable.Instance.mainObject.GetComponent<IInteractor>());
             selectedEvent.Invoke();
+            _interactableParent.OnInteractionStarted(FocusScriptable.Instance.mainObject.GetComponent<IInteractor>());
         }
 
         private void InteractEnd()
         {
             _interactableParent.OnInteractionEnded(FocusScriptable.Instance.mainObject.GetComponent<IInteractor>());
-            FocusScriptable.Instance.TryPopAndActiveLast();
+            FocusScriptable.Instance.PopFocus();
             Hide();
         }
     }

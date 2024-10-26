@@ -59,18 +59,15 @@ namespace _Root.Scripts.Game.Interactables.Runtime
 
         private void AddNewEntryToList()
         {
-            if (0 < interactableOverlapChecked.GetColliders(out var colliders))
+            if (0 == interactableOverlapChecked.GetColliders(out var colliders)) return;
+            foreach (var currentCollider in colliders)
             {
-                foreach (var currentCollider in colliders)
-                {
-                    if (currentCollider == null) continue;
-                    var parentIfNotFoundSelf = currentCollider.transform.parent ?? currentCollider.transform;
-                    if (InteractableInfo.ListContains(_interactableInfos, currentCollider)) continue;
-                    if (!parentIfNotFoundSelf.TryGetComponent(out IInteractable interactable)) continue;
-                    var interactableInfo = new InteractableInfo(parentIfNotFoundSelf, currentCollider, interactable);
-                    _interactableInfos.Add(interactableInfo);
-                    interactable.OnInteractableDetected(this);
-                }
+                if (currentCollider == null) continue;
+                var root = currentCollider.transform.root;
+                if (InteractableInfo.ListContains(_interactableInfos, root)) continue;
+                if (!root.TryGetComponent(out IInteractable interactable)) continue;
+                _interactableInfos.Add(new InteractableInfo(root, currentCollider, interactable));
+                interactable.OnInteractableDetected(this);
             }
         }
 
@@ -123,16 +120,16 @@ namespace _Root.Scripts.Game.Interactables.Runtime
     struct InteractableInfo : IEquatable<InteractableInfo>
     {
         public readonly Transform Transform;
-        public readonly GameObject GameObject;
         public readonly int Hash;
+        public readonly GameObject GameObject;
         public readonly float BoundsExtentsMagnitude;
         public IInteractable Interactable;
 
         public InteractableInfo(Transform transform, Collider collider, IInteractable interactable)
         {
             Transform = transform;
-            GameObject = Transform.gameObject;
             Hash = Transform.GetInstanceID();
+            GameObject = Transform.gameObject;
             BoundsExtentsMagnitude = collider.bounds.extents.magnitude;
             Interactable = interactable;
         }
@@ -145,16 +142,11 @@ namespace _Root.Scripts.Game.Interactables.Runtime
 
         public override int GetHashCode() => Hash;
 
-        public bool Equals(Collider collider)
-        {
-            return Hash == (collider.transform.parent ?? collider.transform).GetInstanceID();
-        }
-
-        public static bool ListContains(List<InteractableInfo> interactableInfos, Collider checkCollider)
+        public static bool ListContains(List<InteractableInfo> interactableInfos, Transform rootTransform)
         {
             foreach (var interactableInfo in interactableInfos)
             {
-                if (interactableInfo.Equals(checkCollider)) return true;
+                if (interactableInfo.Transform == rootTransform.transform) return true;
             }
 
             return false;

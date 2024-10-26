@@ -2,6 +2,7 @@
 {
     public interface IFocus
     {
-        public bool IsFocused { get; }
+        public bool IsMain { get; }
+        public bool IsFocused { get; set; }
     }
 }

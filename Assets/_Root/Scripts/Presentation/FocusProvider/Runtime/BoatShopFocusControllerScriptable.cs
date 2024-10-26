@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using _Root.Scripts.Game.FocusProvider.Runtime;
+﻿using _Root.Scripts.Game.FocusProvider.Runtime;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
@@ -24,15 +23,13 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 
         private void SetupCloseButton(GameObject gameObject)
         {
-            FocusScriptable.Instance.Peek().OnPop += Pop;
+            FocusScriptable.Instance.PeekFocus().OnPushFocus += PushFocus;
             _closeButton = gameObject.GetComponent<Button>();
             _closeButton.onClick.AddListener(TryPopAndActiveLast);
         }
 
-        private void Pop(FocusScriptable obj)
-        {
-            OnFocusLost(TargetGameObject);
-        }
+        private void PushFocus(GameObject obj) => OnFocusLost(obj);
+
 
         public override void OnFocusLost(GameObject targetGameObject)
         {
@@ -42,7 +39,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 
         private void TryPopAndActiveLast()
         {
-            FocusScriptable.Instance.TryPopAndActiveLast();
+            FocusScriptable.Instance.PopFocus();
         }
     }
 }

@@ -24,7 +24,7 @@ namespace _Root.Scripts.Game.FocusProvider.Runtime
         private Action<GameObject> _spawnedGameObjectCallBack;
 
         // Stack to store the focused GameObjects
-        private readonly Stack<FocusInfo> _focusStack = new();
+        private readonly Stack<IFocusEntryPoint> _focusStack = new();
 
         public void Initialize(Camera camera, FocusReferences focusReferences)
         {
@@ -38,54 +38,50 @@ namespace _Root.Scripts.Game.FocusProvider.Runtime
             Addressables.InstantiateAsync(mainGameObjectAssetReference).Completed += OnCompletedInstantiate;
         }
 
-        void OnCompletedInstantiate(AsyncOperationHandle<GameObject> handle)
-        {
-            Push(new FocusInfo(handle.Result, true, null));
-            _spawnedGameObjectCallBack?.Invoke(handle.Result);
-            _spawnedGameObjectCallBack = null;
-        }
-
-        public void Push(FocusInfo focusInfo)
+        public void PushFocus(IFocusEntryPoint focusEntryPoint)
         {
             if (_focusStack.Count > 0) UnLink(_focusStack.Peek().GameObject);
-            _focusStack.Push(focusInfo);
-            Setup(focusInfo);
-        }
-
-
-        private void Setup(FocusInfo focusInfo)
-        {
-            if (focusInfo.IsMain) mainObject = focusInfo.GameObject;
-            AssignCamera(focusInfo.GameObject, mainCamera);
-            AssignMoveInput(focusInfo.GameObject);
-            AssignFocus(focusInfo.GameObject);
-        }
-
-        private void AssignFocus(GameObject gameObject)
-        {
-            var focusProviders = gameObject.GetComponents<IFocusConsumer>();
-            foreach (var focusProvider in focusProviders)
-            {
-                _focusReferences.currentGameObject = gameObject;
-                focusProvider.SetFocus(_focusReferences);
-            }
+            _focusStack.Push(focusEntryPoint);
+            Setup(focusEntryPoint);
         }
 
         [Button]
-        public bool TryPopAndActiveLast()
+        public bool PopFocus()
         {
             if (!Pop()) return false;
             Setup(_focusStack.Peek());
             return true;
         }
 
-        public FocusInfo Peek() => _focusStack.Peek();
+        public IFocusEntryPoint PeekFocus() => _focusStack.Peek();
+
+        private void OnCompletedInstantiate(AsyncOperationHandle<GameObject> handle)
+        {
+            PushFocus(handle.Result.GetComponent<IFocusEntryPoint>());
+            _spawnedGameObjectCallBack?.Invoke(handle.Result);
+            _spawnedGameObjectCallBack = null;
+        }
+
+        private void Setup(IFocusEntryPoint focusEntryPoint)
+        {
+            if (focusEntryPoint.IsMain) mainObject = focusEntryPoint.GameObject;
+            AssignCamera(focusEntryPoint.GameObject, mainCamera);
+            AssignMoveInput(focusEntryPoint.GameObject);
+            AssignFocus(focusEntryPoint.GameObject);
+        }
+
+        private void AssignFocus(GameObject gameObject)
+        {
+            _focusReferences.currentGameObject = gameObject;
+            var focusEntryPoint = gameObject.GetComponent<IFocusEntryPoint>();
+            focusEntryPoint.PushFocus(_focusReferences);
+        }
+
 
         private bool Pop()
         {
             if (_focusStack.Count <= 1) return false;
-            var lastFocusInfo = _focusStack.Pop();
-            lastFocusInfo.OnPop?.Invoke(this);
+            _focusStack.Pop().IsFocused = false;
             return true;
         }
 
@@ -116,15 +112,14 @@ namespace _Root.Scripts.Game.FocusProvider.Runtime
 
             var mainCameraProviders = currentObject.GetComponents<IMainCameraProvider>();
             foreach (var mainCameraProvider in mainCameraProviders) mainCameraProvider.MainCamera = null;
-
-            var focusProviders = currentObject.GetComponents<IFocusConsumer>();
-            foreach (var focusProvider in focusProviders) focusProvider.OnFocusLost(currentObject);
+            currentObject.GetComponent<IFocusEntryPoint>().RemoveFocus(currentObject);
         }
 
-        public void Forget()
+        public void Clear()
         {
             _focusReferences.Clear();
             _focusStack.Clear();
+            while (_focusStack.Count > 0) Pop();
         }
     }
 }

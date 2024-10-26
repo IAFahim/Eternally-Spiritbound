@@ -8,7 +8,7 @@ using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
 {
-    public class TargetBoatContextSteering : MonoBehaviour, IFocusConsumer
+    public class TargetBoatContextSteering : MonoBehaviour
     {
         [FormerlySerializedAs("mainGameProviders")] [SerializeField]
         private FocusScriptable mainGameStacks;

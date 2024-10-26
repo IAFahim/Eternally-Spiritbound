@@ -1,4 +1,5 @@
-﻿using Soul.Interactables.Runtime;
+﻿using _Root.Scripts.Game.FocusProvider.Runtime;
+using Soul.Interactables.Runtime;
 using Soul.Pools.Runtime;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -10,6 +11,7 @@ namespace _Root.Scripts.Game.Interactables.Runtime
         public AssetReferenceGameObject interactableConfirmHelperAsset;
         [SerializeField] private Vector3 offset = new Vector3(0, 5, 0);
         private IInteractableConfirmHelper _interactableConfirmHelper;
+        [SerializeField] private FocusEntryPointComponent focusEntryPointComponent;
 
         public Transform Transform => transform;
 
@@ -29,12 +31,15 @@ namespace _Root.Scripts.Game.Interactables.Runtime
 
         public void OnInteractableDetectionLost(IInteractor interactor)
         {
-            Debug.Log("Lost");
             _interactableConfirmHelper?.Hide();
         }
 
         public void OnInteractionStarted(IInteractor interactor)
         {
+            if (interactor.Focused)
+            {
+                focusEntryPointComponent.IsFocused = true;
+            }
         }
 
         public void OnInteractionEnded(IInteractor interactor)

@@ -9,7 +9,6 @@ namespace _Root.Scripts.Game.FocusProvider.Runtime
 {
     public abstract class FocusControllerScriptable : ScriptableObject
     {
-
         public abstract void SetFocus(FocusReferences focusReferences);
 
         protected void BuildCache(

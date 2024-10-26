@@ -18,14 +18,14 @@ namespace _Root.Scripts.Game.FocusProvider.Runtime
                     SpawnedGameObjectCallBack
                 );
             else
-                focusScriptable.Push(new FocusInfo(mainGameObjectInstance, true, null));
+                focusScriptable.PushFocus(mainGameObjectInstance.GetComponent<IFocusEntryPoint>());
         }
 
         private void SpawnedGameObjectCallBack(GameObject obj) => mainGameObjectInstance = obj;
 
         private void OnDisable()
         {
-            focusScriptable.Forget();
+            focusScriptable.Clear();
         }
     }
 }

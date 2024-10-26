@@ -770,6 +770,7 @@ MonoBehaviour:
     m_SubObjectType: 
     m_EditorAssetChanged: 0
   offset: {x: 0, y: 5, z: 0}
+  focusEntryPointComponent: {fileID: 0}
 --- !u!65 &369900243
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1363,6 +1364,7 @@ MonoBehaviour:
     m_SubObjectType: 
     m_EditorAssetChanged: 1
   offset: {x: 0, y: 5, z: 0}
+  focusEntryPointComponent: {fileID: 683179233}
 --- !u!114 &683179233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1375,8 +1377,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a928920dbbf4f9fbdddd300464f2173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMain: 0
   isFocused: 0
-  focusControllerScriptable: {fileID: 11400000, guid: f95d67ed5f7b8f04f9fe559cf8ae31da, type: 2}
+  mainFocusController: {fileID: 11400000, guid: f95d67ed5f7b8f04f9fe559cf8ae31da, type: 2}
 --- !u!1 &807881383
 GameObject:
   m_ObjectHideFlags: 0
