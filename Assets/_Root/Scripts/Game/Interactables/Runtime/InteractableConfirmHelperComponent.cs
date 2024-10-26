@@ -1,5 +1,4 @@
-﻿using _Root.Scripts.Game.FocusProvider.Runtime;
-using Soul.Interactables.Runtime;
+﻿using Soul.Interactables.Runtime;
 using Soul.Selectors.Runtime;
 using UnityEngine;
 using UnityEngine.Events;
@@ -47,13 +46,13 @@ namespace _Root.Scripts.Game.Interactables.Runtime
         private void InteractStart()
         {
             selectedEvent.Invoke();
-            _interactableParent.OnInteractionStarted(FocusScriptable.Instance.mainObject.GetComponent<IInteractor>());
+            _interactableParent.OnInteractionStarted(FocusManager.Instance.mainObject.GetComponent<IInteractorEntryPoint>());
         }
 
         private void InteractEnd()
         {
-            _interactableParent.OnInteractionEnded(FocusScriptable.Instance.mainObject.GetComponent<IInteractor>());
-            FocusScriptable.Instance.PopFocus();
+            _interactableParent.OnInteractionEnded(FocusManager.Instance.mainObject.GetComponent<IInteractorEntryPoint>());
+            FocusManager.Instance.PopFocus();
             Hide();
         }
     }

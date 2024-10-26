@@ -1,5 +1,4 @@
-﻿using _Root.Scripts.Game.FocusProvider.Runtime;
-using Pancake;
+﻿using Pancake;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.Ai.Runtime

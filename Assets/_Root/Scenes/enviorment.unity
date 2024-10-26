@@ -764,11 +764,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactableConfirmHelperAsset:
-    m_AssetGUID: 
-    m_SubObjectName: 
-    m_SubObjectGUID: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
+    enabled: 0
+    value:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
   offset: {x: 0, y: 5, z: 0}
   focusEntryPointComponent: {fileID: 0}
 --- !u!65 &369900243
@@ -1358,11 +1360,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactableConfirmHelperAsset:
-    m_AssetGUID: 1f6d1eab66d2ba44b898b321b0b61d42
-    m_SubObjectName: 
-    m_SubObjectGUID: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 1
+    enabled: 1
+    value:
+      m_AssetGUID: 1f6d1eab66d2ba44b898b321b0b61d42
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
   offset: {x: 0, y: 5, z: 0}
   focusEntryPointComponent: {fileID: 683179233}
 --- !u!114 &683179233
@@ -1379,7 +1383,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMain: 0
   isFocused: 0
-  mainFocusController: {fileID: 11400000, guid: f95d67ed5f7b8f04f9fe559cf8ae31da, type: 2}
+  focusProcessor: {fileID: 11400000, guid: f95d67ed5f7b8f04f9fe559cf8ae31da, type: 2}
 --- !u!1 &807881383
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a64f7cc1e0cd475284c6c0c212d6db52, type: 3}
-  m_Name: Boat Focus Provider
+  m_Script: {fileID: 11500000, guid: d1d05f4b04204349a08bf5cf39d1f4a5, type: 3}
+  m_Name: Boat Shop Focus Processor
   m_EditorClassIdentifier: 
   cinemachineAsset:
     m_AssetGUID: b351a3825d6462c459ee036f28f7dd99
@@ -18,17 +18,9 @@ MonoBehaviour:
     m_SubObjectGUID: 
     m_SubObjectType: 
     m_EditorAssetChanged: 1
-  healthBarAsset:
-    m_AssetGUID: d33ad5248591b394eb6fd583b92065c7
+  boatShopCloseButton:
+    m_AssetGUID: a3ec090854b3a0348973a64d2840fb83
     m_SubObjectName: 
     m_SubObjectGUID: 
     m_SubObjectType: 
     m_EditorAssetChanged: 1
-  joyStickAsset:
-    m_AssetGUID: 78d430a1d91773544b201049b83f5697
-    m_SubObjectName: 
-    m_SubObjectGUID: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 1
-  timeScaleStopDuration: 0.2
-  targetFlashMaterial: {fileID: 2100000, guid: 3a556adc22f1648168eaea6a468dd260, type: 2}

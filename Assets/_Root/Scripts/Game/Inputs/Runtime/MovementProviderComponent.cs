@@ -1,17 +1,18 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Game.Inputs.Runtime
 {
     public abstract class MovementProviderComponent : MonoBehaviour, IMove
     {
-        public bool isInputEnabled;
+        [FormerlySerializedAs("isInputEnabled")] public bool inputEnabled;
         protected Vector3 MoveDirection;
 
         public bool IsInputEnabled
         {
-            get => isInputEnabled;
-            set => isInputEnabled = value;
+            get => inputEnabled;
+            set => inputEnabled = value;
         }
 
         public Vector3 Direction

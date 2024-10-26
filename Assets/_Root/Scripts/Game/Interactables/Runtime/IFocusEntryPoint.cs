@@ -1,11 +1,11 @@
 ﻿using System;
+using Soul.Interactables.Runtime;
 using UnityEngine;
 
-namespace _Root.Scripts.Game.FocusProvider.Runtime
+namespace _Root.Scripts.Game.Interactables.Runtime
 {
-    public interface IFocusEntryPoint: IFocus
+    public interface IFocusEntryPoint: IInteractorEntryPoint
     {
-        public GameObject GameObject { get; }
         public void PushFocus(FocusReferences focusReferences);
         public void RemoveFocus(GameObject targetGameObject);
         

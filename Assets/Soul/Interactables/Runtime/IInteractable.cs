@@ -5,9 +5,9 @@ namespace Soul.Interactables.Runtime
     public interface IInteractable
     {
         Transform Transform { get; }
-        public void OnInteractableDetected(IInteractor interactor);
-        public void OnInteractableDetectionLost(IInteractor interactor);
-        public void OnInteractionStarted(IInteractor interactor);
-        public void OnInteractionEnded(IInteractor interactor);
+        public void OnInteractableDetected(IInteractorEntryPoint interactorEntryPoint);
+        public void OnInteractableDetectionLost(IInteractorEntryPoint interactorEntryPoint);
+        public void OnInteractionStarted(IInteractorEntryPoint interactorEntryPoint);
+        public void OnInteractionEnded(IInteractorEntryPoint interactorEntryPoint);
     }
 }

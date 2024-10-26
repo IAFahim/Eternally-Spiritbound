@@ -1,6 +1,5 @@
-﻿using System;
-using _Root.Scripts.Game.FocusProvider.Runtime;
-using _Root.Scripts.Game.Inputs.Runtime;
+﻿using _Root.Scripts.Game.Inputs.Runtime;
+using _Root.Scripts.Game.Interactables.Runtime;
 using Pancake.Common;
 using Soul.Tickers.Runtime;
 using UnityEngine;
@@ -11,7 +10,7 @@ namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
     public class TargetBoatContextSteering : MonoBehaviour
     {
         [FormerlySerializedAs("mainGameProviders")] [SerializeField]
-        private FocusScriptable mainGameStacks;
+        private FocusManager mainGameStacks;
 
         private BoatContextSteering _steering;
         private IMove _move;

@@ -1,12 +1,12 @@
-﻿using _Root.Scripts.Game.FocusProvider.Runtime;
+﻿using _Root.Scripts.Game.Interactables.Runtime;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
 
 namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 {
-    [CreateAssetMenu(fileName = "BoatShopFocusProvider", menuName = "Scriptable/FocusProviders/BoatShop")]
-    public class BoatShopFocusControllerScriptable : FocusControllerCinemachineScriptable
+    [CreateAssetMenu(fileName = "Boat Shop Processor", menuName = "Scriptable/FocusProcessor/Boat Shop")]
+    public class BoatShopFocusProcessorScriptable : FocusProcessorCinemachineScriptable
     {
         public AssetReferenceGameObject boatShopCloseButton;
         private Button _closeButton;
@@ -23,7 +23,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 
         private void SetupCloseButton(GameObject gameObject)
         {
-            FocusScriptable.Instance.PeekFocus().OnPushFocus += PushFocus;
+            FocusManager.Instance.PeekFocus().OnPushFocus += PushFocus;
             _closeButton = gameObject.GetComponent<Button>();
             _closeButton.onClick.AddListener(TryPopAndActiveLast);
         }
@@ -39,7 +39,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 
         private void TryPopAndActiveLast()
         {
-            FocusScriptable.Instance.PopFocus();
+            FocusManager.Instance.PopFocus();
         }
     }
 }

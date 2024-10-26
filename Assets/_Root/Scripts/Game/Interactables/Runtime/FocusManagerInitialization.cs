@@ -1,31 +1,31 @@
 ﻿using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace _Root.Scripts.Game.FocusProvider.Runtime
+namespace _Root.Scripts.Game.Interactables.Runtime
 {
-    public class FocusManagerComponent : MonoBehaviour
+    public class FocusManagerInitialization : MonoBehaviour
     {
         public GameObject mainGameObjectInstance;
         public Camera mainCamera;
-        [FormerlySerializedAs("mainStackScriptable")] [FormerlySerializedAs("mainProviderScriptable")] public FocusScriptable focusScriptable;
+        public FocusManager focusManager;
         [FormerlySerializedAs("transformReferences")] public FocusReferences focusReferences;
 
         private void Awake()
         {
-            focusScriptable.Initialize(mainCamera, focusReferences);
+            focusManager.Initialize(mainCamera, focusReferences);
             if (mainGameObjectInstance == null)
-                focusScriptable.SpawnMainGameObject(
+                focusManager.SpawnMainGameObject(
                     SpawnedGameObjectCallBack
                 );
             else
-                focusScriptable.PushFocus(mainGameObjectInstance.GetComponent<IFocusEntryPoint>());
+                focusManager.PushFocus(mainGameObjectInstance.GetComponent<IFocusEntryPoint>());
         }
 
         private void SpawnedGameObjectCallBack(GameObject obj) => mainGameObjectInstance = obj;
 
         private void OnDisable()
         {
-            focusScriptable.Clear();
+            focusManager.Clear();
         }
     }
 }

@@ -5,9 +5,9 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-namespace _Root.Scripts.Game.FocusProvider.Runtime
+namespace _Root.Scripts.Game.Interactables.Runtime
 {
-    public abstract class FocusControllerScriptable : ScriptableObject
+    public abstract class FocusProcessor : ScriptableObject
     {
         public abstract void SetFocus(FocusReferences focusReferences);
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-namespace _Root.Scripts.Game.FocusProvider.Runtime
+namespace _Root.Scripts.Game.Interactables.Runtime
 {
     [Serializable]
     public class FocusReferences

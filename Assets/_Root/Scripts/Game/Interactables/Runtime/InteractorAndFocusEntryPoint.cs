@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using _Root.Scripts.Game.FocusProvider.Runtime;
 using Soul.Interactables.Runtime;
 using Soul.OverlapSugar.Runtime;
 using Soul.Tickers.Runtime;
@@ -11,24 +10,14 @@ namespace _Root.Scripts.Game.Interactables.Runtime
     /// <summary>
     /// Manages interactions between game objects by detecting overlaps and handling hover events.
     /// </summary>
-    public class InteractorComponent : MonoBehaviour, IInteractor
+    [DisallowMultipleComponent]
+    [SelectionBase]
+    public class InteractorAndFocusEntryPoint : FocusEntryPointComponent
     {
         [SerializeField] private IntervalTicker ticker;
         [SerializeField] private OverlapCheckedNonAlloc interactableOverlapChecked;
-
-        public bool Focused => _focusReference.IsFocused;
-        public GameObject GameObject => gameObject;
-
-        private IFocus _focusReference;
-        private readonly List<InteractableInfo> _interactableInfos = new List<InteractableInfo>();
-
-        private void Awake()
-        {
-            _focusReference = GetComponent<IFocus>();
-#if UNITY_EDITOR
-            ValidateComponents();
-#endif
-        }
+        
+        private readonly List<InteractableInfo> _interactableInfos = new();
 
         private void Start()
         {
@@ -94,18 +83,6 @@ namespace _Root.Scripts.Game.Interactables.Runtime
 
 
 #if UNITY_EDITOR
-        private void ValidateComponents()
-        {
-            if (_focusReference == null)
-            {
-                Debug.LogError($"Missing IFocus component on {gameObject.name}");
-            }
-
-            if (interactableOverlapChecked == null)
-            {
-                Debug.LogError($"Missing OverlapCheckedNonAlloc reference on {gameObject.name}");
-            }
-        }
 
         private void OnDrawGizmosSelected()
         {

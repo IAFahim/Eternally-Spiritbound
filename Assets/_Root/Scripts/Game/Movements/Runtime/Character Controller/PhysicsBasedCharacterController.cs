@@ -1,10 +1,9 @@
-using _Root.Scripts.Game.FocusProvider.Runtime;
 using _Root.Scripts.Game.Inputs.Runtime;
+using _Root.Scripts.Game.Interactables.Runtime;
 using _Root.Scripts.Game.Utils.Runtime;
 using Pancake;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Game.Movements.Runtime.Character_Controller
 {

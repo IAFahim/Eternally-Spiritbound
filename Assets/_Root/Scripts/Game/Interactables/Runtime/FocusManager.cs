@@ -8,9 +8,9 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.InputSystem;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-namespace _Root.Scripts.Game.FocusProvider.Runtime
+namespace _Root.Scripts.Game.Interactables.Runtime
 {
-    public class FocusScriptable : ScriptableSettings<FocusScriptable>
+    public class FocusManager : ScriptableSettings<FocusManager>
     {
         public AssetReferenceGameObject mainGameObjectAssetReference;
         public GameObject mainObject;

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a64f7cc1e0cd475284c6c0c212d6db52, type: 3}
-  m_Name: Player Focus Provider
+  m_Name: Player Focus Processor
   m_EditorClassIdentifier: 
   cinemachineAsset:
     m_AssetGUID: 37c8fdfec2ad2544591ab44b83d20da0

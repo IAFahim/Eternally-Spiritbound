@@ -1,8 +1,7 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace _Root.Scripts.Game.FocusProvider.Runtime
+namespace _Root.Scripts.Game.Interactables.Runtime
 {
     [DisallowMultipleComponent]
     [SelectionBase]
@@ -10,9 +9,9 @@ namespace _Root.Scripts.Game.FocusProvider.Runtime
     {
         [SerializeField] private bool isMain;
         [SerializeField] private bool isFocused;
-
-        [FormerlySerializedAs("focusControllerScriptable")] [SerializeField]
-        private FocusControllerScriptable mainFocusController;
+        
+        [SerializeField]
+        private FocusProcessor focusProcessor;
 
         public event Action<GameObject> OnPushFocus;
         public event Action<GameObject> OnRemoveFocus;
@@ -35,20 +34,20 @@ namespace _Root.Scripts.Game.FocusProvider.Runtime
         public void PushFocus(FocusReferences focusReferences)
         {
             isFocused = true;
-            mainFocusController.SetFocus(focusReferences);
+            focusProcessor.SetFocus(focusReferences);
             OnPushFocus?.Invoke(gameObject);
         }
 
         public void RemoveFocus(GameObject targetGameObject)
         {
             isFocused = false;
-            mainFocusController.OnFocusLost(targetGameObject);
+            focusProcessor.OnFocusLost(targetGameObject);
             OnPushFocus?.Invoke(gameObject);
         }
 
         private void FocusSelf()
         {
-            FocusScriptable.Instance.PushFocus(this);
+            FocusManager.Instance.PushFocus(this);
         }
     }
 }
