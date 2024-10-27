@@ -10,15 +10,15 @@ namespace Pancake.AI
     {
         public override void Initialize(AIContext context)
         {
-            if (!context.Sensor.tags.Contains(tag)) context.Sensor.tags.Add(tag);
+            if (!context.Sensor.tags.Contains(targetTag)) context.Sensor.tags.Add(targetTag);
         }
 
         public override void Execute(AIContext context)
         {
-            var target = context.Sensor.GetClosestTarget(tag);
+            var target = context.Sensor.GetClosestTarget(targetTag);
             if (target == null) return;
 
-            context.target = target;
+            context.Target = target;
             context.Agent.SetDestination(target.position);
         }
     }
