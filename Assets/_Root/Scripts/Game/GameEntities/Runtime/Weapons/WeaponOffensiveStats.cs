@@ -9,6 +9,7 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
     public class WeaponOffensiveStats
     {
         public OffensiveStats<float> value;
+
         public OffensiveStats<float> Add(OffensiveStats<Modifier> playerStats)
         {
             return new OffensiveStats<float>
@@ -28,12 +29,10 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
                 new EnableLimitStat<float>
                 {
                     enabled = value.penetration.enabled & playerStats.penetration.enabled,
-                    limitStat = new LimitStat<float>
-                    {
-                        current = new Reactive<float>(value.penetration.limitStat.current.Value
-                                                      + playerStats.penetration.limitStat.current.Value),
-                        max = value.penetration.limitStat.max + playerStats.penetration.limitStat.max.Value
-                    }
+                    current = new Reactive<float>(
+                        value.penetration.current.Value + playerStats.penetration.current.Value
+                    ),
+                    max = value.penetration.max + playerStats.penetration.max.Value
                 }
             );
         }

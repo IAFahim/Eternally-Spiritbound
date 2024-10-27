@@ -1383,7 +1383,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMain: 0
   isFocused: 0
-  focusProcessor: {fileID: 11400000, guid: f95d67ed5f7b8f04f9fe559cf8ae31da, type: 2}
+  focusProcessorScript: {fileID: 11400000, guid: f95d67ed5f7b8f04f9fe559cf8ae31da, type: 2}
 --- !u!1 &807881383
 GameObject:
   m_ObjectHideFlags: 0
@@ -4348,8 +4348,9 @@ GameObject:
   - component: {fileID: 2130180871}
   - component: {fileID: 2130180870}
   - component: {fileID: 2130180869}
+  - component: {fileID: 2130180873}
   m_Layer: 10
-  m_Name: Cube (7)
+  m_Name: Boat Game Starts
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4438,12 +4439,25 @@ Transform:
   m_GameObject: {fileID: 2130180868}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -152.75, y: 0, z: 284.7}
-  m_LocalScale: {x: 40, y: 10, z: 10}
+  m_LocalPosition: {x: -152.75, y: 0, z: 784}
+  m_LocalScale: {x: 1000, y: 100, z: 1000}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2130180873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2130180868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce52a2048a36d6a44a047f1d0bd43107, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activatorScript: {fileID: 11400000, guid: 74b3853258e71594cad55d30430ef68b, type: 2}
 --- !u!4 &2128581214310703397 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8450020379642975872, guid: 3818fccccab4da7478e644e5483caa08, type: 3}

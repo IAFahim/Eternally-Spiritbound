@@ -1,10 +1,9 @@
-﻿using Soul.Modifiers.Runtime;
+﻿using _Root.Scripts.Game.Stats.Runtime.Model;
 
 namespace Soul.Stats.Runtime
 {
     public interface IHealthBase
     {
-        Modifier CurrentHealth { get; }
-        Modifier MaxHealth { get; }
+        public EnableLimitStat<float> Health { get; }
     }
 }

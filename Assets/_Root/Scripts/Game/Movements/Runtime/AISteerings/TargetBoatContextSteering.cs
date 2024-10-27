@@ -10,7 +10,7 @@ namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
     public class TargetBoatContextSteering : MonoBehaviour
     {
         [FormerlySerializedAs("mainGameProviders")] [SerializeField]
-        private FocusManager mainGameStacks;
+        private FocusManagerScript mainGameStacks;
 
         private BoatContextSteering _steering;
         private IMove _move;

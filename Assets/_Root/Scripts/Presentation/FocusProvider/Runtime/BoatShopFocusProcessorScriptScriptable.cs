@@ -6,7 +6,7 @@ using UnityEngine.UI;
 namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 {
     [CreateAssetMenu(fileName = "Boat Shop Processor", menuName = "Scriptable/FocusProcessor/Boat Shop")]
-    public class BoatShopFocusProcessorScriptable : FocusProcessorCinemachineScriptable
+    public class BoatShopFocusProcessorScriptScriptable : FocusProcessorScriptCinemachineScriptable
     {
         public AssetReferenceGameObject boatShopCloseButton;
         private Button _closeButton;
@@ -23,7 +23,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 
         private void SetupCloseButton(GameObject gameObject)
         {
-            FocusManager.Instance.PeekFocus().OnPushFocus += PushFocus;
+            FocusManagerScript.Instance.PeekFocus().OnPushFocus += PushFocus;
             _closeButton = gameObject.GetComponent<Button>();
             _closeButton.onClick.AddListener(TryPopAndActiveLast);
         }
@@ -39,7 +39,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 
         private void TryPopAndActiveLast()
         {
-            FocusManager.Instance.PopFocus();
+            FocusManagerScript.Instance.PopFocus();
         }
     }
 }

@@ -10,7 +10,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace _Root.Scripts.Game.Interactables.Runtime
 {
-    public class FocusManager : ScriptableSettings<FocusManager>
+    public class FocusManagerScript : ScriptableSettings<FocusManagerScript>
     {
         public AssetReferenceGameObject mainGameObjectAssetReference;
         public GameObject mainObject;

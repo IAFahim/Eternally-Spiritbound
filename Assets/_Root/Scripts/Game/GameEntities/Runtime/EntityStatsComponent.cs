@@ -4,7 +4,7 @@ using UnityEngine;
 namespace _Root.Scripts.Game.GameEntities.Runtime
 {
     [DisallowMultipleComponent]
-    public class EntityStatComponent : MonoBehaviour, IEntityStatsReference
+    public class EntityStatsComponent : MonoBehaviour, IEntityStatsReference
     {
         public EntityStats entityStats;
         public EntityStats EntityStats => entityStats;

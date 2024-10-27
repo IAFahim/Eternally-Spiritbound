@@ -10,19 +10,17 @@ using UnityProgressBar;
 namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 {
     [CreateAssetMenu(fileName = "Boat Focus Processor", menuName = "Scriptable/FocusProcessor/Boat")]
-    public class BoatFocusProcessorScriptable : FocusProcessorCinemachineScriptable
+    public class BoatFocusProcessorScriptScriptable : FocusProcessorScriptCinemachineScriptable
     {
         public AssetReferenceGameObject healthBarAsset;
         public AssetReferenceGameObject joyStickAsset;
 
         public float timeScaleStopDuration = .2f;
-        public Material targetFlashMaterial;
 
         private ProgressBar _healthBarCache;
         private GameObject _joyStickCache;
 
         private Material _targetOriginalMaterial;
-        private Renderer _targetRenderer;
         private EntityStats _entityStats;
         private Reactive<float> _health;
         private Modifier _maxHealth;
@@ -47,8 +45,6 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 
         private void SetupHealthBar(GameObject spawnedHealthBar)
         {
-            _targetRenderer = TargetGameObject.GetComponentInChildren<Renderer>();
-            _targetOriginalMaterial = _targetRenderer.material;
             _healthBarCache = spawnedHealthBar.GetComponent<ProgressBar>();
             _entityStats = TargetGameObject.GetComponent<IEntityStatsReference>().EntityStats;
             _health = _entityStats.vitality.health.current;
@@ -70,8 +66,6 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
             {
                 Time.timeScale = 0f;
             }
-
-            _targetRenderer.material = targetFlashMaterial;
             _healthBarCache.Value = current / _maxHealth.Value;
             App.Delay(timeScaleStopDuration, RestoreTimeScale, useRealTime: true);
         }
@@ -79,7 +73,6 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
         private void RestoreTimeScale()
         {
             Time.timeScale = 1;
-            _targetRenderer.material = _targetOriginalMaterial;
         }
 
         public override void OnFocusLost(GameObject targetGameObject)

@@ -3,7 +3,7 @@
 namespace _Root.Scripts.Game.Stats.Runtime.Model
 {
     [Serializable]
-    public struct DefensiveStats<T> 
+    public class DefensiveStats<T> 
     {
         public T immunity;
         public T armor;

@@ -46,13 +46,13 @@ namespace _Root.Scripts.Game.Interactables.Runtime
         private void InteractStart()
         {
             selectedEvent.Invoke();
-            _interactableParent.OnInteractionStarted(FocusManager.Instance.mainObject.GetComponent<IInteractorEntryPoint>());
+            _interactableParent.OnInteractionStarted(FocusManagerScript.Instance.mainObject.GetComponent<IInteractorEntryPoint>());
         }
 
         private void InteractEnd()
         {
-            _interactableParent.OnInteractionEnded(FocusManager.Instance.mainObject.GetComponent<IInteractorEntryPoint>());
-            FocusManager.Instance.PopFocus();
+            _interactableParent.OnInteractionEnded(FocusManagerScript.Instance.mainObject.GetComponent<IInteractorEntryPoint>());
+            FocusManagerScript.Instance.PopFocus();
             Hide();
         }
     }
