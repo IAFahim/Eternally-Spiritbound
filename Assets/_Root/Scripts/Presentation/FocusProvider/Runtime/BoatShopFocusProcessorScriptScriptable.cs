@@ -9,6 +9,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
     public class BoatShopFocusProcessorScriptScriptable : FocusProcessorScriptCinemachineScriptable
     {
         public AssetReferenceGameObject boatShopCloseButton;
+        public FocusManagerScript focusManager;
         private Button _closeButton;
 
         public override void SetFocus(FocusReferences focusReferences)
@@ -23,7 +24,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 
         private void SetupCloseButton(GameObject gameObject)
         {
-            FocusManagerScript.Instance.PeekFocus().OnPushFocus += PushFocus;
+            focusManager.PeekFocus().OnPushFocus += PushFocus;
             _closeButton = gameObject.GetComponent<Button>();
             _closeButton.onClick.AddListener(TryPopAndActiveLast);
         }
@@ -39,7 +40,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 
         private void TryPopAndActiveLast()
         {
-            FocusManagerScript.Instance.PopFocus();
+            focusManager.PopFocus();
         }
     }
 }

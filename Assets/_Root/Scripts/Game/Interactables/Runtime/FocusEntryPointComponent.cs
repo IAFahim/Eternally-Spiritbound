@@ -13,6 +13,7 @@ namespace _Root.Scripts.Game.Interactables.Runtime
         
         [FormerlySerializedAs("focusProcessor")] [SerializeField]
         private FocusProcessorScript focusProcessorScript;
+        [SerializeField] private FocusManagerScript focusManagerScript;
 
         public event Action<GameObject> OnPushFocus;
         public event Action<GameObject> OnRemoveFocus;
@@ -48,7 +49,7 @@ namespace _Root.Scripts.Game.Interactables.Runtime
 
         private void FocusSelf()
         {
-            FocusManagerScript.Instance.PushFocus(this);
+            focusManagerScript.PushFocus(this);
         }
     }
 }
