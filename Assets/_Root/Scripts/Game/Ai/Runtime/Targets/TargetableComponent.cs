@@ -20,7 +20,11 @@ namespace _Root.Scripts.Game.Ai.Runtime.Targets
 
         private void OnDisable()
         {
-            foreach (var targeter in _targeters) targeter.TargetingStrategy.TargetLost(this);
+            foreach (var targeter in _targeters)
+            {
+                targeter.RemoveTarget(this, true);
+            }
+            _targeters.Clear();
         }
     }
 }
