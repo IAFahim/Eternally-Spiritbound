@@ -1,18 +1,11 @@
 {
   "dependencies": {
-    "com.annulusgames.component-cache-generator": {
-      "version": "https://github.com/AnnulusGames/ComponentCacheGenerator.git?path=src/ComponentCacheGenerator/Assets/ComponentCacheGenerator",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "f25fb2680ce3bd01d284a3fe3406200ee0cec59e"
-    },
     "com.annulusgames.debug-ui": {
-      "version": "https://github.com/AnnulusGames/DebugUI.git?path=src/DebugUI/Assets/DebugUI",
+      "version": "https://github.com/pancake-llc/DebugUI.git?path=src/DebugUI/Assets/DebugUI",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "eadce6b0604ad8a5a06117751eeae7de2d64707b"
+      "hash": "e6f7f118c7b4c244b3369be17471d91f87114211"
     },
     "com.annulusgames.lit-motion": {
       "version": "https://github.com/AnnulusGames/LitMotion.git?path=src/LitMotion/Assets/LitMotion#v1.9.0",
@@ -35,18 +28,18 @@
       "hash": "3c1940038b542134dd5a873bcaf46a6feeef6d85"
     },
     "com.cysharp.unitask": {
-      "version": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask#2.5.5",
+      "version": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask#2.5.10",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "cdf88c6a6ac8c9b7e6e5d3c0a360a4af29641c24"
+      "hash": "7c0f199fe0d3fc528024488ccd671e6c7b27745b"
     },
     "com.google.external-dependency-manager": {
-      "version": "https://github.com/google-unity/external-dependency-manager.git#1.2.179",
+      "version": "https://github.com/google-unity/external-dependency-manager.git#1.2.183",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "66fd0c1b84d72ec9ac32e2eece65f2630b4b262e"
+      "hash": "d5ff67d7b8fe2aea1ae801aaba2d6f2dbad39917"
     },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
@@ -55,7 +48,7 @@
       "dependencies": {}
     },
     "com.unity.addressables": {
-      "version": "2.2.2",
+      "version": "2.3.1",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -64,8 +57,17 @@
         "com.unity.modules.jsonserialize": "1.0.0",
         "com.unity.modules.imageconversion": "1.0.0",
         "com.unity.modules.unitywebrequest": "1.0.0",
-        "com.unity.scriptablebuildpipeline": "2.1.4",
+        "com.unity.scriptablebuildpipeline": "2.1.5",
         "com.unity.modules.unitywebrequestassetbundle": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.ai.navigation": {
+      "version": "2.0.4",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.ai": "1.0.0"
       },
       "url": "https://packages.unity.com"
     },
@@ -204,6 +206,14 @@
       },
       "url": "https://packages.unity.com"
     },
+    "com.unity.multiplayer.center": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {
+        "com.unity.modules.uielements": "1.0.0"
+      }
+    },
     "com.unity.nuget.mono-cecil": {
       "version": "1.11.4",
       "depth": 1,
@@ -305,7 +315,7 @@
       }
     },
     "com.unity.scriptablebuildpipeline": {
-      "version": "2.1.4",
+      "version": "2.1.5",
       "depth": 1,
       "source": "registry",
       "dependencies": {},
@@ -450,11 +460,11 @@
       }
     },
     "jp.hadashikick.vitalrouter": {
-      "version": "https://github.com/hadashiA/VitalRouter.git?path=/src/VitalRouter.Unity/Assets/VitalRouter#1.0.1",
+      "version": "https://github.com/hadashiA/VitalRouter.git?path=/src/VitalRouter.Unity/Assets/VitalRouter#1.5.0",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "927fd75b62304c489328558e072ffa861d3c636c"
+      "hash": "a9b667963af51f54c1d286b871d40d3755e11e86"
     },
     "com.unity.modules.accessibility": {
       "version": "1.0.0",
@@ -604,6 +614,15 @@
       "depth": 0,
       "source": "builtin",
       "dependencies": {}
+    },
+    "com.unity.modules.unityanalytics": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {
+        "com.unity.modules.unitywebrequest": "1.0.0",
+        "com.unity.modules.jsonserialize": "1.0.0"
+      }
     },
     "com.unity.modules.unitywebrequest": {
       "version": "1.0.0",
