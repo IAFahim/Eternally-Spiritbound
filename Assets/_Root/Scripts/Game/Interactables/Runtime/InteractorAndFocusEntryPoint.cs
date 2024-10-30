@@ -16,7 +16,7 @@ namespace _Root.Scripts.Game.Interactables.Runtime
     {
         [SerializeField] private IntervalTicker ticker;
         [SerializeField] private OverlapCheckedNonAlloc interactableOverlapChecked;
-        
+
         private readonly List<InteractableInfo> _interactableInfos = new();
 
         private void Start()
@@ -48,9 +48,11 @@ namespace _Root.Scripts.Game.Interactables.Runtime
 
         private void AddNewEntryToList()
         {
-            if (0 == interactableOverlapChecked.GetColliders(out var colliders)) return;
-            foreach (var currentCollider in colliders)
+            int interactableCount = interactableOverlapChecked.GetColliders(out var colliders);
+            if (0 == interactableCount) return;
+            for (var i = 0; i < interactableCount; i++)
             {
+                var currentCollider = colliders[i];
                 if (currentCollider == null) continue;
                 var root = currentCollider.transform.root;
                 if (InteractableInfo.ListContains(_interactableInfos, root)) continue;
