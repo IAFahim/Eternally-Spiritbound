@@ -1,10 +1,15 @@
-﻿using Soul.OverlapSugar.Runtime;
+﻿using Pancake;
+using Soul.OverlapSugar.Runtime;
+using Soul.Tickers.Runtime;
 using UnityEngine;
 
-namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
+namespace _Root.Scripts.Game.Ai.Runtime.Movements
 {
     public class BoatContextSteering : MonoBehaviour
     {
+        public Optional<Transform> target;
+        public IntervalTicker ticker;
+
         [Header("Steering Settings")] [SerializeField]
         private float detectRadius = 10f;
 
@@ -64,8 +69,15 @@ namespace _Root.Scripts.Game.Movements.Runtime.AISteerings
             }
         }
 
+        public void Update()
+        {
+            if (!target.Enabled) return;
+            Steer(target.Value.position);
+        }
+
         public void FixedUpdate()
         {
+            if (!ticker.TryTick()) return;
             ClearArrays();
             obstacleDetector.Perform();
         }

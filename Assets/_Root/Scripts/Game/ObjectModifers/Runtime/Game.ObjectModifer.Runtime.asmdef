@@ -1,13 +1,8 @@
 {
-    "name": "Game.AI.Runtime",
+    "name": "Game.ObjectModifer.Runtime",
     "rootNamespace": "",
     "references": [
-        "GUID:f788a976797e4db4b8a6121cf9155334",
-        "GUID:eb36288877644c37b229af3f5ff8580c",
-        "GUID:f5b5f3e8d91f4345b62b02c77be86264",
-        "GUID:b81c8d36bf104616bbbb66c0238ec27a",
-        "GUID:adac8d59ad7e8504f82d387cded797a7",
-        "GUID:efd9a104bd8a459198be92df5525e105",
+        "GUID:fe1b989c36a449f0a0f195bad35b34ff",
         "GUID:d263cfcb6fe4c8e458b5530d29ee4d1f"
     ],
     "includePlatforms": [],

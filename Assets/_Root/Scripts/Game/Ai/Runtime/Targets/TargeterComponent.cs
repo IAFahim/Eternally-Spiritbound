@@ -1,31 +1,33 @@
 ﻿using System;
+using Sisus.Init;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.Ai.Runtime.Targets
 {
-    public class TargeterComponent : MonoBehaviour, ITargeter
+    public class TargeterComponent : MonoBehaviour<TargetingStrategy>, ITargeter
     {
         [SerializeField] private TargetingStrategy targetingStrategy;
         public Transform Transform => transform;
-        public TargetingStrategy TargetingStrategy => targetingStrategy;
 
+        public TargetingStrategy TargetingStrategy => targetingStrategy;
         public event Action<ITargetable> OnTargetFound;
         public event Action<ITargetable, bool> OnTargetLost;
-
-
-        protected ITargetable CurrentTarget;
+        
+        private ITargetable _currentTarget;
+        
+        protected override void Init(TargetingStrategy argument) => targetingStrategy = argument;
 
         private void OnEnable()
         {
-            CurrentTarget = null;
-            if (targetingStrategy.TryGetTarget(out CurrentTarget)) SetTarget(CurrentTarget);
+            _currentTarget = null;
+            if (targetingStrategy.TryGetTarget(out _currentTarget)) SetTarget(_currentTarget);
             else targetingStrategy.OnFoundEvent += SetTarget;
             targetingStrategy.OnLostEvent += RemoveTarget;
         }
 
         protected virtual void SetTarget(ITargetable targetable)
         {
-            CurrentTarget = targetable;
+            _currentTarget = targetable;
             targetable.AddTargeter(this);
             OnTargetFound?.Invoke(targetable);
         }
@@ -34,14 +36,16 @@ namespace _Root.Scripts.Game.Ai.Runtime.Targets
         {
             if (!onDisable) targetable.RemoveTargeter(this);
             OnTargetLost?.Invoke(targetable, onDisable);
-            CurrentTarget = null;
+            _currentTarget = null;
         }
 
         private void OnDisable()
         {
-            if (CurrentTarget != null) CurrentTarget.RemoveTargeter(this);
+            if (_currentTarget != null) _currentTarget.RemoveTargeter(this);
             targetingStrategy.OnLostEvent -= RemoveTarget;
             targetingStrategy.OnFoundEvent -= SetTarget;
         }
+
+        
     }
 }

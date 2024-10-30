@@ -19,14 +19,14 @@ GameObject:
   - component: {fileID: 8420489221093117962}
   - component: {fileID: 3260595637832130824}
   - component: {fileID: 8256658712619696832}
-  - component: {fileID: 5910252824789029543}
+  - component: {fileID: 4510898471342222219}
   m_Layer: 15
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4812040211412234257
 Transform:
   m_ObjectHideFlags: 0
@@ -82,7 +82,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce5b3c68086d4e5fae1e624749d67a9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  focusConsumerScriptable: {fileID: 11400000, guid: 504908bcd412d3e43a5d0dc7df342b18, type: 2}
 --- !u!114 &970737332303009931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,7 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a17b197a69ac46a081db05634b320d9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isInputEnabled: 0
+  inputEnabled: 0
   rb: {fileID: 7589321065733351887}
   lean:
     leanAmount: {x: -10, y: 0, z: -10}
@@ -192,8 +191,7 @@ MonoBehaviour:
     boxSize: {x: 1, y: 1, z: 1}
     positionOffset: {x: 0, y: 0, z: 0}
     maxCapacity: 10
-    currentSize: 0
-    Colliders: []
+    colliderFound: 0
 --- !u!114 &8420489221093117962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,7 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74515c59053a4ba3a662a21559d81e75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainGameProviders: {fileID: 0}
+  mainGameStacks: {fileID: 11400000, guid: 4c147b4345416824f8968062d60f760a, type: 2}
   ticker:
     currentTick: 0
     interval: 5
@@ -246,6 +244,7 @@ MonoBehaviour:
           baseValue: 3
           rate: 0
           additive: 0
+        enabled: 0
       size:
         baseValue: 0
         rate: 0
@@ -362,15 +361,14 @@ MonoBehaviour:
         rate: 0
         additive: 0
       penetration:
+        current:
+          value: 0
+        max:
+          baseValue: 0
+          rate: 0
+          additive: 0
         enabled: 0
-        limitStat:
-          current:
-            value: 0
-          max:
-            baseValue: 0
-            rate: 0
-            additive: 0
---- !u!114 &5910252824789029543
+--- !u!114 &4510898471342222219
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -379,13 +377,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 759616323773402500}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80c299e4af964d5ca4cedf04a1e5cfc1, type: 3}
+  m_Script: {fileID: 11500000, guid: 8b9a046f4fb14448aff3b2d93a6469a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target:
-    enabled: 0
-    value: {fileID: 0}
-  targetingStrategy: {fileID: 0}
 --- !u!1001 &1333086669684634853
 PrefabInstance:
   m_ObjectHideFlags: 0

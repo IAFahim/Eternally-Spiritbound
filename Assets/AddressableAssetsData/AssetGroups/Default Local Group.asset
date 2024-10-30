@@ -55,6 +55,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a2e89f715f86bff409a37ce759f200ce
+    m_Address: Assets/_Root/Storages/Spawner/Templete/Spawner Template.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a3ec090854b3a0348973a64d2840fb83
     m_Address: Assets/_Root/Prefabs/UI/Close Button.prefab
     m_ReadOnly: 0
@@ -62,6 +67,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b351a3825d6462c459ee036f28f7dd99
     m_Address: Assets/_Root/Prefabs/Cinemachines/Cinemachine Boat.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b90642002762014448b8d3d630b8a2d6
+    m_Address: Assets/_Root/Storages/Spawner/RandomAnnulus SpawnStrategy.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

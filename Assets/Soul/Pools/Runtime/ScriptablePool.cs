@@ -17,7 +17,7 @@ namespace Soul.Pools.Runtime
         {
             if (!_pools.ContainsKey(assetReferenceGameObject))
             {
-                _pools[assetReferenceGameObject] = new AddressableGameObjectPool(assetReferenceGameObject);
+                _pools[assetReferenceGameObject] = new (assetReferenceGameObject);
             }
 
             return _pools[assetReferenceGameObject].Request();
@@ -27,7 +27,7 @@ namespace Soul.Pools.Runtime
         {
             if (!_pools.ContainsKey(assetReferenceGameObject))
             {
-                _pools[assetReferenceGameObject] = new AddressableGameObjectPool(assetReferenceGameObject);
+                _pools[assetReferenceGameObject] = new (assetReferenceGameObject);
             }
 
             return _pools[assetReferenceGameObject].Request(parent);
@@ -38,7 +38,7 @@ namespace Soul.Pools.Runtime
         {
             if (!_pools.ContainsKey(assetReferenceGameObject))
             {
-                _pools[assetReferenceGameObject] = new AddressableGameObjectPool(assetReferenceGameObject);
+                _pools[assetReferenceGameObject] = new (assetReferenceGameObject);
             }
 
             var gameObject = _pools[assetReferenceGameObject].Request();
@@ -51,7 +51,7 @@ namespace Soul.Pools.Runtime
         {
             if (!_pools.ContainsKey(assetReferenceGameObject))
             {
-                _pools[assetReferenceGameObject] = new AddressableGameObjectPool(assetReferenceGameObject);
+                _pools[assetReferenceGameObject] = new (assetReferenceGameObject);
             }
 
             return _pools[assetReferenceGameObject].Request(position, rotation);
@@ -62,7 +62,7 @@ namespace Soul.Pools.Runtime
         {
             if (!_pools.ContainsKey(assetReferenceGameObject))
             {
-                _pools[assetReferenceGameObject] = new AddressableGameObjectPool(assetReferenceGameObject);
+                _pools[assetReferenceGameObject] = new (assetReferenceGameObject);
             }
 
             return _pools[assetReferenceGameObject].Request(position, rotation, parent);
@@ -73,7 +73,7 @@ namespace Soul.Pools.Runtime
             if (_cleared) return;
             if (!_pools.ContainsKey(assetReferenceGameObject))
             {
-                _pools[assetReferenceGameObject] = new AddressableGameObjectPool(assetReferenceGameObject);
+                _pools[assetReferenceGameObject] = new (assetReferenceGameObject);
             }
 
             _pools[assetReferenceGameObject].Return(gameObject);
@@ -89,7 +89,7 @@ namespace Soul.Pools.Runtime
             _cleared = true;
             foreach (var pool in _pools) pool.Value.Clear();
         }
-        
-        
+
+        public void Dispose() => ClearAll();
     }
 }

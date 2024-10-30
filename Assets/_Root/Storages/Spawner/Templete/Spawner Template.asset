@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c8b847793d445eaae8c7a43846f4bce, type: 3}
+  m_Name: Spawner Template
+  m_EditorClassIdentifier: 
+  spawners:
+  - assetReference:
+      m_AssetGUID: bf0d8b0182b572f4b911cbdbb2f08a76
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
+    pool: {fileID: 11400000, guid: eb9b5ddfc95cdce4ba5e984f6abd7193, type: 2}
+    spawnStrategy: {fileID: 11400000, guid: b90642002762014448b8d3d630b8a2d6, type: 2}
+    gameObjectModifer: {fileID: 0}
+    startDelay: 1
+    interval: 0.2
+    spawned: 1
+    count: 20
