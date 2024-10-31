@@ -1,5 +1,4 @@
 ﻿using Pancake.Common;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.Spawners.Runtime
@@ -9,7 +8,11 @@ namespace _Root.Scripts.Game.Spawners.Runtime
         public SpawnerTemplate[] spawnerTemplates;
         private SpawnerTemplate _currentActiveSpawnTemplate;
 
-        [Button]
+        private void Start()
+        {
+            Spawn(0);
+        }
+
         public void Spawn(int index)
         {
             if (_currentActiveSpawnTemplate != null) _currentActiveSpawnTemplate.OnStop();
@@ -21,7 +24,7 @@ namespace _Root.Scripts.Game.Spawners.Runtime
 
         private void OnUpdate()
         {
-            _currentActiveSpawnTemplate.OnUpdate(transform.position, Time.deltaTime);
+            _currentActiveSpawnTemplate.OnUpdate(Time.deltaTime);
         }
 
         private void OnDisable()

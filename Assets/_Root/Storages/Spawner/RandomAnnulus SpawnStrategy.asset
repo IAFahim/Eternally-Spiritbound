@@ -12,12 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b62e1bb978c24bf9bfd59f0ffbb66e6a, type: 3}
   m_Name: RandomAnnulus SpawnStrategy
   m_EditorClassIdentifier: 
-  pool: {fileID: 11400000, guid: eb9b5ddfc95cdce4ba5e984f6abd7193, type: 2}
-  assetReference:
-    m_AssetGUID: bf0d8b0182b572f4b911cbdbb2f08a76
-    m_SubObjectName: 
-    m_SubObjectGUID: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 1
-  minRadius: 100
-  maxRadius: 150
+  focusManager: {fileID: 11400000, guid: 4c147b4345416824f8968062d60f760a, type: 2}
+  minRadius: 70
+  maxRadius: 100

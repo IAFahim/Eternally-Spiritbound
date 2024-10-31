@@ -1,56 +1,52 @@
-﻿using Pancake;
-using Soul.OverlapSugar.Runtime;
-using Soul.Tickers.Runtime;
+﻿using _Root.Scripts.Game.Ai.Runtime.Targets;
+using _Root.Scripts.Game.Inputs.Runtime;
+using Sisus.Init;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.Ai.Runtime.Movements
 {
-    public class BoatContextSteering : MonoBehaviour
+    public class BoatContextSteering : MonoBehaviour<BoatContextConfig, ITargeter>
     {
-        public Optional<Transform> target;
-        public IntervalTicker ticker;
+        public BoatContextConfig config;
 
-        [Header("Steering Settings")] [SerializeField]
-        private float detectRadius = 10f;
-
-        [SerializeField] private float avoidanceWeight = 1.5f;
-        [SerializeField] private float seekWeight = 1f;
-
-        [Header("Context Settings")] [SerializeField]
-        private int directions = 8;
-
-        [SerializeField] private float dangerDecayDistance = 5f;
-
-        public OverlapCheckedNonAlloc obstacleDetector;
-
+        private ITargeter _targeter;
+        private IMove _move;
         private float[] _interestArray;
         private float[] _dangerArray;
         private Vector3[] _directionVectors;
         private Vector3 _resultDirection;
         private Vector3 _lastNonZeroDirection;
 
+
+        protected override void Init(BoatContextConfig firstArgument, ITargeter secondArgument)
+        {
+            config = firstArgument;
+            _targeter = secondArgument;
+        }
+
+        protected override void OnAwake()
+        {
+            base.OnAwake();
+            _move = GetComponent<IMove>();
+        }
+
         private void Start()
         {
             InitializeArrays();
-            InitializeObstacleDetector();
+            config.Initialize(transform);
         }
 
         private void InitializeArrays()
         {
-            _interestArray = new float[directions];
-            _dangerArray = new float[directions];
-            _directionVectors = new Vector3[directions];
+            _interestArray = new float[config.directions];
+            _dangerArray = new float[config.directions];
+            _directionVectors = new Vector3[config.directions];
 
-            for (int i = 0; i < directions; i++)
+            for (int i = 0; i < config.directions; i++)
             {
-                float angle = i * (360f / directions);
+                float angle = i * (360f / config.directions);
                 _directionVectors[i] = Quaternion.Euler(0, angle, 0) * Vector3.forward;
             }
-        }
-
-        private void InitializeObstacleDetector()
-        {
-            obstacleDetector.Initialize();
         }
 
         public Vector3 Steer(Vector3 position)
@@ -62,7 +58,7 @@ namespace _Root.Scripts.Game.Ai.Runtime.Movements
 
         private void ClearArrays()
         {
-            for (int i = 0; i < directions; i++)
+            for (int i = 0; i < config.directions; i++)
             {
                 _interestArray[i] = 0;
                 _dangerArray[i] = 0;
@@ -71,22 +67,23 @@ namespace _Root.Scripts.Game.Ai.Runtime.Movements
 
         public void Update()
         {
-            if (!target.Enabled) return;
-            Steer(target.Value.position);
+            var hasTarget = _targeter.HasTarget;
+            _move.IsInputEnabled = hasTarget;
+            if (hasTarget) _move.Direction = Steer(_targeter.CurrentTarget.Transform.position);
         }
 
         public void FixedUpdate()
         {
-            if (!ticker.TryTick()) return;
+            if (!config.ticker.TryTick()) return;
             ClearArrays();
-            obstacleDetector.Perform();
+            config.obstacleDetector.Perform();
         }
 
 
         private void CheckAndProcessObstacle()
         {
-            if (!obstacleDetector.Found()) return;
-            int colliderCount = obstacleDetector.GetColliders(out var colliders);
+            if (!config.obstacleDetector.Found()) return;
+            int colliderCount = config.obstacleDetector.GetColliders(out var colliders);
             for (var i = 0; i < colliderCount; i++) ProcessObstacle(colliders[i]);
         }
 
@@ -99,14 +96,14 @@ namespace _Root.Scripts.Game.Ai.Runtime.Movements
             if (distance < 0.1f) return; // Prevent division by zero
 
             Vector3 directionToObstacle = toObstacle / distance;
-            float dangerWeight = Mathf.Clamp01(1 - (distance / dangerDecayDistance));
+            float dangerWeight = Mathf.Clamp01(1 - (distance / config.dangerDecayDistance));
 
-            for (int i = 0; i < directions; i++)
+            for (int i = 0; i < config.directions; i++)
             {
                 float dot = Vector3.Dot(directionToObstacle, _directionVectors[i]);
                 if (dot > 0)
                 {
-                    float danger = dot * dangerWeight * avoidanceWeight;
+                    float danger = dot * dangerWeight * config.avoidanceWeight;
                     _dangerArray[i] = Mathf.Max(_dangerArray[i], danger);
                 }
             }
@@ -121,10 +118,10 @@ namespace _Root.Scripts.Game.Ai.Runtime.Movements
 
             Vector3 directionToTarget = toTarget.normalized;
 
-            for (int i = 0; i < directions; i++)
+            for (int i = 0; i < config.directions; i++)
             {
                 float dot = Vector3.Dot(directionToTarget, _directionVectors[i]);
-                _interestArray[i] = Mathf.Max(0, dot * seekWeight);
+                _interestArray[i] = Mathf.Max(0, dot * config.seekWeight);
             }
         }
 
@@ -133,7 +130,7 @@ namespace _Root.Scripts.Game.Ai.Runtime.Movements
             Vector3 resultDirection = Vector3.zero;
             float maxValue = float.MinValue;
 
-            for (int i = 0; i < directions; i++)
+            for (int i = 0; i < config.directions; i++)
             {
                 float value = _interestArray[i] - _dangerArray[i];
 
@@ -160,22 +157,22 @@ namespace _Root.Scripts.Game.Ai.Runtime.Movements
             if (!Application.isPlaying) return;
 
             // Draw direction vectors with color intensity based on interest/danger
-            for (int i = 0; i < directions; i++)
+            for (int i = 0; i < config.directions; i++)
             {
                 float interest = _interestArray[i];
                 float danger = _dangerArray[i];
 
                 // Green for interest, Red for danger
                 Gizmos.color = new Color(danger, interest, 0, 0.5f);
-                Gizmos.DrawRay(transform.position, _directionVectors[i] * dangerDecayDistance);
+                Gizmos.DrawRay(transform.position, _directionVectors[i] * config.dangerDecayDistance);
             }
 
             // Draw result direction
             Gizmos.color = Color.yellow;
-            Gizmos.DrawRay(transform.position, _resultDirection * dangerDecayDistance * 1.2f);
+            Gizmos.DrawRay(transform.position, _resultDirection * config.dangerDecayDistance * 1.2f);
 
             // Use the provided DrawGizmos from OverlapNonAlloc
-            obstacleDetector?.DrawGizmos(Color.yellow, Color.red);
+            config.obstacleDetector?.DrawGizmos(Color.yellow, Color.red);
         }
 #endif
     }

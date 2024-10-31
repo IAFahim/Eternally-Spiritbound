@@ -14,6 +14,9 @@ namespace _Root.Scripts.Game.Interactables.Runtime
     {
         public AssetReferenceGameObject mainGameObjectAssetReference;
         public GameObject mainObject;
+        
+        public Vector3 MainObjectPosition => mainObject.transform.position;
+        
 
         public Camera mainCamera;
 

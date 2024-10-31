@@ -7,7 +7,7 @@ namespace _Root.Scripts.Game.ObjectModifers.Runtime
     [CreateAssetMenu(fileName = "Target Modifier", menuName = "Scriptable/Object Modifer/Targeter")]
     public class TargetModifier : GameObjectModifer
     {
-        [SerializeField] private TargetingStrategy targetingStrategy;
+        [SerializeField] protected TargetingStrategy targetingStrategy;
 
         public override void Modify(GameObject gameObject)
         {

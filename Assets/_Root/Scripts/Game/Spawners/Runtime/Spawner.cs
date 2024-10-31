@@ -47,13 +47,13 @@ namespace _Root.Scripts.Game.Spawners.Runtime
             return false;
         }
 
-        public bool KeepSpawning(Vector3 origin, float deltaTime)
+        public bool KeepSpawning(float deltaTime)
         {
             if (!CanSpawnThisFrame(deltaTime)) return true;
             GameObject gameObject = pool.Request(assetReference);
             gameObject.AddComponent<SpawnHandle>(this);
             gameObjectModifer.Modify(gameObject);
-            spawned += spawnStrategy.Spawn(gameObject.transform, origin, count - spawned);
+            spawned += spawnStrategy.Spawn(gameObject.transform, count - spawned);
             return IsAlive();
         }
 

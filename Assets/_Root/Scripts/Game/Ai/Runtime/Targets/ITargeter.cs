@@ -5,9 +5,11 @@ namespace _Root.Scripts.Game.Ai.Runtime.Targets
 {
     public interface ITargeter
     {
+        bool HasTarget { get; }
+        ITargetable CurrentTarget { get; }
         Transform Transform { get; }
-        public event Action<ITargetable> OnTargetFound;
-        public event Action<ITargetable, bool> OnTargetLost;
-        public void RemoveTarget(ITargetable targetable, bool onDisable);
+        event Action<ITargetable> OnTargetFound;
+        event Action<ITargetable, bool> OnTargetLost;
+        void RemoveTarget(ITargetable targetable, bool onDisable);
     }
 }

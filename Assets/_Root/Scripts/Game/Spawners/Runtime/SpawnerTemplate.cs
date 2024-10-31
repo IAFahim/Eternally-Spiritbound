@@ -25,7 +25,7 @@ namespace _Root.Scripts.Game.Spawners.Runtime
             }
         }
 
-        public void OnUpdate(Vector3 position, float deltaTime)
+        public void OnUpdate(float deltaTime)
         {
             if (IsComplete)
             {
@@ -33,7 +33,7 @@ namespace _Root.Scripts.Game.Spawners.Runtime
                 return;
             }
 
-            ManageSpawners(position, deltaTime);
+            ManageSpawners(deltaTime);
         }
 
         public void OnStop()
@@ -41,12 +41,12 @@ namespace _Root.Scripts.Game.Spawners.Runtime
             OnComplete?.Invoke();
         }
 
-        protected virtual void ManageSpawners(Vector3 position, float deltaTime)
+        protected virtual void ManageSpawners(float deltaTime)
         {
             for (var index = _activeSpawners.Count - 1; index >= 0; index--)
             {
                 var spawner = _activeSpawners[index];
-                if (spawner.KeepSpawning(position, deltaTime)) return;
+                if (spawner.KeepSpawning(deltaTime)) return;
                 _activeSpawners.RemoveAt(index);
             }
         }

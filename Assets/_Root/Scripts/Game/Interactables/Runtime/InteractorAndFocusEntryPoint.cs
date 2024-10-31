@@ -15,13 +15,13 @@ namespace _Root.Scripts.Game.Interactables.Runtime
     public class InteractorAndFocusEntryPoint : FocusEntryPointComponent
     {
         [SerializeField] private IntervalTicker ticker;
-        [SerializeField] private OverlapCheckedNonAlloc interactableOverlapChecked;
+        [SerializeField] private OverlapNonAlloc interactableOverlapChecked;
 
         private readonly List<InteractableInfo> _interactableInfos = new();
 
         private void Start()
         {
-            interactableOverlapChecked.Initialize();
+            interactableOverlapChecked.Initialize(transform);
         }
 
 
@@ -67,7 +67,8 @@ namespace _Root.Scripts.Game.Interactables.Runtime
             for (int i = _interactableInfos.Count - 1; i >= 0; i--)
             {
                 var interactableInfo = _interactableInfos[i];
-                if (!interactableInfo.IsActiveInRange(transform.position, interactableOverlapChecked.sphereRadius))
+                if (!interactableInfo.IsActiveInRange(transform.position,
+                        interactableOverlapChecked.config.sphereRadius))
                 {
                     interactableInfo.Interactable.OnInteractableDetectionLost(this);
                     _interactableInfos.RemoveAt(i);

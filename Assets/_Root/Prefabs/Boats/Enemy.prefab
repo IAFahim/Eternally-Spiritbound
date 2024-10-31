@@ -15,8 +15,6 @@ GameObject:
   - component: {fileID: 6222182846234257531}
   - component: {fileID: 6755126369491827642}
   - component: {fileID: 7943169366095257837}
-  - component: {fileID: 4592830053980218533}
-  - component: {fileID: 8420489221093117962}
   - component: {fileID: 3260595637832130824}
   - component: {fileID: 8256658712619696832}
   - component: {fileID: 4510898471342222219}
@@ -164,50 +162,6 @@ CapsuleCollider:
   m_Height: 6.0679436
   m_Direction: 2
   m_Center: {x: 0, y: 1.3939831, z: -0.29963112}
---- !u!114 &4592830053980218533
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 759616323773402500}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bea8e1b8569b4fb8a7dc1eb28e5b2b73, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  detectRadius: 100
-  avoidanceWeight: 1.2
-  seekWeight: 1
-  directions: 8
-  dangerDecayDistance: 25
-  obstacleDetector:
-    searchMask:
-      serializedVersion: 2
-      m_Bits: 896
-    overlapPoint: {fileID: 4812040211412234257}
-    overlapType: 0
-    sphereRadius: 100
-    boxSize: {x: 1, y: 1, z: 1}
-    positionOffset: {x: 0, y: 0, z: 0}
-    maxCapacity: 10
-    colliderFound: 0
---- !u!114 &8420489221093117962
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 759616323773402500}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74515c59053a4ba3a662a21559d81e75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainGameStacks: {fileID: 11400000, guid: 4c147b4345416824f8968062d60f760a, type: 2}
-  ticker:
-    currentTick: 0
-    interval: 5
 --- !u!114 &3260595637832130824
 MonoBehaviour:
   m_ObjectHideFlags: 0

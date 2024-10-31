@@ -47,7 +47,7 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
         {
             _bulletPool = new AddressableGameObjectPool(strategy.assetReferenceGameObject);
             weaponOffensiveStats = strategy.GetWeaponOffensiveStats(_offensiveStats);
-            overlapNonAlloc.Initialize();
+            overlapNonAlloc.Initialize(transform);
             if (noDelayOnFirstFire) lastFireTime = Time.time - weaponOffensiveStats.fireRate;
         }
 

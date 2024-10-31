@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Soul.OverlapSugar.Runtime
 {
@@ -8,56 +7,37 @@ namespace Soul.OverlapSugar.Runtime
     public class OverlapNonAlloc
     {
         protected const float Half = 0.5f;
-        public LayerMask searchMask;
-        public Transform overlapPoint;
-
-        public OverlapType overlapType;
-
-        public float sphereRadius = 0.5f;
-        public Vector3 boxSize = Vector3.one;
-
-        [SerializeField] protected Vector3 positionOffset;
-
-        [Tooltip("The max number of colliders that can be found")]
-        public int maxCapacity = 4;
-
-        [FormerlySerializedAs("currentSize")]
-        [Tooltip("Don't set it in Inspector, it shows the number of collider found")]
-        public int colliderFound;
-
-        protected Collider[] FoundColliders;
-
-        public bool Initialized { get; private set; }
+        public OverlapConfig config;
+        public Transform transform;
 
         public void Initialize()
         {
-#if DEBUG
-            if (maxCapacity <= 0)
-                throw new ArgumentOutOfRangeException(nameof(maxCapacity));
-#endif
-            colliderFound = 0;
-            FoundColliders = new Collider[maxCapacity];
-            Initialized = true;
+            config.Initialize();
         }
 
+        public void Initialize(Transform pointTransform)
+        {
+            config.Initialize();
+            transform = pointTransform;
+
+#if DEBUG
+            if (transform == null)
+                throw new ArgumentNullException(nameof(transform));
+#endif
+        }
 
         public void SetOverlapPoint(Transform newOverlapPoint)
         {
-#if DEBUG
-            if (newOverlapPoint == null)
-                throw new ArgumentNullException(nameof(newOverlapPoint));
-#endif
-            overlapPoint = newOverlapPoint;
+            transform = newOverlapPoint;
         }
 
-        public void SetOverlapType(OverlapType type) => overlapType = type;
-
-        public void SetSearchMask(LayerMask newMask) => searchMask = newMask;
-        public void SetOffset(Vector3 offset) => positionOffset = offset;
+        public void SetOverlapType(OverlapType type) => config.overlapType = type;
+        public void SetSearchMask(LayerMask newMask) => config.searchMask = newMask;
+        public void SetOffset(Vector3 offset) => config.positionOffset = offset;
 
         public void SetBoxSize(Vector3 size)
         {
-            boxSize = size;
+            config.boxSize = size;
         }
 
         public void SetSphereRadius(float radius)
@@ -66,19 +46,34 @@ namespace Soul.OverlapSugar.Runtime
             if (radius < 0f)
                 throw new ArgumentOutOfRangeException(nameof(radius));
 #endif
-            sphereRadius = radius;
+            config.sphereRadius = radius;
         }
 
-        public bool Found() => colliderFound > 0;
+        public bool Found() => config.colliderCount > 0;
 
         public virtual int Perform()
         {
-            return Perform(overlapPoint.TransformPoint(positionOffset));
+            if (config.checkFirst && config.colliderCount == 0)
+            {
+                var position = transform.TransformPoint(config.positionOffset);
+                var quickCheck = config.overlapType switch
+                {
+                    OverlapType.Sphere => Physics.CheckSphere(position, config.sphereRadius, config.searchMask.value),
+                    OverlapType.Box => Physics.CheckBox(
+                        position, config.boxSize * Half, transform.rotation, config.searchMask.value
+                    ),
+                    _ => throw new ArgumentOutOfRangeException(nameof(config.overlapType))
+                };
+
+                if (!quickCheck) return config.colliderCount = 0;
+            }
+
+            return Perform(transform.TransformPoint(config.positionOffset));
         }
 
         protected int Perform(Vector3 position)
         {
-            return overlapType switch
+            return config.overlapType switch
             {
                 OverlapType.Sphere => OverlapSphere(position),
                 OverlapType.Box => OverlapBox(position),
@@ -89,44 +84,42 @@ namespace Soul.OverlapSugar.Runtime
 
         public int GetColliders(out Collider[] foundColliders)
         {
-            foundColliders = FoundColliders;
-            return colliderFound;
+            foundColliders = config.foundColliders;
+            return config.colliderCount;
         }
 
         private int OverlapBox(Vector3 position)
         {
-            colliderFound = Physics.OverlapBoxNonAlloc(position,
-                boxSize * Half,
-                FoundColliders,
-                overlapPoint.rotation,
-                searchMask.value);
-            return colliderFound;
+            config.colliderCount = Physics.OverlapBoxNonAlloc(position,
+                config.boxSize * Half,
+                config.foundColliders,
+                transform.rotation,
+                config.searchMask.value);
+            return config.colliderCount;
         }
 
 
         private int OverlapSphere(Vector3 position)
         {
-            colliderFound = Physics.OverlapSphereNonAlloc(position,
-                sphereRadius,
-                FoundColliders,
-                searchMask.value);
-            return colliderFound;
+            config.colliderCount = Physics.OverlapSphereNonAlloc(position,
+                config.sphereRadius,
+                config.foundColliders,
+                config.searchMask.value);
+            return config.colliderCount;
         }
 
         public bool TryGetClosest(out Collider closestCollider, out float distance)
         {
             closestCollider = null;
             distance = float.MaxValue;
-            if (colliderFound == 0) return false;
+            if (config.colliderCount == 0) return false;
 
-            for (int i = 0; i < colliderFound; i++)
+            for (int i = 0; i < config.colliderCount; i++)
             {
-                float currentDistance = Vector3.Distance(FoundColliders[i].transform.position, overlapPoint.position);
-                if (currentDistance < distance)
-                {
-                    distance = currentDistance;
-                    closestCollider = FoundColliders[i];
-                }
+                var currentDistance = Vector3.Distance(config.foundColliders[i].transform.position, transform.position);
+                if (currentDistance > distance) continue;
+                distance = currentDistance;
+                closestCollider = config.foundColliders[i];
             }
 
             return true;
@@ -136,42 +129,44 @@ namespace Soul.OverlapSugar.Runtime
         {
             furthestCollider = null;
             distance = float.MinValue;
-            if (colliderFound == 0) return false;
+            if (config.colliderCount == 0) return false;
 
-            for (int i = 0; i < colliderFound; i++)
+            for (int i = 0; i < config.colliderCount; i++)
             {
-                float currentDistance = Vector3.Distance(FoundColliders[i].transform.position, overlapPoint.position);
-                if (currentDistance > distance)
-                {
-                    distance = currentDistance;
-                    furthestCollider = FoundColliders[i];
-                }
+                float currentDistance =
+                    Vector3.Distance(config.foundColliders[i].transform.position, transform.position);
+                if (currentDistance < distance) continue;
+                distance = currentDistance;
+                furthestCollider = config.foundColliders[i];
             }
 
             return true;
         }
 
+
         public virtual void DrawGizmos(Color overlapColor, Color foundColor)
         {
 #if UNITY_EDITOR
-            if (overlapPoint == null) return;
+            if (transform == null) return;
 
-            Gizmos.matrix = overlapPoint.localToWorldMatrix;
-            Gizmos.color = colliderFound > 0 ? foundColor : overlapColor;
+            transform.GetPositionAndRotation(out Vector3 position, out Quaternion rotation);
+            Gizmos.matrix = Matrix4x4.TRS(position, rotation, Vector3.one);
+            Gizmos.color = config.colliderCount > 0 ? foundColor : overlapColor;
 
-            switch (overlapType)
+            switch (config.overlapType)
             {
                 case OverlapType.Sphere:
-                    Gizmos.DrawWireSphere(positionOffset, sphereRadius);
+                    Gizmos.DrawWireSphere(config.positionOffset, config.sphereRadius);
                     break;
                 case OverlapType.Box:
-                    Gizmos.DrawWireCube(positionOffset, boxSize);
+                    Gizmos.DrawWireCube(config.positionOffset, config.boxSize);
                     break;
-                default: throw new ArgumentOutOfRangeException(nameof(overlapType));
+                default: throw new ArgumentOutOfRangeException(nameof(config.overlapType));
             }
 
             Gizmos.color = foundColor;
-            for (int i = 0; i < colliderFound; i++) Gizmos.DrawWireSphere(FoundColliders[i].transform.position, 0.5f);
+            for (int i = 0; i < config.colliderCount; i++)
+                Gizmos.DrawWireSphere(config.foundColliders[i].transform.position, 0.5f);
 #endif
         }
     }
