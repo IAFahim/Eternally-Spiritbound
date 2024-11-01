@@ -8,8 +8,16 @@ using Random = UnityEngine.Random;
 namespace _Root.Scripts.Game.Stats.Runtime.Controller
 {
     [Serializable]
-    public class EntityStats : EntityStatsBase<Modifier>
+    public struct EntityStats
     {
+        public VitalityStats<Modifier> vitality;
+        public DefensiveStats<Modifier> defensive;
+        public MovementStats<Modifier> movement;
+        public ProgressionStats<Modifier> progression;
+        public CriticalStats<Modifier> critical;
+        public AmmoStats<Modifier> ammo;
+        public OffensiveStats<Modifier> offensive;
+
         public void Initialize()
         {
             vitality.health.current.SetValueWithoutNotify(vitality.health.max.Value);
