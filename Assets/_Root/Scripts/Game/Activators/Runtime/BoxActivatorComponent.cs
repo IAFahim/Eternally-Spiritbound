@@ -22,6 +22,7 @@ namespace _Root.Scripts.Game.Activators.Runtime
             if (!targetingStrategy.TryGetTarget(null, out _targetable))
             {
                 targetingStrategy.OnFoundEvent += TargetingStrategyOnFoundEvent;
+                targetingStrategy.StartTargetLookup();
             }
 
             _waitForSeconds = new WaitForSeconds(checkInterval);
@@ -84,7 +85,7 @@ namespace _Root.Scripts.Game.Activators.Runtime
             {
                 if (!bound.Contains(position)) continue;
                 activatorScript.Activate(targetTransform);
-                return true;
+                return isInside = true;
             }
 
             if (isInside)

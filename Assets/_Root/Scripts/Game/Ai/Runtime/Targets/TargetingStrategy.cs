@@ -6,6 +6,7 @@ namespace _Root.Scripts.Game.Ai.Runtime.Targets
 {
     public abstract class TargetingStrategy : ScriptableObject
     {
+        [SerializeField] protected bool isActive;
         public event Action<ITargetable> OnFoundEvent;
         public event Action<ITargetable, bool> OnLostEvent;
         public abstract bool TryGetTarget([CanBeNull] ITargeter targeter, out ITargetable targetable);

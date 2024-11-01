@@ -27,13 +27,14 @@ namespace _Root.Scripts.Game.Ai.Runtime.Targets
         private void OnEnable()
         {
             hasTarget = false;
-            if (targetingStrategy.TryGetTarget(this, out var targetable)) SetTarget(targetable);
-            else targetingStrategy.OnFoundEvent += SetTarget;
+            targetingStrategy.OnFoundEvent += SetTarget;
             targetingStrategy.OnLostEvent += RemoveTarget;
+            if (targetingStrategy.TryGetTarget(this, out var targetable)) SetTarget(targetable);
         }
 
         protected virtual void SetTarget(ITargetable targetable)
         {
+            if (_currentTarget != null) RemoveTarget(_currentTarget, false);
             if (targetable == null)
             {
                 hasTarget = false;

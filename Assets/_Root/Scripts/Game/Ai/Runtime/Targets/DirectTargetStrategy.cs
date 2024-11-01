@@ -1,4 +1,5 @@
 ﻿using _Root.Scripts.Game.Interactables.Runtime;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.Ai.Runtime.Targets
@@ -7,13 +8,15 @@ namespace _Root.Scripts.Game.Ai.Runtime.Targets
     public class DirectTargetStrategy : TargetingStrategy
     {
         [SerializeField] FocusManagerScript focusManager;
-        private ITargetable _currentTargetable;
+        [ShowInInspector] private ITargetable _currentTargetable;
 
         public override void StartTargetLookup()
         {
-            if (!focusManager.mainObject.TryGetComponent<ITargetable>(out var targetable)) return;
+            if (isActive || focusManager.mainObject != null &&
+                !focusManager.mainObject.TryGetComponent<ITargetable>(out _currentTargetable)) return;
             focusManager.OnMainChanged += FocusManagerOnMainChanged;
-            TargetFound(targetable);
+            isActive = true;
+            TargetFound(_currentTargetable);
         }
 
         private void FocusManagerOnMainChanged(GameObject mainGameobject)
@@ -46,6 +49,7 @@ namespace _Root.Scripts.Game.Ai.Runtime.Targets
             TargetLost(_currentTargetable, false);
             focusManager.OnMainChanged -= FocusManagerOnMainChanged;
             _currentTargetable = null;
+            isActive = false;
         }
     }
 }

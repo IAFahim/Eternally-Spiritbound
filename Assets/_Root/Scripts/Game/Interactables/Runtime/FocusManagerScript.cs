@@ -63,7 +63,6 @@ namespace _Root.Scripts.Game.Interactables.Runtime
         {
             PushFocus(handle.Result.GetComponent<IFocusEntryPoint>());
             _spawnedGameObjectCallBack?.Invoke(handle.Result);
-            OnMainChanged?.Invoke(handle.Result);
             _spawnedGameObjectCallBack = null;
         }
 
