@@ -11,10 +11,10 @@ namespace _Root.Scripts.Game.Ai.Runtime.Targets
         public event Action<ITargetable> OnTargetFound;
         public event Action<ITargetable, bool> OnTargetLost;
 
-        
+
         [SerializeField] private TargetingStrategy targetingStrategy;
         [SerializeField] private bool hasTarget;
-        
+
         [ShowInInspector] private ITargetable _currentTarget;
 
         public Transform Transform => transform;
@@ -27,7 +27,7 @@ namespace _Root.Scripts.Game.Ai.Runtime.Targets
         private void OnEnable()
         {
             hasTarget = false;
-            if (targetingStrategy.TryGetTarget(out var targetable)) SetTarget(targetable);
+            if (targetingStrategy.TryGetTarget(this, out var targetable)) SetTarget(targetable);
             else targetingStrategy.OnFoundEvent += SetTarget;
             targetingStrategy.OnLostEvent += RemoveTarget;
         }

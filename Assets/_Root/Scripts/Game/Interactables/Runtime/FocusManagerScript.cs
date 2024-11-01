@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using _Root.Scripts.Game.Inputs.Runtime;
-using Pancake;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -14,16 +13,18 @@ namespace _Root.Scripts.Game.Interactables.Runtime
     {
         public AssetReferenceGameObject mainGameObjectAssetReference;
         public GameObject mainObject;
-        
+
         public Vector3 MainObjectPosition => mainObject.transform.position;
-        
+
 
         public Camera mainCamera;
+        public event Action<GameObject> OnMainChanged;
 
         [Header("Input Actions")] [SerializeField]
         private InputActionReference moveAction;
 
         private FocusReferences _focusReferences;
+
         private Action<GameObject> _spawnedGameObjectCallBack;
 
         // Stack to store the focused GameObjects
@@ -62,12 +63,18 @@ namespace _Root.Scripts.Game.Interactables.Runtime
         {
             PushFocus(handle.Result.GetComponent<IFocusEntryPoint>());
             _spawnedGameObjectCallBack?.Invoke(handle.Result);
+            OnMainChanged?.Invoke(handle.Result);
             _spawnedGameObjectCallBack = null;
         }
 
         private void Setup(IFocusEntryPoint focusEntryPoint)
         {
-            if (focusEntryPoint.IsMain) mainObject = focusEntryPoint.GameObject;
+            if (focusEntryPoint.IsMain)
+            {
+                mainObject = focusEntryPoint.GameObject;
+                OnMainChanged?.Invoke(mainObject);
+            }
+
             AssignCamera(focusEntryPoint.GameObject, mainCamera);
             AssignMoveInput(focusEntryPoint.GameObject);
             AssignFocus(focusEntryPoint.GameObject);
@@ -121,6 +128,8 @@ namespace _Root.Scripts.Game.Interactables.Runtime
         public void Clear()
         {
             _focusReferences.Clear();
+            mainObject = null;
+            mainCamera = null;
             _focusStack.Clear();
             while (_focusStack.Count > 0) Pop();
         }

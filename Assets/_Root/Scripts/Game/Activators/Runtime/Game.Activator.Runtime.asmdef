@@ -1,0 +1,16 @@
+{
+    "name": "Game.Activator.Runtime",
+    "rootNamespace": "",
+    "references": [
+        "GUID:fe1b989c36a449f0a0f195bad35b34ff"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

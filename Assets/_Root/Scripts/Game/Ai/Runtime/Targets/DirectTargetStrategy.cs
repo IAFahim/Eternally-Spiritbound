@@ -1,5 +1,4 @@
 ﻿using _Root.Scripts.Game.Interactables.Runtime;
-using Pancake;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.Ai.Runtime.Targets
@@ -8,28 +7,45 @@ namespace _Root.Scripts.Game.Ai.Runtime.Targets
     public class DirectTargetStrategy : TargetingStrategy
     {
         [SerializeField] FocusManagerScript focusManager;
-        private Optional<ITargetable> _currentTargetable;
+        private ITargetable _currentTargetable;
 
-        public override void Activate()
+        public override void StartTargetLookup()
         {
             if (!focusManager.mainObject.TryGetComponent<ITargetable>(out var targetable)) return;
-            _currentTargetable = new Optional<ITargetable>(targetable);
+            focusManager.OnMainChanged += FocusManagerOnMainChanged;
             TargetFound(targetable);
         }
 
-        public override bool TryGetTarget(out ITargetable targetable)
+        private void FocusManagerOnMainChanged(GameObject mainGameobject)
         {
-            targetable = _currentTargetable.Value;
-            return _currentTargetable.Enabled;
+            if (!mainGameobject.TryGetComponent<ITargetable>(out var targetable)) return;
+            TargetFound(targetable);
         }
 
-        public override void Deactivate()
+        public override void TargetFound(ITargetable targetable)
         {
-            if (_currentTargetable.Enabled)
-            {
-                TargetLost(_currentTargetable.Value, false);
-                _currentTargetable = new Optional<ITargetable>(false, null);
-            }
+            if (_currentTargetable != null) TargetLost(_currentTargetable, false);
+            _currentTargetable = targetable;
+            InvokeTargetFound(targetable);
+        }
+
+        public override void TargetLost(ITargetable targetable, bool onDisable)
+        {
+            InvokeTargetLost(targetable, onDisable);
+        }
+
+        public override bool TryGetTarget(ITargeter _, out ITargetable targetable)
+        {
+            targetable = _currentTargetable;
+            return targetable != null;
+        }
+
+        public override void StopTargetLookup()
+        {
+            if (_currentTargetable == null) return;
+            TargetLost(_currentTargetable, false);
+            focusManager.OnMainChanged -= FocusManagerOnMainChanged;
+            _currentTargetable = null;
         }
     }
 }
