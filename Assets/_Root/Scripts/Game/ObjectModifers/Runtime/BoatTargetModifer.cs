@@ -12,7 +12,7 @@ namespace _Root.Scripts.Game.ObjectModifers.Runtime
 
         public override void Modify(GameObject gameObject)
         {
-            var targeterComponent = gameObject.AddComponent<TargeterComponent, TargetingStrategy>(targetingStrategy);
+            var targeterComponent = gameObject.AddComponent<TargeterComponent, TargetStrategy>(targetStrategy);
             gameObject.AddComponent<BoatContextSteering,
                 BoatContextConfig, ITargeter>(boatContextConfig, targeterComponent);
         }

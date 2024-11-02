@@ -7,5 +7,7 @@ namespace _Root.Scripts.Game.Activators.Runtime
         public abstract void Activate(Transform activatorInvoker);
 
         public abstract void Deactivate(Transform activatorInvoker);
+        
+        public abstract void CleanUp();
     }
 }

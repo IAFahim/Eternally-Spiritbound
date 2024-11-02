@@ -1,35 +1,33 @@
 ﻿using System;
-using Pancake;
 using Sirenix.OdinInspector;
 using Sisus.Init;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Game.Ai.Runtime.Targets
 {
-    public class TargeterComponent : MonoBehaviour<TargetingStrategy>, ITargeter
+    public class TargeterComponent : MonoBehaviour<TargetStrategy>, ITargeter
     {
         public event Action<ITargetable> OnTargetFound;
         public event Action<ITargetable, bool> OnTargetLost;
 
 
-        [SerializeField] private TargetingStrategy targetingStrategy;
+        [FormerlySerializedAs("targetingStrategy")] [SerializeField] private TargetStrategy targetStrategy;
         [SerializeField] private bool hasTarget;
 
         [ShowInInspector] private ITargetable _currentTarget;
 
         public Transform Transform => transform;
-        public TargetingStrategy TargetingStrategy => targetingStrategy;
+        public TargetStrategy TargetStrategy => targetStrategy;
         public ITargetable CurrentTarget => _currentTarget;
         public bool HasTarget => hasTarget;
 
-        protected override void Init(TargetingStrategy argument) => targetingStrategy = argument;
+        protected override void Init(TargetStrategy argument) => targetStrategy = argument;
 
         private void OnEnable()
         {
             hasTarget = false;
-            targetingStrategy.OnFoundEvent += SetTarget;
-            targetingStrategy.OnLostEvent += RemoveTarget;
-            if (targetingStrategy.TryGetTarget(this, out var targetable)) SetTarget(targetable);
+            targetStrategy.Register(this, SetTarget, RemoveTarget);
         }
 
         protected virtual void SetTarget(ITargetable targetable)
@@ -57,8 +55,7 @@ namespace _Root.Scripts.Game.Ai.Runtime.Targets
         private void OnDisable()
         {
             if (_currentTarget != null) _currentTarget.RemoveTargeter(this);
-            targetingStrategy.OnLostEvent -= RemoveTarget;
-            targetingStrategy.OnFoundEvent -= SetTarget;
+            targetStrategy.UnRegister(this, SetTarget, RemoveTarget);
         }
     }
 }

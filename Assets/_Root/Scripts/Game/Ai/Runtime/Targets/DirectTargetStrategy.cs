@@ -1,55 +1,73 @@
-﻿using _Root.Scripts.Game.Interactables.Runtime;
+﻿using System;
+using _Root.Scripts.Game.Interactables.Runtime;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.Ai.Runtime.Targets
 {
     [CreateAssetMenu(menuName = "Scriptable/TargetingStrategy/Direct")]
-    public class DirectTargetStrategy : TargetingStrategy
+    public class DirectTargetStrategy : TargetStrategy
     {
         [SerializeField] FocusManagerScript focusManager;
+        [SerializeField] private bool targetFound;
         [ShowInInspector] private ITargetable _currentTargetable;
 
-        public override void StartTargetLookup()
+        public override void Start()
         {
-            if (isActive || focusManager.mainObject != null &&
-                !focusManager.mainObject.TryGetComponent<ITargetable>(out _currentTargetable)) return;
-            focusManager.OnMainChanged += FocusManagerOnMainChanged;
+            if (isActive) return;
+            targetFound = false;
             isActive = true;
-            TargetFound(_currentTargetable);
+            focusManager.OnMainChanged += FocusManagerOnMainChanged;
+            if (focusManager.mainObject != null) FocusManagerOnMainChanged(focusManager.mainObject);
         }
 
-        private void FocusManagerOnMainChanged(GameObject mainGameobject)
+        public override void Register(ITargeter targeter, Action<ITargetable> onTargetFound,
+            Action<ITargetable, bool> onTargetLost)
         {
-            if (!mainGameobject.TryGetComponent<ITargetable>(out var targetable)) return;
-            TargetFound(targetable);
+            FoundCallBack += onTargetFound;
+            LostCallback += onTargetLost;
+            if (targetFound) onTargetFound?.Invoke(_currentTargetable);
         }
 
-        public override void TargetFound(ITargetable targetable)
+        public override void UnRegister(ITargeter targeter, Action<ITargetable> onTargetFound,
+            Action<ITargetable, bool> onTargetLost)
         {
-            if (_currentTargetable != null) TargetLost(_currentTargetable, false);
+            FoundCallBack -= onTargetFound;
+            LostCallback -= onTargetLost;
+        }
+
+
+        public override void Set(ITargetable targetable)
+        {
+            if (targetFound) Remove(_currentTargetable, false);
             _currentTargetable = targetable;
-            InvokeTargetFound(targetable);
+            targetFound = true;
+            FoundCallBack?.Invoke(targetable);
         }
 
-        public override void TargetLost(ITargetable targetable, bool onDisable)
+        public override void Remove(ITargetable targetable, bool onDisable)
         {
-            InvokeTargetLost(targetable, onDisable);
+            if (targetFound)
+            {
+                LostCallback?.Invoke(targetable, onDisable);
+                targetFound = false;
+                _currentTargetable = null;
+            }
         }
 
-        public override bool TryGetTarget(ITargeter _, out ITargetable targetable)
+        public override void Stop()
         {
-            targetable = _currentTargetable;
-            return targetable != null;
-        }
-
-        public override void StopTargetLookup()
-        {
-            if (_currentTargetable == null) return;
-            TargetLost(_currentTargetable, false);
             focusManager.OnMainChanged -= FocusManagerOnMainChanged;
-            _currentTargetable = null;
+            Remove(_currentTargetable, false);
+            FoundCallBack = null;
             isActive = false;
+            targetFound = false;
+            LostCallback = null;
+        }
+
+        private void FocusManagerOnMainChanged(GameObject mainGameObject)
+        {
+            if (mainGameObject.TryGetComponent<ITargetable>(out var targetable)) Set(targetable);
         }
     }
 }
