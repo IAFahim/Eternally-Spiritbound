@@ -30,6 +30,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 325cc20d860337d46b2ba6130c890ec0
+    m_Address: Assets/_Root/Prefabs/Cinemachines/Cinemachine Shop.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 37c8fdfec2ad2544591ab44b83d20da0
     m_Address: Assets/_Root/Prefabs/Cinemachines/Cinemachine Character.prefab
     m_ReadOnly: 0

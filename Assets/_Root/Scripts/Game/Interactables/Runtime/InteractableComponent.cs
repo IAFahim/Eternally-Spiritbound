@@ -1,4 +1,5 @@
-﻿using Pancake;
+﻿using System;
+using Pancake;
 using Soul.Interactables.Runtime;
 using Soul.Pools.Runtime;
 using UnityEngine;
@@ -10,38 +11,40 @@ namespace _Root.Scripts.Game.Interactables.Runtime
     {
         public Optional<AssetReferenceGameObject> interactableConfirmHelperAsset;
         [SerializeField] private Vector3 offset = new(0, 5, 0);
-        private IInteractableConfirmHelper _interactableConfirmHelper;
-        [SerializeField] private FocusEntryPointComponent focusEntryPointComponent;
+        private IInteractorEntryPoint _interactorEntryPoint;
+        private IInteractableConfirmHelper _currentInteractableConfirmHelper;
 
         public Transform Transform => transform;
+
+        private void Awake() => _interactorEntryPoint = GetComponent<IInteractorEntryPoint>();
 
         public virtual void OnInteractableDetected(IInteractorEntryPoint interactorEntryPoint)
         {
             Debug.Log("Detected");
             if (interactableConfirmHelperAsset.Enabled && interactorEntryPoint.IsFocused)
             {
-                _interactableConfirmHelper ??= interactableConfirmHelperAsset.Value
+                _currentInteractableConfirmHelper ??= interactableConfirmHelperAsset.Value
                     .Request(transform.TransformPoint(offset), Quaternion.identity)
                     .GetComponent<IInteractableConfirmHelper>();
 
-                _interactableConfirmHelper.Active(this);
+                _currentInteractableConfirmHelper.Active(this);
             }
         }
 
 
         public virtual void OnInteractableDetectionLost(IInteractorEntryPoint interactorEntryPoint)
         {
-            if (interactableConfirmHelperAsset.Enabled) _interactableConfirmHelper?.Hide();
+            if (interactableConfirmHelperAsset.Enabled) _currentInteractableConfirmHelper?.Hide();
         }
 
         public virtual void OnInteractionStarted(IInteractorEntryPoint interactorEntryPoint)
         {
-            if (interactorEntryPoint.IsFocused) focusEntryPointComponent.IsFocused = true;
+            if (interactorEntryPoint.IsFocused) _interactorEntryPoint.IsFocused = true;
         }
 
         public virtual void OnInteractionEnded(IInteractorEntryPoint interactorEntryPoint)
         {
-            if (interactorEntryPoint.IsFocused) focusEntryPointComponent.IsFocused = false;
+            if (interactorEntryPoint.IsFocused) _interactorEntryPoint.IsFocused = false;
         }
 
 #if UNITY_EDITOR

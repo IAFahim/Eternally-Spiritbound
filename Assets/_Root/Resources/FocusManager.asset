@@ -18,9 +18,6 @@ MonoBehaviour:
     m_SubObjectGUID: 
     m_SubObjectType: 
     m_EditorAssetChanged: 1
-  mainGameObjectInstance: {fileID: 0}
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 32768
+  mainObject: {fileID: 0}
   mainCamera: {fileID: 0}
   moveAction: {fileID: -1680190386980627800, guid: 9334937fad4e1ad4ba5357282c93ace5, type: 3}

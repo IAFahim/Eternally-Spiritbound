@@ -16,10 +16,5 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
             _cinemachineCache = spawnedCinemachine.GetComponent<CinemachineCamera>();
             _cinemachineCache.Follow = TargetGameObject.transform;
         }
-
-        public override void OnFocusLost(GameObject targetGameObject)
-        {
-            _cinemachineCache.gameObject.SetActive(false);
-        }
     }
 }

@@ -77,7 +77,6 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 
         public override void OnFocusLost(GameObject targetGameObject)
         {
-            base.OnFocusLost(targetGameObject);
             CleanHealthBar();
         }
     }

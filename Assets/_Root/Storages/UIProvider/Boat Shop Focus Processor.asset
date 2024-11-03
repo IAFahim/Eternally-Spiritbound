@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Boat Shop Focus Processor
   m_EditorClassIdentifier: 
   cinemachineAsset:
-    m_AssetGUID: b351a3825d6462c459ee036f28f7dd99
+    m_AssetGUID: 325cc20d860337d46b2ba6130c890ec0
     m_SubObjectName: 
     m_SubObjectGUID: 
     m_SubObjectType: 

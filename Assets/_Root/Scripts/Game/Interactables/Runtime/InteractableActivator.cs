@@ -11,19 +11,15 @@ namespace _Root.Scripts.Game.Interactables.Runtime
     /// Manages interactions between game objects by detecting overlaps and handling hover events.
     /// </summary>
     [DisallowMultipleComponent]
-    [SelectionBase]
-    public class InteractorAndFocusEntryPoint : FocusEntryPointComponent
+    public class InteractableActivator : MonoBehaviour
     {
         [SerializeField] private IntervalTicker ticker;
         [SerializeField] private OverlapNonAlloc interactableOverlapChecked;
-
         private readonly List<InteractableInfo> _interactableInfos = new();
+        private IInteractorEntryPoint _interactorEntryPoint;
 
-        private void Start()
-        {
-            interactableOverlapChecked.Initialize(transform);
-        }
-
+        private void Awake() => _interactorEntryPoint = GetComponent<IInteractorEntryPoint>();
+        private void Start() => interactableOverlapChecked.Initialize(transform);
 
         private void OnDisable()
         {
@@ -34,7 +30,7 @@ namespace _Root.Scripts.Game.Interactables.Runtime
         {
             foreach (var interactableInfo in _interactableInfos)
             {
-                interactableInfo.Interactable.OnInteractableDetectionLost(this);
+                interactableInfo.Interactable.OnInteractableDetectionLost(_interactorEntryPoint);
             }
 
             _interactableInfos.Clear();
@@ -58,7 +54,7 @@ namespace _Root.Scripts.Game.Interactables.Runtime
                 if (InteractableInfo.ListContains(_interactableInfos, root)) continue;
                 if (!root.TryGetComponent(out IInteractable interactable)) continue;
                 _interactableInfos.Add(new InteractableInfo(root, currentCollider, interactable));
-                interactable.OnInteractableDetected(this);
+                interactable.OnInteractableDetected(_interactorEntryPoint);
             }
         }
 
@@ -70,7 +66,7 @@ namespace _Root.Scripts.Game.Interactables.Runtime
                 if (!interactableInfo.IsActiveInRange(transform.position,
                         interactableOverlapChecked.config.sphereRadius))
                 {
-                    interactableInfo.Interactable.OnInteractableDetectionLost(this);
+                    interactableInfo.Interactable.OnInteractableDetectionLost(_interactorEntryPoint);
                     _interactableInfos.RemoveAt(i);
                 }
             }
@@ -103,7 +99,7 @@ namespace _Root.Scripts.Game.Interactables.Runtime
         public readonly int Hash;
         public readonly GameObject GameObject;
         public readonly float BoundsExtentsMagnitude;
-        public IInteractable Interactable;
+        public readonly IInteractable Interactable;
 
         public InteractableInfo(Transform transform, Collider collider, IInteractable interactable)
         {
@@ -132,14 +128,8 @@ namespace _Root.Scripts.Game.Interactables.Runtime
             return false;
         }
 
-        public bool Equals(InteractableInfo other)
-        {
-            return Hash == other.Hash;
-        }
+        public bool Equals(InteractableInfo other) => Hash == other.Hash;
 
-        public override bool Equals(object obj)
-        {
-            return obj is InteractableInfo other && Equals(other);
-        }
+        public override bool Equals(object obj) => obj is InteractableInfo other && Equals(other);
     }
 }

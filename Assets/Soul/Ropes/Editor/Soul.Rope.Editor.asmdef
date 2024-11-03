@@ -1,8 +1,8 @@
 {
-    "name": "Soul.Modifier.Editor",
+    "name": "Soul.Rope.Editor",
     "rootNamespace": "",
     "references": [
-        "GUID:698d096167474a9ea2894daf814f6b40"
+        "GUID:357b91beddfef8f4caf759e4480ee982"
     ],
     "includePlatforms": [
         "Editor"

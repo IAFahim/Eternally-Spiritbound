@@ -6,7 +6,7 @@ namespace _Root.Scripts.Game.Interactables.Runtime
 {
     [DisallowMultipleComponent]
     [SelectionBase]
-    public class FocusEntryPointComponent : MonoBehaviour, IFocusEntryPoint
+    public class FocusAndInteractableEntryPointComponent : MonoBehaviour, IFocusEntryPoint
     {
         [SerializeField] private bool isMain;
         [SerializeField] private bool isFocused;
@@ -36,8 +36,8 @@ namespace _Root.Scripts.Game.Interactables.Runtime
         public void PushFocus(FocusReferences focusReferences)
         {
             isFocused = true;
-            focusProcessorScript.SetFocus(focusReferences);
             OnPushFocus?.Invoke(gameObject);
+            focusProcessorScript.SetFocus(focusReferences);
         }
 
         public void RemoveFocus(GameObject targetGameObject)
