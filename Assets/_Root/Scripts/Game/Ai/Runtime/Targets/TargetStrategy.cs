@@ -6,7 +6,7 @@ namespace _Root.Scripts.Game.Ai.Runtime.Targets
 {
     public abstract class TargetStrategy : ScriptableObject
     {
-        [SerializeField] protected bool isActive;
+        protected bool IsActive;
         protected Action<ITargetable> FoundCallBack;
         protected Action<ITargetable, bool> LostCallback;
 

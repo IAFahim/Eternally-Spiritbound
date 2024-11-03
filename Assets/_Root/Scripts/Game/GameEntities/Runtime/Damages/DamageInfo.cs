@@ -4,13 +4,13 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Damages
 {
     public struct DamageInfo
     {
-        public GameObject Damaged;
-        public float DamageDealt;
-        
+        public GameObject damagedGameObject;
+        public float damage;
+
         public DamageInfo(GameObject damaged, float damageDealt)
         {
-            this.Damaged = damaged;
-            this.DamageDealt = damageDealt;
+            damagedGameObject = damaged;
+            damage = damageDealt;
         }
     }
 }

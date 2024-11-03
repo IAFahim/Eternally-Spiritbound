@@ -94,7 +94,7 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
 
         private void OnAttackHit(Attack arg1, DamageInfo arg2)
         {
-            Debug.Log("Hit: " + arg2.Damaged.name);
+            Debug.Log("Hit: " + arg2.damagedGameObject.name);
         }
 
         public void Dispose()

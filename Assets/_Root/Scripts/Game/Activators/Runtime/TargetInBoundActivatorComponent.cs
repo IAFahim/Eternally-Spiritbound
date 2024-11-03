@@ -18,7 +18,6 @@ namespace _Root.Scripts.Game.Activators.Runtime
 
         [SerializeField] private IntervalTicker checkInterval;
 
-        [ShowInInspector] private bool _targetFound;
         private ITargetable _targetable;
 
         private void OnEnable()
@@ -34,13 +33,11 @@ namespace _Root.Scripts.Game.Activators.Runtime
 
         private void ClearTarget()
         {
-            _targetFound = false;
             _targetable = null;
         }
 
         private void OnTargetFound(ITargetable targetable)
         {
-            _targetFound = true;
             _targetable = targetable;
         }
 
@@ -52,8 +49,7 @@ namespace _Root.Scripts.Game.Activators.Runtime
 
         private void CheckForTargets()
         {
-            if (!_targetFound) return;
-            ProcessBounds();
+            if (_targetable != null) ProcessBounds();
         }
 
         private void ProcessBounds()
@@ -80,7 +76,7 @@ namespace _Root.Scripts.Game.Activators.Runtime
         private void OnDisable()
         {
             targetStrategy.UnRegister(null, OnTargetFound, OnTargetLost);
-            if (_targetFound && _targetable != null && _targetable.Transform != null)
+            if (_targetable != null && (_targetable.Transform ?? false))
             {
                 activatorScript.Deactivate(_targetable.Transform);
             }

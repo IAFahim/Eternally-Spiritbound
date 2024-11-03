@@ -20,6 +20,7 @@ namespace _Root.Scripts.Game.GameEntities.Runtime
 
         private void OnEnable()
         {
+            _entityStatsReference.EntityStats.Initialize();
             _entityStatsReference.EntityStats.vitality.health.current.OnChange += OnHealthChange;
         }
 

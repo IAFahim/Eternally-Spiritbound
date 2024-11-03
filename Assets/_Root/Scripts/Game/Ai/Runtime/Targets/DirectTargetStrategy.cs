@@ -1,6 +1,5 @@
 ﻿using System;
 using _Root.Scripts.Game.Interactables.Runtime;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.Ai.Runtime.Targets
@@ -9,14 +8,14 @@ namespace _Root.Scripts.Game.Ai.Runtime.Targets
     public class DirectTargetStrategy : TargetStrategy
     {
         [SerializeField] FocusManagerScript focusManager;
-        [SerializeField] private bool targetFound;
-        [ShowInInspector] private ITargetable _currentTargetable;
+        private bool _targetFound;
+        private ITargetable _currentTargetable;
 
         public override void Start()
         {
-            if (isActive) return;
-            targetFound = false;
-            isActive = true;
+            if (IsActive) return;
+            _targetFound = false;
+            IsActive = true;
             focusManager.OnMainChanged += FocusManagerOnMainChanged;
             if (focusManager.mainObject != null) FocusManagerOnMainChanged(focusManager.mainObject);
         }
@@ -26,7 +25,7 @@ namespace _Root.Scripts.Game.Ai.Runtime.Targets
         {
             FoundCallBack += onTargetFound;
             LostCallback += onTargetLost;
-            if (targetFound) onTargetFound?.Invoke(_currentTargetable);
+            if (_targetFound) onTargetFound?.Invoke(_currentTargetable);
         }
 
         public override void UnRegister(ITargeter targeter, Action<ITargetable> onTargetFound,
@@ -39,18 +38,18 @@ namespace _Root.Scripts.Game.Ai.Runtime.Targets
 
         public override void Set(ITargetable targetable)
         {
-            if (targetFound) Remove(_currentTargetable, false);
+            if (_targetFound) Remove(_currentTargetable, false);
             _currentTargetable = targetable;
-            targetFound = true;
+            _targetFound = true;
             FoundCallBack?.Invoke(targetable);
         }
 
         public override void Remove(ITargetable targetable, bool onDisable)
         {
-            if (targetFound)
+            if (_targetFound)
             {
                 LostCallback?.Invoke(targetable, onDisable);
-                targetFound = false;
+                _targetFound = false;
                 _currentTargetable = null;
             }
         }
@@ -60,8 +59,8 @@ namespace _Root.Scripts.Game.Ai.Runtime.Targets
             focusManager.OnMainChanged -= FocusManagerOnMainChanged;
             Remove(_currentTargetable, false);
             FoundCallBack = null;
-            isActive = false;
-            targetFound = false;
+            IsActive = false;
+            _targetFound = false;
             LostCallback = null;
         }
 
