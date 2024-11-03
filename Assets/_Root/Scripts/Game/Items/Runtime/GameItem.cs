@@ -1,6 +1,7 @@
 using System;
 using _Root.Scripts.Game.Interactables.Runtime;
-using Pancake;
+using _Root.Scripts.Model.Assets.Runtime;
+using JetBrains.Annotations;
 using Soul.Items.Runtime;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -9,14 +10,10 @@ namespace _Root.Scripts.Game.Items.Runtime
 {
     [Serializable]
     [CreateAssetMenu(fileName = "Coin", menuName = "Scriptable/Items/New")]
-    public class GameItem : StringConstant, IItemBase<GameObject>, IPickupStrategy, IDropStrategy
+    public class GameItem : AssetBase, IItemBase<GameObject>, IPickupStrategy, IDropStrategy
     {
-        [Guid] public string guid;
-        public AssetReferenceGameObject assetReferenceGameObject;
         public DropStrategyScriptable dropStrategy;
 
-        [SerializeField, TextArea(3, 10)] public string description;
-        [SerializeField] private Sprite icon;
         [SerializeField] private int maxStack;
         [SerializeField] private bool consumable;
 
@@ -25,7 +22,7 @@ namespace _Root.Scripts.Game.Items.Runtime
         [SerializeField] private float pickupRange = 5;
         public string ItemName => value;
         public string Description => description;
-        public Sprite Icon => icon;
+        [CanBeNull] public Sprite Icon => icon;
         public bool Consumable => consumable;
         public bool DropOnDeath => dropOnDeath;
         public bool IsStackable => maxStack > 1;

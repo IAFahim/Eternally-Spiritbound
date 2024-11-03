@@ -127,18 +127,8 @@ MonoBehaviour:
     leanAmount: {x: -10, y: 0, z: -10}
     model: {fileID: 1516211408497349390}
     boost: 10
-  maxForwardSpeed: 100
-  maxReverseSpeed: 100
-  turnTorque: 10
-  accelerationForce: 100
-  reverseAccelerationForce: 100
-  waterDrag: 0.99
-  waterLevel: 0
-  buoyancyForce: 100
-  waveIntensity: 5
-  waveFrequency: 1.41
-  stabilizationTorque: 5000
-  dampingFactor: 5
+  parameterScript: {fileID: 11400000, guid: c85af2ed0908c04449fcb6e6c078b4ec, type: 2}
+  waterParameterScript: {fileID: 11400000, guid: 69dcdbe808817c44a9b58a9878b07932, type: 2}
 --- !u!136 &7943169366095257837
 CapsuleCollider:
   m_ObjectHideFlags: 0

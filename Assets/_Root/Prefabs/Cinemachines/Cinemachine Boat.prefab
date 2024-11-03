@@ -58,12 +58,12 @@ MonoBehaviour:
     LookAtTarget: {fileID: 0}
     CustomLookAtTarget: 0
   Lens:
-    FieldOfView: 80.5
+    FieldOfView: 94.3
     OrthographicSize: 60
-    NearClipPlane: 0
+    NearClipPlane: 0.01
     FarClipPlane: 800
     Dutch: 0
-    ModeOverride: 1
+    ModeOverride: 2
     PhysicalProperties:
       GateFit: 2
       SensorSize: {x: 21.946, y: 16.002}
@@ -89,7 +89,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b5d7c088409d9a40b7b09aa707777f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TargetOffset: {x: 0, y: 37.8, z: -21.4}
+  TargetOffset: {x: 0, y: 47.3, z: -21.4}
   TrackerSettings:
     BindingMode: 1
     PositionDamping: {x: 0.2, y: 0.09, z: 0.2}
@@ -162,7 +162,7 @@ MonoBehaviour:
       Size: {x: 0.05, y: 0.2}
       Offset: {x: 0, y: 0}
   CenterOnActivate: 0
-  TargetOffset: {x: 0, y: -5.32, z: 5.85}
+  TargetOffset: {x: 0, y: -5.32, z: -4.29}
   Damping: {x: 0.2, y: 0}
   Lookahead:
     Enabled: 0

@@ -30,5 +30,5 @@ MonoBehaviour:
     m_SubObjectGUID: 
     m_SubObjectType: 
     m_EditorAssetChanged: 1
+  flashConfigScript: {fileID: 11400000, guid: 75e53dfdddcbd1d46af867338d0a8e69, type: 2}
   timeScaleStopDuration: 0.2
-  targetFlashMaterial: {fileID: 2100000, guid: 3a556adc22f1648168eaea6a468dd260, type: 2}

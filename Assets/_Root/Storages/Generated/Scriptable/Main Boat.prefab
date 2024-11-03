@@ -10,16 +10,15 @@ GameObject:
   m_Component:
   - component: {fileID: 7696365957442595197}
   - component: {fileID: 4005976243181236938}
-  - component: {fileID: 3218355101637811191}
   - component: {fileID: 8831869716190575360}
-  - component: {fileID: 3804166669297714955}
   - component: {fileID: 6507483202309687907}
+  - component: {fileID: 4121787031315781494}
+  - component: {fileID: 3218355101637811191}
+  - component: {fileID: 3804166669297714955}
   - component: {fileID: 8276661147418209448}
   - component: {fileID: 1559882521595817238}
   - component: {fileID: 8240035573106982839}
-  - component: {fileID: 2967765315979642178}
   - component: {fileID: 9215854104336800689}
-  - component: {fileID: 4121787031315781494}
   m_Layer: 15
   m_Name: Main Boat
   m_TagString: Untagged
@@ -70,6 +69,47 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &8831869716190575360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5605311547021212894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce5b3c68086d4e5fae1e624749d67a9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6507483202309687907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5605311547021212894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7bb8b47e0a344599e871f3d44ac4caa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  titleGuid: {fileID: 11400000, guid: 31ce8a7468230ef4f8963fe0b07d0849, type: 2}
+--- !u!114 &4121787031315781494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5605311547021212894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a928920dbbf4f9fbdddd300464f2173, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isMain: 1
+  isFocused: 0
+  focusProcessorScript: {fileID: 11400000, guid: 504908bcd412d3e43a5d0dc7df342b18, type: 2}
+  focusManagerScript: {fileID: 11400000, guid: 4c147b4345416824f8968062d60f760a, type: 2}
 --- !u!114 &3218355101637811191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99,18 +139,6 @@ MonoBehaviour:
       checkFirst: 0
       foundColliders: []
     transform: {fileID: 0}
---- !u!114 &8831869716190575360
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5605311547021212894}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce5b3c68086d4e5fae1e624749d67a9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3804166669297714955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,31 +157,8 @@ MonoBehaviour:
     leanAmount: {x: -10, y: 0, z: -10}
     model: {fileID: 4792150904965261706}
     boost: 10
-  maxForwardSpeed: 50
-  maxReverseSpeed: 25
-  turnTorque: 5
-  accelerationForce: 50
-  reverseAccelerationForce: 25
-  waterDrag: 0.99
-  waterLevel: 0
-  buoyancyForce: 100
-  waveIntensity: 5
-  waveFrequency: 1.41
-  stabilizationTorque: 5000
-  dampingFactor: 5
---- !u!114 &6507483202309687907
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5605311547021212894}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7bb8b47e0a344599e871f3d44ac4caa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  titleGuid: {fileID: 11400000, guid: 31ce8a7468230ef4f8963fe0b07d0849, type: 2}
+  parameterScript: {fileID: 11400000, guid: c85af2ed0908c04449fcb6e6c078b4ec, type: 2}
+  waterParameterScript: {fileID: 11400000, guid: 69dcdbe808817c44a9b58a9878b07932, type: 2}
 --- !u!114 &8276661147418209448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,30 +343,6 @@ MonoBehaviour:
   mountPosition: {x: 0, y: 0, z: 0}
   exitPosition: {x: 0, y: 0, z: 0}
   boatController: {fileID: 3804166669297714955}
---- !u!114 &2967765315979642178
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5605311547021212894}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b7b1b0e0cab46a1af222db7d02b6a59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  targetRenderer: {fileID: 5965597179624723173}
-  entityStatsReference: {fileID: 1559882521595817238}
-  flashConfigScript: {fileID: 11400000, guid: 75e53dfdddcbd1d46af867338d0a8e69, type: 2}
 --- !u!114 &9215854104336800689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -374,22 +355,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b9a046f4fb14448aff3b2d93a6469a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4121787031315781494
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5605311547021212894}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a928920dbbf4f9fbdddd300464f2173, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isMain: 1
-  isFocused: 0
-  focusProcessorScript: {fileID: 11400000, guid: 504908bcd412d3e43a5d0dc7df342b18, type: 2}
-  focusManagerScript: {fileID: 11400000, guid: 4c147b4345416824f8968062d60f760a, type: 2}
 --- !u!1001 &4975240254575873633
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -491,8 +456,3 @@ CapsuleCollider:
   m_Height: 6.0679436
   m_Direction: 2
   m_Center: {x: 0, y: 1.3939831, z: -0.29963112}
---- !u!23 &5965597179624723173 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: c272dabf493c3b641a6eebfd4e74ad3c, type: 3}
-  m_PrefabInstance: {fileID: 4975240254575873633}
-  m_PrefabAsset: {fileID: 0}

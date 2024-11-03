@@ -1,13 +1,15 @@
 ﻿using _Root.Scripts.Game.GameEntities.Runtime.Attacks;
 using _Root.Scripts.Game.GameEntities.Runtime.Damages;
 using _Root.Scripts.Game.Stats.Runtime.Controller;
+using _Root.Scripts.Game.Stats.Runtime.Model;
 using _Root.Scripts.Game.Storages.Runtime;
+using Soul.Modifiers.Runtime;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.GameEntities.Runtime
 {
     [DisallowMultipleComponent, SelectionBase]
-    public class GameEntity : MonoBehaviour, IDamage
+    public class GameEntity : MonoBehaviour, IDamage, IHealth
     {
         private IGameItemStorageReference _itemStorageReference;
         private IEntityStatsReference _entityStatsReference;
@@ -68,5 +70,6 @@ namespace _Root.Scripts.Game.GameEntities.Runtime
         {
             return _entityStatsReference.EntityStats.TryKill(damage, out damageDelt);
         }
+        public EnableLimitStat<Modifier> Value => _entityStatsReference.EntityStats.vitality.health;
     }
 }

@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a77940c56ed6466f954096a868a1b14b, type: 3}
   m_Name: boat_base_key
   m_EditorClassIdentifier: 
-  value: Boat
+  value: Tow Boat
   guid: 697cab1e3c424be

@@ -1,47 +1,51 @@
-﻿using System;
-using _Root.Scripts.Game.Consmatics.Runtime;
+﻿using _Root.Scripts.Game.Consmatics.Runtime;
 using _Root.Scripts.Game.GameEntities.Runtime;
-using Pancake;
 using Pancake.Common;
+using Sisus.Init;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.Interactions.Runtime
 {
-    [RequireComponent(typeof(GameEntity))]
-    public class OnDamageFlash : GameComponent
+    public class DamageFlash : MonoBehaviour<FlashConfigScript>
     {
-        [SerializeField] private Renderer targetRenderer;
-        [SerializeField] private EntityStatsComponent entityStatsReference;
-        
+        private FlashConfigScript _flashConfigScript;
+        private Renderer _targetRenderer;
+        private IHealth _health;
         private Material _defaultMaterial;
         private DelayHandle _delayHandle;
-        public FlashConfigScript flashConfigScript;
-        
+
+        protected override void Init(FlashConfigScript argument)
+        {
+            _flashConfigScript = argument;
+        }
+
+        protected override void OnAwake()
+        {
+            base.OnAwake();
+            _health = GetComponent<IHealth>();
+            _targetRenderer = GetComponentInChildren<Renderer>();
+            _defaultMaterial = _targetRenderer.material;
+        }
+
         public void OnEnable()
         {
-            _defaultMaterial = targetRenderer.material;
-            entityStatsReference.EntityStats.vitality.health.current.OnChange += OnHealthChange;
+            _defaultMaterial = _targetRenderer.material;
+            _health.Value.current.OnChange += OnHealthChange;
+        }
+        
+        public void OnDisable()
+        {
+            _health.Value.current.OnChange -= OnHealthChange;
+            _delayHandle?.Cancel();
+            Restore();
         }
 
         private void OnHealthChange(float old, float current)
         {
-            flashConfigScript.Flash(targetRenderer);
-            _delayHandle = App.Delay(flashConfigScript.flashDuration, Restore, useRealTime: true);
+            _flashConfigScript.Flash(_targetRenderer);
+            _delayHandle = App.Delay(_flashConfigScript.flashDuration, Restore, useRealTime: true);
         }
 
-        private void Restore() => flashConfigScript.Restore(targetRenderer, _defaultMaterial);
-
-        public void OnDisable()
-        {
-            entityStatsReference.EntityStats.vitality.health.current.OnChange -= OnHealthChange;
-            _delayHandle?.Cancel();
-        }
-
-        private void OnValidate()
-        {
-            entityStatsReference ??= GetComponent<EntityStatsComponent>();
-            targetRenderer ??= GetComponentInChildren<Renderer>();
-            
-        }
+        private void Restore() => _flashConfigScript.Restore(_targetRenderer, _defaultMaterial);
     }
 }

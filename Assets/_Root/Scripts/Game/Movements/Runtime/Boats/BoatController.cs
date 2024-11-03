@@ -1,6 +1,10 @@
-﻿using _Root.Scripts.Game.Inputs.Runtime;
+﻿using System;
+using _Root.Scripts.Game.Inputs.Runtime;
 using _Root.Scripts.Game.Interactables.Runtime;
+using _Root.Scripts.Model.Boats.Runtime;
+using _Root.Scripts.Model.Water.Runtime;
 using Pancake;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,29 +14,21 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
     public class BoatController : MovementProviderComponent, IMainCameraProvider
     {
         [Header("References")] public Rigidbody rb;
-        public Lean lean;
+        [SerializeField] private Lean lean;
+        [SerializeField] private BoatControllerParameterScript parameterScript;
 
-        [Header("Movement Settings")] public float maxForwardSpeed = 100f;
-        public float maxReverseSpeed = 100f;
-        public float turnTorque = 10f;
-        public float accelerationForce = 100f;
-        public float reverseAccelerationForce = 100f;
-        public float waterDrag = 0.99f;
+        [ShowInInspector, NonSerialized, ReadOnly]
+        public BoatControllerParameters Parameters;
 
-        [Header("Buoyancy Settings")] public float waterLevel;
-        public float buoyancyForce = 100f;
-        public float waveIntensity = 5f;
-        public float waveFrequency = 1.41f;
-
-        [Header("Stability Settings")] public float stabilizationTorque = 5000f;
+        [SerializeField] private WaterParameterScript waterParameterScript;
         private bool _isReversing;
-
         private Optional<Camera> _mainCamera;
 
 
         private void OnEnable()
         {
             rb = GetComponent<Rigidbody>();
+            Parameters = parameterScript.value;
         }
 
         private void Update()
@@ -94,12 +90,13 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
 
         private void ApplyAcceleration()
         {
-            float targetAcceleration = _isReversing ? reverseAccelerationForce : accelerationForce;
+            float targetAcceleration =
+                _isReversing ? Parameters.reverseAccelerationForce : Parameters.accelerationForce;
             Vector3 forceDirection = transform.forward * targetAcceleration;
             rb.AddForce(forceDirection, ForceMode.Acceleration);
 
             // Limit speed based on direction
-            float maxSpeed = _isReversing ? maxReverseSpeed : maxForwardSpeed;
+            float maxSpeed = _isReversing ? Parameters.maxReverseSpeed : Parameters.maxForwardSpeed;
             if (rb.linearVelocity.magnitude > maxSpeed)
             {
                 rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
@@ -116,7 +113,7 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
                 // Apply torque to rotate towards the target rotation
                 Vector3 torque = CalculateTorqueToTarget(targetRotation);
                 float turnMultiplier = _isReversing ? 0.5f : 1f; // Reduce turning while reversing
-                rb.AddTorque(torque * (turnTorque * turnMultiplier), ForceMode.Acceleration);
+                rb.AddTorque(torque * (Parameters.turnTorque * turnMultiplier), ForceMode.Acceleration);
             }
         }
 
@@ -133,12 +130,12 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
 
         private void ApplyBuoyancy()
         {
-            float waterOffset = transform.position.y - waterLevel;
+            float waterOffset = transform.position.y - waterParameterScript.value.waterLevel;
             float buoyancyMultiplier = Mathf.Clamp01(-waterOffset / 2);
-            Vector3 buoyancyForceVector = Vector3.up * (buoyancyForce * buoyancyMultiplier);
+            Vector3 buoyancyForceVector = Vector3.up * (waterParameterScript.value.buoyancyForce * buoyancyMultiplier);
 
             // Apply wave effect
-            float waveOffset = Mathf.Sin(Time.time * waveFrequency) * waveIntensity;
+            float waveOffset = waterParameterScript.WaveOffset;
             buoyancyForceVector += Vector3.up * waveOffset;
 
             rb.AddForce(buoyancyForceVector, ForceMode.Acceleration);
@@ -146,11 +143,10 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
 
         private void ApplyWaterDrag()
         {
-            rb.linearVelocity *= waterDrag;
-            rb.angularVelocity *= waterDrag;
+            rb.linearVelocity *= waterParameterScript.value.waterDrag;
+            rb.angularVelocity *= waterParameterScript.value.waterDrag;
         }
 
-        public float dampingFactor = 5f; // Adjust this value for smoother stabilization
 
         private void StabilizeBoat()
         {
@@ -162,8 +158,9 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
 
             // Calculate the torque needed to reach the target rotation
 
-            Vector3 stabilizingTorque = Vector3.Cross(transform.up, targetRotation * Vector3.up) * stabilizationTorque;
-            stabilizingTorque -= rb.angularVelocity * dampingFactor;
+            Vector3 stabilizingTorque = Vector3.Cross(transform.up, targetRotation * Vector3.up) *
+                                        Parameters.stabilizationTorque;
+            stabilizingTorque -= rb.angularVelocity * Parameters.dampingFactor;
 
             // Apply the stabilizing torque
             rb.AddTorque(stabilizingTorque);
