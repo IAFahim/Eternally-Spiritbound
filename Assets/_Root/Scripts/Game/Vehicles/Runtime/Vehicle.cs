@@ -1,17 +1,15 @@
 ﻿using _Root.Scripts.Game.Interactables.Runtime;
-using Pancake;
+using _Root.Scripts.Model.Assets.Runtime;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 namespace _Root.Scripts.Game.Vehicles.Runtime
 {
-    public class Vehicle : StringConstant, IDropStrategy
+    [CreateAssetMenu(fileName = "Vehicle", menuName = "Scriptable/Vehicles/Vehicle")]
+    public class Vehicle : AssetBase, IDropStrategy
     {
-        [Guid] public string guid;
-        [SerializeField] private float dropRange;
-        public float DropRange => dropRange;
-        public AssetReferenceGameObject assetReferenceGameObject;
         public DropStrategyScriptable dropStrategy;
+
+        public float DropRange => dropStrategy.DropRange;
 
         public void OnDrop(GameObject user, Vector3 position, int amount)
         {
