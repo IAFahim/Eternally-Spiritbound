@@ -55,11 +55,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 946ea4e6aa4032a48bd434a7b2d0d743
-    m_Address: Assets/_Root/Storages/Generated/Scriptable/Main Boat.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a2e89f715f86bff409a37ce759f200ce
     m_Address: Assets/_Root/Storages/Spawner/Templete/Spawner Template.asset
     m_ReadOnly: 0

@@ -15,8 +15,13 @@ MonoBehaviour:
   m_GroupName: Boats
   m_GUID: 013064ae7a16ba04b82f4b11ad06e13c
   m_SerializeEntries:
+  - m_GUID: 946ea4e6aa4032a48bd434a7b2d0d743
+    m_Address: Tow Boat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: bf0d8b0182b572f4b911cbdbb2f08a76
-    m_Address: Assets/_Root/Prefabs/Boats/Enemy.prefab
+    m_Address: Enemy
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

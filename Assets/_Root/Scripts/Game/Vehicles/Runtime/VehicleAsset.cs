@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace _Root.Scripts.Game.Vehicles.Runtime
 {
-    [CreateAssetMenu(fileName = "Vehicle", menuName = "Scriptable/Vehicles/Vehicle")]
-    public class Vehicle : AssetBase, IDropStrategy
+    [CreateAssetMenu(fileName = "Vehicle", menuName = "Scriptable/Asset/Vehicles/Vehicle")]
+    public class VehicleAsset : AssetBase, IDropStrategy
     {
         public DropStrategyScriptable dropStrategy;
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.Ai.Runtime.Targets
@@ -6,7 +7,7 @@ namespace _Root.Scripts.Game.Ai.Runtime.Targets
     public class TargetableComponent : MonoBehaviour, ITargetable
     {
         public Transform Transform => transform;
-        private readonly HashSet<ITargeter> _targeters = new();
+        [ShowInInspector][ReadOnly] private readonly HashSet<ITargeter> _targeters = new();
 
         public void AddTargeter(ITargeter targeter)
         {
