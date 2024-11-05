@@ -4,8 +4,35 @@ apply from: '../shared/keepUnitySymbols.gradle'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+// Android Resolver Dependencies Start
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4' // Assets/GoogleMobileAds/Editor/GoogleMobileAdsDependencies.xml:12
+    implementation 'com.google.ads.mediation:applovin:12.6.1.0' // Assets/GoogleMobileAds/Mediation/AppLovin/Editor/AppLovinMediationDependencies.xml:24
+    implementation 'com.google.ads.mediation:chartboost:9.7.0.0' // Assets/GoogleMobileAds/Mediation/Chartboost/Editor/ChartboostMediationDependencies.xml:25
+    implementation 'com.google.ads.mediation:facebook:6.18.0.0' // Assets/GoogleMobileAds/Mediation/MetaAudienceNetwork/Editor/MetaAudienceNetworkMediationDependencies.xml:24
+    implementation 'com.google.ads.mediation:fyber:8.3.1.0' // Assets/GoogleMobileAds/Mediation/DTExchange/Editor/DTExchangeMediationDependencies.xml:24
+    implementation 'com.google.ads.mediation:inmobi:10.7.7.0' // Assets/GoogleMobileAds/Mediation/InMobi/Editor/InMobiMediationDependencies.xml:24
+    implementation 'com.google.ads.mediation:ironsource:8.4.0.0' // Assets/GoogleMobileAds/Mediation/IronSource/Editor/IronSourceMediationDependencies.xml:24
+    implementation 'com.google.ads.mediation:mintegral:16.8.51.0' // Assets/GoogleMobileAds/Mediation/Mintegral/Editor/MintegralMediationDependencies.xml:25
+    implementation 'com.google.ads.mediation:pangle:6.2.0.7.0' // Assets/GoogleMobileAds/Mediation/Pangle/Editor/PangleMediationDependencies.xml:25
+    implementation 'com.google.ads.mediation:unity:4.12.3.0' // Assets/GoogleMobileAds/Mediation/UnityAds/Editor/UnityMediationDependencies.xml:25
+    implementation 'com.google.ads.mediation:vungle:7.4.0.1' // Assets/GoogleMobileAds/Mediation/LiftoffMonetize/Editor/LiftoffMonetizeMediationDependencies.xml:24
+    implementation 'com.google.android.gms:play-services-ads:23.4.0' // Assets/GoogleMobileAds/Editor/GoogleMobileAdsDependencies.xml:7
+    implementation 'com.google.android.ump:user-messaging-platform:3.0.0' // Assets/GoogleMobileAds/Editor/GoogleUmpDependencies.xml:7
+    implementation 'com.unity3d.ads:unity-ads:4.12.3' // Assets/GoogleMobileAds/Mediation/UnityAds/Editor/UnityMediationDependencies.xml:33
+// Android Resolver Dependencies End
 **DEPS**}
 
+// Android Resolver Exclusions Start
+android {
+  packagingOptions {
+      exclude ('/lib/armeabi/*' + '*')
+      exclude ('/lib/mips/*' + '*')
+      exclude ('/lib/mips64/*' + '*')
+      exclude ('/lib/x86/*' + '*')
+      exclude ('/lib/x86_64/*' + '*')
+  }
+}
+// Android Resolver Exclusions End
 android {
     namespace "com.unity3d.player"
     ndkPath "**NDKPATH**"

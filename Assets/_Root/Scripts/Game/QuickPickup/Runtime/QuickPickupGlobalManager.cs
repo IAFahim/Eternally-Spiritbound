@@ -26,7 +26,7 @@ namespace _Root.Scripts.Game.QuickPickup.Runtime
 
             itemPickupManager.Setup(autoPickList.ToArray());
         }
-        
+
 
         private void Start()
         {
@@ -38,8 +38,9 @@ namespace _Root.Scripts.Game.QuickPickup.Runtime
             for (var i = 0; i < randomTest; i++)
             {
                 var randomItem = autoPickList[Random.Range(0, autoPickList.Count)];
-                var randomV2 = Random.insideUnitCircle * range; 
-                itemPickupManager.Add(randomItem,transform.position + new Vector3(randomV2.x, waterLevel, randomV2.y), 1);
+                var randomV2 = Random.insideUnitCircle * range;
+                itemPickupManager.Add(randomItem, transform.position + new Vector3(randomV2.x, waterLevel, randomV2.y),
+                    1);
             }
         }
 
@@ -48,9 +49,11 @@ namespace _Root.Scripts.Game.QuickPickup.Runtime
             itemPickupManager.Process();
         }
 
+#if UNITY_EDITOR
         private void OnDrawGizmosSelected()
         {
             itemPickupManager?.OnDrawGizmos();
         }
+#endif
     }
 }

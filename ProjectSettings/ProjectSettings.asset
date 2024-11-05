@@ -242,7 +242,8 @@ PlayerSettings:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 11400000, guid: 9e7be553448fa2546aea5752021cbcf7, type: 2}
+  - {fileID: 0}
+  - {fileID: -944628639613478452, guid: 9334937fad4e1ad4ba5357282c93ace5, type: 3}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -264,7 +265,7 @@ PlayerSettings:
   androidMaxAspectRatio: 2.4
   androidMinAspectRatio: 1
   applicationIdentifier:
-    Android: com.unity.template.urpsample
+    Android: com.iafahim.esb
     Standalone: com.unity.template.urp-sample
     iPhone: com.unity.template.urp-sample
   buildNumber:
@@ -365,7 +366,7 @@ PlayerSettings:
   useCustomGradlePropertiesTemplate: 1
   useCustomGradleSettingsTemplate: 1
   useCustomProguardFile: 0
-  AndroidTargetArchitectures: 2
+  AndroidTargetArchitectures: 3
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
   AndroidKeystoreName: 
@@ -674,7 +675,10 @@ PlayerSettings:
   m_BuildTargetGroupLightmapSettings: []
   m_BuildTargetGroupLoadStoreDebugModeSettings: []
   m_BuildTargetNormalMapEncoding: []
-  m_BuildTargetDefaultTextureCompressionFormat: []
+  m_BuildTargetDefaultTextureCompressionFormat:
+  - serializedVersion: 3
+    m_BuildTarget: Android
+    m_Formats: 01000000
   playModeTestRunnerEnabled: 0
   runPlayModeTestAsEditModeTest: 0
   actionOnDotNetUnhandledException: 1
@@ -952,8 +956,23 @@ PlayerSettings:
   webGLCloseOnQuit: 0
   webWasm2023: 0
   scriptingDefineSymbols:
-    Android: ODIN_INSPECTOR;ODIN_INSPECTOR_3;ODIN_INSPECTOR_3_1;ODIN_INSPECTOR_3_2;ODIN_INSPECTOR_3_3
-    Standalone: ODIN_INSPECTOR;ODIN_INSPECTOR_3;ODIN_INSPECTOR_3_1;ODIN_INSPECTOR_3_2;ODIN_INSPECTOR_3_3
+    Android: ODIN_INSPECTOR;ODIN_INSPECTOR_3;ODIN_INSPECTOR_3_1;ODIN_INSPECTOR_3_2;ODIN_INSPECTOR_3_3;PANCAKE_ADVERTISING;PANCAKE_ADMOB
+    EmbeddedLinux: PANCAKE_ADVERTISING;PANCAKE_ADMOB
+    GameCoreScarlett: PANCAKE_ADVERTISING;PANCAKE_ADMOB
+    GameCoreXboxOne: PANCAKE_ADVERTISING;PANCAKE_ADMOB
+    LinuxHeadlessSimulation: PANCAKE_ADVERTISING;PANCAKE_ADMOB
+    Nintendo Switch: PANCAKE_ADVERTISING;PANCAKE_ADMOB
+    PS4: PANCAKE_ADVERTISING;PANCAKE_ADMOB
+    PS5: PANCAKE_ADVERTISING;PANCAKE_ADMOB
+    QNX: PANCAKE_ADVERTISING;PANCAKE_ADMOB
+    ReservedCFE: PANCAKE_ADVERTISING;PANCAKE_ADMOB
+    Standalone: ODIN_INSPECTOR;ODIN_INSPECTOR_3;ODIN_INSPECTOR_3_1;ODIN_INSPECTOR_3_2;ODIN_INSPECTOR_3_3;PANCAKE_ADVERTISING;PANCAKE_ADMOB
+    VisionOS: PANCAKE_ADVERTISING;PANCAKE_ADMOB
+    WebGL: PANCAKE_ADVERTISING;PANCAKE_ADMOB
+    Windows Store Apps: PANCAKE_ADVERTISING;PANCAKE_ADMOB
+    XboxOne: PANCAKE_ADVERTISING;PANCAKE_ADMOB
+    iPhone: PANCAKE_ADVERTISING;PANCAKE_ADMOB
+    tvOS: PANCAKE_ADVERTISING;PANCAKE_ADMOB
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:
@@ -1033,7 +1052,7 @@ PlayerSettings:
   XboxOneOverrideIdentityPublisher: 
   vrEditorSettings: {}
   cloudServicesEnabled:
-    Purchasing: 0
+    Purchasing: 1
     UNet: 0
   luminIcon:
     m_Name: 
