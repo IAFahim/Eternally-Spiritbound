@@ -22,11 +22,9 @@ namespace _Root.Scripts.Model.Water.Runtime
             {
                 if (Time.time - lastTime > updateFrequency)
                 {
-                    Debug.Log("Update wave offset");
                     _waveOffset = Mathf.Sin(Time.time * value.waveFrequency) * value.waveIntensity;
                     lastTime = Time.time;
                 }
-                Debug.Log("Return wave offset");
                 return _waveOffset;
             }
         }

@@ -40,7 +40,6 @@ namespace _Root.Scripts.Game.Interactables.Runtime
 
         public void Hide()
         {
-            Debug.Log("Hide");
             deselectedEvent.Invoke();
         }
 

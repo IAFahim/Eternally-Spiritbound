@@ -20,7 +20,6 @@ namespace _Root.Scripts.Game.Interactables.Runtime
 
         public virtual void OnInteractableDetected(IInteractorEntryPoint interactorEntryPoint)
         {
-            Debug.Log("Detected");
             if (interactableConfirmHelperAsset.Enabled && interactorEntryPoint.IsFocused)
             {
                 _currentInteractableConfirmHelper ??= interactableConfirmHelperAsset.Value
