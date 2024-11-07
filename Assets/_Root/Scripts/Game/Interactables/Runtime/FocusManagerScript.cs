@@ -24,7 +24,6 @@ namespace _Root.Scripts.Game.Interactables.Runtime
         private InputActionReference moveAction;
 
         private FocusReferences _focusReferences;
-
         private Action<GameObject> _spawnedGameObjectCallBack;
 
         // Stack to store the focused GameObjects

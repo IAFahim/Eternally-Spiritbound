@@ -2,6 +2,7 @@ using System;
 using _Root.Scripts.Game.Interactables.Runtime;
 using _Root.Scripts.Model.Assets.Runtime;
 using JetBrains.Annotations;
+using Soul.Interactions.Runtime;
 using Soul.Items.Runtime;
 using UnityEngine;
 using UnityEngine.AddressableAssets;

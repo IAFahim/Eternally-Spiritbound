@@ -53,7 +53,7 @@ namespace _Root.Scripts.Game.Ai.Runtime.Targets
                 _currentTargetable = null;
             }
         }
-
+        
         public override void Stop()
         {
             focusManager.OnMainChanged -= FocusManagerOnMainChanged;

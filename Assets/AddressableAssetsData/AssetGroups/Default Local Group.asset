@@ -15,6 +15,11 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: e44c386d610d469408f6cf3b04ac0dbd
   m_SerializeEntries:
+  - m_GUID: 13e1e39d22112fb4d90c3bc5562501e3
+    m_Address: Assets/_Root/Prefabs/UI/Selection Controller Button.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1f6d1eab66d2ba44b898b321b0b61d42
     m_Address: Assets/_Root/Prefabs/interactable Sign/Click to Activate Shop.prefab
     m_ReadOnly: 0
@@ -45,6 +50,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7562b1fde8fdb4c44a19eb7f1fe0d682
+    m_Address: Assets/_Root/Prefabs/UI/Selection Scroll View.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 78d430a1d91773544b201049b83f5697
     m_Address: Assets/_Root/Storages/UIProvider/Enhanced On-Screen Stick.prefab
     m_ReadOnly: 0
@@ -55,13 +65,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a2e89f715f86bff409a37ce759f200ce
-    m_Address: Assets/_Root/Storages/Spawner/Templete/Spawner Template.asset
+  - m_GUID: 9908077a46a077d4da48ab95ac86764e
+    m_Address: Assets/_Root/Prefabs/UI/Stats Panel BackGround.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a3ec090854b3a0348973a64d2840fb83
-    m_Address: Assets/_Root/Prefabs/UI/Close Button.prefab
+  - m_GUID: a2e89f715f86bff409a37ce759f200ce
+    m_Address: Assets/_Root/Storages/Spawner/Templete/Spawner Template.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -77,6 +87,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d33ad5248591b394eb6fd583b92065c7
     m_Address: Assets/_Root/Storages/UIProvider/BoatHealthUI.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fee65a7e11779684a89945ed79b4ccc6
+    m_Address: Assets/_Root/Prefabs/UI/Close Button.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

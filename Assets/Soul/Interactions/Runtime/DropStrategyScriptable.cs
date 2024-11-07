@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using Random = UnityEngine.Random;
 
-namespace _Root.Scripts.Game.Interactables.Runtime
+namespace Soul.Interactions.Runtime
 {
     [CreateAssetMenu(fileName = "Drop Strategy", menuName = "Scriptable/New Drop Strategy")]
     public class DropStrategyScriptable : ScriptableObject
@@ -11,6 +11,7 @@ namespace _Root.Scripts.Game.Interactables.Runtime
         [SerializeField] private float dropRange = 1f;
         [SerializeField] private bool singleDrop;
         [SerializeField] private LayerMask dropLayerMask;
+        [SerializeField] private ScriptablePool scriptablePool;
         public float DropRange => dropRange;
 
         public void OnDrop(AssetReferenceGameObject asset, Vector3 position, int amount)
@@ -27,7 +28,7 @@ namespace _Root.Scripts.Game.Interactables.Runtime
         {
             var randomPosition = Random.insideUnitSphere * dropRange + position;
             randomPosition.y = position.y;
-            ScriptablePool.Instance.Request(asset,
+            scriptablePool.Request(asset,
                 Physics.Raycast(randomPosition, Vector3.down, out var hit, dropRange, dropLayerMask)
                     ? hit.point
                     : position, Quaternion.identity);

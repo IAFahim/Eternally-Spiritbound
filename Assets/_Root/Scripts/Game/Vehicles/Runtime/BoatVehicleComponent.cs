@@ -1,8 +1,7 @@
 ﻿using _Root.Scripts.Game.Movements.Runtime.Boats;
-using _Root.Scripts.Game.Vehicles.Runtime;
 using Soul.Interactables.Runtime;
 
-namespace _Root.Scripts.Presentation.Vehicles.Runtime
+namespace _Root.Scripts.Game.Vehicles.Runtime
 {
     public class BoatVehicleComponent : VehicleComponent
     {

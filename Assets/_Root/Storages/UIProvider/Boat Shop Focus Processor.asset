@@ -19,9 +19,24 @@ MonoBehaviour:
     m_SubObjectType: 
     m_EditorAssetChanged: 1
   boatShopCloseButton:
-    m_AssetGUID: a3ec090854b3a0348973a64d2840fb83
+    m_AssetGUID: fee65a7e11779684a89945ed79b4ccc6
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 1
+  boatScrollRect:
+    m_AssetGUID: 7562b1fde8fdb4c44a19eb7f1fe0d682
     m_SubObjectName: 
     m_SubObjectGUID: 
     m_SubObjectType: 
     m_EditorAssetChanged: 1
   focusManager: {fileID: 11400000, guid: 4c147b4345416824f8968062d60f760a, type: 2}
+  buttonSelectionControllerAsset:
+    m_AssetGUID: 13e1e39d22112fb4d90c3bc5562501e3
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 1
+  boatVehicleAssets:
+  - {fileID: 11400000, guid: 6d2425dc84a541241813d581c954ebd5, type: 2}
+  scriptablePool: {fileID: 11400000, guid: eb9b5ddfc95cdce4ba5e984f6abd7193, type: 2}

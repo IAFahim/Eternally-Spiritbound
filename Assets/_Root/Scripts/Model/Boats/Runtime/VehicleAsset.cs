@@ -1,8 +1,9 @@
 ﻿using _Root.Scripts.Game.Interactables.Runtime;
 using _Root.Scripts.Model.Assets.Runtime;
+using Soul.Interactions.Runtime;
 using UnityEngine;
 
-namespace _Root.Scripts.Game.Vehicles.Runtime
+namespace _Root.Scripts.Model.Boats.Runtime
 {
     [CreateAssetMenu(fileName = "Vehicle", menuName = "Scriptable/Asset/Vehicles/Vehicle")]
     public class VehicleAsset : AssetBase, IDropStrategy
