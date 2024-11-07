@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc05463803984ce7bf8a41a9ee8b39fd, type: 3}
-  m_Name: Tow Boat
+  m_Name: Tug Boat Single
   m_EditorClassIdentifier: 
-  value: Tow
-  guid: 109cadf75cd4444
+  value: Tow Boat Single
+  guid: d7ed28189b56406
   assetReferenceGameObject:
-    m_AssetGUID: 946ea4e6aa4032a48bd434a7b2d0d743
+    m_AssetGUID: 23e451c3d0ec2b643a3e4de9d844a886
     m_SubObjectName: 
     m_SubObjectGUID: 
     m_SubObjectType: 
     m_EditorAssetChanged: 1
   description: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 96eed3161fbf8d24eb5ff1f0663c96f3, type: 3}
   dropStrategy: {fileID: 11400000, guid: bc587b9ed86af8b41b1863085b75a8c0, type: 2}

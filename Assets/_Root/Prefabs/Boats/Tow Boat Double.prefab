@@ -20,7 +20,7 @@ GameObject:
   - component: {fileID: 8240035573106982839}
   - component: {fileID: 9215854104336800689}
   m_Layer: 15
-  m_Name: Tow Boat
+  m_Name: Tow Boat Double
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

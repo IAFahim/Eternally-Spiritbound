@@ -10,7 +10,6 @@ namespace Soul.Pools.Runtime
     public class ScriptablePool : ScriptableSettings<ScriptablePool>
     {
         [ShowInInspector] private Dictionary<AssetReferenceGameObject, AddressableGameObjectPool> _pools = new();
-        bool _cleared;
         
         public GameObject Request(AssetReferenceGameObject assetReferenceGameObject)
         {
@@ -69,12 +68,6 @@ namespace Soul.Pools.Runtime
 
         public void Return(AssetReferenceGameObject assetReferenceGameObject, GameObject gameObject)
         {
-            if (_cleared) return;
-            if (!_pools.ContainsKey(assetReferenceGameObject))
-            {
-                _pools[assetReferenceGameObject] = new (assetReferenceGameObject);
-            }
-
             _pools[assetReferenceGameObject].Return(gameObject);
         }
 
@@ -85,7 +78,6 @@ namespace Soul.Pools.Runtime
 
         public void ClearAll()
         {
-            _cleared = true;
             foreach (var pool in _pools) pool.Value.Clear();
         }
 

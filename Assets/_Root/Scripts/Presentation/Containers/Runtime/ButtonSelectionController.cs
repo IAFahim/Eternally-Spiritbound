@@ -21,7 +21,12 @@ namespace _Root.Scripts.Presentation.Containers.Runtime
             icon.sprite = sprite;
             _unityAction = onClick;
             button.onClick.AddListener(OnClick);
-            lockedImage.gameObject.SetActive(unlocked);
+            lockedImage.gameObject.SetActive(!unlocked);
+        }
+        
+        public void SetUnLocked(bool unlocked)
+        {
+            lockedImage.gameObject.SetActive(!unlocked);
         }
 
         private void OnClick()
