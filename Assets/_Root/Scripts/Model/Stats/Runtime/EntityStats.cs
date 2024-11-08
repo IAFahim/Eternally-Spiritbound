@@ -1,5 +1,4 @@
 ﻿using System;
-using _Root.Scripts.Game.Stats.Runtime.Model;
 using Sirenix.OdinInspector;
 using Soul.Modifiers.Runtime;
 using UnityEngine;

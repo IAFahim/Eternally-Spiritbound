@@ -1,8 +1,8 @@
 ﻿using _Root.Scripts.Game.Consmatics.Runtime;
 using _Root.Scripts.Game.GameEntities.Runtime;
-using _Root.Scripts.Game.GameEntities.Runtime.Interactions;
 using _Root.Scripts.Game.Interactables.Runtime;
 using _Root.Scripts.Model.Stats.Runtime;
+using _Root.Scripts.Presentation.Interactions.Runtime;
 using Pancake.Common;
 using Sisus.Init;
 using Soul.Modifiers.Runtime;

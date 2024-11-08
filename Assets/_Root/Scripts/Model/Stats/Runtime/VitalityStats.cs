@@ -1,7 +1,6 @@
 ﻿using System;
-using _Root.Scripts.Model.Stats.Runtime;
 
-namespace _Root.Scripts.Game.Stats.Runtime.Model
+namespace _Root.Scripts.Model.Stats.Runtime
 {
     [Serializable]
     public struct VitalityStats<T> 

@@ -1,10 +1,10 @@
 ﻿using _Root.Scripts.Game.Consmatics.Runtime;
-using _Root.Scripts.Model.Stats.Runtime.Interfaces;
+using _Root.Scripts.Game.GameEntities.Runtime.Healths;
 using Pancake.Common;
 using Sisus.Init;
 using UnityEngine;
 
-namespace _Root.Scripts.Game.GameEntities.Runtime.Interactions
+namespace _Root.Scripts.Presentation.Interactions.Runtime
 {
     public class DamageFlash : MonoBehaviour<FlashConfigScript>
     {
@@ -30,12 +30,12 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Interactions
         public void OnEnable()
         {
             _defaultMaterial = _targetRenderer.material;
-            _health.Health.current.OnChange += OnHealthChange;
+            _health.HealthReference.current.OnChange += OnHealthChange;
         }
         
         public void OnDisable()
         {
-            _health.Health.current.OnChange -= OnHealthChange;
+            _health.HealthReference.current.OnChange -= OnHealthChange;
             _delayHandle?.Cancel();
             Restore();
         }

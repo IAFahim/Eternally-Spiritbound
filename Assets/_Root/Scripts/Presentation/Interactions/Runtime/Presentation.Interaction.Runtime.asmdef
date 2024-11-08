@@ -1,0 +1,4 @@
+﻿{
+  "name": "Presentation.Interaction.Runtime",
+  "references":[ "GUID:028f37589cae42108aa3cb0ed632e5ad", "GUID:c9b72a3fc7bd4b56a011a8132576299e", "GUID:d263cfcb6fe4c8e458b5530d29ee4d1f", "GUID:2bb2982fd552689428d4c3ae8bb26fb7", "GUID:519a48b5a12a4e15b48a3b2f45098690", "GUID:698d096167474a9ea2894daf814f6b40", "GUID:d872fca1951d47d1b865976e46511f7e" ]
+}

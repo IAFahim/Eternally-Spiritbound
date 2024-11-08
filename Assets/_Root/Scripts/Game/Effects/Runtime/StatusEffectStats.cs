@@ -1,5 +1,4 @@
 ﻿using System;
-using _Root.Scripts.Game.Stats.Runtime.Model;
 
 namespace _Root.Scripts.Game.Effects.Runtime
 {
