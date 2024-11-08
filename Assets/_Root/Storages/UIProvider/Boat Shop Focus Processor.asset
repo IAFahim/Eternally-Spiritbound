@@ -37,15 +37,18 @@ MonoBehaviour:
     m_SubObjectGUID: 
     m_SubObjectType: 
     m_EditorAssetChanged: 1
+  lockedSprite: {fileID: 21300000, guid: 5bf9bcd8c297e7b408d5664aba37068d, type: 3}
+  equippedSprite: {fileID: 21300000, guid: 61bee064b9fd1c44cbd4e0b602caa922, type: 3}
   boatVehicleAssets:
   - {fileID: 11400000, guid: b98b22c8b6662af46acc68d900f22a25, type: 2}
   - {fileID: 11400000, guid: 6d2425dc84a541241813d581c954ebd5, type: 2}
   - {fileID: 11400000, guid: 981514d43e7235141899d9623e00967b, type: 2}
   scriptablePool: {fileID: 11400000, guid: eb9b5ddfc95cdce4ba5e984f6abd7193, type: 2}
-  equipIndex: 1
+  equipIndex: 2
   equippedBoatName: Tow Boat Double
   unlockedBoatNames:
   - Tow Boat Double
+  - Tow Boat Single
   _buttonSelectionControllers:
   - {fileID: 0}
   - {fileID: 0}

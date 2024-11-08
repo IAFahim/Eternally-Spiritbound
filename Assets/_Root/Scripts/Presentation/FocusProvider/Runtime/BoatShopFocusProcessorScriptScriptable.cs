@@ -2,6 +2,7 @@
 using _Root.Scripts.Game.Interactables.Runtime;
 using _Root.Scripts.Model.Boats.Runtime;
 using _Root.Scripts.Presentation.Containers.Runtime;
+using Pancake.Common;
 using Soul.Pools.Runtime;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -12,19 +13,23 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
     [CreateAssetMenu(fileName = "Boat Shop Processor", menuName = "Scriptable/FocusProcessor/Boat Shop")]
     public class BoatShopFocusProcessorScriptScriptable : FocusProcessorScriptCinemachineScriptable
     {
-        public AssetReferenceGameObject boatShopCloseButton;
-        public AssetReferenceGameObject boatScrollRect;
-        public FocusManagerScript focusManager;
-        public AssetReferenceGameObject buttonSelectionControllerAsset;
+        [SerializeField] private AssetReferenceGameObject boatShopCloseButton;
+        [SerializeField] private AssetReferenceGameObject boatScrollRect;
+        [SerializeField] private FocusManagerScript focusManager;
+        [SerializeField] private AssetReferenceGameObject buttonSelectionControllerAsset;
+        [SerializeField] private Sprite lockedSprite;
+        [SerializeField] private Sprite equippedSprite;
 
-        public BoatVehicleAsset[] boatVehicleAssets;
-        public ScriptablePool scriptablePool;
+        [SerializeField] private BoatVehicleAsset[] boatVehicleAssets;
+        [SerializeField] private ScriptablePool scriptablePool;
         private Button _closeButton;
 
-        public int equipIndex;
-        public string equippedBoatName;
-        public string[] unlockedBoatNames;
-        public ButtonSelectionController[] _buttonSelectionControllers;
+        [SerializeField] private string equippedBoatName;
+        [SerializeField] private string[] unlockedBoatNames;
+        [SerializeField] private BoatInfoDto[] _boatInfoDTOs;
+        [SerializeField] private ButtonSelectionController[] _buttonSelectionControllers;
+
+        private ScrollRect _scrollRect;
 
         public override void SetFocus(FocusReferences focusReferences)
         {
@@ -39,8 +44,14 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 
         private void SetupScrollRect(GameObject gameObject)
         {
-            var scrollRect = gameObject.GetComponent<ScrollRect>();
-            var scrollRectTransform = scrollRect.content.transform;
+            _scrollRect = gameObject.GetComponent<ScrollRect>();
+            _boatInfoDTOs = CreateBoatInfoDto();
+            Array.Sort(_boatInfoDTOs, Comparison);
+            PopulatePool(_scrollRect, _boatInfoDTOs);
+        }
+
+        private BoatInfoDto[] CreateBoatInfoDto()
+        {
             var boatInfoDTOs = new BoatInfoDto[boatVehicleAssets.Length];
             for (var i = 0; i < boatVehicleAssets.Length; i++)
             {
@@ -53,8 +64,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
                 };
             }
 
-            Array.Sort(boatInfoDTOs, Comparison);
-            _buttonSelectionControllers = Pool(scrollRectTransform, boatInfoDTOs);
+            return boatInfoDTOs;
         }
 
         private int Comparison(BoatInfoDto a, BoatInfoDto b)
@@ -63,33 +73,44 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
             if (a.unlocked && !b.unlocked) return -1;
             if (!a.unlocked && b.unlocked) return 1;
             return a.index.CompareTo(b.index);
-            
         }
 
-        private ButtonSelectionController[] Pool(Transform scrollRectTransform, BoatInfoDto[] boatInfoDTOs)
+        private void PopulatePool(ScrollRect scrollRect, BoatInfoDto[] boatInfoDTOs)
         {
-            var buttonSelectionControllers = new ButtonSelectionController[boatVehicleAssets.Length];
+            _buttonSelectionControllers = new ButtonSelectionController[boatVehicleAssets.Length];
+            var scrollContentTransform = scrollRect.content.transform;
             for (var i = 0; i < boatInfoDTOs.Length; i++)
             {
                 var boatInfoDto = boatInfoDTOs[i];
-                var buttonSelectionController = scriptablePool
-                    .Request(buttonSelectionControllerAsset, scrollRectTransform)
-                    .GetComponent<ButtonSelectionController>();
+                var spawnedGameObject = scriptablePool
+                    .Request(buttonSelectionControllerAsset, scrollContentTransform);
+                var buttonSelectionController = spawnedGameObject.GetComponent<ButtonSelectionController>();
+                
                 buttonSelectionController.Set(
                     i,
                     boatInfoDto.boatVehicleAsset.icon,
-                    OnSelectionClick,
-                    boatInfoDto.unlocked
+                    StatusSprite(i),
+                    SetEquipped
                 );
-                buttonSelectionControllers[i] = buttonSelectionController;
+                _buttonSelectionControllers[i] = buttonSelectionController;
             }
-
-            return buttonSelectionControllers;
         }
 
-        private void OnSelectionClick(int index)
+        private void SetEquipped(int i)
         {
-            equipIndex = index;
+            StatusSprite(i);
+        }
+
+        private Sprite StatusSprite(int index)
+        {
+            if (equippedBoatName == _boatInfoDTOs[index].boatVehicleAsset.Value)
+            {
+                SetEquipped(index);
+                _scrollRect.ScrollTo(_buttonSelectionControllers[index].transform);
+                return equippedSprite;
+            }
+            
+            return _boatInfoDTOs[index].unlocked ? null : lockedSprite;
         }
 
         public override void OnFocusLost(GameObject targetGameObject)
@@ -115,7 +136,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
             focusManager.PopFocus();
         }
 
-        public struct BoatInfoDto
+        public class BoatInfoDto
         {
             public int index;
             public bool unlocked;

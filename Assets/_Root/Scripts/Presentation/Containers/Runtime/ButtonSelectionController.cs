@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace _Root.Scripts.Presentation.Containers.Runtime
@@ -9,24 +10,28 @@ namespace _Root.Scripts.Presentation.Containers.Runtime
     {
         [SerializeField] private Button button;
         [SerializeField] private Image icon;
-        [SerializeField] private Image lockedImage;
+
+        [FormerlySerializedAs("lockedImage")] [SerializeField]
+        private Image statusImage;
 
         private int _index;
         private UnityAction<int> _unityAction;
 
-        public void Set(int index, Sprite sprite, UnityAction<int> onClick, bool unlocked)
+        public void Set(int index, Sprite sprite, Sprite statusSprite, UnityAction<int> onClick)
         {
             Clear();
             _index = index;
             icon.sprite = sprite;
+            SetStatus(statusSprite);
             _unityAction = onClick;
             button.onClick.AddListener(OnClick);
-            lockedImage.gameObject.SetActive(!unlocked);
         }
-        
-        public void SetUnLocked(bool unlocked)
+
+        private void SetStatus(Sprite statusSprite)
         {
-            lockedImage.gameObject.SetActive(!unlocked);
+            var statusNull = statusSprite == null;
+            if (!statusNull) statusImage.sprite = statusSprite;
+            statusImage.enabled = !statusNull;
         }
 
         private void OnClick()
@@ -43,9 +48,9 @@ namespace _Root.Scripts.Presentation.Containers.Runtime
         {
             button = GetComponent<Button>();
             var images = GetComponentsInChildren<Image>(true);
-            
+
             icon = images[1];
-            lockedImage = images[2];
+            statusImage = images[2];
         }
     }
 }
