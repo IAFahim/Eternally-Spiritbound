@@ -1,7 +1,7 @@
 ﻿using System;
 using _Root.Scripts.Game.GameEntities.Runtime.Attacks;
 using _Root.Scripts.Game.GameEntities.Runtime.Damages;
-using _Root.Scripts.Game.Stats.Runtime.Model;
+using _Root.Scripts.Model.Stats.Runtime;
 using Pancake.Pools;
 using Sisus.Init;
 using Soul.Modifiers.Runtime;

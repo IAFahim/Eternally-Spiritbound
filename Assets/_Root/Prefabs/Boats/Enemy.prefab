@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 7589321065733351887}
   - component: {fileID: 3461412902412014383}
   - component: {fileID: 970737332303009931}
-  - component: {fileID: 6222182846234257531}
   - component: {fileID: 6755126369491827642}
   - component: {fileID: 7943169366095257837}
   - component: {fileID: 3260595637832130824}
@@ -80,6 +79,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce5b3c68086d4e5fae1e624749d67a9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  entityStatsComponent: {fileID: 8256658712619696832}
 --- !u!114 &970737332303009931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96,19 +96,6 @@ MonoBehaviour:
     defaultData:
     - keyFirst: {fileID: 11400000, guid: 3c2adabcdf8aaef46be373b9297f1491, type: 2}
       valueSecond: 1
---- !u!114 &6222182846234257531
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 759616323773402500}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7bb8b47e0a344599e871f3d44ac4caa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  titleGuid: {fileID: 11400000, guid: 31ce8a7468230ef4f8963fe0b07d0849, type: 2}
 --- !u!114 &6755126369491827642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,6 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f90d4f1fd98b4c7fab38751ec3bf783b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  entityStatsParameterScript: {fileID: 11400000, guid: bfb0a96c47417b247840ebbf5d1d57f8, type: 2}
   entityStats:
     vitality:
       health:
@@ -194,10 +182,6 @@ MonoBehaviour:
         rate: 0
         additive: 0
     defensive:
-      immunity:
-        baseValue: 0
-        rate: 0
-        additive: 0
       armor:
         baseValue: 0
         rate: 0

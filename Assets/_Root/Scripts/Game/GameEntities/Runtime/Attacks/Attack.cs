@@ -1,7 +1,6 @@
 ﻿using System;
 using _Root.Scripts.Game.GameEntities.Runtime.Damages;
-using _Root.Scripts.Game.GameEntities.Runtime.Weapons;
-using _Root.Scripts.Game.Stats.Runtime.Model;
+using _Root.Scripts.Model.Stats.Runtime;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.GameEntities.Runtime.Attacks

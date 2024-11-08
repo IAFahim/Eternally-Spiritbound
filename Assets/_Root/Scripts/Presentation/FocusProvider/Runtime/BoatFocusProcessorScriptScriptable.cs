@@ -1,7 +1,8 @@
 ﻿using _Root.Scripts.Game.Consmatics.Runtime;
+using _Root.Scripts.Game.GameEntities.Runtime;
+using _Root.Scripts.Game.GameEntities.Runtime.Interactions;
 using _Root.Scripts.Game.Interactables.Runtime;
-using _Root.Scripts.Game.Interactions.Runtime;
-using _Root.Scripts.Game.Stats.Runtime.Controller;
+using _Root.Scripts.Model.Stats.Runtime;
 using Pancake.Common;
 using Sisus.Init;
 using Soul.Modifiers.Runtime;
@@ -51,7 +52,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
         private void SetupHealthBar(GameObject spawnedHealthBar)
         {
             _healthBarCache = spawnedHealthBar.GetComponent<ProgressBar>();
-            _entityStats = TargetGameObject.GetComponent<IEntityStatsReference>().EntityStats;
+            _entityStats = TargetGameObject.GetComponent<EntityStatsComponent>().entityStats;
             _health = _entityStats.vitality.health.current;
             _maxHealth = _entityStats.vitality.health.max;
             _health.OnChange += OnCurrentHealthChange;

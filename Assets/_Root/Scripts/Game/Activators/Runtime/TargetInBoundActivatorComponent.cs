@@ -1,4 +1,5 @@
 using _Root.Scripts.Game.Ai.Runtime.Targets;
+using Pancake.Common;
 using Sirenix.OdinInspector;
 using Soul.Tickers.Runtime;
 using UnityEngine;
@@ -76,10 +77,11 @@ namespace _Root.Scripts.Game.Activators.Runtime
         private void OnDisable()
         {
             targetStrategy.UnRegister(null, OnTargetFound, OnTargetLost);
-            if (_targetable != null && (_targetable.Transform ?? false))
-            {
-                activatorScript.Deactivate(_targetable.Transform);
-            }
+            if (Application.isPlaying)
+                if (_targetable != null && (!_targetable.Transform.OrNull()))
+                {
+                    activatorScript.Deactivate(_targetable.Transform);
+                }
 
             activatorScript.CleanUp();
             ClearTarget();

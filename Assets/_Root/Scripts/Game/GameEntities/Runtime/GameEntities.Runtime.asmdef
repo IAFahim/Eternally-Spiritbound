@@ -2,9 +2,7 @@
     "name": "GameEntities.Runtime",
     "rootNamespace": "",
     "references": [
-        "GUID:3be4cfc055ab4b1b9c8e010a867c2c9b",
         "GUID:05db84e4078944feb99984fc5c2b3418",
-        "GUID:d3d03dad5c0a42bf8683e627c42d2248",
         "GUID:698d096167474a9ea2894daf814f6b40",
         "GUID:d872fca1951d47d1b865976e46511f7e",
         "GUID:299d920ab2714bb45b779fa8b716cf83",
@@ -25,7 +23,11 @@
         "GUID:0ce8820c9f0d48828499439bca7cd9a1",
         "GUID:18cca2ae3f1c0834984f9031e8d97571",
         "GUID:28e1e6827631413f918a86fbda22dbde",
-        "GUID:9b405dfe67b6402ab50f370abc4c67d7"
+        "GUID:9b405dfe67b6402ab50f370abc4c67d7",
+        "GUID:c9b72a3fc7bd4b56a011a8132576299e",
+        "GUID:0caeeb5e62e24745938aa2cc6728ea94",
+        "GUID:d3d03dad5c0a42bf8683e627c42d2248",
+        "GUID:519a48b5a12a4e15b48a3b2f45098690"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -17,7 +17,7 @@ namespace _Root.Scripts.Presentation.Containers.Runtime
         private int _index;
         private UnityAction<int> _unityAction;
 
-        public void Set(int index, Sprite sprite, Sprite statusSprite, UnityAction<int> onClick)
+        public void Initialize(int index, Sprite sprite, Sprite statusSprite, UnityAction<int> onClick)
         {
             Clear();
             _index = index;
@@ -27,7 +27,7 @@ namespace _Root.Scripts.Presentation.Containers.Runtime
             button.onClick.AddListener(OnClick);
         }
 
-        private void SetStatus(Sprite statusSprite)
+        public void SetStatus(Sprite statusSprite)
         {
             var statusNull = statusSprite == null;
             if (!statusNull) statusImage.sprite = statusSprite;

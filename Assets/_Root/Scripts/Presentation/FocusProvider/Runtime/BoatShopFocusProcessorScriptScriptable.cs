@@ -1,5 +1,6 @@
 ﻿using System;
 using _Root.Scripts.Game.Interactables.Runtime;
+using _Root.Scripts.Game.Utils.Runtime;
 using _Root.Scripts.Model.Boats.Runtime;
 using _Root.Scripts.Presentation.Containers.Runtime;
 using Pancake.Common;
@@ -30,6 +31,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
         [SerializeField] private ButtonSelectionController[] _buttonSelectionControllers;
 
         private ScrollRect _scrollRect;
+        private int lastSelected;
 
         public override void SetFocus(FocusReferences focusReferences)
         {
@@ -44,6 +46,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 
         private void SetupScrollRect(GameObject gameObject)
         {
+            lastSelected = 0;
             _scrollRect = gameObject.GetComponent<ScrollRect>();
             _boatInfoDTOs = CreateBoatInfoDto();
             Array.Sort(_boatInfoDTOs, Comparison);
@@ -58,9 +61,9 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
                 var boatVehicle = boatVehicleAssets[i];
                 boatInfoDTOs[i] = new BoatInfoDto
                 {
-                    index = i,
-                    unlocked = Array.Exists(unlockedBoatNames, s => s == boatVehicle.Value),
-                    boatVehicleAsset = boatVehicle
+                    Index = i,
+                    Unlocked = Array.Exists(unlockedBoatNames, s => s == boatVehicle.Value),
+                    BoatVehicleAsset = boatVehicle
                 };
             }
 
@@ -70,9 +73,9 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
         private int Comparison(BoatInfoDto a, BoatInfoDto b)
         {
             //show unlocked first but keep the order
-            if (a.unlocked && !b.unlocked) return -1;
-            if (!a.unlocked && b.unlocked) return 1;
-            return a.index.CompareTo(b.index);
+            if (a.Unlocked && !b.Unlocked) return -1;
+            if (!a.Unlocked && b.Unlocked) return 1;
+            return a.Index.CompareTo(b.Index);
         }
 
         private void PopulatePool(ScrollRect scrollRect, BoatInfoDto[] boatInfoDTOs)
@@ -81,36 +84,61 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
             var scrollContentTransform = scrollRect.content.transform;
             for (var i = 0; i < boatInfoDTOs.Length; i++)
             {
-                var boatInfoDto = boatInfoDTOs[i];
-                var spawnedGameObject = scriptablePool
-                    .Request(buttonSelectionControllerAsset, scrollContentTransform);
-                var buttonSelectionController = spawnedGameObject.GetComponent<ButtonSelectionController>();
-                
-                buttonSelectionController.Set(
-                    i,
-                    boatInfoDto.boatVehicleAsset.icon,
-                    StatusSprite(i),
-                    SetEquipped
-                );
-                _buttonSelectionControllers[i] = buttonSelectionController;
+                _buttonSelectionControllers[i] = CreateController(i, scrollContentTransform, boatInfoDTOs[i],
+                    out var isEquipped);
+                if (isEquipped) lastSelected = i;
             }
+
+            Select(lastSelected);
         }
 
-        private void SetEquipped(int i)
+        private ButtonSelectionController CreateController(int index,
+            Transform scrollContentTransform,
+            BoatInfoDto boatInfoDto,
+            out bool isEquipped)
         {
-            StatusSprite(i);
+            var buttonSelectionController = scriptablePool
+                .Request(buttonSelectionControllerAsset, scrollContentTransform)
+                .GetComponent<ButtonSelectionController>();
+
+            isEquipped = equippedBoatName == boatInfoDto.BoatVehicleAsset.Value;
+            buttonSelectionController.Initialize(
+                index,
+                boatInfoDto.BoatVehicleAsset.icon,
+                StatusSprite(isEquipped, boatInfoDto.Unlocked),
+                Select
+            );
+            return buttonSelectionController;
         }
 
-        private Sprite StatusSprite(int index)
+
+        private void Select(int index)
         {
-            if (equippedBoatName == _boatInfoDTOs[index].boatVehicleAsset.Value)
-            {
-                SetEquipped(index);
-                _scrollRect.ScrollTo(_buttonSelectionControllers[index].transform);
-                return equippedSprite;
-            }
-            
-            return _boatInfoDTOs[index].unlocked ? null : lockedSprite;
+            if (lastSelected != index && _boatInfoDTOs[index].Unlocked) UnSelect(lastSelected);
+            SetSelected(index);
+        }
+
+        private void SetSelected(int index)
+        {
+            bool unlocked = _boatInfoDTOs[index].Unlocked;
+            if (unlocked) lastSelected = index;
+            var buttonSelectionController = _buttonSelectionControllers[index];
+            buttonSelectionController.SetStatus(StatusSprite(unlocked, unlocked));
+            var normalizedPosition = _scrollRect.ScrollNormalizedPosition(buttonSelectionController.transform);
+            Debug.Log(normalizedPosition);
+        }
+
+        private void UnSelect(int index)
+        {
+            _buttonSelectionControllers[index].SetStatus(StatusSprite(false, _boatInfoDTOs[index].Unlocked));
+        }
+
+
+        private Sprite StatusSprite(bool isEquipped, bool unlocked)
+        {
+            if (!unlocked) return lockedSprite;
+            if (isEquipped) return equippedSprite;
+            return null;
         }
 
         public override void OnFocusLost(GameObject targetGameObject)
@@ -136,16 +164,16 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
             focusManager.PopFocus();
         }
 
-        public class BoatInfoDto
+        private struct BoatInfoDto
         {
-            public int index;
-            public bool unlocked;
-            public BoatVehicleAsset boatVehicleAsset;
+            public int Index;
+            public bool Unlocked;
+            public BoatVehicleAsset BoatVehicleAsset;
 
             public override string ToString()
             {
                 return
-                    $"{nameof(index)}: {index}, {nameof(unlocked)}: {unlocked}";
+                    $"{nameof(Index)}: {Index}, {nameof(Unlocked)}: {Unlocked}";
             }
         }
     }

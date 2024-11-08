@@ -1,35 +1,48 @@
 ﻿using _Root.Scripts.Game.GameEntities.Runtime.Attacks;
 using _Root.Scripts.Game.GameEntities.Runtime.Damages;
-using _Root.Scripts.Game.Stats.Runtime.Controller;
-using _Root.Scripts.Game.Stats.Runtime.Model;
+using _Root.Scripts.Game.Stats.Runtime;
 using _Root.Scripts.Game.Storages.Runtime;
+using _Root.Scripts.Model.Stats.Runtime;
+using _Root.Scripts.Model.Stats.Runtime.Interfaces;
 using Soul.Modifiers.Runtime;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.GameEntities.Runtime
 {
-    [DisallowMultipleComponent, SelectionBase]
+    [DisallowMultipleComponent]
+    [RequireComponent(typeof(EntityStatsComponent))]
     public class GameEntity : MonoBehaviour, IDamage, IHealth
     {
+        public EntityStatsComponent entityStatsComponent;
         private IGameItemStorageReference _itemStorageReference;
-        private IEntityStatsReference _entityStatsReference;
+
+        #region Plumbing
 
         private void Awake()
         {
             _itemStorageReference = GetComponent<IGameItemStorageReference>();
-            _entityStatsReference = GetComponent<IEntityStatsReference>();
+            entityStatsComponent ??= GetComponent<EntityStatsComponent>();
         }
 
         private void OnEnable()
         {
-            _entityStatsReference.EntityStats.Initialize();
-            _entityStatsReference.EntityStats.vitality.health.current.OnChange += OnHealthChange;
+            entityStatsComponent.entityStats.Initialize();
+            entityStatsComponent.entityStats.vitality.health.current.OnChange += OnHealthChange;
         }
 
         private void OnDisable()
         {
-            _entityStatsReference.EntityStats.vitality.health.current.OnChange -= OnHealthChange;
+            entityStatsComponent.entityStats.vitality.health.current.OnChange -= OnHealthChange;
         }
+
+        private void OnValidate()
+        {
+            entityStatsComponent ??= GetComponent<EntityStatsComponent>();
+        }
+
+        #endregion
+
+        public EnableLimitStat<Modifier> Health => entityStatsComponent.entityStats.vitality.health;
 
         private void OnHealthChange(float old, float current)
         {
@@ -68,8 +81,7 @@ namespace _Root.Scripts.Game.GameEntities.Runtime
 
         public bool TryKill(float damage, out float damageDelt)
         {
-            return _entityStatsReference.EntityStats.TryKill(damage, out damageDelt);
+            return entityStatsComponent.entityStats.TryKill(damage, out damageDelt);
         }
-        public EnableLimitStat<Modifier> Value => _entityStatsReference.EntityStats.vitality.health;
     }
 }

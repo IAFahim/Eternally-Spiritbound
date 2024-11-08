@@ -1,5 +1,6 @@
 ﻿using System;
 using _Root.Scripts.Game.Stats.Runtime.Model;
+using _Root.Scripts.Model.Stats.Runtime;
 using Pancake;
 using Pancake.Pools;
 using Soul.Modifiers.Runtime;

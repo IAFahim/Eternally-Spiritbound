@@ -1,17 +1,17 @@
-﻿using _Root.Scripts.Game.Stats.Runtime.Controller;
-using Pancake.Common;
+﻿using Pancake.Common;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.GameEntities.Runtime.Damages
 {
+    [RequireComponent(typeof(EntityStatsComponent))]
     public class ContactDamage : MonoBehaviour
     {
         public LayerMask targetLayer;
-        private IEntityStatsReference _entityStatsReference;
+        private EntityStatsComponent _entityStatsReference;
 
         private void Awake()
         {
-            _entityStatsReference = GetComponent<IEntityStatsReference>();
+            _entityStatsReference = GetComponent<EntityStatsComponent>();
         }
         
         private void OnCollisionEnter(Collision other)

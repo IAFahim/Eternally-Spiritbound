@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace _Root.Scripts.Model.Water.Runtime
 {
-    [CreateAssetMenu(fileName = "WaterParameters", menuName = "Scriptable/Parameters/Water Parameters")]
+    [CreateAssetMenu(fileName = "WaterParameters", menuName = "Scriptable/Parameters/Water")]
     public class WaterParameterScript : ParameterScript<WaterParameters>
     {
         [SerializeField] private float lastTime = 0;

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using _Root.Scripts.Game.Stats.Runtime.Model;
+using _Root.Scripts.Model.Stats.Runtime;
 using Soul.Modifiers.Runtime;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
