@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc05463803984ce7bf8a41a9ee8b39fd, type: 3}
   m_Name: Tug Boat Single
   m_EditorClassIdentifier: 
-  value: Tow Boat Single
+  value: Tug Boat Single
   guid: d7ed28189b56406
   assetReferenceGameObject:
     m_AssetGUID: 23e451c3d0ec2b643a3e4de9d844a886

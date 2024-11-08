@@ -19,13 +19,13 @@ MonoBehaviour:
     m_SubObjectType: 
     m_EditorAssetChanged: 1
   boatShopCloseButton:
-    m_AssetGUID: fee65a7e11779684a89945ed79b4ccc6
+    m_AssetGUID: 0492cac06f287be489316487a4c0cb74
     m_SubObjectName: 
     m_SubObjectGUID: 
     m_SubObjectType: 
     m_EditorAssetChanged: 1
   boatScrollRect:
-    m_AssetGUID: 7562b1fde8fdb4c44a19eb7f1fe0d682
+    m_AssetGUID: bef863356cf6cf94eb37662c70f4b392
     m_SubObjectName: 
     m_SubObjectGUID: 
     m_SubObjectType: 
@@ -47,5 +47,6 @@ MonoBehaviour:
   unlockedBoatNames:
   - Tow Boat Double
   _buttonSelectionControllers:
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
