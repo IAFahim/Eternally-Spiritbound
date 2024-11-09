@@ -1,9 +1,11 @@
 ﻿using System;
 using _Root.Scripts.Game.ObjectModifers.Runtime;
+using _Root.Scripts.Game.Placements.Runtime;
 using Sisus.Init.Reflection;
 using Soul.Pools.Runtime;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Game.Spawners.Runtime
 {
@@ -12,7 +14,7 @@ namespace _Root.Scripts.Game.Spawners.Runtime
     {
         [SerializeField] private AssetReferenceGameObject assetReference;
         [SerializeField] protected ScriptablePool pool;
-        [SerializeField] private SpawnStrategy spawnStrategy;
+        [FormerlySerializedAs("spawnStrategy")] [SerializeField] private PlacementStrategy placementStrategy;
         [SerializeField] private GameObjectModifer gameObjectModifer;
         [SerializeField] private float startDelay;
         [SerializeField] private float interval;
@@ -52,7 +54,7 @@ namespace _Root.Scripts.Game.Spawners.Runtime
             GameObject gameObject = pool.Request(assetReference);
             gameObject.AddComponent<SpawnHandle>(this);
             gameObjectModifer.Modify(gameObject);
-            spawned += spawnStrategy.Spawn(gameObject.transform, count - spawned);
+            spawned += placementStrategy.Place(gameObject.transform, count - spawned);
             return IsAlive();
         }
 

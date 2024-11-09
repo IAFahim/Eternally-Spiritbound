@@ -1,0 +1,4 @@
+﻿{
+  "name": "Game.Placements.Runtime",
+  "references":[ "GUID:efd9a104bd8a459198be92df5525e105", "GUID:5b0cd644839a47e4a0362e25f7100c02" ]
+}

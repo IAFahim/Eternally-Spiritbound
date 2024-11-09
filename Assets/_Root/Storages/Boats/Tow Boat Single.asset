@@ -23,3 +23,4 @@ MonoBehaviour:
   description: 
   icon: {fileID: 21300000, guid: 04afc98460894e942985eb9600a6217a, type: 3}
   dropStrategy: {fileID: 11400000, guid: bc587b9ed86af8b41b1863085b75a8c0, type: 2}
+  boatControllerParameterScript: {fileID: 11400000, guid: c85af2ed0908c04449fcb6e6c078b4ec, type: 2}

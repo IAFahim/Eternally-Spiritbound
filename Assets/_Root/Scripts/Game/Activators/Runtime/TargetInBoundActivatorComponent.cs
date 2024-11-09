@@ -23,6 +23,7 @@ namespace _Root.Scripts.Game.Activators.Runtime
 
         private void OnEnable()
         {
+            targetStrategy.Stop();
             targetStrategy.Start();
             targetStrategy.Register(null, OnTargetFound, OnTargetLost);
         }

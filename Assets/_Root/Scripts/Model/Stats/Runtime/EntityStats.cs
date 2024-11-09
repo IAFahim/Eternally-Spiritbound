@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 namespace _Root.Scripts.Model.Stats.Runtime
 {
     [Serializable]
+    [Searchable]
     public struct EntityStats
     {
         public VitalityStats<Modifier> vitality;

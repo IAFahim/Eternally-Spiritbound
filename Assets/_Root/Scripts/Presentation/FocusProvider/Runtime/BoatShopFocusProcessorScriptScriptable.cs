@@ -3,10 +3,11 @@ using _Root.Scripts.Game.Interactables.Runtime;
 using _Root.Scripts.Game.Utils.Runtime;
 using _Root.Scripts.Model.Boats.Runtime;
 using _Root.Scripts.Presentation.Containers.Runtime;
-using Pancake.Common;
 using Soul.Pools.Runtime;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace _Root.Scripts.Presentation.FocusProvider.Runtime
@@ -14,8 +15,8 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
     [CreateAssetMenu(fileName = "Boat Shop Processor", menuName = "Scriptable/FocusProcessor/Boat Shop")]
     public class BoatShopFocusProcessorScriptScriptable : FocusProcessorScriptCinemachineScriptable
     {
-        [SerializeField] private AssetReferenceGameObject boatShopCloseButton;
-        [SerializeField] private AssetReferenceGameObject boatScrollRect;
+        [FormerlySerializedAs("boatShopCloseButton")] [SerializeField] private AssetReferenceGameObject boatShopCloseButtonAsset;
+        [FormerlySerializedAs("boatScrollRect")] [SerializeField] private AssetReferenceGameObject boatScrollRectAsset;
         [SerializeField] private FocusManagerScript focusManager;
         [SerializeField] private AssetReferenceGameObject buttonSelectionControllerAsset;
         [SerializeField] private Sprite lockedSprite;
@@ -27,11 +28,12 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 
         [SerializeField] private string equippedBoatName;
         [SerializeField] private string[] unlockedBoatNames;
-        [SerializeField] private BoatInfoDto[] _boatInfoDTOs;
         [SerializeField] private ButtonSelectionController[] _buttonSelectionControllers;
 
         private ScrollRect _scrollRect;
-        private int lastSelected;
+        private BoatInfoDto[] _boatInfoDTOs;
+        private TMP_Text _titleText;  
+        private int _lastSelected;
 
         public override void SetFocus(FocusReferences focusReferences)
         {
@@ -39,15 +41,16 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
             BuildCache(
                 focusReferences.ActiveElements,
                 (cinemachineAsset, SetupCinemachine, null),
-                (boatShopCloseButton, SetupCloseButton, focusReferences.stillCanvasTransformPoint),
-                (boatScrollRect, SetupScrollRect, focusReferences.stillCanvasTransformPoint)
+                (boatShopCloseButtonAsset, SetupCloseButton, focusReferences.stillCanvasTransformPoint),
+                (boatScrollRectAsset, SetupScrollRect, focusReferences.stillCanvasTransformPoint)
             );
         }
 
         private void SetupScrollRect(GameObject gameObject)
         {
-            lastSelected = 0;
+            _lastSelected = 0;
             _scrollRect = gameObject.GetComponent<ScrollRect>();
+            _titleText = gameObject.GetComponentInChildren<TMP_Text>();
             _boatInfoDTOs = CreateBoatInfoDto();
             Array.Sort(_boatInfoDTOs, Comparison);
             PopulatePool(_scrollRect, _boatInfoDTOs);
@@ -86,10 +89,10 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
             {
                 _buttonSelectionControllers[i] = CreateController(i, scrollContentTransform, boatInfoDTOs[i],
                     out var isEquipped);
-                if (isEquipped) lastSelected = i;
+                if (isEquipped) _lastSelected = i;
             }
 
-            Select(lastSelected);
+            Select(_lastSelected);
         }
 
         private ButtonSelectionController CreateController(int index,
@@ -114,14 +117,15 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 
         private void Select(int index)
         {
-            if (lastSelected != index && _boatInfoDTOs[index].Unlocked) UnSelect(lastSelected);
+            if (_lastSelected != index && _boatInfoDTOs[index].Unlocked) UnSelect(_lastSelected);
             SetSelected(index);
         }
 
         private void SetSelected(int index)
         {
             bool unlocked = _boatInfoDTOs[index].Unlocked;
-            if (unlocked) lastSelected = index;
+            if (unlocked) _lastSelected = index;
+            _titleText.text = _boatInfoDTOs[index].BoatVehicleAsset.Value;
             var buttonSelectionController = _buttonSelectionControllers[index];
             buttonSelectionController.SetStatus(StatusSprite(unlocked, unlocked));
             var normalizedPosition = _scrollRect.ScrollNormalizedPosition(buttonSelectionController.transform);

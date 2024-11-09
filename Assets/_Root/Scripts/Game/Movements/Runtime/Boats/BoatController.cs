@@ -28,7 +28,7 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
         private void OnEnable()
         {
             rb = GetComponent<Rigidbody>();
-            Parameters = parameterScript.New();
+            Parameters = parameterScript.value;
         }
 
         private void Update()

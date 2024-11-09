@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 787e20fa506a4ea1b55993451c7516bc, type: 3}
-  m_Name: parameter_script
+  m_Name: Tow Boat Single Controller parameter
   m_EditorClassIdentifier: 
   value:
     maxForwardSpeed: 50

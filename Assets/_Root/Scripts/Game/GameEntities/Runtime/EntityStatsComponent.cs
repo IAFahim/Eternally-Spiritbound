@@ -12,7 +12,7 @@ namespace _Root.Scripts.Game.GameEntities.Runtime
 
         private void OnEnable()
         {
-            entityStats = entityStatsParameterScript.New();
+            entityStats = entityStatsParameterScript.value;
             entityStats.Initialize();
         }
     }

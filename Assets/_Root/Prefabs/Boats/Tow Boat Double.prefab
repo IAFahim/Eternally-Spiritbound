@@ -93,7 +93,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f90d4f1fd98b4c7fab38751ec3bf783b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityStatsParameterScript: {fileID: 11400000, guid: bfb0a96c47417b247840ebbf5d1d57f8, type: 2}
+  entityStatsParameterScript: {fileID: 11400000, guid: 3d13b3d2cf2ce0340b0a4e0d9dbbe091, type: 2}
   entityStats:
     vitality:
       health:
@@ -103,7 +103,6 @@ MonoBehaviour:
           baseValue: 5
           rate: 0
           additive: 0
-        enabled: 0
       size:
         baseValue: 0
         rate: 0
@@ -216,12 +215,6 @@ MonoBehaviour:
         rate: 0
         additive: 0
       penetration:
-        current:
-          value: 0
-        max:
-          baseValue: 0
-          rate: 0
-          additive: 0
         enabled: 0
 --- !u!114 &4121787031315781494
 MonoBehaviour:

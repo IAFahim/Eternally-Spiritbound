@@ -3,7 +3,7 @@ using Sirenix.OdinInspector;
 using Soul.Pools.Runtime;
 using UnityEngine;
 
-namespace _Root.Scripts.Game.Connections.Runtime
+namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
 {
     public class SingleShopAndBoatConnection : MonoBehaviour
     {
