@@ -4,17 +4,18 @@ using UnityEngine;
 namespace Soul.Reactives.Runtime
 {
     [Serializable]
-    public class Reactive<T>
+    public struct Reactive<T>
     {
-        [SerializeField] protected T value;
+        public T value;
         public event Action<T, T> OnChange;
 
         public Reactive(T value)
         {
             this.value = value;
+            OnChange = null;
         }
 
-        public virtual T Value
+        public T Value
         {
             get => value;
             set

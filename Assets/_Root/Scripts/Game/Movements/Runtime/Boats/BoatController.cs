@@ -28,7 +28,7 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
         private void OnEnable()
         {
             rb = GetComponent<Rigidbody>();
-            Parameters = parameterScript.value;
+            Parameters = parameterScript.New();
         }
 
         private void Update()
@@ -72,9 +72,10 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
             else MoveDirection = new Vector3(input.x, 0, input.y).normalized;
         }
 
-        private void OnMoveInputCancel(InputAction.CallbackContext context)
+        protected override void OnMoveInputCancel(InputAction.CallbackContext context)
         {
             MoveDirection = Vector3.zero;
+            Debug.Log("Move Direction: " + MoveDirection);
         }
 
         private void UpdateLean()

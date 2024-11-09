@@ -26,7 +26,6 @@ namespace _Root.Scripts.Game.GameEntities.Runtime
 
         private void OnEnable()
         {
-            entityStatsComponent.entityStats.Initialize();
             entityStatsComponent.entityStats.vitality.health.current.OnChange += OnHealthChange;
         }
 
@@ -42,7 +41,7 @@ namespace _Root.Scripts.Game.GameEntities.Runtime
 
         #endregion
 
-        public EnableLimitStat<Modifier> HealthReference => entityStatsComponent.entityStats.vitality.health;
+        public LimitStat<Modifier> HealthReference => entityStatsComponent.entityStats.vitality.health;
 
         private void OnHealthChange(float old, float current)
         {

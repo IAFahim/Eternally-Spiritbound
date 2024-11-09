@@ -1,11 +1,10 @@
 ﻿using System;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Soul.Modifiers.Runtime
 {
     [Serializable]
-    public class Modifier : IEquatable<Modifier>
+    public struct Modifier : IEquatable<Modifier>
     {
         [Newtonsoft.Json.JsonIgnore] [SerializeField]
         private float baseValue;
@@ -32,14 +31,14 @@ namespace Soul.Modifiers.Runtime
             remaining = 0;
             return false;
         }
-        
 
 
         public Modifier(float baseValue)
         {
             this.baseValue = baseValue;
-            this.rate = 0;
-            this.additive = 0;
+            rate = 0;
+            additive = 0;
+            OnValueChanged = null;
         }
 
 
@@ -54,6 +53,7 @@ namespace Soul.Modifiers.Runtime
             this.baseValue = baseValue;
             this.rate = rate;
             this.additive = additive;
+            OnValueChanged = null;
         }
 
         public float BaseValue
@@ -123,7 +123,6 @@ namespace Soul.Modifiers.Runtime
             baseValue = baseVal;
         }
 
-        
 
         /// <summary>
         /// Creates a deep copy of this Modifier.

@@ -5,6 +5,6 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Healths
 {
     public interface IHealth
     {
-        public EnableLimitStat<Modifier> HealthReference { get; }
+        public LimitStat<Modifier> HealthReference { get; }
     }
 }

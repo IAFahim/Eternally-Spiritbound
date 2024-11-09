@@ -3,7 +3,7 @@
 namespace _Root.Scripts.Model.Stats.Runtime
 {
     [Serializable]
-    public class EnableLimitStat<T> : LimitStat<T>
+    public class EnableLimitStat<T>
     {
         public bool enabled;
     }

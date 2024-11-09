@@ -1,12 +1,10 @@
-using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Layouts;
 using UnityEngine.InputSystem.OnScreen;
 using UnityEngine.Serialization;
 
-namespace EnhancedOnScreenControls
+namespace Plugins.EnhancedOnScreenStick.Runtime
 {
     public enum StickType
     {
@@ -26,7 +24,9 @@ namespace EnhancedOnScreenControls
     [RequireComponent(typeof(RectTransform))]
     public class EnhancedOnScreenStick : OnScreenControl, IPointerDownHandler, IPointerUpHandler, IDragHandler
     {
-        [InputControl(layout = "Vector2")] [FormerlySerializedAs("controlPath")] [SerializeField]
+        [InputControl(layout = "Vector2")]
+        [FormerlySerializedAs("controlPath")]
+        [SerializeField]
         string internalControlPath;
 
         [SerializeField] StickType stickType;
@@ -86,14 +86,12 @@ namespace EnhancedOnScreenControls
         }
 
         public void OnPointerUp(PointerEventData eventData)
-        { 
+        {
             SentDefaultValueToControl();
+
             handle.anchoredPosition = Vector2.zero;
 
-            if (showOnlyWhenPressed)
-            {
-                background.gameObject.SetActive(false);
-            }
+            if (showOnlyWhenPressed) background.gameObject.SetActive(false);
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -122,13 +120,11 @@ namespace EnhancedOnScreenControls
         Vector2 ScreenToAnchoredPosition(Vector2 screenPosition)
         {
             var camera = canvas.worldCamera;
-            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, screenPosition, camera,
-                    out var localPoint))
+            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, screenPosition, camera, out var localPoint))
             {
                 var pivotOffset = rectTransform.pivot * rectTransform.sizeDelta;
                 return localPoint - (background.anchorMax * rectTransform.sizeDelta) + pivotOffset;
             }
-
             return Vector2.zero;
         }
 

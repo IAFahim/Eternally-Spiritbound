@@ -1148,7 +1148,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &683179231
 Transform:
   m_ObjectHideFlags: 0
@@ -1215,9 +1215,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26d3a95d0945456fb874c618b32ea2fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boat: {fileID: 1740012158}
+  boatAsset: {fileID: 11400000, guid: b98b22c8b6662af46acc68d900f22a25, type: 2}
   offset: {x: 9.47998, y: -3, z: 2.4100037}
   rotation: {x: 0, y: 0, z: 0, w: 1}
+  scriptablePool: {fileID: 11400000, guid: eb9b5ddfc95cdce4ba5e984f6abd7193, type: 2}
+  boat: {fileID: 1740012158}
   positionForceMultiplier: 0.1
   rotationTorqueMultiplier: 1
 --- !u!114 &683179235
@@ -1680,7 +1682,6 @@ MonoBehaviour:
           baseValue: 0
           rate: 0
           additive: 0
-        enabled: 0
       size:
         baseValue: 0
         rate: 0
@@ -1793,12 +1794,6 @@ MonoBehaviour:
         rate: 0
         additive: 0
       penetration:
-        current:
-          value: 0
-        max:
-          baseValue: 0
-          rate: 0
-          additive: 0
         enabled: 0
 --- !u!114 &812386036
 MonoBehaviour:
@@ -2533,6 +2528,10 @@ PrefabInstance:
     - target: {fileID: 5605311547021212894, guid: 946ea4e6aa4032a48bd434a7b2d0d743, type: 3}
       propertyPath: m_Name
       value: Boat Tow A
+      objectReference: {fileID: 0}
+    - target: {fileID: 5605311547021212894, guid: 946ea4e6aa4032a48bd434a7b2d0d743, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7696365957442595197, guid: 946ea4e6aa4032a48bd434a7b2d0d743, type: 3}
       propertyPath: m_LocalPosition.x

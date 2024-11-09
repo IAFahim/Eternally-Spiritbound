@@ -25,9 +25,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
         private GameObject _joyStickCache;
 
         private Material _targetOriginalMaterial;
-        private EntityStats _entityStats;
-        private Reactive<float> _health;
-        private Modifier _maxHealth;
+        private EntityStatsComponent _entityStatsComponent;
         private DamageFlash _damageFlash;
 
 
@@ -52,16 +50,15 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
         private void SetupHealthBar(GameObject spawnedHealthBar)
         {
             _healthBarCache = spawnedHealthBar.GetComponent<ProgressBar>();
-            _entityStats = TargetGameObject.GetComponent<EntityStatsComponent>().entityStats;
-            _health = _entityStats.vitality.health.current;
-            _maxHealth = _entityStats.vitality.health.max;
-            _health.OnChange += OnCurrentHealthChange;
-            _healthBarCache.SetValueWithoutNotify(_health.Value);
+            _entityStatsComponent = TargetGameObject.GetComponent<EntityStatsComponent>();
+
+            _entityStatsComponent.entityStats.vitality.health.current.OnChange += OnCurrentHealthChange;
+            _healthBarCache.SetValueWithoutNotify(_entityStatsComponent.entityStats.vitality.health.current.Value);
         }
 
         private void CleanHealthBar()
         {
-            _health.OnChange -= OnCurrentHealthChange;
+            _entityStatsComponent.entityStats.vitality.health.current.OnChange -= OnCurrentHealthChange;
         }
 
 
@@ -73,7 +70,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
                 Time.timeScale = 0f;
             }
 
-            _healthBarCache.Value = current / _maxHealth.Value;
+            _healthBarCache.Value = current / _entityStatsComponent.entityStats.vitality.health.max.Value;
             App.Delay(timeScaleStopDuration, RestoreTimeScale, useRealTime: true);
         }
 

@@ -1,4 +1,5 @@
 ﻿using _Root.Scripts.Game.Consmatics.Runtime;
+using _Root.Scripts.Game.GameEntities.Runtime;
 using _Root.Scripts.Game.GameEntities.Runtime.Healths;
 using Pancake.Common;
 using Sisus.Init;
@@ -11,6 +12,7 @@ namespace _Root.Scripts.Presentation.Interactions.Runtime
         private FlashConfigScript _flashConfigScript;
         private Renderer _targetRenderer;
         private IHealth _health;
+        private EntityStatsComponent _entityStatsComponent;
         private Material _defaultMaterial;
         private DelayHandle _delayHandle;
 
@@ -23,6 +25,7 @@ namespace _Root.Scripts.Presentation.Interactions.Runtime
         {
             base.OnAwake();
             _health = GetComponent<IHealth>();
+            _entityStatsComponent = GetComponent<EntityStatsComponent>();
             _targetRenderer = GetComponentInChildren<Renderer>();
             _defaultMaterial = _targetRenderer.material;
         }
@@ -31,11 +34,13 @@ namespace _Root.Scripts.Presentation.Interactions.Runtime
         {
             _defaultMaterial = _targetRenderer.material;
             _health.HealthReference.current.OnChange += OnHealthChange;
+            _entityStatsComponent.entityStats.vitality.health.current.OnChange += OnHealthChange;
         }
         
         public void OnDisable()
         {
             _health.HealthReference.current.OnChange -= OnHealthChange;
+            _entityStatsComponent.entityStats.vitality.health.current.OnChange -= OnHealthChange;
             _delayHandle?.Cancel();
             Restore();
         }

@@ -6,7 +6,9 @@ namespace _Root.Scripts.Game.Inputs.Runtime
 {
     public abstract class MovementProviderComponent : MonoBehaviour, IMove
     {
-        [FormerlySerializedAs("isInputEnabled")] public bool inputEnabled;
+        [FormerlySerializedAs("isInputEnabled")]
+        public bool inputEnabled;
+
         protected Vector3 MoveDirection;
 
         public bool IsInputEnabled
@@ -41,6 +43,6 @@ namespace _Root.Scripts.Game.Inputs.Runtime
             moveAction.action.canceled -= ((IMoveInputConsumer)this).OnMoveInputCancel;
         }
 
-        private void OnMoveInputCancel(InputAction.CallbackContext context) => MoveDirection = Vector3.zero;
+        protected virtual void OnMoveInputCancel(InputAction.CallbackContext context) => MoveDirection = Vector3.zero;
     }
 }

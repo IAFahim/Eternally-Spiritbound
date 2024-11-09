@@ -1,21 +1,27 @@
-﻿using Sirenix.OdinInspector;
+﻿using _Root.Scripts.Model.Assets.Runtime;
+using Sirenix.OdinInspector;
+using Soul.Pools.Runtime;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.Connections.Runtime
 {
-    public class ShopAndBoatConnection : MonoBehaviour
+    public class SingleShopAndBoatConnection : MonoBehaviour
     {
-        public GameObject boat;
+        public AssetBase boatAsset;
         public Vector3 offset;
         public Quaternion rotation;
-
+        public ScriptablePool scriptablePool;
+        public GameObject boat;
+        
         public float positionForceMultiplier = 1f;
         public float rotationTorqueMultiplier = 1f;
-
+        
         private Rigidbody _boatRigidbody;
 
         private void Awake()
         {
+            var transformPoint= transform.TransformPoint(offset);
+            boat = scriptablePool.Request(boatAsset.assetReferenceGameObject, transformPoint, rotation);
             _boatRigidbody = boat.GetComponent<Rigidbody>();
         }
 

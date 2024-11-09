@@ -29,10 +29,10 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
                 new EnableLimitStat<float>
                 {
                     enabled = value.penetration.enabled & playerStats.penetration.enabled,
-                    current = new Reactive<float>(
-                        value.penetration.current.Value + playerStats.penetration.current.Value
-                    ),
-                    max = value.penetration.max + playerStats.penetration.max.Value
+                    // current = new Reactive<float>(
+                    //     value.penetration.current.Value + playerStats.penetration.current.Value
+                    // ),
+                    // max = value.penetration.max + playerStats.penetration.max.Value
                 }
             );
         }
