@@ -1,6 +1,7 @@
 ﻿using _Root.Scripts.Game.Consmatics.Runtime;
 using _Root.Scripts.Game.GameEntities.Runtime;
 using _Root.Scripts.Game.GameEntities.Runtime.Healths;
+using _Root.Scripts.Model.Stats.Runtime;
 using Pancake.Common;
 using Sisus.Init;
 using UnityEngine;
@@ -29,20 +30,27 @@ namespace _Root.Scripts.Presentation.Interactions.Runtime
             _targetRenderer = GetComponentInChildren<Renderer>();
             _defaultMaterial = _targetRenderer.material;
         }
-
-        public void OnEnable()
+        
+        private void OnEntityStatsChange()
         {
-            _defaultMaterial = _targetRenderer.material;
+            Debug.Log($"EntityStats changed.", this);
             _health.HealthReference.current.OnChange += OnHealthChange;
             _entityStatsComponent.entityStats.vitality.health.current.OnChange += OnHealthChange;
         }
         
-        public void OnDisable()
+        private void OnEntityStatsDisable()
         {
+            Debug.Log($"EntityStats disabled.", this);
             _health.HealthReference.current.OnChange -= OnHealthChange;
             _entityStatsComponent.entityStats.vitality.health.current.OnChange -= OnHealthChange;
             _delayHandle?.Cancel();
             Restore();
+        }
+
+        public void OnEnable()
+        {
+            _defaultMaterial = _targetRenderer.material;
+            _entityStatsComponent.Register(OnEntityStatsChange, OnEntityStatsDisable);
         }
 
         private void OnHealthChange(float old, float current)

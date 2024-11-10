@@ -79,6 +79,7 @@ namespace Soul.Pools.Runtime
         public void ClearAll()
         {
             foreach (var pool in _pools) pool.Value.Clear();
+            _pools.Clear();
         }
 
         public void Dispose() => ClearAll();

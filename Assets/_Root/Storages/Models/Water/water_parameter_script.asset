@@ -18,3 +18,13 @@ MonoBehaviour:
     buoyancyForce: 100
     waveIntensity: 8.96
     waveFrequency: 1.41
+  parameters:
+  - key: 0
+    value:
+      waterLevel: 0
+      waterDrag: 0.99
+      buoyancyForce: 100
+      waveIntensity: 8.96
+      waveFrequency: 1.41
+  lastTime: 0
+  updateFrequency: 0.2

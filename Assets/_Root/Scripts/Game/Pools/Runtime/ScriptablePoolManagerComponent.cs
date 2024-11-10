@@ -8,7 +8,7 @@ namespace _Root.Scripts.Game.Pools.Runtime
         [SerializeField] private ScriptablePool scriptablePool;
         [SerializeField] private AsyncScriptablePool asyncScriptablePool;
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             scriptablePool.ClearAll();
             asyncScriptablePool.ClearAll();

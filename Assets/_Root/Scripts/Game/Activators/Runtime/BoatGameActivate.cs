@@ -5,19 +5,18 @@ using UnityEngine;
 
 namespace _Root.Scripts.Game.Activators.Runtime
 {
-    [CreateAssetMenu(fileName = "BoatGame Activator", menuName = "Scriptable/Activators/BoatGame")]
-    public class BoatGameActivateScript : ActivatorScript
+    public class BoatGameActivate : MonoBehaviour
     {
         public TargetStrategy targetStrategy;
         public SpawnerTemplate[] spawnerTemplates;
         private SpawnerTemplate _currentActiveSpawnTemplate;
-        
-        public override void Activate(Transform activatorInvoker)
+
+        public void OnEnable()
         {
             Spawn(0);
         }
-        
-        public void Spawn(int index)
+
+        private void Spawn(int index)
         {
             if (_currentActiveSpawnTemplate != null) _currentActiveSpawnTemplate.OnStop();
             _currentActiveSpawnTemplate = spawnerTemplates[index];
@@ -34,13 +33,8 @@ namespace _Root.Scripts.Game.Activators.Runtime
         {
             _currentActiveSpawnTemplate.OnUpdate(Time.deltaTime);
         }
-        
-        public override void Deactivate(Transform activatorInvoker)
-        {
-            App.RemoveListener(EUpdateMode.Update, OnUpdate);
-        }
 
-        public override void CleanUp()
+        private void OnDisable()
         {
             App.RemoveListener(EUpdateMode.Update, OnUpdate);
             targetStrategy.Stop();

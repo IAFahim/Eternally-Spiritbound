@@ -20,9 +20,8 @@ MonoBehaviour:
       m_SubObjectType: 
       m_EditorAssetChanged: 1
     pool: {fileID: 11400000, guid: eb9b5ddfc95cdce4ba5e984f6abd7193, type: 2}
-    spawnStrategy: {fileID: 11400000, guid: b90642002762014448b8d3d630b8a2d6, type: 2}
+    placementStrategy: {fileID: 11400000, guid: b90642002762014448b8d3d630b8a2d6, type: 2}
     gameObjectModifer: {fileID: 11400000, guid: 72c1dcd273f3d744a8bffa66e95ff568, type: 2}
     startDelay: 1
     interval: 0.2
-    spawned: 20
     count: 2

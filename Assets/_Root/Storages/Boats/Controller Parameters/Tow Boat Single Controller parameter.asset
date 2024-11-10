@@ -18,10 +18,15 @@ MonoBehaviour:
     turnTorque: 5
     accelerationForce: 50
     reverseAccelerationForce: 25
-    waterDrag: 0.99
-    waterLevel: 0
-    buoyancyForce: 100
-    waveIntensity: 8.96
-    waveFrequency: 1.41
     stabilizationTorque: 4967
     dampingFactor: 5
+  parameters:
+  - key: 0
+    value:
+      maxForwardSpeed: 50
+      maxReverseSpeed: 25
+      turnTorque: 5
+      accelerationForce: 50
+      reverseAccelerationForce: 25
+      stabilizationTorque: 4967
+      dampingFactor: 5

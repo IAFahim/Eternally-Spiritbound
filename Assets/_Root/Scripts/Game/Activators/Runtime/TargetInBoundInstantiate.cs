@@ -1,25 +1,28 @@
 using _Root.Scripts.Game.Ai.Runtime.Targets;
-using Pancake.Common;
 using Sirenix.OdinInspector;
 using Soul.Tickers.Runtime;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.Serialization;
 using Color = UnityEngine.Color;
 
 namespace _Root.Scripts.Game.Activators.Runtime
 {
-    public class TargetInBoundActivatorComponent : MonoBehaviour
+    public class TargetInBoundInstantiate : MonoBehaviour
     {
-        [SerializeField] private ActivatorScript activatorScript;
+        [SerializeField] private AssetReferenceGameObject asset;
         [SerializeField] private bool isInside;
         [SerializeField] private Bounds[] bounds;
 
         [FormerlySerializedAs("targetingStrategy")] [SerializeField]
         private TargetStrategy targetStrategy;
 
+
         [SerializeField] private IntervalTicker checkInterval;
 
         private ITargetable _targetable;
+        private GameObject _currentInstance;
 
         private void OnEnable()
         {
@@ -62,7 +65,8 @@ namespace _Root.Scripts.Game.Activators.Runtime
             {
                 if (!bound.Contains(position)) continue;
                 if (isInside) return;
-                activatorScript.Activate(targetTransform);
+                Addressables.InstantiateAsync(asset, targetTransform.position, Quaternion.identity).Completed +=
+                    OnInstantiate;
                 targetStrategy.Register(null, OnTargetFound, OnTargetLost);
                 isInside = true;
                 return;
@@ -70,21 +74,16 @@ namespace _Root.Scripts.Game.Activators.Runtime
 
             if (isInside)
             {
-                activatorScript.Deactivate(targetTransform);
+                Addressables.ReleaseInstance(_currentInstance);
                 isInside = false;
             }
         }
 
+        private void OnInstantiate(AsyncOperationHandle<GameObject> obj) => _currentInstance = obj.Result;
+
         private void OnDisable()
         {
             targetStrategy.UnRegister(null, OnTargetFound, OnTargetLost);
-            if (Application.isPlaying)
-                if (_targetable != null && (!_targetable.Transform.OrNull()))
-                {
-                    activatorScript.Deactivate(_targetable.Transform);
-                }
-
-            activatorScript.CleanUp();
             ClearTarget();
         }
 

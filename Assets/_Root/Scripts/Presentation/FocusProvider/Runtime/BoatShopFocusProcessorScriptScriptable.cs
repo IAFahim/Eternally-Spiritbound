@@ -1,4 +1,5 @@
 ﻿using System;
+using _Root.Scripts.Game.Infrastructures.Runtime.Shops;
 using _Root.Scripts.Game.Interactables.Runtime;
 using _Root.Scripts.Game.Utils.Runtime;
 using _Root.Scripts.Model.Boats.Runtime;
@@ -31,6 +32,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
         [SerializeField] private ButtonSelectionController[] _buttonSelectionControllers;
 
         private ScrollRect _scrollRect;
+        private ShopBase _shopBase;
         private BoatInfoDto[] _boatInfoDTOs;
         private TMP_Text _titleText;  
         private int _lastSelected;
