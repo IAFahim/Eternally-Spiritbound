@@ -42,17 +42,17 @@ namespace Pancake.Pools
             return obj;
         }
 
-        public async UniTask<GameObject> RentAsync(Transform parent, CancellationToken cancellationToken = default)
+        public async UniTask<GameObject> RequestAsync(Transform parent, bool worldPositionStays = false, CancellationToken cancellationToken = default)
         {
             ThrowIfDisposed();
 
             if (!_stack.TryPop(out var obj))
             {
-                obj = await Addressables.InstantiateAsync(_key, parent).ToUniTask(cancellationToken: cancellationToken);
+                obj = await Addressables.InstantiateAsync(_key, parent, worldPositionStays).ToUniTask(cancellationToken: cancellationToken);
             }
             else
             {
-                obj.transform.SetParent(parent);
+                obj.transform.SetParent(parent, worldPositionStays);
                 obj.SetActive(true);
             }
 
@@ -60,7 +60,7 @@ namespace Pancake.Pools
             return obj;
         }
 
-        public async UniTask<GameObject> RentAsync(Vector3 position, Quaternion rotation, CancellationToken cancellationToken = default)
+        public async UniTask<GameObject> RequestAsync(Vector3 position, Quaternion rotation, CancellationToken cancellationToken = default)
         {
             ThrowIfDisposed();
 
@@ -78,7 +78,7 @@ namespace Pancake.Pools
             return obj;
         }
 
-        public async UniTask<GameObject> RentAsync(Vector3 position, Quaternion rotation, Transform parent)
+        public async UniTask<GameObject> RequestAsync(Vector3 position, Quaternion rotation, Transform parent)
         {
             ThrowIfDisposed();
 

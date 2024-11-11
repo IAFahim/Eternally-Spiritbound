@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+#if PANCAKE_UNITASK
+using Cysharp.Threading.Tasks;
+#endif
 
 namespace Pancake.Pools
 {
@@ -36,17 +39,17 @@ namespace Pancake.Pools
             return obj;
         }
 
-        public GameObject Request(Transform parent)
+        public GameObject Request(Transform parent, bool worldPositionStays = false)
         {
             ThrowIfDisposed();
 
             if (!_stack.TryPop(out var obj))
             {
-                obj = UnityEngine.Object.Instantiate(_original, parent);
+                obj = UnityEngine.Object.Instantiate(_original, parent, worldPositionStays);
             }
             else
             {
-                obj.transform.SetParent(parent);
+                obj.transform.SetParent(parent, worldPositionStays);
                 obj.SetActive(true);
             }
 
@@ -119,11 +122,65 @@ namespace Pancake.Pools
             {
                 var obj = UnityEngine.Object.Instantiate(_original);
 
-                _stack.Push(obj);
                 obj.SetActive(false);
+                _stack.Push(obj);
 
                 PoolCallbackHelper.InvokeOnReturn(obj);
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="batchCount"></param>
+        /// <param name="batchSize"></param>
+        /// <param name="timeSlice">Sets the target duration allowed per frame to integrate instantiated object operations, in milliseconds.</param>
+        /// <param name="onPrewarmCompleted"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+#if PANCAKE_UNITASK
+        public async UniTaskVoid PrewarmAsync(
+#else
+        public async void PrewarmAsync(
+#endif
+            int batchCount,
+            int batchSize,
+            float timeSlice = 2f,
+            Action onPrewarmCompleted = null)
+
+        {
+            ThrowIfDisposed();
+
+            AsyncInstantiateOperation.SetIntegrationTimeMS(timeSlice);
+            var operations = new AsyncInstantiateOperation<GameObject>[batchCount];
+            for (var i = 0; i < batchCount; i++)
+            {
+                operations[i] = UnityEngine.Object.InstantiateAsync(_original, batchSize);
+            }
+
+            for (var i = 0; i < batchCount; i++)
+            {
+                while (!operations[i].isDone)
+                {
+#if PANCAKE_UNITASK
+                    await UniTask.NextFrame();
+#else
+                    await Awaitable.NextFrameAsync();
+#endif
+                }
+            }
+
+            for (var i = 0; i < batchCount; i++)
+            {
+                foreach (var obj in operations[i].Result)
+                {
+                    obj.SetActive(false);
+                    _stack.Push(obj);
+
+                    PoolCallbackHelper.InvokeOnReturn(obj);
+                }
+            }
+
+            onPrewarmCompleted?.Invoke();
         }
 
         public void Dispose()

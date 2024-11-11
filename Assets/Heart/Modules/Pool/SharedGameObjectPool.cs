@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
+#if PANCAKE_UNITASK
+using Cysharp.Threading.Tasks;
+#endif
 
 namespace Pancake.Pools
 {
@@ -23,21 +25,9 @@ namespace Pancake.Pools
 
             var pool = GetOrCreatePool(original);
 
-            GameObject obj;
-            while (true)
-            {
-                if (!pool.TryPop(out obj))
-                {
-                    obj = UnityEngine.Object.Instantiate(original);
-                    break;
-                }
+            if (!pool.TryPop(out var obj)) obj = UnityEngine.Object.Instantiate(original);
 
-                if (obj != null)
-                {
-                    obj.SetActive(true);
-                    break;
-                }
-            }
+            if (obj != null) obj.SetActive(true);
 
             CloneReferences.Add(obj, pool);
 
@@ -46,27 +36,18 @@ namespace Pancake.Pools
             return obj;
         }
 
-        public static GameObject Request(this GameObject original, Transform parent)
+        public static GameObject Request(this GameObject original, Transform parent, bool worldPositionStays = false)
         {
             if (original == null) throw new ArgumentNullException(nameof(original));
 
             var pool = GetOrCreatePool(original);
 
-            GameObject obj;
-            while (true)
-            {
-                if (!pool.TryPop(out obj))
-                {
-                    obj = UnityEngine.Object.Instantiate(original, parent);
-                    break;
-                }
+            if (!pool.TryPop(out var obj)) obj = UnityEngine.Object.Instantiate(original, parent, worldPositionStays);
 
-                if (obj != null)
-                {
-                    obj.transform.SetParent(parent);
-                    obj.SetActive(true);
-                    break;
-                }
+            if (obj != null)
+            {
+                obj.transform.SetParent(parent, worldPositionStays);
+                obj.SetActive(true);
             }
 
             CloneReferences.Add(obj, pool);
@@ -82,21 +63,12 @@ namespace Pancake.Pools
 
             var pool = GetOrCreatePool(original);
 
-            GameObject obj;
-            while (true)
-            {
-                if (!pool.TryPop(out obj))
-                {
-                    obj = UnityEngine.Object.Instantiate(original, position, rotation);
-                    break;
-                }
+            if (!pool.TryPop(out var obj)) obj = UnityEngine.Object.Instantiate(original, position, rotation);
 
-                if (obj != null)
-                {
-                    obj.transform.SetPositionAndRotation(position, rotation);
-                    obj.SetActive(true);
-                    break;
-                }
+            if (obj != null)
+            {
+                obj.transform.SetPositionAndRotation(position, rotation);
+                obj.SetActive(true);
             }
 
             CloneReferences.Add(obj, pool);
@@ -112,22 +84,13 @@ namespace Pancake.Pools
 
             var pool = GetOrCreatePool(original);
 
-            GameObject obj;
-            while (true)
-            {
-                if (!pool.TryPop(out obj))
-                {
-                    obj = UnityEngine.Object.Instantiate(original, position, rotation, parent);
-                    break;
-                }
+            if (!pool.TryPop(out var obj)) obj = UnityEngine.Object.Instantiate(original, position, rotation, parent);
 
-                if (obj != null)
-                {
-                    obj.transform.SetParent(parent);
-                    obj.transform.SetPositionAndRotation(position, rotation);
-                    obj.SetActive(true);
-                    break;
-                }
+            if (obj != null)
+            {
+                obj.transform.SetParent(parent);
+                obj.transform.SetPositionAndRotation(position, rotation);
+                obj.SetActive(true);
             }
 
             CloneReferences.Add(obj, pool);
@@ -139,9 +102,9 @@ namespace Pancake.Pools
 
         public static TComponent Request<TComponent>(this GameObject original) where TComponent : Component { return Request(original).GetComponent<TComponent>(); }
 
-        public static TComponent Request<TComponent>(this GameObject original, Transform parent) where TComponent : Component
+        public static TComponent Request<TComponent>(this GameObject original, Transform parent, bool worldPositionStays = false) where TComponent : Component
         {
-            return Request(original, parent).GetComponent<TComponent>();
+            return Request(original, parent, worldPositionStays).GetComponent<TComponent>();
         }
 
         public static TComponent Request<TComponent>(this GameObject original, Vector3 position, Quaternion rotation) where TComponent : Component
@@ -166,6 +129,23 @@ namespace Pancake.Pools
             PoolCallbackHelper.InvokeOnReturn(instance);
         }
 
+        public static void Prewarm(this GameObject original, int count)
+        {
+            if (original == null) throw new ArgumentNullException(nameof(original));
+
+            var pool = GetOrCreatePool(original);
+
+            for (int i = 0; i < count; i++)
+            {
+                var obj = UnityEngine.Object.Instantiate(original);
+
+                obj.SetActive(false);
+                pool.Push(obj);
+
+                PoolCallbackHelper.InvokeOnReturn(obj);
+            }
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -175,7 +155,17 @@ namespace Pancake.Pools
         /// <param name="timeSlice">Sets the target duration allowed per frame to integrate instantiated object operations, in milliseconds.</param>
         /// <param name="onPrewarmCompleted"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        public static async UniTaskVoid PrewarmAsync(this GameObject original, int batchCount, int batchSize, float timeSlice = 2f, Action onPrewarmCompleted = null)
+#if PANCAKE_UNITASK
+        public static async UniTaskVoid PrewarmAsync(
+#else
+        public static async void PrewarmAsync(
+#endif
+            this GameObject original,
+            int batchCount,
+            int batchSize,
+            float timeSlice = 2f,
+            Action onPrewarmCompleted = null)
+
         {
             if (original == null) throw new ArgumentNullException(nameof(original));
 
@@ -189,7 +179,14 @@ namespace Pancake.Pools
 
             for (var i = 0; i < batchCount; i++)
             {
-                while (!operations[i].isDone) await UniTask.NextFrame();
+                while (!operations[i].isDone)
+                {
+#if PANCAKE_UNITASK
+                    await UniTask.NextFrame();
+#else
+                    await Awaitable.NextFrameAsync();
+#endif
+                }
             }
 
             for (var i = 0; i < batchCount; i++)
@@ -206,29 +203,11 @@ namespace Pancake.Pools
             onPrewarmCompleted?.Invoke();
         }
 
-        public static void Prewarm(this GameObject original, int count)
-        {
-            if (original == null) throw new ArgumentNullException(nameof(original));
-
-            var pool = GetOrCreatePool(original);
-
-            for (int i = 0; i < count; i++)
-            {
-                var obj = UnityEngine.Object.Instantiate(original);
-                obj.SetActive(false);
-                pool.Push(obj);
-
-                PoolCallbackHelper.InvokeOnReturn(obj);
-            }
-        }
-
         private static Stack<GameObject> GetOrCreatePool(GameObject original)
         {
-            if (!Pools.TryGetValue(original, out var pool))
-            {
-                pool = new Stack<GameObject>();
-                Pools.Add(original, pool);
-            }
+            if (Pools.TryGetValue(original, out var pool)) return pool;
+            pool = new Stack<GameObject>();
+            Pools.Add(original, pool);
 
             return pool;
         }
