@@ -70,6 +70,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 651572c7f74972047bd44fcd7e5ab0c8
+    m_Address: Assets/_Root/Prefabs/Characters
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 78d430a1d91773544b201049b83f5697
     m_Address: Assets/_Root/Storages/UIProvider/Enhanced On-Screen Stick.prefab
     m_ReadOnly: 0

@@ -5,7 +5,8 @@ using UnityEngine.AddressableAssets;
 
 namespace _Root.Scripts.Model.Assets.Runtime
 {
-    public class AssetBase : StringConstant
+    [CreateAssetMenu(menuName = "Scriptable/Asset/AssetScript", fileName = "AssetScript")]
+    public class AssetScript : StringConstant
     {
         [Guid] public string guid;
         public AssetReferenceGameObject assetReferenceGameObject;

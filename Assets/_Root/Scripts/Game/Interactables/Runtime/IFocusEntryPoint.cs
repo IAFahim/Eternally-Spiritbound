@@ -10,6 +10,5 @@ namespace _Root.Scripts.Game.Interactables.Runtime
         public void RemoveFocus(GameObject targetGameObject);
         
         public event Action<GameObject> OnPushFocus;
-        public event Action<GameObject> OnRemoveFocus;
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 namespace _Root.Scripts.Model.Boats.Runtime
 {
     [CreateAssetMenu(fileName = "Vehicle", menuName = "Scriptable/Asset/Vehicles/Vehicle")]
-    public class VehicleAsset : AssetBase, IDropStrategy
+    public class VehicleAsset : AssetScript, IDropStrategy
     {
         public DropStrategyScriptable dropStrategy;
 

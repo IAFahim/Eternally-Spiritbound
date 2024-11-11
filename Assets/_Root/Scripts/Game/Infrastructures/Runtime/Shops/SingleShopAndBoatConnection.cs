@@ -7,7 +7,7 @@ namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
 {
     public class SingleShopAndBoatConnection : MonoBehaviour
     {
-        public AssetBase boatAsset;
+        public AssetScript boatAsset;
         public Vector3 offset;
         public Quaternion rotation;
         public ScriptablePool scriptablePool;

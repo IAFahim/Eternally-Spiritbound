@@ -30,7 +30,7 @@ namespace _Root.Scripts.Game.Interactables.Runtime
         {
             foreach (var interactableInfo in _interactableInfos)
             {
-                interactableInfo.Interactable.OnInteractableDetectionLost(_interactorEntryPoint);
+                interactableInfo.InteractableEntryPoint.OnInteractableDetectionLost(_interactorEntryPoint);
             }
 
             _interactableInfos.Clear();
@@ -52,7 +52,7 @@ namespace _Root.Scripts.Game.Interactables.Runtime
                 if (currentCollider == null) continue;
                 var root = currentCollider.transform.root;
                 if (InteractableInfo.ListContains(_interactableInfos, root)) continue;
-                if (!root.TryGetComponent(out IInteractable interactable)) continue;
+                if (!root.TryGetComponent(out IInteractableEntryPoint interactable)) continue;
                 _interactableInfos.Add(new InteractableInfo(root, currentCollider, interactable));
                 interactable.OnInteractableDetected(_interactorEntryPoint);
             }
@@ -66,7 +66,7 @@ namespace _Root.Scripts.Game.Interactables.Runtime
                 if (!interactableInfo.IsActiveInRange(transform.position,
                         interactableOverlapChecked.config.sphereRadius))
                 {
-                    interactableInfo.Interactable.OnInteractableDetectionLost(_interactorEntryPoint);
+                    interactableInfo.InteractableEntryPoint.OnInteractableDetectionLost(_interactorEntryPoint);
                     _interactableInfos.RemoveAt(i);
                 }
             }
@@ -93,42 +93,42 @@ namespace _Root.Scripts.Game.Interactables.Runtime
 #endif
     }
 
-    struct InteractableInfo : IEquatable<InteractableInfo>
+    readonly struct InteractableInfo : IEquatable<InteractableInfo>
     {
-        public readonly Transform Transform;
-        public readonly int Hash;
-        public readonly GameObject GameObject;
-        public readonly float BoundsExtentsMagnitude;
-        public readonly IInteractable Interactable;
+        private readonly Transform _transform;
+        private readonly int _hash;
+        private readonly GameObject _gameObject;
+        private readonly float _boundsExtentsMagnitude;
+        public readonly IInteractableEntryPoint InteractableEntryPoint;
 
-        public InteractableInfo(Transform transform, Collider collider, IInteractable interactable)
+        public InteractableInfo(Transform transform, Collider collider, IInteractableEntryPoint interactableEntryPoint)
         {
-            Transform = transform;
-            Hash = Transform.GetInstanceID();
-            GameObject = Transform.gameObject;
-            BoundsExtentsMagnitude = collider.bounds.extents.magnitude;
-            Interactable = interactable;
+            _transform = transform;
+            _hash = _transform.GetInstanceID();
+            _gameObject = _transform.gameObject;
+            _boundsExtentsMagnitude = collider.bounds.extents.magnitude;
+            InteractableEntryPoint = interactableEntryPoint;
         }
 
         public bool IsActiveInRange(Vector3 position, float radius)
         {
-            return GameObject.activeSelf &&
-                   Vector3.Distance(position, Transform.position) < radius + BoundsExtentsMagnitude;
+            return _gameObject.activeSelf &&
+                   Vector3.Distance(position, _transform.position) < radius + _boundsExtentsMagnitude;
         }
 
-        public override int GetHashCode() => Hash;
+        public override int GetHashCode() => _hash;
 
         public static bool ListContains(List<InteractableInfo> interactableInfos, Transform rootTransform)
         {
             foreach (var interactableInfo in interactableInfos)
             {
-                if (interactableInfo.Transform == rootTransform.transform) return true;
+                if (interactableInfo._transform == rootTransform.transform) return true;
             }
 
             return false;
         }
 
-        public bool Equals(InteractableInfo other) => Hash == other.Hash;
+        public bool Equals(InteractableInfo other) => _hash == other._hash;
 
         public override bool Equals(object obj) => obj is InteractableInfo other && Equals(other);
     }

@@ -6,10 +6,10 @@ using UnityEngine;
 namespace _Root.Scripts.Game.GameEntities.Runtime
 {
     [DisallowMultipleComponent]
-    [DefaultExecutionOrder(-999)]
     public class EntityStatsComponent : MonoBehaviour
     {
-        public EntityStatParameterScript entityStatsParameterScript;
+        public int key;
+        [SerializeField] private EntityStatParameterScript entityStatsParameterScript;
 
         [ShowInInspector] [ReadOnly] [NonSerialized]
         public EntityStats entityStats;
@@ -17,11 +17,7 @@ namespace _Root.Scripts.Game.GameEntities.Runtime
         private event Action OnNewEntityStats;
         private event Action OnOldEntityStatsCleanUp;
 
-
-        private void OnEnable()
-        {
-            SetEntityStats(0);
-        }
+        private void Start() => SetEntityStats(key);
 
         public void Register(Action onEntityStatsChange, Action onOldEntityStatsCleanUp)
         {
@@ -38,10 +34,11 @@ namespace _Root.Scripts.Game.GameEntities.Runtime
         }
 
         [Button]
-        public void SetEntityStats(int key)
+        public void SetEntityStats(int newKey)
         {
+            key = newKey;
             OnOldEntityStatsCleanUp?.Invoke();
-            entityStatsParameterScript.TryGetParameter(key, out entityStats);
+            entityStatsParameterScript.TryGetParameter(newKey, out entityStats);
             entityStats.Initialize();
             OnNewEntityStats?.Invoke();
         }

@@ -1,0 +1,4 @@
+﻿{
+  "name": "Model.Relationship.Runtime",
+  "references":[ "GUID:28e1e6827631413f918a86fbda22dbde", "GUID:f7774f8d6fa34182ba55d5730826d129", "GUID:adac8d59ad7e8504f82d387cded797a7" ]
+}

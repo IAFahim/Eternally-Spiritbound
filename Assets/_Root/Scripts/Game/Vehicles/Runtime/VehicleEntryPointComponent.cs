@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace _Root.Scripts.Game.Vehicles.Runtime
 {
-    public class VehicleComponent : InteractableComponent
+    public class VehicleEntryPointComponent : InteractableEntryPointComponent
     {
         public DriverComponent driverComponent;
         public Vector3 mountPosition;

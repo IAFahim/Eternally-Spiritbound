@@ -11,7 +11,7 @@ namespace _Root.Scripts.Game.Items.Runtime
 {
     [Serializable]
     [CreateAssetMenu(fileName = "Coin", menuName = "Scriptable/Items/New")]
-    public class GameItem : AssetBase, IItemBase<GameObject>, IPickupStrategy, IDropStrategy
+    public class GameItem : AssetScript, IItemBase<GameObject>, IPickupStrategy, IDropStrategy
     {
         public DropStrategyScriptable dropStrategy;
 

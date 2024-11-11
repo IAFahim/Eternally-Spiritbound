@@ -20,8 +20,7 @@ namespace _Root.Scripts.Game.Items.Runtime
             get => _dictionary[key];
             set => _dictionary[key] = value;
         }
-
-        public string this[GameItem key] => key;
+        
 
 #if UNITY_EDITOR
         [Sirenix.OdinInspector.Button]

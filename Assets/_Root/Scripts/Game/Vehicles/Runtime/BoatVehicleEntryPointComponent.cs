@@ -3,7 +3,7 @@ using Soul.Interactables.Runtime;
 
 namespace _Root.Scripts.Game.Vehicles.Runtime
 {
-    public class BoatVehicleComponent : VehicleComponent
+    public class BoatVehicleEntryPointComponent : VehicleEntryPointComponent
     {
         public BoatController boatController;
 

@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using _Root.Scripts.Game.Infrastructures.Runtime.Shops;
 using _Root.Scripts.Game.Interactables.Runtime;
 using _Root.Scripts.Game.Utils.Runtime;
+using _Root.Scripts.Model.Assets.Runtime;
 using _Root.Scripts.Model.Boats.Runtime;
+using _Root.Scripts.Model.Relationships.Runtime;
 using _Root.Scripts.Presentation.Containers.Runtime;
 using Soul.Pools.Runtime;
 using TMPro;
@@ -16,25 +19,33 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
     [CreateAssetMenu(fileName = "Boat Shop Processor", menuName = "Scriptable/FocusProcessor/Boat Shop")]
     public class BoatShopFocusProcessorScriptScriptable : FocusProcessorScriptCinemachineScriptable
     {
-        [FormerlySerializedAs("boatShopCloseButton")] [SerializeField] private AssetReferenceGameObject boatShopCloseButtonAsset;
-        [FormerlySerializedAs("boatScrollRect")] [SerializeField] private AssetReferenceGameObject boatScrollRectAsset;
+        [FormerlySerializedAs("boatShopCloseButton")] [SerializeField]
+        private AssetReferenceGameObject boatShopCloseButtonAsset;
+
+        [FormerlySerializedAs("boatScrollRect")] [SerializeField]
+        private AssetReferenceGameObject boatScrollRectAsset;
+
         [SerializeField] private FocusManagerScript focusManager;
         [SerializeField] private AssetReferenceGameObject buttonSelectionControllerAsset;
         [SerializeField] private Sprite lockedSprite;
         [SerializeField] private Sprite equippedSprite;
 
-        [SerializeField] private BoatVehicleAsset[] boatVehicleAssets;
         [SerializeField] private ScriptablePool scriptablePool;
         private Button _closeButton;
 
         [SerializeField] private string equippedBoatName;
         [SerializeField] private string[] unlockedBoatNames;
+        [SerializeField] private AssetOwnsAssetsGraph assetOwnsAssetsGraph;
         [SerializeField] private ButtonSelectionController[] _buttonSelectionControllers;
 
+        [SerializeField] private AssetScript[] _unlockedBoatAssets;
+        
+        private BoatVehicleAsset[] _boatVehicleAssets;
+        private AssetScriptComponent _assetScriptComponent;
         private ScrollRect _scrollRect;
-        private ShopBase _shopBase;
+        private BoatShop _boatShopBase;
         private BoatInfoDto[] _boatInfoDTOs;
-        private TMP_Text _titleText;  
+        private TMP_Text _titleText;
         private int _lastSelected;
 
         public override void SetFocus(FocusReferences focusReferences)
@@ -50,20 +61,29 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 
         private void SetupScrollRect(GameObject gameObject)
         {
+            _boatShopBase = gameObject.GetComponent<BoatShop>();
             _lastSelected = 0;
             _scrollRect = gameObject.GetComponent<ScrollRect>();
             _titleText = gameObject.GetComponentInChildren<TMP_Text>();
-            _boatInfoDTOs = CreateBoatInfoDto();
+            _assetScriptComponent = focusManager.mainObject.GetComponent<AssetScriptComponent>();
+            OnBoatMenu();
+        }
+
+        private void OnBoatMenu()
+        {
+            _unlockedBoatAssets = assetOwnsAssetsGraph[_assetScriptComponent.assetScript].ToArray();
+            _boatVehicleAssets = _boatShopBase.GetItems().ToArray();
+            _boatInfoDTOs = CreateBoatInfoDto(_boatVehicleAssets);
             Array.Sort(_boatInfoDTOs, Comparison);
             PopulatePool(_scrollRect, _boatInfoDTOs);
         }
 
-        private BoatInfoDto[] CreateBoatInfoDto()
+        private BoatInfoDto[] CreateBoatInfoDto(BoatVehicleAsset[] boatVehicles)
         {
-            var boatInfoDTOs = new BoatInfoDto[boatVehicleAssets.Length];
-            for (var i = 0; i < boatVehicleAssets.Length; i++)
+            var boatInfoDTOs = new BoatInfoDto[boatVehicles.Length];
+            for (var i = 0; i < boatVehicles.Length; i++)
             {
-                var boatVehicle = boatVehicleAssets[i];
+                var boatVehicle = boatVehicles[i];
                 boatInfoDTOs[i] = new BoatInfoDto
                 {
                     Index = i,
@@ -85,7 +105,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 
         private void PopulatePool(ScrollRect scrollRect, BoatInfoDto[] boatInfoDTOs)
         {
-            _buttonSelectionControllers = new ButtonSelectionController[boatVehicleAssets.Length];
+            _buttonSelectionControllers = new ButtonSelectionController[_boatVehicleAssets.Length];
             var scrollContentTransform = scrollRect.content.transform;
             for (var i = 0; i < boatInfoDTOs.Length; i++)
             {

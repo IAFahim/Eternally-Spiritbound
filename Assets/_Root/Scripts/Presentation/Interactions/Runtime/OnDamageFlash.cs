@@ -33,14 +33,12 @@ namespace _Root.Scripts.Presentation.Interactions.Runtime
         
         private void OnEntityStatsChange()
         {
-            Debug.Log($"EntityStats changed.", this);
             _health.HealthReference.current.OnChange += OnHealthChange;
             _entityStatsComponent.entityStats.vitality.health.current.OnChange += OnHealthChange;
         }
         
         private void OnEntityStatsDisable()
         {
-            Debug.Log($"EntityStats disabled.", this);
             _health.HealthReference.current.OnChange -= OnHealthChange;
             _entityStatsComponent.entityStats.vitality.health.current.OnChange -= OnHealthChange;
             _delayHandle?.Cancel();

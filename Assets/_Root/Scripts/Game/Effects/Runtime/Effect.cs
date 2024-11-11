@@ -1,7 +1,6 @@
 ﻿using System;
 using Pancake;
 using Soul.Effects.Runtime;
-using Soul.Modifiers.Runtime;
 
 namespace _Root.Scripts.Game.Effects.Runtime
 {

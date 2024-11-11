@@ -241,6 +241,7 @@ GameObject:
   - component: {fileID: 683179234}
   - component: {fileID: 683179235}
   - component: {fileID: 683179236}
+  - component: {fileID: 683179237}
   m_Layer: 7
   m_Name: Shop
   m_TagString: Untagged
@@ -468,6 +469,26 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &683179237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 683179230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b6e0e1b77994f90afa50e36a02b5eb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boatVehicleAssetsInShop:
+  - {fileID: 11400000, guid: 6d2425dc84a541241813d581c954ebd5, type: 2}
+  - {fileID: 11400000, guid: b98b22c8b6662af46acc68d900f22a25, type: 2}
+  - {fileID: 11400000, guid: 981514d43e7235141899d9623e00967b, type: 2}
+  tabs:
+  - Boats
+  - Weapon
+  currentEquipped: {fileID: 1740012169}
 --- !u!1 &908420203
 GameObject:
   m_ObjectHideFlags: 0

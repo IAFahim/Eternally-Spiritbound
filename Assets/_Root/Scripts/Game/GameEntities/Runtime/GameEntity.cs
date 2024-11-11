@@ -3,9 +3,12 @@ using _Root.Scripts.Game.GameEntities.Runtime.Damages;
 using _Root.Scripts.Game.GameEntities.Runtime.Healths;
 using _Root.Scripts.Game.Stats.Runtime;
 using _Root.Scripts.Game.Storages.Runtime;
+using _Root.Scripts.Model.Assets.Runtime;
 using _Root.Scripts.Model.Stats.Runtime;
+using Sisus.Init;
 using Soul.Modifiers.Runtime;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace _Root.Scripts.Game.GameEntities.Runtime
 {

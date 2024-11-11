@@ -13,13 +13,13 @@ namespace _Root.Scripts.Game.Interactables.Runtime
         [SerializeField] private UnityEvent selectedEvent;
         [SerializeField] private UnityEvent deselectedEvent;
 
-        private IInteractable _interactableParent;
+        private IInteractableEntryPoint _interactableEntryPointParent;
         public GameObject GameObject => gameObject;
 
 
-        public void Active(IInteractable interactable)
+        public void Active(IInteractableEntryPoint interactableEntryPoint)
         {
-            _interactableParent = interactable;
+            _interactableEntryPointParent = interactableEntryPoint;
             activeEvent.Invoke();
         }
 
@@ -46,14 +46,14 @@ namespace _Root.Scripts.Game.Interactables.Runtime
         private void InteractStart()
         {
             selectedEvent.Invoke();
-            _interactableParent.OnInteractionStarted(
+            _interactableEntryPointParent.OnInteractionStarted(
                 focusManagerScript.mainObject.GetComponent<IInteractorEntryPoint>()
             );
         }
 
         private void InteractEnd()
         {
-            _interactableParent.OnInteractionEnded(focusManagerScript.mainObject.GetComponent<IInteractorEntryPoint>());
+            _interactableEntryPointParent.OnInteractionEnded(focusManagerScript.mainObject.GetComponent<IInteractorEntryPoint>());
             focusManagerScript.PopFocus();
             Hide();
         }
