@@ -15,43 +15,13 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: e44c386d610d469408f6cf3b04ac0dbd
   m_SerializeEntries:
-  - m_GUID: 02903dcb67bc714469e21706976dfc30
-    m_Address: Assets/_Root/Prefabs/UI/Shop/Stats View.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0492cac06f287be489316487a4c0cb74
-    m_Address: Assets/_Root/Prefabs/UI/Shop/Close Button.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 100b998bdc439c04d93df01bac7e1c1f
-    m_Address: Assets/_Root/Prefabs/Boats/Tow Boat Double Variant.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 13e1e39d22112fb4d90c3bc5562501e3
-    m_Address: Assets/_Root/Prefabs/UI/Selection Controller Button.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1f6d1eab66d2ba44b898b321b0b61d42
     m_Address: Assets/_Root/Prefabs/interactable Sign/Click to Activate Shop.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 23e451c3d0ec2b643a3e4de9d844a886
-    m_Address: Assets/_Root/Prefabs/Boats/Tug Boat Single.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2d220c235d4caf04d965645a60579824
     m_Address: Assets/_Root/Storages/Generated/Scriptable/Bullet.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 2e9193bb2762ece47904aa03f72b9059
-    m_Address: Assets/_Root/Prefabs/Item/XP.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -102,26 +72,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b90642002762014448b8d3d630b8a2d6
     m_Address: Assets/_Root/Storages/Spawner/RandomAnnulus SpawnStrategy.asset
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: bbceba8b7e60c2143a71757c79f6b9c4
-    m_Address: Assets/_Root/Prefabs/UI/Shop/Stats Panel BackGround.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: bef863356cf6cf94eb37662c70f4b392
-    m_Address: Assets/_Root/Prefabs/UI/Shop/Selection Scroll View.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d33ad5248591b394eb6fd583b92065c7
-    m_Address: Assets/_Root/Storages/UIProvider/BoatHealthUI.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f25586b5c9740d042a46742f1507c5c0
-    m_Address: Assets/_Root/Prefabs/UI/Shop/Confirm Button.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

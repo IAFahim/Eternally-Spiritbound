@@ -1,6 +1,6 @@
 ﻿using _Root.Scripts.Model.Assets.Runtime;
+using Pancake.Pools;
 using Sirenix.OdinInspector;
-using Soul.Pools.Runtime;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
@@ -10,18 +10,17 @@ namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
         public AssetScript boatAsset;
         public Vector3 offset;
         public Quaternion rotation;
-        public ScriptablePool scriptablePool;
         public GameObject boat;
-        
+
         public float positionForceMultiplier = 1f;
         public float rotationTorqueMultiplier = 1f;
-        
+
         private Rigidbody _boatRigidbody;
 
         private void Awake()
         {
-            var transformPoint= transform.TransformPoint(offset);
-            boat = scriptablePool.Request(boatAsset.assetReferenceGameObject, transformPoint, rotation);
+            var transformPoint = transform.TransformPoint(offset);
+            boat = SharedAssetReferencePool.Request(boatAsset.assetReference, transformPoint, rotation);
             _boatRigidbody = boat.GetComponent<Rigidbody>();
         }
 

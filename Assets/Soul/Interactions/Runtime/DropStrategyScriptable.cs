@@ -1,4 +1,4 @@
-﻿using Soul.Pools.Runtime;
+﻿using Pancake.Pools;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using Random = UnityEngine.Random;
@@ -11,7 +11,6 @@ namespace Soul.Interactions.Runtime
         [SerializeField] private float dropRange = 1f;
         [SerializeField] private bool singleDrop;
         [SerializeField] private LayerMask dropLayerMask;
-        [SerializeField] private ScriptablePool scriptablePool;
         public float DropRange => dropRange;
 
         public void OnDrop(AssetReferenceGameObject asset, Vector3 position, int amount)
@@ -28,10 +27,10 @@ namespace Soul.Interactions.Runtime
         {
             var randomPosition = Random.insideUnitSphere * dropRange + position;
             randomPosition.y = position.y;
-            scriptablePool.Request(asset,
-                Physics.Raycast(randomPosition, Vector3.down, out var hit, dropRange, dropLayerMask)
-                    ? hit.point
-                    : position, Quaternion.identity);
+            var dropPosition = Physics.Raycast(randomPosition, Vector3.down, out var hit, dropRange, dropLayerMask)
+                ? hit.point
+                : position;
+            SharedAssetReferencePool.Request(asset, dropPosition, Quaternion.identity);
         }
     }
 }

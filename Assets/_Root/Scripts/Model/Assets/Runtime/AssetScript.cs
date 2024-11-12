@@ -2,6 +2,7 @@
 using Pancake;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Model.Assets.Runtime
 {
@@ -9,7 +10,7 @@ namespace _Root.Scripts.Model.Assets.Runtime
     public class AssetScript : StringConstant
     {
         [Guid] public string guid;
-        public AssetReferenceGameObject assetReferenceGameObject;
+        [FormerlySerializedAs("assetReferenceGameObject")] public AssetReferenceGameObject assetReference;
         [TextArea(3, 10)] public string description;
         [CanBeNull] public Sprite icon;
     }

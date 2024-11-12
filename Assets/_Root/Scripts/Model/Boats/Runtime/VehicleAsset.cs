@@ -14,7 +14,7 @@ namespace _Root.Scripts.Model.Boats.Runtime
 
         public void OnDrop(GameObject user, Vector3 position, int amount)
         {
-            dropStrategy.OnDrop(assetReferenceGameObject, position, amount);
+            dropStrategy.OnDrop(assetReference, position, amount);
         }
     }
 }

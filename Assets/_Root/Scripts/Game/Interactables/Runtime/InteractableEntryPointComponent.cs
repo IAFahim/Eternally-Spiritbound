@@ -1,7 +1,7 @@
 ﻿using System;
 using Pancake;
+using Pancake.Pools;
 using Soul.Interactables.Runtime;
-using Soul.Pools.Runtime;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -36,9 +36,11 @@ namespace _Root.Scripts.Game.Interactables.Runtime
         {
             if (interactableConfirmHelperAsset.Enabled && interactorEntryPoint.IsFocused)
             {
-                _currentInteractableConfirmHelper ??= interactableConfirmHelperAsset.Value
-                    .Request(transform.TransformPoint(offset), Quaternion.identity)
-                    .GetComponent<IInteractableConfirmHelper>();
+                _currentInteractableConfirmHelper ??= SharedAssetReferencePool.Request(
+                    interactableConfirmHelperAsset.Value,
+                    transform.TransformPoint(offset),
+                    Quaternion.identity
+                ).GetComponent<IInteractableConfirmHelper>();
 
                 _currentInteractableConfirmHelper.Active(this);
             }

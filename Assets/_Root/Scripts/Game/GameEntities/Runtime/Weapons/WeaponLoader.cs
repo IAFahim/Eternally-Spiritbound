@@ -22,7 +22,7 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
         {
             foreach (var weapon in weapons)
             {
-                Addressables.LoadAssetAsync<GameObject>(weapon.assetReferenceGameObject).Completed += OnWeaponLoadComplete;
+                Addressables.LoadAssetAsync<GameObject>(weapon.assetReference).Completed += OnWeaponLoadComplete;
             }
         }
 

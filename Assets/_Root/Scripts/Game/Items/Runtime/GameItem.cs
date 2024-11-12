@@ -53,7 +53,7 @@ namespace _Root.Scripts.Game.Items.Runtime
         public float DropRange => dropStrategy.DropRange;
         public void OnDrop(GameObject user, Vector3 position, int amount)
         {
-            dropStrategy.OnDrop(assetReferenceGameObject, position, amount);
+            dropStrategy.OnDrop(assetReference, position, amount);
         }
 
 
@@ -61,6 +61,6 @@ namespace _Root.Scripts.Game.Items.Runtime
         public static implicit operator string(GameItem itemBase) => itemBase.guid;
 
         public static implicit operator AssetReferenceGameObject(GameItem itemBase) =>
-            itemBase.assetReferenceGameObject;
+            itemBase.assetReference;
     }
 }

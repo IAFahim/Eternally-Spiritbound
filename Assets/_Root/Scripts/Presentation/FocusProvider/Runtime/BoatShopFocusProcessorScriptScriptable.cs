@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using _Root.Scripts.Game.Infrastructures.Runtime.Shops;
 using _Root.Scripts.Game.Interactables.Runtime;
 using _Root.Scripts.Game.Utils.Runtime;
@@ -7,12 +6,13 @@ using _Root.Scripts.Model.Assets.Runtime;
 using _Root.Scripts.Model.Boats.Runtime;
 using _Root.Scripts.Model.Relationships.Runtime;
 using _Root.Scripts.Presentation.Containers.Runtime;
-using Soul.Pools.Runtime;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using Pancake;
+using Pancake.Pools;
 
 namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 {
@@ -30,16 +30,15 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
         [SerializeField] private Sprite lockedSprite;
         [SerializeField] private Sprite equippedSprite;
 
-        [SerializeField] private ScriptablePool scriptablePool;
         private Button _closeButton;
 
         [SerializeField] private string equippedBoatName;
         [SerializeField] private string[] unlockedBoatNames;
-        [SerializeField] private AssetOwnsAssetsGraph assetOwnsAssetsGraph;
+        [FormerlySerializedAs("assetOwnsAssetsGraph")] [SerializeField] private AssetOwnsAssetsLink assetOwnsAssetsLink;
         [SerializeField] private ButtonSelectionController[] _buttonSelectionControllers;
 
         [SerializeField] private AssetScript[] _unlockedBoatAssets;
-        
+
         private BoatVehicleAsset[] _boatVehicleAssets;
         private AssetScriptComponent _assetScriptComponent;
         private ScrollRect _scrollRect;
@@ -71,7 +70,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 
         private void OnBoatMenu()
         {
-            _unlockedBoatAssets = assetOwnsAssetsGraph[_assetScriptComponent.assetScript].ToArray();
+            _unlockedBoatAssets = assetOwnsAssetsLink[_assetScriptComponent.assetScript].ToArray();
             _boatVehicleAssets = _boatShopBase.GetItems().ToArray();
             _boatInfoDTOs = CreateBoatInfoDto(_boatVehicleAssets);
             Array.Sort(_boatInfoDTOs, Comparison);
@@ -122,7 +121,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
             BoatInfoDto boatInfoDto,
             out bool isEquipped)
         {
-            var buttonSelectionController = scriptablePool
+            var buttonSelectionController = SharedAssetReferencePool
                 .Request(buttonSelectionControllerAsset, scrollContentTransform)
                 .GetComponent<ButtonSelectionController>();
 
@@ -173,7 +172,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
             foreach (var buttonSelectionController in _buttonSelectionControllers)
             {
                 buttonSelectionController.Clear();
-                scriptablePool.Return(buttonSelectionControllerAsset, buttonSelectionController.gameObject);
+                SharedAssetReferencePool.Return(buttonSelectionControllerAsset, buttonSelectionController.gameObject);
             }
         }
 

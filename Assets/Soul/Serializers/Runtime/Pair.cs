@@ -1,65 +1,66 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Soul.Serializers.Runtime
 {
     [Serializable]
     public class Pair<T, TV>
     {
-        [SerializeField] private T keyFirst;
-        [SerializeField] private TV valueSecond;
+        [SerializeField] private T key;
+        [SerializeField] private TV value;
 
         public Pair()
         {
         }
 
-        public Pair(T keyFirst, TV valueSecond)
+        public Pair(T key, TV value)
         {
-            this.keyFirst = keyFirst;
-            this.valueSecond = valueSecond;
+            this.key = key;
+            this.value = value;
         }
 
         public Pair(Pair<T, TV> source)
         {
-            keyFirst = source.keyFirst;
-            valueSecond = source.valueSecond;
+            key = source.key;
+            value = source.value;
         }
 
         public T Key
         {
-            get => keyFirst;
-            set => keyFirst = value;
+            get => key;
+            set => key = value;
         }
 
         public T First
         {
-            get => keyFirst;
-            set => keyFirst = value;
+            get => key;
+            set => key = value;
         }
 
         public TV Value
         {
-            get => valueSecond;
-            set => valueSecond = value;
+            get => value;
+            set => this.value = value;
         }
 
         public TV Multiplier
         {
-            get => valueSecond;
-            set => valueSecond = value;
+            get => value;
+            set => this.value = value;
         }
 
         public TV Second
         {
-            get => valueSecond;
-            set => valueSecond = value;
+            get => value;
+            set => this.value = value;
         }
 
 
         private string GetIdentity()
         {
-            return "[" + keyFirst + " , " + valueSecond + "]";
+            return "[" + key + " , " + value + "]";
         }
 
         public override string ToString()
@@ -70,27 +71,28 @@ namespace Soul.Serializers.Runtime
 
         public static implicit operator T(Pair<T, TV> pair)
         {
-            return pair.keyFirst;
+            return pair.key;
         }
 
         public static implicit operator TV(Pair<T, TV> pair)
         {
-            return pair.valueSecond;
+            return pair.value;
         }
 
         public static implicit operator Pair<T, TV>((T, TV) tuple) => new() { Key = tuple.Item1, Value = tuple.Item2 };
 
-        public static implicit operator (T, TV)(Pair<T, TV> pair) => (pair.keyFirst, pair.valueSecond);
-        
-        public static implicit operator Pair<T, TV>(KeyValuePair<T, TV> pair) => new() { Key = pair.Key, Value = pair.Value };
-        
-        public static implicit operator KeyValuePair<T, TV>(Pair<T, TV> pair) => new(pair.keyFirst, pair.valueSecond);
+        public static implicit operator (T, TV)(Pair<T, TV> pair) => (pair.key, pair.value);
+
+        public static implicit operator Pair<T, TV>(KeyValuePair<T, TV> pair) =>
+            new() { Key = pair.Key, Value = pair.Value };
+
+        public static implicit operator KeyValuePair<T, TV>(Pair<T, TV> pair) => new(pair.key, pair.value);
 
 
         public void Deconstruct(out T first, out TV second)
         {
-            first = this.keyFirst;
-            second = this.valueSecond;
+            first = this.key;
+            second = this.value;
         }
     }
 

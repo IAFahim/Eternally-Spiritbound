@@ -1,9 +1,9 @@
 ﻿using System;
 using _Root.Scripts.Game.ObjectModifers.Runtime;
 using _Root.Scripts.Game.Placements.Runtime;
+using Pancake.Pools;
 using Sirenix.OdinInspector;
 using Sisus.Init.Reflection;
-using Soul.Pools.Runtime;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -13,7 +13,6 @@ namespace _Root.Scripts.Game.Spawners.Runtime
     public class Spawner
     {
         [SerializeField] private AssetReferenceGameObject assetReference;
-        [SerializeField] private ScriptablePool pool;
         [SerializeField] private PlacementStrategy placementStrategy;
         [SerializeField] private GameObjectModifer gameObjectModifer;
         [SerializeField] private float startDelay;
@@ -51,7 +50,7 @@ namespace _Root.Scripts.Game.Spawners.Runtime
         public bool KeepSpawning(float deltaTime)
         {
             if (!CanSpawnThisFrame(deltaTime)) return true;
-            GameObject gameObject = pool.Request(assetReference);
+            GameObject gameObject = SharedAssetReferencePool.Request(assetReference);
             gameObject.AddComponent<SpawnHandle>(gameObjectModifer);
             _spawned += placementStrategy.Place(gameObject.transform, count - _spawned);
             return IsAlive();

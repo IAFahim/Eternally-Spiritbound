@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: UI Element
+  m_EditorClassIdentifier: 
+  m_GroupName: UI Element
+  m_GUID: 8890200b5c9fe1147a448bea5ef80888
+  m_SerializeEntries:
+  - m_GUID: 02903dcb67bc714469e21706976dfc30
+    m_Address: Stats View
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0492cac06f287be489316487a4c0cb74
+    m_Address: Close Button
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 13e1e39d22112fb4d90c3bc5562501e3
+    m_Address: Selection Controller Button
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bbceba8b7e60c2143a71757c79f6b9c4
+    m_Address: Stats Panel BackGround
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bef863356cf6cf94eb37662c70f4b392
+    m_Address: Selection Scroll View
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d33ad5248591b394eb6fd583b92065c7
+    m_Address: BoatHealthUI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f25586b5c9740d042a46742f1507c5c0
+    m_Address: Confirm Button
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 2c8601dc2ee34bc4b8ca49c157e6a9c4, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 4c64b7d573e84ac44ab1647b141b6c2e, type: 2}
+    - {fileID: 11400000, guid: 73b462eb3d346d849bc81376d04aceac, type: 2}
