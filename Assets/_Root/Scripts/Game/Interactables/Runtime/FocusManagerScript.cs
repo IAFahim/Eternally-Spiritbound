@@ -129,7 +129,6 @@ namespace _Root.Scripts.Game.Interactables.Runtime
             mainObject = null;
             mainCamera = null;
             _focusStack.Clear();
-            while (_focusStack.Count > 0) Pop();
         }
     }
 }

@@ -80,9 +80,9 @@
     <type fullname="Unity.Behavior.SetObjectListActiveAction" preserve="all"/>
   </assembly>
   <assembly fullname="Assembly-CSharp">
-    <type fullname="Unity.Behavior.Example.SetRandomTargetAction" preserve="all"/>
     <type fullname="Unity.Behavior.Example.TalkAction" preserve="all"/>
     <type fullname="Unity.Behavior.SerializationExample.ChooseTargetPosition" preserve="all"/>
+    <type fullname="Unity.Behavior.Example.SetRandomTargetAction" preserve="all"/>
   </assembly>
 </linker>
 

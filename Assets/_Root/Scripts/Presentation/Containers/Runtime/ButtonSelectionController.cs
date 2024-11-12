@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Coffee.UIEffects;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace _Root.Scripts.Presentation.Containers.Runtime
@@ -10,20 +9,23 @@ namespace _Root.Scripts.Presentation.Containers.Runtime
     {
         [SerializeField] private Button button;
         [SerializeField] private Image icon;
+        [SerializeField] private UIEffectTweener effectTweener;
 
-        [FormerlySerializedAs("lockedImage")] [SerializeField]
-        private Image statusImage;
+        [SerializeField] private Image statusImage;
 
+        private bool _selected;
         private int _index;
         private UnityAction<int> _unityAction;
 
-        public void Initialize(int index, Sprite sprite, Sprite statusSprite, UnityAction<int> onClick)
+
+        public void Initialize(int index, bool selected, Sprite sprite, Sprite statusSprite,
+            UnityAction<int> onSelected)
         {
-            Clear();
+            _selected = selected;
             _index = index;
             icon.sprite = sprite;
             SetStatus(statusSprite);
-            _unityAction = onClick;
+            _unityAction = onSelected;
             button.onClick.AddListener(OnClick);
         }
 
@@ -34,14 +36,27 @@ namespace _Root.Scripts.Presentation.Containers.Runtime
             statusImage.enabled = !statusNull;
         }
 
+        private void Update()
+        {
+            if (_selected) effectTweener.UpdateTime(Time.deltaTime);
+        }
+
         private void OnClick()
         {
+            _selected = true;
             _unityAction?.Invoke(_index);
         }
 
-        public void Clear()
+        public void DeSelect()
+        {
+            if (_selected) effectTweener.Restart();
+            _selected = false;
+        }
+
+        private void OnDisable()
         {
             if (_unityAction != null) button.onClick.RemoveListener(OnClick);
+            DeSelect();
         }
 
         private void Reset()
@@ -51,6 +66,7 @@ namespace _Root.Scripts.Presentation.Containers.Runtime
 
             icon = images[1];
             statusImage = images[2];
+            effectTweener = GetComponent<UIEffectTweener>();
         }
     }
 }

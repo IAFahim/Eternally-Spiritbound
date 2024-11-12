@@ -552,8 +552,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Item
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ebd567123ceed8449a3a2cbda0e215be, type: 2}
-  m_sharedMaterial: {fileID: 1872832085346666087, guid: ebd567123ceed8449a3a2cbda0e215be, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 74ad3312168c66e43a59291961350e55, type: 2}
+  m_sharedMaterial: {fileID: 1872832085346666087, guid: 74ad3312168c66e43a59291961350e55, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1081,8 +1081,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Gem
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ebd567123ceed8449a3a2cbda0e215be, type: 2}
-  m_sharedMaterial: {fileID: 1872832085346666087, guid: ebd567123ceed8449a3a2cbda0e215be, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 74ad3312168c66e43a59291961350e55, type: 2}
+  m_sharedMaterial: {fileID: 1872832085346666087, guid: 74ad3312168c66e43a59291961350e55, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1852,7 +1852,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6934182390067250457}
-  - component: {fileID: 538400268553312773}
   m_Layer: 5
   m_Name: gem
   m_TagString: Untagged
@@ -1880,22 +1879,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &538400268553312773
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3256393185162102700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0376b0b30ccb1174b8b269ac07b41314, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  packageItemVisualPrefab: {fileID: 1776274885438001910, guid: 6e8d0b20447666b4b898a9c518bbe47a, type: 3}
-  packageContent: {fileID: 3399126761837098316}
-  gemItemVisualPrefab: {fileID: 112035083018613204, guid: 3f06e8b04825a4d4bad31546896109d7, type: 3}
-  gemContent: {fileID: 2860878224570622535}
 --- !u!1 &3353383856706498787
 GameObject:
   m_ObjectHideFlags: 0
@@ -2145,8 +2128,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9204085851557908018}
-  - component: {fileID: 3352272006792591798}
-  - component: {fileID: 3395197895262555888}
   m_Layer: 5
   m_Name: ShopPopup
   m_TagString: Untagged
@@ -2174,69 +2155,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &3352272006792591798
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3778872527293429433}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b0025d1a9850cf41917568178ed0a45, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enabledSound: 0
-  audioOpen:
-    name: 
-    id: 
-  audioClose:
-    name: 
-    id: 
-  firstPurchaseDouble: 1
-  buttonPackage: {fileID: 5807207107360097377}
-  buttonGem: {fileID: 5517084168203416022}
-  buttonItem: {fileID: 2832413358737769642}
-  buttonEvent: {fileID: 5437473286660205375}
-  buttonClose: {fileID: 141465786920076221}
-  durationAnimation: 0.1
-  colorTextSelected: {r: 0.33333334, g: 0.4156863, b: 0.4901961, a: 1}
-  colorTextUnselected: {r: 0.5254902, g: 0.54509807, b: 0.5686275, a: 1}
-  colorTapSelected: {r: 1, g: 1, b: 1, a: 1}
-  colorTapUnselected: {r: 0.87843144, g: 0.9058824, b: 0.9450981, a: 1}
-  packageTab: {fileID: 9128594027119984127}
-  packagesData:
-  - {fileID: 11400000, guid: 731c6896fc3f47b4d85c70e06bedd338, type: 2}
-  - {fileID: 11400000, guid: 70604cc2f44c709468873d648831b260, type: 2}
-  shopItemRewardConfigs:
-  - {fileID: 11400000, guid: c18508a8de10537498b2303ac35e604e, type: 2}
-  - {fileID: 11400000, guid: 67ec6046ffd870e40b3278ffe18941ec, type: 2}
-  gemTap: {fileID: 538400268553312773}
-  gemPackagesData:
-  - {fileID: 11400000, guid: 233bcfa1fe88107499fc25d80fabb690, type: 2}
-  gemsData:
-  - {fileID: 11400000, guid: 6891f26375f6c6c4196120265d59f069, type: 2}
-  - {fileID: 11400000, guid: 70100a3e04be9954a94ab0fa9fe60e57, type: 2}
-  - {fileID: 11400000, guid: f40fb37133ee61449ac77ada8c56abd2, type: 2}
-  - {fileID: 11400000, guid: 7ee3a8eb2c09af943890149968b929c4, type: 2}
-  - {fileID: 11400000, guid: c773a64dfbfbf1f49a4ab39f3357109f, type: 2}
---- !u!114 &3395197895262555888
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3778872527293429433}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4edef1642ba182a43b832361a9cb113c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  usePrefabNameAsId: 1
-  <Id>k__BackingField: 
-  enterAnimations: []
-  exitAnimations: []
-  view: {fileID: 3352272006792591798}
 --- !u!1 &3960501031520322191
 GameObject:
   m_ObjectHideFlags: 0
@@ -2873,8 +2791,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Package
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ebd567123ceed8449a3a2cbda0e215be, type: 2}
-  m_sharedMaterial: {fileID: 1872832085346666087, guid: ebd567123ceed8449a3a2cbda0e215be, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 74ad3312168c66e43a59291961350e55, type: 2}
+  m_sharedMaterial: {fileID: 1872832085346666087, guid: 74ad3312168c66e43a59291961350e55, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4110,8 +4028,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Event
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ebd567123ceed8449a3a2cbda0e215be, type: 2}
-  m_sharedMaterial: {fileID: 1872832085346666087, guid: ebd567123ceed8449a3a2cbda0e215be, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 74ad3312168c66e43a59291961350e55, type: 2}
+  m_sharedMaterial: {fileID: 1872832085346666087, guid: 74ad3312168c66e43a59291961350e55, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4353,7 +4271,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3552181954427403010}
-  - component: {fileID: 9128594027119984127}
   m_Layer: 5
   m_Name: package
   m_TagString: Untagged
@@ -4381,20 +4298,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &9128594027119984127
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7963613561158690635}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d955f55cbe84172b3a1e720bf664ecd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  packageItemVisualPrefab: {fileID: 1776274885438001910, guid: 6e8d0b20447666b4b898a9c518bbe47a, type: 3}
-  content: {fileID: 8786637064568099611}
 --- !u!1 &8281282342100364009
 GameObject:
   m_ObjectHideFlags: 0
@@ -4462,8 +4365,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Shop
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ebd567123ceed8449a3a2cbda0e215be, type: 2}
-  m_sharedMaterial: {fileID: 1872832085346666087, guid: ebd567123ceed8449a3a2cbda0e215be, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 74ad3312168c66e43a59291961350e55, type: 2}
+  m_sharedMaterial: {fileID: 1872832085346666087, guid: 74ad3312168c66e43a59291961350e55, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

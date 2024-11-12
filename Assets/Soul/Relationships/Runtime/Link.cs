@@ -37,7 +37,7 @@ namespace Soul.Relationships.Runtime
         private void Initialize()
         {
             Dictionary.Clear();
-            foreach (var item in dictionary) Dictionary.Add(item, default);
+            foreach (var (key, value) in dictionary) Dictionary.Add(key, value);
         }
     }
 }

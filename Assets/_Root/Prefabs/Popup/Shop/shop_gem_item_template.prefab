@@ -354,8 +354,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ebd567123ceed8449a3a2cbda0e215be, type: 2}
-  m_sharedMaterial: {fileID: 1872832085346666087, guid: ebd567123ceed8449a3a2cbda0e215be, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 74ad3312168c66e43a59291961350e55, type: 2}
+  m_sharedMaterial: {fileID: 1872832085346666087, guid: 74ad3312168c66e43a59291961350e55, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -586,8 +586,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 30
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ebd567123ceed8449a3a2cbda0e215be, type: 2}
-  m_sharedMaterial: {fileID: 1872832085346666087, guid: ebd567123ceed8449a3a2cbda0e215be, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 74ad3312168c66e43a59291961350e55, type: 2}
+  m_sharedMaterial: {fileID: 1872832085346666087, guid: 74ad3312168c66e43a59291961350e55, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -681,7 +681,6 @@ GameObject:
   - component: {fileID: 2995014198517968120}
   - component: {fileID: 3279557735058036805}
   - component: {fileID: 8093560805135054261}
-  - component: {fileID: 112035083018613204}
   m_Layer: 5
   m_Name: shop_gem_item_template
   m_TagString: Untagged
@@ -836,24 +835,3 @@ MonoBehaviour:
     duration: 0.1
     easeDown: 5
     easeUp: 26
---- !u!114 &112035083018613204
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8595868561942419537}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80cb74b183b941769db5bf49d9c6ce1c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonPurchase: {fileID: 8093560805135054261}
-  imageIcon: {fileID: 1717842486013987749}
-  extraObject: {fileID: 5996682470465482751}
-  textExtra: {fileID: 4700231712078270929}
-  textValue: {fileID: 7711925151920897052}
-  textCost: {fileID: 6340149581414896012}
-  controlPositonTextValue: 1
-  postionWhenNotExtra: -45
-  postionWhenExtra: -65

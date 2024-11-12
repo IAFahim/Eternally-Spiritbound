@@ -67,8 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: x2000
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ebd567123ceed8449a3a2cbda0e215be, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 36e203e2d9b36a54c823fa213f8b9e65, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 74ad3312168c66e43a59291961350e55, type: 2}
+  m_sharedMaterial: {fileID: 1872832085346666087, guid: 74ad3312168c66e43a59291961350e55, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -222,7 +222,6 @@ GameObject:
   - component: {fileID: 2035570429923906881}
   - component: {fileID: 5425171052047126141}
   - component: {fileID: 1853774939151727959}
-  - component: {fileID: 699710344980539112}
   m_Layer: 5
   m_Name: gem_reward_prefab
   m_TagString: Untagged
@@ -289,16 +288,3 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 9
---- !u!114 &699710344980539112
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7721655770495179246}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db73b79cc2b44f2e8a175e0a0014d0c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  textValue: {fileID: 7754215039897661454}

@@ -27,6 +27,15 @@
       },
       "hash": "3c1940038b542134dd5a873bcaf46a6feeef6d85"
     },
+    "com.coffee.ui-effect": {
+      "version": "https://github.com/mob-sakai/UIEffect.git?path=Packages/src#5.0.0",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.ugui": "1.0.0"
+      },
+      "hash": "53e6b41b9da8909ef6caa435dad523146621b5f0"
+    },
     "com.cysharp.unitask": {
       "version": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask#2.5.10",
       "depth": 0,
@@ -205,7 +214,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.mobile.notifications": {
-      "version": "2.3.2",
+      "version": "2.4.0",
       "depth": 0,
       "source": "registry",
       "dependencies": {

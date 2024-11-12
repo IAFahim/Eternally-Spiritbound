@@ -248,8 +248,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7000088632656076293}
-  - component: {fileID: 1911794796205380406}
-  - component: {fileID: 2616925896582845829}
   m_Layer: 5
   m_Name: BackupDataPopup
   m_TagString: Untagged
@@ -277,45 +275,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1911794796205380406
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3605759174047560058}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1c05c0f5152c5347a10eabefe088d20, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enabledSound: 0
-  audioOpen:
-    name: 
-    id: 
-  audioClose:
-    name: 
-    id: 
-  buttonClose: {fileID: 3025467189286476602}
-  buttonBackup: {fileID: 8338704026762794986}
-  choosePlatformPopupKey: ChoosePlatformLoginPopup
---- !u!114 &2616925896582845829
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3605759174047560058}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60ea30821ae426c4eba1b7cfbdbb5318, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  usePrefabNameAsId: 1
-  <Id>k__BackingField: 
-  enterAnimations: []
-  exitAnimations: []
-  view: {fileID: 1911794796205380406}
 --- !u!1 &3794861501139315469
 GameObject:
   m_ObjectHideFlags: 0
@@ -384,8 +343,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Backup Data
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ebd567123ceed8449a3a2cbda0e215be, type: 2}
-  m_sharedMaterial: {fileID: 1872832085346666087, guid: ebd567123ceed8449a3a2cbda0e215be, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 74ad3312168c66e43a59291961350e55, type: 2}
+  m_sharedMaterial: {fileID: 1872832085346666087, guid: 74ad3312168c66e43a59291961350e55, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -699,8 +658,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Backup
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ebd567123ceed8449a3a2cbda0e215be, type: 2}
-  m_sharedMaterial: {fileID: 1872832085346666087, guid: ebd567123ceed8449a3a2cbda0e215be, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 74ad3312168c66e43a59291961350e55, type: 2}
+  m_sharedMaterial: {fileID: 1872832085346666087, guid: 74ad3312168c66e43a59291961350e55, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1097,8 +1056,8 @@ MonoBehaviour:
     Data available
     in the cloud will be overwritten.'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ebd567123ceed8449a3a2cbda0e215be, type: 2}
-  m_sharedMaterial: {fileID: 1872832085346666087, guid: ebd567123ceed8449a3a2cbda0e215be, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 74ad3312168c66e43a59291961350e55, type: 2}
+  m_sharedMaterial: {fileID: 1872832085346666087, guid: 74ad3312168c66e43a59291961350e55, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
