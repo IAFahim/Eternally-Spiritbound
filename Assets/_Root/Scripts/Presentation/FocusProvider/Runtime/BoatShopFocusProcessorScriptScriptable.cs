@@ -6,12 +6,14 @@ using _Root.Scripts.Model.Assets.Runtime;
 using _Root.Scripts.Model.Boats.Runtime;
 using _Root.Scripts.Model.Relationships.Runtime;
 using _Root.Scripts.Presentation.Containers.Runtime;
+using Pancake.Common;
 using Pancake.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
 using Pancake.Pools;
+using Soul.Pools.Runtime;
 
 namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 {
@@ -97,20 +99,28 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
             {
                 _buttonSelectionControllers[i] = CreateController(i, scrollContentTransform, boatInfoDTOs[i],
                     out var isEquipped);
+                Debug.Log(boatInfoDTOs[i] + " " + _buttonSelectionControllers[i].transform.GetSiblingIndex());
                 if (isEquipped) _lastSelected = i;
+            }
+
+            foreach (var buttonSelectionController in _buttonSelectionControllers)
+            {
+                buttonSelectionController.gameObject.SetActive(true);
             }
 
             Select(_lastSelected);
         }
+
 
         private ButtonSelectionController CreateController(int index,
             Transform scrollContentTransform,
             BoatInfoDto boatInfoDto,
             out bool isEquipped)
         {
-            var buttonSelectionController = SharedAssetReferencePool
+            var buttonSelectionController = SharedAssetReferencePoolInactive
                 .Request(buttonSelectionControllerAsset, scrollContentTransform)
                 .GetComponent<ButtonSelectionController>();
+            buttonSelectionController.transform.SetSiblingIndex(index);
             var equippedBoatGuid = PlayerPrefs.GetString(Key, string.Empty);
             isEquipped = equippedBoatGuid == boatInfoDto.BoatVehicleAsset.guid;
             buttonSelectionController.Initialize(
@@ -164,7 +174,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
             _buttonSelectionControllers[index].SetStatus(lockedSprite);
             _boatShopBase.OnLockedItemSelected(_boatInfoDTOs[index].BoatVehicleAsset);
         }
-        
+
         private void NotifyDeSelect(int index)
         {
             _buttonSelectionControllers[index].DeSelect();
@@ -183,7 +193,8 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
             _closeButton.onClick.RemoveListener(TryPopAndActiveLast);
             foreach (var buttonSelectionController in _buttonSelectionControllers)
             {
-                SharedAssetReferencePool.Return(buttonSelectionControllerAsset, buttonSelectionController.gameObject);
+                SharedAssetReferencePoolInactive.Return(buttonSelectionControllerAsset,
+                    buttonSelectionController.gameObject);
             }
         }
 
