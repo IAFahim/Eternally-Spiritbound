@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Model.Assets.Runtime
 {
     public class AssetScriptComponent : MonoBehaviour
     {
-        public AssetScript assetScript;
+        [FormerlySerializedAs("assetScript")] public AssetScript assetScriptReference;
     }
 }

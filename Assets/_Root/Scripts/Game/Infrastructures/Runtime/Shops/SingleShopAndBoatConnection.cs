@@ -1,4 +1,5 @@
 ﻿using _Root.Scripts.Model.Assets.Runtime;
+using Cysharp.Threading.Tasks;
 using Pancake.Pools;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -7,7 +8,6 @@ namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
 {
     public class SingleShopAndBoatConnection : MonoBehaviour
     {
-        public AssetScript boatAsset;
         public Vector3 offset;
         public Quaternion rotation;
         public GameObject boat;
@@ -17,12 +17,14 @@ namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
 
         private Rigidbody _boatRigidbody;
 
-        private void Awake()
+        public async UniTaskVoid SpawnBoat(AssetScript assetScript)
         {
             var transformPoint = transform.TransformPoint(offset);
-            boat = SharedAssetReferencePool.Request(boatAsset.assetReference, transformPoint, rotation);
+            await assetScript.assetReference.RequestAsync(transformPoint, rotation);
             _boatRigidbody = boat.GetComponent<Rigidbody>();
         }
+        
+        public void DespawnBoat(AssetScript assetScript) => assetScript.assetReference.Return(boat);
 
         private void PlaceAndAlignViaRigidBody()
         {

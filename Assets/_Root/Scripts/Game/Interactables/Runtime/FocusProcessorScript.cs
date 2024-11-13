@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Pancake;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace _Root.Scripts.Game.Interactables.Runtime
 {
-    public abstract class FocusProcessorScript : ScriptableObject
+    public abstract class FocusProcessorScript : StringConstant
     {
         public abstract void SetFocus(FocusReferences focusReferences);
 

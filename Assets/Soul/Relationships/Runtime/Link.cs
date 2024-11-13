@@ -9,23 +9,19 @@ namespace Soul.Relationships.Runtime
     public abstract class Link<T, TV> : ScriptableObject
     {
         [Guid] public string guid;
+        [SerializeField] private string source;
         [SerializeField] private List<Pair<T, TV>> dictionary;
         public readonly Dictionary<T, TV> Dictionary = new();
-
+        public virtual bool TryGetValue(string key, out TV value) => Dictionary.TryGetValue(GetSource(key), out value);
+        public virtual bool TryGetValue(T key, out TV value) => Dictionary.TryGetValue(key, out value);
         public abstract T GetSource(string source);
 
-        public TV this[string key]
+        private void Initialize()
         {
-            get => Dictionary[GetSource(key)];
-            set => Dictionary[GetSource(key)] = value;
+            Dictionary.Clear();
+            foreach (var (key, value) in dictionary) Dictionary.Add(key, value);
         }
-
-        public TV this[T key]
-        {
-            get => Dictionary[key];
-            set => Dictionary[key] = value;
-        }
-
+        
         protected virtual void OnEnable()
         {
             hideFlags = HideFlags.DontUnloadUnusedAsset;
@@ -33,11 +29,5 @@ namespace Soul.Relationships.Runtime
         }
 
         protected virtual void OnValidate() => Initialize();
-
-        private void Initialize()
-        {
-            Dictionary.Clear();
-            foreach (var (key, value) in dictionary) Dictionary.Add(key, value);
-        }
     }
 }

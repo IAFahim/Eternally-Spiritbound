@@ -1,46 +1,52 @@
-﻿using System.Collections.Generic;
-using _Root.Scripts.Model.Assets.Runtime;
-using _Root.Scripts.Model.Boats.Runtime;
-using Soul.Interactables.Runtime;
+﻿using _Root.Scripts.Model.Assets.Runtime;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
 {
+    [RequireComponent(typeof(SingleShopAndBoatConnection))]
     public class BoatShop : ShopBase
     {
-        [SerializeField] private List<BoatVehicleAsset> boatVehicleAssetsInShop;
-        [SerializeField] private Transform currentEquipped;
-        
-        public List<BoatVehicleAsset> GetItems() => boatVehicleAssetsInShop;
+        [SerializeField] private string guidDefaultBoat;
+        [SerializeField] private AssetScriptDataBase assetScriptDataBase;
+        [SerializeField] private SingleShopAndBoatConnection singleShopAndBoatConnection;
 
-        public override void OnEnter(IInteractorEntryPoint interactorEntryPoint)
+        private AssetScript _currentAssetScript;
+
+        protected override void OnEnable()
         {
-            Debug.Log("Shop entered by " + interactorEntryPoint.GameObject.name);
+            base.OnEnable();
+            guidDefaultBoat = PlayerPrefs.GetString(name, guidDefaultBoat);
+            if (assetScriptDataBase.TryGetValue(guidDefaultBoat, out var assetScript)) SpawnBoat(assetScript, false);
         }
 
-        public override void OnUnlockedSelected(AssetScript assetScript)
+        public override void OnDeSelected(AssetScriptComponent playerAssetScriptComponent, string category,
+            AssetScript assetScript)
         {
-            Debug.Log("Item placed on shop by " + assetScript.Value);
-        }
-        
-        public override void OnLockedItemSelected(AssetScript assetScript)
-        {
-            Debug.Log("Item locked on shop by " + assetScript.Value);
+            base.OnDeSelected(playerAssetScriptComponent, category, assetScript);
+            if (assetScript.guid == _currentAssetScript.guid) return;
+            singleShopAndBoatConnection.DespawnBoat(_currentAssetScript);
         }
 
-        public override void OnDeSelected(AssetScript assetScript)
+        public override void OnUnlockedSelected(AssetScriptComponent playerAssetScriptComponent, string category,
+            AssetScript assetScript)
         {
-            Debug.Log("Item removed from shop by " + assetScript.Value);
+            base.OnUnlockedSelected(playerAssetScriptComponent, category, assetScript);
+            SpawnBoat(assetScript);
         }
 
-        public override void OnUnlocked(AssetScript assetScript)
+        public override void OnLockedItemSelected(AssetScriptComponent playerAssetScriptComponent, string category,
+            AssetScript assetScript)
         {
-            Debug.Log("Item unlocked on shop");
+            base.OnLockedItemSelected(playerAssetScriptComponent, category, assetScript);
+            SpawnBoat(assetScript);
         }
 
-        public override void OnExit(IInteractorEntryPoint interactorEntryPoint)
+        private void SpawnBoat(AssetScript assetScript, bool save = true)
         {
-            Debug.Log("Shop exited by " + interactorEntryPoint.GameObject.name);
+            guidDefaultBoat = assetScript.guid;
+            PlayerPrefs.SetString(name, guidDefaultBoat);
+            _currentAssetScript = assetScript;
+            singleShopAndBoatConnection.SpawnBoat(assetScript).Forget();
         }
     }
 }

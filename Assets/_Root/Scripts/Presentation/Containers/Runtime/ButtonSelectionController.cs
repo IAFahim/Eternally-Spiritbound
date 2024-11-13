@@ -18,7 +18,7 @@ namespace _Root.Scripts.Presentation.Containers.Runtime
         private UnityAction<int> _unityAction;
 
 
-        public void Initialize(int index, bool selected, Sprite sprite, Sprite statusSprite,
+        public void Initialize(int index, string category, bool selected, Sprite sprite, Sprite statusSprite,
             UnityAction<int> onSelected)
         {
             _selected = selected;

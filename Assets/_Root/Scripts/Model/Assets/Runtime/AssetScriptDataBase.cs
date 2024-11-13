@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace _Root.Scripts.Model.Assets.Runtime
 {
-    [CreateAssetMenu(menuName = "Scriptable/Asset/DataBase" , fileName = "AssetDataBase")]
+    [CreateAssetMenu(menuName = "Scriptable/Asset/DataBase", fileName = "AssetDataBase")]
     public class AssetScriptDataBase : ScriptableSettings<AssetScriptDataBase>
     {
         public List<AssetScript> assets;
@@ -14,10 +14,13 @@ namespace _Root.Scripts.Model.Assets.Runtime
         {
             foreach (var asset in assets) _dictionary.Add(asset.guid, asset);
         }
-        
+
+        public bool TryGetValue(string guid, out AssetScript assetScript) =>
+            _dictionary.TryGetValue(guid, out assetScript);
+
         public AssetScript this[string guid] => _dictionary[guid];
-        
-        
+
+
 #if UNITY_EDITOR
         [Sirenix.OdinInspector.Button]
         private void CaptureGuid()

@@ -1,4 +1,5 @@
 ﻿using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -49,6 +50,12 @@ namespace _Root.Scripts.Game.Interactables.Runtime
         private void FocusSelf()
         {
             focusManagerScript.PushFocus(this);
+        }
+
+        [Button]
+        public void SetFocus()
+        {
+            IsFocused = true;
         }
     }
 }

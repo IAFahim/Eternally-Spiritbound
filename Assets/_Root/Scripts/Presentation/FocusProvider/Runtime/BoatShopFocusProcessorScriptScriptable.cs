@@ -1,18 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
+using _Root.Scripts.Game.GameEntities.Runtime;
 using _Root.Scripts.Game.Infrastructures.Runtime.Shops;
 using _Root.Scripts.Game.Interactables.Runtime;
 using _Root.Scripts.Game.Utils.Runtime;
 using _Root.Scripts.Model.Assets.Runtime;
-using _Root.Scripts.Model.Boats.Runtime;
 using _Root.Scripts.Model.Relationships.Runtime;
 using _Root.Scripts.Presentation.Containers.Runtime;
-using Pancake.Common;
 using Pancake.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
-using Pancake.Pools;
 using Soul.Pools.Runtime;
 
 namespace _Root.Scripts.Presentation.FocusProvider.Runtime
@@ -20,8 +19,9 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
     [CreateAssetMenu(fileName = "Boat Shop Processor", menuName = "Scriptable/FocusProcessor/Boat Shop")]
     public class BoatShopFocusProcessorScriptScriptable : FocusProcessorScriptCinemachineScriptable
     {
-        [SerializeField] private AssetReferenceGameObject boatShopCloseButtonAsset;
         [SerializeField] private AssetReferenceGameObject boatScrollRectAsset;
+        [SerializeField] private AssetReferenceGameObject buyButtonAsset;
+        [SerializeField] private AssetReferenceGameObject boatShopCloseButtonAsset;
 
         [SerializeField] private FocusManagerScript focusManager;
         [SerializeField] private AssetReferenceGameObject buttonSelectionControllerAsset;
@@ -31,17 +31,29 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
         private Button _closeButton;
         [SerializeField] private AssetOwnsAssetsLink assetOwnsAssetsLink;
 
-        private AssetScript[] _unlockedBoatAssets;
+        private List<AssetScript> _unlockedAssets;
         private ButtonSelectionController[] _buttonSelectionControllers;
-        private BoatVehicleAsset[] _boatVehicleAssets;
-        private AssetScriptComponent _assetScriptComponent;
+        private AssetScriptComponent _playerAssetScriptComponent;
         private ScrollRect _scrollRect;
-        private BoatShop _boatShopBase;
-        private BoatInfoDto[] _boatInfoDTOs;
+        private ShopBase _boatShopBase;
+        private string _category;
+
+        private AssetInfoDto[] _assetInfoDTOs;
         private TMP_Text _titleText;
         private int _lastSelected;
 
-        private string Key => focusManager.mainObject.name + "BoatShop";
+
+        private string GetSelectedCategory() => PlayerPrefs.GetString(value, string.Empty);
+        private string SetSelectedCategory(string category) => PlayerPrefs.GetString(value, category);
+
+        private void SetAssetEquippedOnCategory(string category, string guid) =>
+            PlayerPrefs.GetString(focusManager.mainObject.name + category + value, guid);
+
+        private string GetAssetEquippedCategorySelected(string category) =>
+            PlayerPrefs.GetString(PlayerEquippedPerCategoryLookUpKey(category), string.Empty);
+
+        private string PlayerEquippedPerCategoryLookUpKey(string category) =>
+            focusManager.mainObject.name + category + value;
 
         public override void SetFocus(FocusReferences focusReferences)
         {
@@ -50,8 +62,21 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
                 focusReferences.ActiveElements,
                 (cinemachineAsset, SetupCinemachine, null),
                 (boatShopCloseButtonAsset, SetupCloseButton, focusReferences.stillCanvasTransformPoint),
-                (boatScrollRectAsset, SetupScrollRect, focusReferences.stillCanvasTransformPoint)
+                (boatScrollRectAsset, SetupScrollRect, focusReferences.stillCanvasTransformPoint),
+                (buyButtonAsset, SetupBuyButton, focusReferences.stillCanvasTransformPoint)
             );
+        }
+
+        private void SetupBuyButton(GameObject obj)
+        {
+            var buyButton = obj.GetComponent<Button>();
+            buyButton.onClick.AddListener(() =>
+            {
+                var assetScript = _assetInfoDTOs[_lastSelected].AssetScript;
+                var buySuccess = _boatShopBase.OnTryBuyButtonClick(_playerAssetScriptComponent, _category, assetScript,
+                    out var message);
+                Debug.Log($"{buySuccess}: {message}");
+            });
         }
 
         private void SetupScrollRect(GameObject gameObject)
@@ -59,47 +84,64 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
             _lastSelected = 0;
             _scrollRect = gameObject.GetComponent<ScrollRect>();
             _titleText = gameObject.GetComponentInChildren<TMP_Text>();
-            _assetScriptComponent = focusManager.mainObject.GetComponent<AssetScriptComponent>();
-            OnBoatMenu();
+            _playerAssetScriptComponent = focusManager.mainObject.GetComponent<AssetScriptComponent>();
+            InstantiateShopBase();
         }
 
-        private void OnBoatMenu()
+        private void InstantiateShopBase()
         {
-            _boatShopBase = TargetGameObject.GetComponent<BoatShop>();
-            _unlockedBoatAssets = assetOwnsAssetsLink[_assetScriptComponent.assetScript].ToArray();
-            _boatVehicleAssets = _boatShopBase.GetItems().ToArray();
-            _boatInfoDTOs = CreateBoatInfoDto(_boatVehicleAssets);
-            Array.Sort(_boatInfoDTOs);
-            PopulatePool(_scrollRect, _boatInfoDTOs);
-        }
-
-        private BoatInfoDto[] CreateBoatInfoDto(BoatVehicleAsset[] boatVehicles)
-        {
-            var boatInfoDTOs = new BoatInfoDto[boatVehicles.Length];
-            for (var i = 0; i < boatVehicles.Length; i++)
+            _boatShopBase = TargetGameObject.GetComponent<ShopBase>();
+            var assetCategories = _boatShopBase.assetCategories;
+            var selectedCategory = GetSelectedCategory();
+            _category = "";
+            foreach (var assetCategory in assetCategories)
             {
-                var boatVehicle = boatVehicles[i];
-                boatInfoDTOs[i] = new BoatInfoDto
+                if (assetCategory.name != selectedCategory) continue;
+                InstantiateCategory(selectedCategory, assetCategory);
+                break;
+            }
+
+            if (string.IsNullOrEmpty(_category)) InstantiateCategory(assetCategories[0].name, assetCategories[0]);
+        }
+
+        private void InstantiateCategory(string selectedCategory, AssetCategory assetCategory)
+        {
+            _category = selectedCategory;
+            bool linkExist =
+                assetOwnsAssetsLink.TryGetValue(_playerAssetScriptComponent.assetScriptReference, out _unlockedAssets);
+            _assetInfoDTOs = CreateBoatInfoDto(assetCategory.assets, linkExist);
+            Array.Sort(_assetInfoDTOs);
+            PopulatePool(_scrollRect, assetCategory, _assetInfoDTOs);
+        }
+
+        private AssetInfoDto[] CreateBoatInfoDto(List<AssetScript> boatVehicles, bool linkExist)
+        {
+            var assetInfoDtos = new AssetInfoDto[boatVehicles.Count];
+            for (var i = 0; i < boatVehicles.Count; i++)
+            {
+                var assetScript = boatVehicles[i];
+                var unlocked = linkExist && _unlockedAssets.Any(asset => asset.guid == assetScript.guid);
+                assetInfoDtos[i] = new AssetInfoDto
                 {
                     Index = i,
-                    Unlocked = _unlockedBoatAssets.Any(asset => asset.guid == boatVehicle.guid),
-                    BoatVehicleAsset = boatVehicle
+                    Unlocked = unlocked,
+                    AssetScript = assetScript
                 };
             }
 
-            return boatInfoDTOs;
+            return assetInfoDtos;
         }
 
 
-        private void PopulatePool(ScrollRect scrollRect, BoatInfoDto[] boatInfoDTOs)
+        private void PopulatePool(ScrollRect scrollRect, AssetCategory assetCategory, AssetInfoDto[] assetInfoDTOs)
         {
-            _buttonSelectionControllers = new ButtonSelectionController[_boatVehicleAssets.Length];
+            _buttonSelectionControllers = new ButtonSelectionController[assetCategory.assets.Count];
             var scrollContentTransform = scrollRect.content.transform;
-            for (var i = 0; i < boatInfoDTOs.Length; i++)
+            for (var i = 0; i < assetInfoDTOs.Length; i++)
             {
-                _buttonSelectionControllers[i] = CreateController(i, scrollContentTransform, boatInfoDTOs[i],
+                _buttonSelectionControllers[i] = CreateController(i, assetCategory.name, scrollContentTransform,
+                    assetInfoDTOs[i],
                     out var isEquipped);
-                Debug.Log(boatInfoDTOs[i] + " " + _buttonSelectionControllers[i].transform.GetSiblingIndex());
                 if (isEquipped) _lastSelected = i;
             }
 
@@ -112,21 +154,21 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
         }
 
 
-        private ButtonSelectionController CreateController(int index,
+        private ButtonSelectionController CreateController(int index, string category,
             Transform scrollContentTransform,
-            BoatInfoDto boatInfoDto,
+            AssetInfoDto assetInfoDto,
             out bool isEquipped)
         {
             var buttonSelectionController = SharedAssetReferencePoolInactive
                 .Request(buttonSelectionControllerAsset, scrollContentTransform)
                 .GetComponent<ButtonSelectionController>();
             buttonSelectionController.transform.SetSiblingIndex(index);
-            var equippedBoatGuid = PlayerPrefs.GetString(Key, string.Empty);
-            isEquipped = equippedBoatGuid == boatInfoDto.BoatVehicleAsset.guid;
+            var equippedAssetGuid = GetAssetEquippedCategorySelected(category);
+            isEquipped = equippedAssetGuid == assetInfoDto.AssetScript.guid;
             buttonSelectionController.Initialize(
-                index, isEquipped,
-                boatInfoDto.BoatVehicleAsset.icon,
-                StatusSprite(isEquipped, boatInfoDto.Unlocked),
+                index, category, isEquipped,
+                assetInfoDto.AssetScript.icon,
+                StatusSprite(isEquipped, assetInfoDto.Unlocked),
                 Select
             );
             return buttonSelectionController;
@@ -137,7 +179,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
         {
             if (_lastSelected != index)
             {
-                if (_boatInfoDTOs[index].Unlocked) DeSelect(_lastSelected);
+                if (_assetInfoDTOs[index].Unlocked) DeSelect(_lastSelected);
                 else NotifyDeSelect(_lastSelected);
             }
 
@@ -147,8 +189,8 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
         private void SetSelected(int index)
         {
             _lastSelected = index;
-            bool unlocked = _boatInfoDTOs[index].Unlocked;
-            _titleText.text = _boatInfoDTOs[index].BoatVehicleAsset.Value;
+            bool unlocked = _assetInfoDTOs[index].Unlocked;
+            _titleText.text = _assetInfoDTOs[index].AssetScript.Value;
             var buttonSelectionController = _buttonSelectionControllers[index];
             if (unlocked) NotifyUnLockedSelected(index);
             else NotifyLockedSelect(index);
@@ -158,27 +200,28 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 
         private void DeSelect(int index)
         {
-            _buttonSelectionControllers[index].SetStatus(StatusSprite(false, _boatInfoDTOs[index].Unlocked));
+            _buttonSelectionControllers[index].SetStatus(StatusSprite(false, _assetInfoDTOs[index].Unlocked));
             NotifyDeSelect(index);
         }
 
         private void NotifyUnLockedSelected(int index)
         {
-            PlayerPrefs.SetString(Key, _boatInfoDTOs[index].BoatVehicleAsset.guid);
+            SetAssetEquippedOnCategory(_category, _assetInfoDTOs[index].AssetScript.guid);
             _buttonSelectionControllers[index].SetStatus(equippedSprite);
-            _boatShopBase.OnUnlockedSelected(_boatInfoDTOs[index].BoatVehicleAsset);
+            _boatShopBase.OnUnlockedSelected(_playerAssetScriptComponent, _category, _assetInfoDTOs[index].AssetScript);
         }
 
         private void NotifyLockedSelect(int index)
         {
             _buttonSelectionControllers[index].SetStatus(lockedSprite);
-            _boatShopBase.OnLockedItemSelected(_boatInfoDTOs[index].BoatVehicleAsset);
+            _boatShopBase.OnLockedItemSelected(_playerAssetScriptComponent, _category,
+                _assetInfoDTOs[index].AssetScript);
         }
 
         private void NotifyDeSelect(int index)
         {
             _buttonSelectionControllers[index].DeSelect();
-            _boatShopBase.OnDeSelected(_boatInfoDTOs[index].BoatVehicleAsset);
+            _boatShopBase.OnDeSelected(_playerAssetScriptComponent, _category, _assetInfoDTOs[index].AssetScript);
         }
 
         private Sprite StatusSprite(bool isEquipped, bool unlocked)
@@ -207,25 +250,5 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
         }
 
         private void TryPopAndActiveLast() => focusManager.PopFocus();
-
-        private struct BoatInfoDto : IComparable<BoatInfoDto>
-        {
-            public int Index;
-            public bool Unlocked;
-            public BoatVehicleAsset BoatVehicleAsset;
-
-            public override string ToString()
-            {
-                return
-                    $"{nameof(Index)}: {Index}, {nameof(Unlocked)}: {Unlocked}";
-            }
-
-            public int CompareTo(BoatInfoDto other)
-            {
-                if (Unlocked && !other.Unlocked) return -1;
-                if (!Unlocked && other.Unlocked) return 1;
-                return Index.CompareTo(other.Index);
-            }
-        }
     }
 }

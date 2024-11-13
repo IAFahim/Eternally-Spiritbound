@@ -2,7 +2,7 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 32
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -12,20 +12,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1d05f4b04204349a08bf5cf39d1f4a5, type: 3}
   m_Name: Boat Shop Focus Processor
   m_EditorClassIdentifier: 
+  value: Boat Shop
   cinemachineAsset:
     m_AssetGUID: 325cc20d860337d46b2ba6130c890ec0
     m_SubObjectName: 
     m_SubObjectGUID: 
     m_SubObjectType: 
     m_EditorAssetChanged: 1
-  boatShopCloseButtonAsset:
-    m_AssetGUID: 0492cac06f287be489316487a4c0cb74
+  boatScrollRectAsset:
+    m_AssetGUID: bef863356cf6cf94eb37662c70f4b392
     m_SubObjectName: 
     m_SubObjectGUID: 
     m_SubObjectType: 
     m_EditorAssetChanged: 1
-  boatScrollRectAsset:
-    m_AssetGUID: bef863356cf6cf94eb37662c70f4b392
+  buyButtonAsset:
+    m_AssetGUID: f25586b5c9740d042a46742f1507c5c0
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 1
+  boatShopCloseButtonAsset:
+    m_AssetGUID: 0492cac06f287be489316487a4c0cb74
     m_SubObjectName: 
     m_SubObjectGUID: 
     m_SubObjectType: 
@@ -39,13 +46,4 @@ MonoBehaviour:
     m_EditorAssetChanged: 1
   lockedSprite: {fileID: 21300000, guid: 5bf9bcd8c297e7b408d5664aba37068d, type: 3}
   equippedSprite: {fileID: 21300000, guid: 61bee064b9fd1c44cbd4e0b602caa922, type: 3}
-  equippedBoatName: Tow Boat Double
-  unlockedBoatNames:
-  - Tow Boat Double
-  - Tow Boat Single
   assetOwnsAssetsLink: {fileID: 11400000, guid: 3f7ff6966a31734488ede95810d865e6, type: 2}
-  _buttonSelectionControllers:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  _unlockedBoatAssets: []
