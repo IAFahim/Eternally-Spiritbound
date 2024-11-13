@@ -2,6 +2,6 @@
 {
     public interface IStorageInitializer
     {
-        public void InitializeStorage(string guid,bool load);
+        public void InitializeStorage(string guid, bool load);
     }
 }

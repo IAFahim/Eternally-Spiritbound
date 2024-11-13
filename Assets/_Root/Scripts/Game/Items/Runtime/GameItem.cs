@@ -1,7 +1,6 @@
 using System;
 using _Root.Scripts.Game.Interactables.Runtime;
 using _Root.Scripts.Model.Assets.Runtime;
-using JetBrains.Annotations;
 using Soul.Interactions.Runtime;
 using Soul.Items.Runtime;
 using UnityEngine;
@@ -21,9 +20,6 @@ namespace _Root.Scripts.Game.Items.Runtime
         [SerializeField] private bool dropOnDeath;
         [SerializeField] private bool autoPickup;
         [SerializeField] private float pickupRange = 5;
-        public string ItemName => value;
-        public string Description => description;
-        [CanBeNull] public Sprite Icon => icon;
         public bool Consumable => consumable;
         public bool DropOnDeath => dropOnDeath;
         public bool IsStackable => maxStack > 1;
@@ -48,16 +44,17 @@ namespace _Root.Scripts.Game.Items.Runtime
         public virtual void OnUse(GameObject user)
         {
         }
-        
+
 
         public float DropRange => dropStrategy.DropRange;
+
         public void OnDrop(GameObject user, Vector3 position, int amount)
         {
             dropStrategy.OnDrop(assetReference, position, amount);
         }
 
 
-        public static implicit operator Sprite(GameItem itemBase) => itemBase.Icon;
+        public static implicit operator Sprite(GameItem itemBase) => itemBase.icon;
         public static implicit operator string(GameItem itemBase) => itemBase.guid;
 
         public static implicit operator AssetReferenceGameObject(GameItem itemBase) =>

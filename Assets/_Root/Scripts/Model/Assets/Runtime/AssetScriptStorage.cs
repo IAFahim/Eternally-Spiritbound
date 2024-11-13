@@ -1,14 +1,13 @@
 ﻿using System;
-using _Root.Scripts.Game.Items.Runtime;
 using Pancake.Common;
 using Sirenix.OdinInspector;
 using Soul.Serializers.Runtime;
 using Soul.Storages.Runtime;
 
-namespace _Root.Scripts.Game.Storages.Runtime
+namespace _Root.Scripts.Model.Assets.Runtime
 {
     [Serializable]
-    public class GameItemStorage : IntStorage<GameItem>
+    public class AssetScriptStorage : IntStorage<AssetScript>
     {
         private const string AppendKey = "_s";
         public override string StorageKey => $"{Guid}{AppendKey}";
@@ -26,13 +25,13 @@ namespace _Root.Scripts.Game.Storages.Runtime
             SetData(ToGameItemPair(datas));
         }
 
-        public override void SaveData(Pair<GameItem, int>[] data)
+        public override void SaveData(Pair<AssetScript, int>[] data)
         {
             Pair<string, int>[] stringIntData = ToStringPair(data);
             Data.Save(StorageKey, stringIntData);
         }
 
-        public Pair<string, int>[] ToStringPair(Pair<GameItem, int>[] datas)
+        public Pair<string, int>[] ToStringPair(Pair<AssetScript, int>[] datas)
         {
             var result = new Pair<string, int>[datas.Length];
             for (var i = 0; i < datas.Length; i++)
@@ -44,13 +43,13 @@ namespace _Root.Scripts.Game.Storages.Runtime
             return result;
         }
 
-        public Pair<GameItem, int>[] ToGameItemPair(Pair<string, int>[] datas)
+        public Pair<AssetScript, int>[] ToGameItemPair(Pair<string, int>[] datas)
         {
-            var result = new Pair<GameItem, int>[datas.Length];
+            var result = new Pair<AssetScript, int>[datas.Length];
             for (var i = 0; i < datas.Length; i++)
             {
                 var data = datas[i];
-                result[i] = new Pair<GameItem, int>(AllGameItem.Instance[data.Key], data.Value);
+                result[i] = new Pair<AssetScript, int>(AssetScriptDataBase.Instance[data.Key], data.Value);
             }
 
             return result;

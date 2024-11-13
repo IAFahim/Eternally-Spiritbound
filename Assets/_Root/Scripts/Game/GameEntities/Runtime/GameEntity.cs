@@ -2,7 +2,7 @@
 using _Root.Scripts.Game.GameEntities.Runtime.Damages;
 using _Root.Scripts.Game.GameEntities.Runtime.Healths;
 using _Root.Scripts.Game.Stats.Runtime;
-using _Root.Scripts.Game.Storages.Runtime;
+using _Root.Scripts.Model.Assets.Runtime;
 using _Root.Scripts.Model.Stats.Runtime;
 using Soul.Modifiers.Runtime;
 using UnityEngine;
@@ -10,19 +10,13 @@ using UnityEngine;
 namespace _Root.Scripts.Game.GameEntities.Runtime
 {
     [DisallowMultipleComponent]
-    [RequireComponent(typeof(EntityStatsComponent))]
-    public class GameEntity : MonoBehaviour, IDamage, IHealth
+    [RequireComponent(typeof(EntityStatsComponent), typeof(AssetScriptStorageComponent))]
+    public class GameEntity : AssetScriptReferenceComponent, IDamage, IHealth
     {
         public EntityStatsComponent entityStatsComponent;
-        private IGameItemStorageReference _itemStorageReference;
+        public AssetScriptStorageComponent assetScriptStorageReference;
 
         #region Plumbing
-
-        private void Awake()
-        {
-            _itemStorageReference = GetComponent<IGameItemStorageReference>();
-            entityStatsComponent ??= GetComponent<EntityStatsComponent>();
-        }
 
         private void OnEnable()
         {
@@ -37,6 +31,7 @@ namespace _Root.Scripts.Game.GameEntities.Runtime
         private void OnValidate()
         {
             entityStatsComponent ??= GetComponent<EntityStatsComponent>();
+            assetScriptStorageReference ??= GetComponent<AssetScriptStorageComponent>();
         }
 
         #endregion
@@ -62,14 +57,6 @@ namespace _Root.Scripts.Game.GameEntities.Runtime
 
         private void DropItem()
         {
-            foreach (var (gameItem, value) in _itemStorageReference.GameItemStorage)
-            {
-                if (gameItem.DropOnDeath)
-                {
-                    gameItem.OnDrop(gameObject, gameObject.transform.position, value);
-                    _itemStorageReference.GameItemStorage.TryRemove(gameItem, value, out _);
-                }
-            }
         }
 
         public bool TryKill(AttackOrigin attackOrigin, out DamageInfo damage)

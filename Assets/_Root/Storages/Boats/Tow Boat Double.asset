@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   value: Tow Boat Double
   guid: 109cadf75cd4444
-  assetReferenceGameObject:
+  assetReference:
     m_AssetGUID: 946ea4e6aa4032a48bd434a7b2d0d743
     m_SubObjectName: 
     m_SubObjectGUID: 
@@ -24,4 +24,3 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 7499efd60e64bc14fa9a0a77386a5f24, type: 3}
   dropStrategy: {fileID: 11400000, guid: bc587b9ed86af8b41b1863085b75a8c0, type: 2}
   boatControllerParameterScript: {fileID: 11400000, guid: c9aaa7dd760470d46aa4d2e6fd5a2356, type: 2}
-  entityStatsParameterScript: {fileID: 11400000, guid: bfb0a96c47417b247840ebbf5d1d57f8, type: 2}

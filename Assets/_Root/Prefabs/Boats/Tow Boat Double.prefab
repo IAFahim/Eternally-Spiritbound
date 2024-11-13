@@ -80,7 +80,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce5b3c68086d4e5fae1e624749d67a9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  assetScriptReference: {fileID: 11400000, guid: 6d2425dc84a541241813d581c954ebd5, type: 2}
   entityStatsComponent: {fileID: 1559882521595817238}
+  assetScriptStorageReference: {fileID: 8276661147418209448}
 --- !u!114 &1559882521595817238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,129 +95,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f90d4f1fd98b4c7fab38751ec3bf783b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  key: 0
   entityStatsParameterScript: {fileID: 11400000, guid: 3d13b3d2cf2ce0340b0a4e0d9dbbe091, type: 2}
-  entityStats:
-    vitality:
-      health:
-        current:
-          value: 0
-        max:
-          baseValue: 5
-          rate: 0
-          additive: 0
-      size:
-        baseValue: 0
-        rate: 0
-        additive: 0
-    defensive:
-      armor:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      shield:
-        current:
-          value: 0
-        max:
-          baseValue: 0
-          rate: 0
-          additive: 0
-      dodgeChance:
-        baseValue: 0
-        rate: 0
-        additive: 0
-    movement:
-      speed:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      pickupRange:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      detectRange:
-        baseValue: 0
-        rate: 0
-        additive: 0
-    progression:
-      experience:
-        value: 0
-      experienceRate:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      luck:
-        baseValue: 0
-        rate: 0
-        additive: 0
-    critical:
-      chance:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      damage:
-        baseValue: 0
-        rate: 0
-        additive: 0
-    ammo:
-      total:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      clipSize:
-        baseValue: 0
-        rate: 0
-        additive: 0
-    offensive:
-      damage:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      lifeTime:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      fireRate:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      cooldown:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      range:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      reloadTime:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      accuracy:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      recoil:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      size:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      speed:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      defensePenetration:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      elementalDamage:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      penetration:
-        enabled: 0
 --- !u!114 &4121787031315781494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,7 +174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dd1b6e4a9d6417ea8d68da35f549900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemStorage:
+  assetScriptStorage:
     defaultData: []
 --- !u!114 &8240035573106982839
 MonoBehaviour:

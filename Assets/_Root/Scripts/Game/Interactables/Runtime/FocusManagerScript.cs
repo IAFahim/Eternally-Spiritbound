@@ -80,7 +80,7 @@ namespace _Root.Scripts.Game.Interactables.Runtime
 
         private void AssignFocus(GameObject gameObject)
         {
-            _focusReferences.currentGameObject = gameObject;
+            _focusReferences.CurrentGameObject = gameObject;
             var focusEntryPoint = gameObject.GetComponent<IFocusEntryPoint>();
             focusEntryPoint.PushFocus(_focusReferences);
         }

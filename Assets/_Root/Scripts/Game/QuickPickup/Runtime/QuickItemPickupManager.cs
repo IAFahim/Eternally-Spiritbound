@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using _Root.Scripts.Game.Items.Runtime;
 using _Root.Scripts.Game.QuickPickup.Runtime.Handlers;
-using _Root.Scripts.Game.Storages.Runtime;
+using _Root.Scripts.Model.Assets.Runtime;
 using Pancake.Pools;
 using Soul.QuickPickup.Runtime;
 using UnityEngine;
@@ -43,10 +43,10 @@ namespace _Root.Scripts.Game.QuickPickup.Runtime
 
         private bool HaveSpaceInInventory(PickupContainer<GameItem> pickupContainer)
         {
-            if (pickupContainer.otherTransform.TryGetComponent<IGameItemStorageReference>(out var storageReference))
+            if (pickupContainer.otherTransform.TryGetComponent<IAssetScriptStorageReference>(out var storageReference))
             {
                 pickupContainer.StorageReferenceReference = storageReference;
-                return storageReference.GameItemStorage.CanAdd(pickupContainer.element, pickupContainer.amount, out _);
+                return storageReference.AssetScriptStorage.CanAdd(pickupContainer.element, pickupContainer.amount, out _);
             }
 
             return false;
@@ -57,7 +57,7 @@ namespace _Root.Scripts.Game.QuickPickup.Runtime
         {
             if (pickupContainer.otherTransform != null)
             {
-                pickupContainer.StorageReferenceReference.GameItemStorage.TryAdd(
+                pickupContainer.StorageReferenceReference.AssetScriptStorage.TryAdd(
                     pickupContainer.element, pickupContainer.amount, out var added
                 );
                 pickupContainer.amount -= added;

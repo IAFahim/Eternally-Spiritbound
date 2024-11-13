@@ -5,7 +5,6 @@ namespace Soul.Items.Runtime
 {
     public interface IItemBase<in T>
     {
-        public string ItemName { get; }
         public string Description { get; }
         public Sprite Icon { get; }
         public bool Consumable { get; }

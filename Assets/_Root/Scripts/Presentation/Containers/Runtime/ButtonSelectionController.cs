@@ -1,6 +1,10 @@
-﻿using Coffee.UIEffects;
+﻿using System;
+using Coffee.UIEffects;
+using Pancake;
+using Pancake.Common;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace _Root.Scripts.Presentation.Containers.Runtime
@@ -8,25 +12,26 @@ namespace _Root.Scripts.Presentation.Containers.Runtime
     public class ButtonSelectionController : MonoBehaviour
     {
         [SerializeField] private Button button;
-        [SerializeField] private Image icon;
-        [SerializeField] private UIEffectTweener effectTweener;
+        [FormerlySerializedAs("icon")] [SerializeField] private Image image;
+        [SerializeField] private Optional<UIEffectTweener> effectTweener;
 
         [SerializeField] private Image statusImage;
 
         private bool _selected;
         private int _index;
-        private UnityAction<int> _unityAction;
+        private Action<int> _onIndexClick;
 
 
-        public void Initialize(int index, string category, bool selected, Sprite sprite, Sprite statusSprite,
-            UnityAction<int> onSelected)
+        public void Initialize(int index, bool selected, Sprite icon, Sprite statusSprite,
+            Action<int> onSelected)
         {
             _selected = selected;
             _index = index;
-            icon.sprite = sprite;
+            image.sprite = icon;
             SetStatus(statusSprite);
-            _unityAction = onSelected;
+            _onIndexClick = onSelected;
             button.onClick.AddListener(OnClick);
+            if (_selected && effectTweener.Enabled) App.AddListener(EUpdateMode.Update, OnUpdate);
         }
 
         public void SetStatus(Sprite statusSprite)
@@ -36,26 +41,33 @@ namespace _Root.Scripts.Presentation.Containers.Runtime
             statusImage.enabled = !statusNull;
         }
 
-        private void Update()
+        private void OnUpdate()
         {
-            if (_selected) effectTweener.UpdateTime(Time.deltaTime);
+            if (_selected) effectTweener.Value.UpdateTime(Time.deltaTime);
         }
 
         private void OnClick()
         {
+            if (!_selected && effectTweener.Enabled) App.AddListener(EUpdateMode.Update, OnUpdate);
             _selected = true;
-            _unityAction?.Invoke(_index);
+            _onIndexClick?.Invoke(_index);
         }
 
         public void DeSelect()
         {
-            if (_selected) effectTweener.Restart();
+            if (!_selected) return;
+            if (effectTweener.Enabled)
+            {
+                App.RemoveListener(EUpdateMode.Update, OnUpdate);
+                effectTweener.Value.Restart();
+            }
+
             _selected = false;
         }
 
         private void OnDisable()
         {
-            if (_unityAction != null) button.onClick.RemoveListener(OnClick);
+            if (_onIndexClick != null) button.onClick.RemoveListener(OnClick);
             DeSelect();
         }
 
@@ -64,7 +76,7 @@ namespace _Root.Scripts.Presentation.Containers.Runtime
             button = GetComponent<Button>();
             var images = GetComponentsInChildren<Image>(true);
 
-            icon = images[1];
+            image = images[1];
             statusImage = images[2];
             effectTweener = GetComponent<UIEffectTweener>();
         }

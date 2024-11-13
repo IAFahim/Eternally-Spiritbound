@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   value: Tug Boat Single
   guid: d7ed28189b56406
-  assetReferenceGameObject:
+  assetReference:
     m_AssetGUID: 23e451c3d0ec2b643a3e4de9d844a886
     m_SubObjectName: 
     m_SubObjectGUID: 
@@ -24,4 +24,3 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 96eed3161fbf8d24eb5ff1f0663c96f3, type: 3}
   dropStrategy: {fileID: 11400000, guid: bc587b9ed86af8b41b1863085b75a8c0, type: 2}
   boatControllerParameterScript: {fileID: 11400000, guid: d46188b32834f5f4fb592d18847c38a1, type: 2}
-  entityStatsParameterScript: {fileID: 11400000, guid: bfb0a96c47417b247840ebbf5d1d57f8, type: 2}

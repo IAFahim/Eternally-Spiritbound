@@ -30,7 +30,7 @@ namespace _Root.Scripts.Game.Interactables.Runtime
 
         public void OnDeselected(RaycastHit lastHitInfo, RaycastHit hit)
         {
-            if (endInteractOnDeselect) InteractEnd();
+            if (endInteractOnDeselect) focusManagerScript.PopFocus();
         }
 
         public void OnReselected(RaycastHit hit)
@@ -54,7 +54,6 @@ namespace _Root.Scripts.Game.Interactables.Runtime
         private void InteractEnd()
         {
             _interactableEntryPointParent.OnInteractionEnded(focusManagerScript.mainObject.GetComponent<IInteractorEntryPoint>());
-            focusManagerScript.PopFocus();
             Hide();
         }
     }

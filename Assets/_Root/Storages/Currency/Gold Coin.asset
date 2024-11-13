@@ -15,14 +15,14 @@ MonoBehaviour:
   value: Gold Coin
   guid: dcca05cce410406
   assetReference:
-    m_AssetGUID: 8966b509a65e82f4bae2f19c5a09a1c5
+    m_AssetGUID: b18ba91b625c7754a9b5bec3400dc8d9
     m_SubObjectName: 
     m_SubObjectGUID: 
     m_SubObjectType: 
     m_EditorAssetChanged: 1
   description: 
   icon: {fileID: 0}
-  dropStrategy: {fileID: 0}
+  dropStrategy: {fileID: 11400000, guid: bc587b9ed86af8b41b1863085b75a8c0, type: 2}
   maxStack: 0
   consumable: 0
   dropOnDeath: 0

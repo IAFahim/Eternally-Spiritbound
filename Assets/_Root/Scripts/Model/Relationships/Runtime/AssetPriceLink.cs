@@ -15,6 +15,6 @@ namespace _Root.Scripts.Model.Relationships.Runtime
     public struct AssetPrice
     {
         public AssetScript asset;
-        public float price;
+        public int price;
     }
 }

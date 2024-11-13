@@ -22,59 +22,22 @@ namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
         }
 
 
-        public virtual void OnEnter(IInteractorEntryPoint interactorEntryPoint)
-        {
-            if (debugEnabled) return;
-            Debug.Log($"[{name}] '{interactorEntryPoint.GameObject.name}' entered the shop", this);
-        }
+        public abstract void OnEnter(IInteractorEntryPoint interactorEntryPoint);
 
-        public virtual void OnUnlockedSelected(AssetScriptComponent playerAssetScriptComponent, string category,
-            AssetScript assetScript)
-        {
-            if (debugEnabled) return;
-            Debug.Log(
-                $"[{name}] '{playerAssetScriptComponent.assetScriptReference.Value}' selected unlocked item '{assetScript.name}' from category '{category}'",
-                this
-            );
-        }
+        public abstract void OnUnlockedSelected(AssetScriptReferenceComponent playerAssetScriptReferenceComponent, string category,
+            AssetScript assetScript);
 
-        public virtual void OnDeSelected(AssetScriptComponent playerAssetScriptComponent, string category,
-            AssetScript assetScript)
-        {
-            Debug.Log(
-                $"[{name}] '{playerAssetScriptComponent.assetScriptReference.Value}' deselected item '{assetScript.name}' from category '{category}'",
-                this
-            );
-        }
+        public abstract void OnDeSelected(AssetScriptReferenceComponent playerAssetScriptReferenceComponent, string category,
+            AssetScript assetScript);
 
-        public virtual void OnLockedItemSelected(AssetScriptComponent playerAssetScriptComponent, string category,
-            AssetScript assetScript)
-        {
-            Debug.Log(
-                $"[{name}] '{playerAssetScriptComponent.assetScriptReference.Value}' selected locked item '{assetScript.name}' from category '{category}'",
-                this
-            );
-        }
+        public abstract void OnLockedItemSelected(AssetScriptReferenceComponent playerAssetScriptReferenceComponent, string category,
+            AssetScript assetScript);
 
-        public virtual bool OnTryBuyButtonClick(AssetScriptComponent playerAssetScriptComponent, string category,
+        public abstract bool OnTryBuyButtonClick(AssetScriptReferenceComponent playerAssetScriptReferenceComponent, string category,
             AssetScript assetScript,
-            out string message)
-        {
-            Debug.Log(
-                $"[{name}] '{playerAssetScriptComponent.assetScriptReference.Value}' successfully purchased '{assetScript.name}' from category '{category}'",
-                this
-            );
+            out string message);
 
-            message = $"Successfully purchased {assetScript.name}!";
-            return true;
-        }
-
-        public virtual void OnExit(IInteractorEntryPoint interactorEntryPoint)
-        {
-            Debug.Log(
-                $"[{name}] '{interactorEntryPoint.GameObject.name}' exited the shop", this
-            );
-        }
+        public abstract void OnExit(IInteractorEntryPoint interactorEntryPoint);
 
         protected virtual void OnDisable()
         {

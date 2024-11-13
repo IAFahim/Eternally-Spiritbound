@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   value: Tow Boat Single
   guid: c3589cd669c74ad
-  assetReferenceGameObject:
+  assetReference:
     m_AssetGUID: 100b998bdc439c04d93df01bac7e1c1f
     m_SubObjectName: 
     m_SubObjectGUID: 

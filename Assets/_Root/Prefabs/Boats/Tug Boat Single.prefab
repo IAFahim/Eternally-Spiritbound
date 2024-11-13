@@ -12,9 +12,33 @@ PrefabInstance:
       propertyPath: entityStatsParameterScript
       value: 
       objectReference: {fileID: 11400000, guid: 1c2c9c8a72b14c849987948864520a4c, type: 2}
+    - target: {fileID: 4792150904965261706, guid: 946ea4e6aa4032a48bd434a7b2d0d743, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 5317330003199079216, guid: 946ea4e6aa4032a48bd434a7b2d0d743, type: 3}
       propertyPath: m_Name
       value: boat-tug-a
+      objectReference: {fileID: 0}
+    - target: {fileID: 5366983113794465379, guid: 946ea4e6aa4032a48bd434a7b2d0d743, type: 3}
+      propertyPath: m_Height
+      value: 3.586263
+      objectReference: {fileID: 0}
+    - target: {fileID: 5366983113794465379, guid: 946ea4e6aa4032a48bd434a7b2d0d743, type: 3}
+      propertyPath: m_Radius
+      value: 1.4515574
+      objectReference: {fileID: 0}
+    - target: {fileID: 5366983113794465379, guid: 946ea4e6aa4032a48bd434a7b2d0d743, type: 3}
+      propertyPath: m_Center.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5366983113794465379, guid: 946ea4e6aa4032a48bd434a7b2d0d743, type: 3}
+      propertyPath: m_Center.y
+      value: 0.83484983
+      objectReference: {fileID: 0}
+    - target: {fileID: 5366983113794465379, guid: 946ea4e6aa4032a48bd434a7b2d0d743, type: 3}
+      propertyPath: m_Center.z
+      value: -0.23474729
       objectReference: {fileID: 0}
     - target: {fileID: 5605311547021212894, guid: 946ea4e6aa4032a48bd434a7b2d0d743, type: 3}
       propertyPath: m_Name

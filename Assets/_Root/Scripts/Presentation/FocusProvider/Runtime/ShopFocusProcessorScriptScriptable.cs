@@ -13,17 +13,25 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
 using Soul.Pools.Runtime;
+using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 {
-    [CreateAssetMenu(fileName = "Boat Shop Processor", menuName = "Scriptable/FocusProcessor/Boat Shop")]
-    public class BoatShopFocusProcessorScriptScriptable : FocusProcessorScriptCinemachineScriptable
+    [CreateAssetMenu(fileName = "Shop Processor", menuName = "Scriptable/FocusProcessor/Shop")]
+    public class ShopFocusProcessorScriptScriptable : FocusProcessorScriptCinemachineScriptable
     {
-        [SerializeField] private AssetReferenceGameObject boatScrollRectAsset;
-        [SerializeField] private AssetReferenceGameObject buyButtonAsset;
-        [SerializeField] private AssetReferenceGameObject boatShopCloseButtonAsset;
+        [FormerlySerializedAs("boatScrollRectAsset")] [SerializeField]
+        private AssetReferenceGameObject scrollRectAsset;
 
-        [SerializeField] private FocusManagerScript focusManager;
+        [SerializeField] private AssetReferenceGameObject buyButtonAsset;
+
+        [FormerlySerializedAs("boatShopCloseButtonAsset")] [SerializeField]
+        private AssetReferenceGameObject shopCloseButtonAsset;
+
+        [FormerlySerializedAs("focusManager")] [SerializeField]
+        private FocusManagerScript focusManagerScript;
+
+        [SerializeField] private AssetPriceLink assetPriceLink;
         [SerializeField] private AssetReferenceGameObject buttonSelectionControllerAsset;
         [SerializeField] private Sprite lockedSprite;
         [SerializeField] private Sprite equippedSprite;
@@ -31,12 +39,15 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
         private Button _closeButton;
         [SerializeField] private AssetOwnsAssetsLink assetOwnsAssetsLink;
 
+
         private List<AssetScript> _unlockedAssets;
         private ButtonSelectionController[] _buttonSelectionControllers;
-        private AssetScriptComponent _playerAssetScriptComponent;
+        private BuyButtonController _buybuttonSelectionController;
+        private AssetScriptReferenceComponent _playerAssetScriptReferenceComponent;
         private ScrollRect _scrollRect;
-        private ShopBase _boatShopBase;
+        private ShopBase _shopBase;
         private string _category;
+        private Transform _stillCanvasTransformPoint;
 
         private AssetInfoDto[] _assetInfoDTOs;
         private TMP_Text _titleText;
@@ -47,36 +58,24 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
         private string SetSelectedCategory(string category) => PlayerPrefs.GetString(value, category);
 
         private void SetAssetEquippedOnCategory(string category, string guid) =>
-            PlayerPrefs.GetString(focusManager.mainObject.name + category + value, guid);
+            PlayerPrefs.GetString(focusManagerScript.mainObject.name + category + value, guid);
 
         private string GetAssetEquippedCategorySelected(string category) =>
             PlayerPrefs.GetString(PlayerEquippedPerCategoryLookUpKey(category), string.Empty);
 
         private string PlayerEquippedPerCategoryLookUpKey(string category) =>
-            focusManager.mainObject.name + category + value;
+            focusManagerScript.mainObject.name + category + value;
 
         public override void SetFocus(FocusReferences focusReferences)
         {
-            TargetGameObject = focusReferences.currentGameObject;
+            _stillCanvasTransformPoint = focusReferences.StillCanvasTransformPoint;
+            TargetGameObject = focusReferences.CurrentGameObject;
             BuildCache(
                 focusReferences.ActiveElements,
                 (cinemachineAsset, SetupCinemachine, null),
-                (boatShopCloseButtonAsset, SetupCloseButton, focusReferences.stillCanvasTransformPoint),
-                (boatScrollRectAsset, SetupScrollRect, focusReferences.stillCanvasTransformPoint),
-                (buyButtonAsset, SetupBuyButton, focusReferences.stillCanvasTransformPoint)
+                (shopCloseButtonAsset, SetupCloseButton, focusReferences.StillCanvasTransformPoint),
+                (scrollRectAsset, SetupScrollRect, focusReferences.StillCanvasTransformPoint)
             );
-        }
-
-        private void SetupBuyButton(GameObject obj)
-        {
-            var buyButton = obj.GetComponent<Button>();
-            buyButton.onClick.AddListener(() =>
-            {
-                var assetScript = _assetInfoDTOs[_lastSelected].AssetScript;
-                var buySuccess = _boatShopBase.OnTryBuyButtonClick(_playerAssetScriptComponent, _category, assetScript,
-                    out var message);
-                Debug.Log($"{buySuccess}: {message}");
-            });
         }
 
         private void SetupScrollRect(GameObject gameObject)
@@ -84,14 +83,16 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
             _lastSelected = 0;
             _scrollRect = gameObject.GetComponent<ScrollRect>();
             _titleText = gameObject.GetComponentInChildren<TMP_Text>();
-            _playerAssetScriptComponent = focusManager.mainObject.GetComponent<AssetScriptComponent>();
             InstantiateShopBase();
         }
 
+
         private void InstantiateShopBase()
         {
-            _boatShopBase = TargetGameObject.GetComponent<ShopBase>();
-            var assetCategories = _boatShopBase.assetCategories;
+            _playerAssetScriptReferenceComponent =
+                focusManagerScript.mainObject.GetComponent<AssetScriptReferenceComponent>();
+            _shopBase = TargetGameObject.GetComponent<ShopBase>();
+            var assetCategories = _shopBase.assetCategories;
             var selectedCategory = GetSelectedCategory();
             _category = "";
             foreach (var assetCategory in assetCategories)
@@ -108,19 +109,20 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
         {
             _category = selectedCategory;
             bool linkExist =
-                assetOwnsAssetsLink.TryGetValue(_playerAssetScriptComponent.assetScriptReference, out _unlockedAssets);
-            _assetInfoDTOs = CreateBoatInfoDto(assetCategory.assets, linkExist);
+                assetOwnsAssetsLink.TryGetValue(_playerAssetScriptReferenceComponent.assetScriptReference,
+                    out _unlockedAssets);
+            _assetInfoDTOs = CreateInfoDto(assetCategory.assets, linkExist);
             Array.Sort(_assetInfoDTOs);
             PopulatePool(_scrollRect, assetCategory, _assetInfoDTOs);
         }
 
-        private AssetInfoDto[] CreateBoatInfoDto(List<AssetScript> boatVehicles, bool linkExist)
+        private AssetInfoDto[] CreateInfoDto(List<AssetScript> assetScripts, bool linkExist)
         {
-            var assetInfoDtos = new AssetInfoDto[boatVehicles.Count];
-            for (var i = 0; i < boatVehicles.Count; i++)
+            var assetInfoDtos = new AssetInfoDto[assetScripts.Count];
+            for (var i = 0; i < assetScripts.Count; i++)
             {
-                var assetScript = boatVehicles[i];
-                var unlocked = linkExist && _unlockedAssets.Any(asset => asset.guid == assetScript.guid);
+                var assetScript = assetScripts[i];
+                var unlocked = linkExist && _unlockedAssets.Any(asset => asset.Guid == assetScript.Guid);
                 assetInfoDtos[i] = new AssetInfoDto
                 {
                     Index = i,
@@ -151,6 +153,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
             }
 
             Select(_lastSelected);
+            SetupBuyButton(_lastSelected, true);
         }
 
 
@@ -164,10 +167,10 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
                 .GetComponent<ButtonSelectionController>();
             buttonSelectionController.transform.SetSiblingIndex(index);
             var equippedAssetGuid = GetAssetEquippedCategorySelected(category);
-            isEquipped = equippedAssetGuid == assetInfoDto.AssetScript.guid;
+            isEquipped = equippedAssetGuid == assetInfoDto.AssetScript.Guid;
             buttonSelectionController.Initialize(
-                index, category, isEquipped,
-                assetInfoDto.AssetScript.icon,
+                index, isEquipped,
+                assetInfoDto.AssetScript.Icon,
                 StatusSprite(isEquipped, assetInfoDto.Unlocked),
                 Select
             );
@@ -198,6 +201,44 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
             Debug.Log(normalizedPosition);
         }
 
+        private void SetupBuyButton(int index, bool spawn)
+        {
+            if (spawn)
+            {
+                _buybuttonSelectionController = SharedAssetReferencePoolInactive
+                    .Request<BuyButtonController>(buyButtonAsset, _stillCanvasTransformPoint, true);
+            }
+
+            var assetScript = _assetInfoDTOs[index].AssetScript;
+            var hasEnough = HasEnoguh(assetScript, out var price);
+            _buybuttonSelectionController.Initialize(assetScript.Icon, price, hasEnough, OnBuyButtonPressed);
+        }
+
+        private void OnBuyButtonPressed()
+        {
+            var assetScript = _assetInfoDTOs[_lastSelected].AssetScript;
+            var buySuccess = _shopBase.OnTryBuyButtonClick(_playerAssetScriptReferenceComponent, _category, assetScript,
+                out var message);
+            Debug.Log($"{buySuccess}: {message}");
+        }
+
+        public bool HasEnoguh(AssetScript assetScript, out int price)
+        {
+            if (!assetPriceLink.TryGetValue(assetScript, out var assetPrice))
+            {
+                price = 0;
+                return true;
+            }
+            else
+            {
+                // _playerAssetScriptReferenceComponent.
+            }
+
+            price = 0;
+            return true;
+        }
+
+
         private void DeSelect(int index)
         {
             _buttonSelectionControllers[index].SetStatus(StatusSprite(false, _assetInfoDTOs[index].Unlocked));
@@ -206,22 +247,24 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 
         private void NotifyUnLockedSelected(int index)
         {
-            SetAssetEquippedOnCategory(_category, _assetInfoDTOs[index].AssetScript.guid);
+            SetAssetEquippedOnCategory(_category, _assetInfoDTOs[index].AssetScript.Guid);
             _buttonSelectionControllers[index].SetStatus(equippedSprite);
-            _boatShopBase.OnUnlockedSelected(_playerAssetScriptComponent, _category, _assetInfoDTOs[index].AssetScript);
+            _shopBase.OnUnlockedSelected(_playerAssetScriptReferenceComponent, _category,
+                _assetInfoDTOs[index].AssetScript);
         }
 
         private void NotifyLockedSelect(int index)
         {
             _buttonSelectionControllers[index].SetStatus(lockedSprite);
-            _boatShopBase.OnLockedItemSelected(_playerAssetScriptComponent, _category,
+            _shopBase.OnLockedItemSelected(_playerAssetScriptReferenceComponent, _category,
                 _assetInfoDTOs[index].AssetScript);
         }
 
         private void NotifyDeSelect(int index)
         {
             _buttonSelectionControllers[index].DeSelect();
-            _boatShopBase.OnDeSelected(_playerAssetScriptComponent, _category, _assetInfoDTOs[index].AssetScript);
+            _shopBase.OnDeSelected(_playerAssetScriptReferenceComponent, _category,
+                _assetInfoDTOs[index].AssetScript);
         }
 
         private Sprite StatusSprite(bool isEquipped, bool unlocked)
@@ -239,16 +282,18 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
                 SharedAssetReferencePoolInactive.Return(buttonSelectionControllerAsset,
                     buttonSelectionController.gameObject);
             }
+
+            _shopBase.OnExit(null);
         }
 
         private void SetupCloseButton(GameObject gameObject)
         {
-            focusManager.PeekFocus().OnPushFocus += OnFocusLost;
+            focusManagerScript.PeekFocus().OnPushFocus += OnFocusLost;
             _closeButton = gameObject.GetComponent<Button>();
             _closeButton.onClick.RemoveListener(TryPopAndActiveLast);
             _closeButton.onClick.AddListener(TryPopAndActiveLast);
         }
 
-        private void TryPopAndActiveLast() => focusManager.PopFocus();
+        private void TryPopAndActiveLast() => focusManagerScript.PopFocus();
     }
 }

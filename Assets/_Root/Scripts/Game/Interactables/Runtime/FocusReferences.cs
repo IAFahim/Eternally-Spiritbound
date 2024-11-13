@@ -9,9 +9,19 @@ namespace _Root.Scripts.Game.Interactables.Runtime
     public class FocusReferences
     {
         public readonly Dictionary<AssetReferenceGameObject, GameObject> ActiveElements = new();
-        public Transform stillCanvasTransformPoint;
-        public Transform movingCanvasTransformPoint;
-        public GameObject currentGameObject;
+        [SerializeField] private Transform stillCanvasTransformPoint;
+        [SerializeField]  private Transform movingCanvasTransformPoint;
+        [SerializeField] private GameObject currentGameObject;
+
+        public Transform StillCanvasTransformPoint => stillCanvasTransformPoint;
+
+        public Transform MovingCanvasTransformPoint => movingCanvasTransformPoint;
+
+        public GameObject CurrentGameObject
+        {
+            get => currentGameObject;
+            internal set => currentGameObject = value;
+        }
 
         public void Clear()
         {

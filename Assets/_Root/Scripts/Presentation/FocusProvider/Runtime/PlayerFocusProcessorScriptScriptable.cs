@@ -14,7 +14,7 @@ using UnityProgressBar;
 namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 {
     [CreateAssetMenu(fileName = "Boat Focus Processor", menuName = "Scriptable/FocusProcessor/Boat")]
-    public class BoatFocusProcessorScriptScriptable : FocusProcessorScriptCinemachineScriptable
+    public class PlayerFocusProcessorScriptScriptable : FocusProcessorScriptCinemachineScriptable
     {
         [SerializeField] private AssetReferenceGameObject healthBarAsset;
         [SerializeField] private AssetReferenceGameObject joyStickAsset;
@@ -31,12 +31,12 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 
         public override void SetFocus(FocusReferences focusReferences)
         {
-            TargetGameObject = focusReferences.currentGameObject;
+            TargetGameObject = focusReferences.CurrentGameObject;
             _damageFlash = TargetGameObject.AddComponent<DamageFlash, FlashConfigScript>(flashConfigScript);
             BuildCache(
                 focusReferences.ActiveElements,
-                (joyStickAsset, SetupJoystick, focusReferences.movingCanvasTransformPoint),
-                (healthBarAsset, SetupHealthBar, focusReferences.stillCanvasTransformPoint),
+                (joyStickAsset, SetupJoystick, focusReferences.MovingCanvasTransformPoint),
+                (healthBarAsset, SetupHealthBar, focusReferences.StillCanvasTransformPoint),
                 (cinemachineAsset, SetupCinemachine, null)
             );
         }

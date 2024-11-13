@@ -2,7 +2,7 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 32
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -12,39 +12,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10f876f2fe3044959521b9ed19bdde3f, type: 3}
   m_Name: Arrow Bullet
   m_EditorClassIdentifier: 
-  debugTrigger: 0
+  value: Arrow Bullet
   guid: ca7cf1cb418f4eb
-  assetReferenceGameObject:
-    m_AssetGUID: 2d220c235d4caf04d965645a60579824
+  assetReference:
+    m_AssetGUID: 
     m_SubObjectName: 
     m_SubObjectGUID: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
-  itemName: 
   description: 
   icon: {fileID: 0}
+  dropStrategy: {fileID: 0}
   maxStack: 0
   consumable: 0
-  pickUpDropStrategy: {fileID: 11400000, guid: fbfe988e12869ac4590b1f6ca3ec201a, type: 2}
-  attackInfo:
-    damage: 1
-    lifeTime: 10
-    fireRate: 0
-    cooldown: 0
-    range: 3.41
-    reloadTime: 0
-    accuracy: 0
-    recoil: 0
-    size: 1
-    speed: 100
-    defensePenetration: 0
-    elementalDamage: 0
-    penetration:
-      current:
-        value: 0
-      max: 0
-    attackType: {fileID: 0}
-    damageTypes: []
-  fireRate: 1
+  dropOnDeath: 0
+  autoPickup: 0
+  pickupRange: 5
+  offensiveStats:
+    value:
+      damage: 0
+      lifeTime: 0
+      fireRate: 0
+      cooldown: 0
+      range: 0
+      reloadTime: 0
+      accuracy: 0
+      recoil: 0
+      size: 0
+      speed: 0
+      defensePenetration: 0
+      elementalDamage: 0
+      penetration:
+        enabled: 0
   minRange: 1
   maxRange: 10

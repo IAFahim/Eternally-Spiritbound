@@ -16,12 +16,12 @@ MonoBehaviour:
   m_GUID: 013064ae7a16ba04b82f4b11ad06e13c
   m_SerializeEntries:
   - m_GUID: 100b998bdc439c04d93df01bac7e1c1f
-    m_Address: Tow Boat Double Variant
+    m_Address: Tow Boat Single
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 23e451c3d0ec2b643a3e4de9d844a886
-    m_Address: Assets/_Root/Prefabs/Boats/Tug Boat Single.prefab
+    m_Address: Tug Boat Single
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

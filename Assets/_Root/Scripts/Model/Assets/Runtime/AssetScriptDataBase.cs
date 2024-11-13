@@ -12,7 +12,7 @@ namespace _Root.Scripts.Model.Assets.Runtime
 
         private void OnEnable()
         {
-            foreach (var asset in assets) _dictionary.Add(asset.guid, asset);
+            foreach (var asset in assets) _dictionary.Add(asset.Guid, asset);
         }
 
         public bool TryGetValue(string guid, out AssetScript assetScript) =>

@@ -10,21 +10,21 @@ namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
     {
         public Vector3 offset;
         public Quaternion rotation;
-        public GameObject boat;
 
         public float positionForceMultiplier = 1f;
         public float rotationTorqueMultiplier = 1f;
 
+        private GameObject _boat;
         private Rigidbody _boatRigidbody;
 
         public async UniTaskVoid SpawnBoat(AssetScript assetScript)
         {
             var transformPoint = transform.TransformPoint(offset);
-            await assetScript.assetReference.RequestAsync(transformPoint, rotation);
-            _boatRigidbody = boat.GetComponent<Rigidbody>();
+            _boat = await assetScript.AssetReference.RequestAsync(transformPoint, rotation);
+            _boatRigidbody = _boat.GetComponent<Rigidbody>();
         }
-        
-        public void DespawnBoat(AssetScript assetScript) => assetScript.assetReference.Return(boat);
+
+        public void DespawnBoat(AssetScript assetScript) => assetScript.AssetReference.Return(_boat);
 
         private void PlaceAndAlignViaRigidBody()
         {
@@ -53,13 +53,13 @@ namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
         [Button]
         private void GetBoatPositionAsOffset()
         {
-            offset = boat.transform.position - transform.position;
+            offset = _boat.transform.position - transform.position;
         }
 
         [Button]
         private void GetBoatRotation()
         {
-            rotation = boat.transform.rotation;
+            rotation = _boat.transform.rotation;
         }
 
         private void FixedUpdate()

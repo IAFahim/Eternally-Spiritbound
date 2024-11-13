@@ -12,7 +12,7 @@ namespace _Root.Scripts.Game.Items.Runtime
 
         private void OnEnable()
         {
-            foreach (var item in gameItems) _dictionary.TryAdd(item.guid, item);
+            foreach (var item in gameItems) _dictionary.TryAdd(item.Guid, item);
         }
 
         public GameItem this[string key]
