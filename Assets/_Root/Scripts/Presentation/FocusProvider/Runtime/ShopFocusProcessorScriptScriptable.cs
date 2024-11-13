@@ -40,7 +40,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 
         private List<AssetScript> _unlockedAssets;
         private ButtonSelectionController[] _buttonSelectionControllers;
-        private PriceButtonController _buybuttonSelectionController;
+        private PriceButtonController _buyButtonSelectionController;
         private AssetScriptReferenceComponent _playerAssetScriptReferenceComponent;
         private ScrollRect _scrollRect;
         private ShopBase _shopBase;
@@ -66,13 +66,13 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 
         public override void SetFocus(FocusReferences focusReferences)
         {
-            _stillCanvasTransformPoint = focusReferences.StillCanvasTransformPoint;
+            _stillCanvasTransformPoint = focusReferences.UISillTransformPointPadded;
             TargetGameObject = focusReferences.CurrentGameObject;
             BuildCache(
                 focusReferences.ActiveElements,
                 (cinemachineAsset, SetupCinemachine, null),
-                (shopCloseButtonAsset, SetupCloseButton, focusReferences.StillCanvasTransformPoint),
-                (scrollRectAsset, SetupScrollRect, focusReferences.StillCanvasTransformPoint)
+                (shopCloseButtonAsset, SetupCloseButton, focusReferences.UISillTransformPointPadded),
+                (scrollRectAsset, SetupScrollRect, focusReferences.MovingUITransformPointPadded)
             );
         }
 
@@ -204,7 +204,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 
         private void SetupBuyButton()
         {
-            _buybuttonSelectionController = SharedAssetReferencePoolInactive
+            _buyButtonSelectionController = SharedAssetReferencePoolInactive
                 .Request(buyButtonAsset, _stillCanvasTransformPoint)
                 .GetComponent<PriceButtonController>();
         }
@@ -213,14 +213,14 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
         {
             var assetScript = _assetInfoDTOs[index].AssetScript;
             var hasEnough = _shopBase.HasEnough(_playerAssetScriptReferenceComponent, assetScript, out var assetPrice);
-            _buybuttonSelectionController.Initialize(
+            _buyButtonSelectionController.Initialize(
                 assetPrice.asset.Icon,
                 assetPrice.price,
                 "Buy",
                 hasEnough,
                 OnBuyButtonPressed
             );
-            _buybuttonSelectionController.gameObject.SetActive(!unlocked);
+            _buyButtonSelectionController.gameObject.SetActive(!unlocked);
         }
 
 
@@ -281,7 +281,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
         {
             _closeButton.onClick.RemoveListener(TryPopAndActiveLast);
             SharedAssetReferencePoolInactive.Return(shopCloseButtonAsset, _closeButton.gameObject);
-            SharedAssetReferencePoolInactive.Return(buyButtonAsset, _buybuttonSelectionController.gameObject);
+            SharedAssetReferencePoolInactive.Return(buyButtonAsset, _buyButtonSelectionController.gameObject);
 
             foreach (var buttonSelectionController in _buttonSelectionControllers)
             {

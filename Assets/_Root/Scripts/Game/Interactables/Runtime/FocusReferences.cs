@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Game.Interactables.Runtime
 {
@@ -9,13 +10,15 @@ namespace _Root.Scripts.Game.Interactables.Runtime
     public class FocusReferences
     {
         public readonly Dictionary<AssetReferenceGameObject, GameObject> ActiveElements = new();
-        [SerializeField] private Transform stillCanvasTransformPoint;
-        [SerializeField]  private Transform movingCanvasTransformPoint;
+        [SerializeField] private Transform uiSillTransformPointPadded;
+        [SerializeField]  private Transform movingUITransformPoint;
+        [SerializeField] private Transform movingUITransformPointPadded;
         [SerializeField] private GameObject currentGameObject;
 
-        public Transform StillCanvasTransformPoint => stillCanvasTransformPoint;
+        public Transform UISillTransformPointPadded => uiSillTransformPointPadded;
 
-        public Transform MovingCanvasTransformPoint => movingCanvasTransformPoint;
+        public Transform MovingUITransformPoint => movingUITransformPoint;
+        public Transform MovingUITransformPointPadded => movingUITransformPointPadded;
 
         public GameObject CurrentGameObject
         {
@@ -23,11 +26,12 @@ namespace _Root.Scripts.Game.Interactables.Runtime
             internal set => currentGameObject = value;
         }
 
+
         public void Clear()
         {
             currentGameObject = null;
-            stillCanvasTransformPoint = null;
-            movingCanvasTransformPoint = null;
+            uiSillTransformPointPadded = null;
+            movingUITransformPoint = null;
             foreach (var activeUiElement in ActiveElements)
             {
                 Addressables.ReleaseInstance(activeUiElement.Value);

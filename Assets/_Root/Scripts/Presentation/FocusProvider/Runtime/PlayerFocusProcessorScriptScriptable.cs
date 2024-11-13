@@ -35,8 +35,8 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
             _damageFlash = TargetGameObject.AddComponent<DamageFlash, FlashConfigScript>(flashConfigScript);
             BuildCache(
                 focusReferences.ActiveElements,
-                (joyStickAsset, SetupJoystick, focusReferences.MovingCanvasTransformPoint),
-                (healthBarAsset, SetupHealthBar, focusReferences.StillCanvasTransformPoint),
+                (joyStickAsset, SetupJoystick, focusReferences.MovingUITransformPoint),
+                (healthBarAsset, SetupHealthBar, focusReferences.UISillTransformPointPadded),
                 (cinemachineAsset, SetupCinemachine, null)
             );
         }

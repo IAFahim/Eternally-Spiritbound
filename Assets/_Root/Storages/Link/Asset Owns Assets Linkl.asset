@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Asset Owns Assets Linkl
   m_EditorClassIdentifier: 
   guid: 32b806d606994c2
+  source: 
   dictionary:
   - key: {fileID: 11400000, guid: f6c69fd462199cf45929541fce9f1b6a, type: 2}
     value:

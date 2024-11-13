@@ -244,8 +244,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 2149476146066519759}
-  icon: {fileID: 2989196694460100020}
-  effectTweener: {fileID: 3816143874930474248}
+  image: {fileID: 2989196694460100020}
+  effectTweener:
+    enabled: 1
+    value: {fileID: 3816143874930474248}
   statusImage: {fileID: 7870550414935693216}
 --- !u!114 &2149476146066519759
 MonoBehaviour:
