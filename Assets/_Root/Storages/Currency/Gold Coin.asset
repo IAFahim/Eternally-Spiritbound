@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31c75b1843207c340a5080750e765207, type: 3}
+  m_Script: {fileID: 11500000, guid: f2127e6b148d4d0c88a2facbf7c2a043, type: 3}
   m_Name: Gold Coin
   m_EditorClassIdentifier: 
   value: Gold Coin
-  guid: dcca05cce410406
+  guid: e39c791717d2489
   assetReference:
     m_AssetGUID: b18ba91b625c7754a9b5bec3400dc8d9
     m_SubObjectName: 
@@ -21,10 +21,11 @@ MonoBehaviour:
     m_SubObjectType: 
     m_EditorAssetChanged: 1
   description: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 280efa6087c62e74880436546f2b416f, type: 3}
   dropStrategy: {fileID: 11400000, guid: bc587b9ed86af8b41b1863085b75a8c0, type: 2}
-  maxStack: 0
+  maxStack: 99
   consumable: 0
   dropOnDeath: 0
   autoPickup: 1
   pickupRange: 5
+  assetOwnAssetGlobalCountLink: {fileID: 11400000, guid: cd28f60305248ff49b5f1987b7a1635b, type: 2}

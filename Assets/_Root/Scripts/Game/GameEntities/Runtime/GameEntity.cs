@@ -10,11 +10,10 @@ using UnityEngine;
 namespace _Root.Scripts.Game.GameEntities.Runtime
 {
     [DisallowMultipleComponent]
-    [RequireComponent(typeof(EntityStatsComponent), typeof(AssetScriptStorageComponent))]
+    [RequireComponent(typeof(EntityStatsComponent))]
     public class GameEntity : AssetScriptReferenceComponent, IDamage, IHealth
     {
         public EntityStatsComponent entityStatsComponent;
-        public AssetScriptStorageComponent assetScriptStorageReference;
 
         #region Plumbing
 
@@ -31,7 +30,6 @@ namespace _Root.Scripts.Game.GameEntities.Runtime
         private void OnValidate()
         {
             entityStatsComponent ??= GetComponent<EntityStatsComponent>();
-            assetScriptStorageReference ??= GetComponent<AssetScriptStorageComponent>();
         }
 
         #endregion

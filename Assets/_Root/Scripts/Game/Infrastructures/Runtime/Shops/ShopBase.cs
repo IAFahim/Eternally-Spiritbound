@@ -1,6 +1,7 @@
 ﻿using System;
 using _Root.Scripts.Game.Interactables.Runtime;
 using _Root.Scripts.Model.Assets.Runtime;
+using _Root.Scripts.Model.Links.Runtime;
 using Soul.Interactables.Runtime;
 using UnityEngine;
 
@@ -24,18 +25,26 @@ namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
 
         public abstract void OnEnter(IInteractorEntryPoint interactorEntryPoint);
 
-        public abstract void OnUnlockedSelected(AssetScriptReferenceComponent playerAssetScriptReferenceComponent, string category,
+        public abstract void OnUnlockedSelected(AssetScriptReferenceComponent playerAssetScriptReferenceComponent,
+            string category,
             AssetScript assetScript);
 
-        public abstract void OnDeSelected(AssetScriptReferenceComponent playerAssetScriptReferenceComponent, string category,
+        public abstract void OnDeSelected(AssetScriptReferenceComponent playerAssetScriptReferenceComponent,
+            string category,
             AssetScript assetScript);
 
-        public abstract void OnLockedItemSelected(AssetScriptReferenceComponent playerAssetScriptReferenceComponent, string category,
+        public abstract void OnLockedItemSelected(AssetScriptReferenceComponent playerAssetScriptReferenceComponent,
+            string category,
             AssetScript assetScript);
 
-        public abstract bool OnTryBuyButtonClick(AssetScriptReferenceComponent playerAssetScriptReferenceComponent, string category,
+        public abstract bool OnTryBuyButtonClick(AssetScriptReferenceComponent playerAssetScriptReferenceComponent,
+            string category,
             AssetScript assetScript,
             out string message);
+
+        public abstract bool HasEnough(AssetScriptReferenceComponent playerAssetScriptReferenceComponent,
+            AssetScript item,
+            out AssetPrice assetPrice);
 
         public abstract void OnExit(IInteractorEntryPoint interactorEntryPoint);
 

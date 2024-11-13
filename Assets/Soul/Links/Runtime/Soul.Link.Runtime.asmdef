@@ -1,4 +1,4 @@
 ﻿{
-  "name": "Soul.Relationship.Runtime",
+  "name": "Soul.Link.Runtime",
   "references":[ "GUID:0ce8820c9f0d48828499439bca7cd9a1", "GUID:adac8d59ad7e8504f82d387cded797a7" ]
 }

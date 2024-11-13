@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using _Root.Scripts.Game.Items.Runtime;
+using _Root.Scripts.Model.Items.Runtime;
 using UnityEngine;
 using Random = UnityEngine.Random;
 

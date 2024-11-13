@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 4121787031315781494}
   - component: {fileID: 3218355101637811191}
   - component: {fileID: 3804166669297714955}
-  - component: {fileID: 8276661147418209448}
   - component: {fileID: 8240035573106982839}
   - component: {fileID: 9215854104336800689}
   m_Layer: 15
@@ -82,7 +81,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   assetScriptReference: {fileID: 11400000, guid: 6d2425dc84a541241813d581c954ebd5, type: 2}
   entityStatsComponent: {fileID: 1559882521595817238}
-  assetScriptStorageReference: {fileID: 8276661147418209448}
 --- !u!114 &1559882521595817238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,7 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a928920dbbf4f9fbdddd300464f2173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isMain: 1
+  isMain: 0
   isFocused: 0
   focusProcessorScript: {fileID: 11400000, guid: 504908bcd412d3e43a5d0dc7df342b18, type: 2}
   focusManagerScript: {fileID: 11400000, guid: 4c147b4345416824f8968062d60f760a, type: 2}
@@ -162,20 +160,6 @@ MonoBehaviour:
     boost: 10
   parameterScript: {fileID: 11400000, guid: c85af2ed0908c04449fcb6e6c078b4ec, type: 2}
   waterParameterScript: {fileID: 11400000, guid: 69dcdbe808817c44a9b58a9878b07932, type: 2}
---- !u!114 &8276661147418209448
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5605311547021212894}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8dd1b6e4a9d6417ea8d68da35f549900, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  assetScriptStorage:
-    defaultData: []
 --- !u!114 &8240035573106982839
 MonoBehaviour:
   m_ObjectHideFlags: 0

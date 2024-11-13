@@ -2,7 +2,6 @@
 using Pancake;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Model.Assets.Runtime
 {
@@ -19,9 +18,26 @@ namespace _Root.Scripts.Model.Assets.Runtime
         public string Description => description;
         public Sprite Icon => icon;
 
-
-        public virtual void OnAddedToInventory(AssetScriptStorageComponent assetScriptStorageComponent, int amount)
+        public virtual void PresentInInventory(AssetScriptStorageComponent assetScriptStorageComponent, int amount)
         {
+        }
+
+        public virtual bool OnTryAddToInventory(
+            AssetScriptStorageComponent assetScriptStorageComponent,
+            int amount,
+            out int addedAmount
+        )
+        {
+            return assetScriptStorageComponent.AssetScriptStorage.TryAdd(this, amount, out addedAmount);
+        }
+
+        public virtual bool OnTryRemovedFromInventory(
+            AssetScriptStorageComponent assetScriptStorageComponent,
+            int amount,
+            out int removedAmount
+        )
+        {
+            return assetScriptStorageComponent.AssetScriptStorage.TryRemove(this, amount, out removedAmount);
         }
     }
 }

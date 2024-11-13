@@ -19,7 +19,7 @@ MonoBehaviour:
     m_SubObjectGUID: 
     m_SubObjectType: 
     m_EditorAssetChanged: 1
-  boatScrollRectAsset:
+  scrollRectAsset:
     m_AssetGUID: bef863356cf6cf94eb37662c70f4b392
     m_SubObjectName: 
     m_SubObjectGUID: 
@@ -31,13 +31,14 @@ MonoBehaviour:
     m_SubObjectGUID: 
     m_SubObjectType: 
     m_EditorAssetChanged: 1
-  boatShopCloseButtonAsset:
+  shopCloseButtonAsset:
     m_AssetGUID: 0492cac06f287be489316487a4c0cb74
     m_SubObjectName: 
     m_SubObjectGUID: 
     m_SubObjectType: 
     m_EditorAssetChanged: 1
-  focusManager: {fileID: 11400000, guid: 4c147b4345416824f8968062d60f760a, type: 2}
+  focusManagerScript: {fileID: 11400000, guid: 4c147b4345416824f8968062d60f760a, type: 2}
+  assetPriceLink: {fileID: 11400000, guid: 425acf7cefd9d5c4096988fa3fe51886, type: 2}
   buttonSelectionControllerAsset:
     m_AssetGUID: 13e1e39d22112fb4d90c3bc5562501e3
     m_SubObjectName: 

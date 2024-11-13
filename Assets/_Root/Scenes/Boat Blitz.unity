@@ -317,7 +317,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   offset: {x: 9.47998, y: -3, z: 2.4100037}
   rotation: {x: 0, y: 0, z: 0, w: 1}
-  boat: {fileID: 0}
   positionForceMultiplier: 0.1
   rotationTorqueMultiplier: 1
 --- !u!114 &683179235
@@ -387,18 +386,7 @@ LineRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Positions:
-  - {x: -159.09, y: 2.22, z: 235.71}
-  - {x: -158.633, y: 1.6819811, z: 235.58002}
-  - {x: -158.17601, y: 1.2141887, z: 235.45001}
-  - {x: -157.719, y: 0.8166226, z: 235.32}
-  - {x: -157.26202, y: 0.489283, z: 235.19002}
-  - {x: -156.80501, y: 0.23216975, z: 235.06}
-  - {x: -156.348, y: 0.04528293, z: 234.93}
-  - {x: -155.891, y: -0.07137743, z: 234.79999}
-  - {x: -155.43402, y: -0.11781136, z: 234.67001}
-  - {x: -154.97702, y: -0.09401891, z: 234.54}
-  - {x: -154.52002, y: 0, z: 234.41}
+  m_Positions: []
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -487,10 +475,11 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 981514d43e7235141899d9623e00967b, type: 2}
   interactableEntryPointComponent: {fileID: 683179232}
   debugEnabled: 0
-  guidDefaultBoat: 
+  equippedBoatGuid: 
   assetScriptDataBase: {fileID: 11400000, guid: b3af80ffae2bc0b48b3207c6bfb3a028, type: 2}
   singleShopAndBoatConnection: {fileID: 683179234}
   assetPriceLink: {fileID: 11400000, guid: 425acf7cefd9d5c4096988fa3fe51886, type: 2}
+  assetOwnAssetGlobalCountLink: {fileID: 11400000, guid: cd28f60305248ff49b5f1987b7a1635b, type: 2}
 --- !u!1 &908420203
 GameObject:
   m_ObjectHideFlags: 0

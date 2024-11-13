@@ -17,13 +17,13 @@ MonoBehaviour:
   dictionary:
   - key: {fileID: 11400000, guid: b98b22c8b6662af46acc68d900f22a25, type: 2}
     value:
-      asset: {fileID: 11400000, guid: 5e36f5c845bc6e54a818d57ad2d7bea0, type: 2}
-      price: 0
+      asset: {fileID: 11400000, guid: 2299e714b503bcb428f6f4d8558fabc9, type: 2}
+      price: 2
   - key: {fileID: 11400000, guid: 6d2425dc84a541241813d581c954ebd5, type: 2}
     value:
-      asset: {fileID: 11400000, guid: 5e36f5c845bc6e54a818d57ad2d7bea0, type: 2}
+      asset: {fileID: 11400000, guid: 2299e714b503bcb428f6f4d8558fabc9, type: 2}
       price: 100
   - key: {fileID: 11400000, guid: 981514d43e7235141899d9623e00967b, type: 2}
     value:
-      asset: {fileID: 11400000, guid: 5e36f5c845bc6e54a818d57ad2d7bea0, type: 2}
+      asset: {fileID: 11400000, guid: 2299e714b503bcb428f6f4d8558fabc9, type: 2}
       price: 300

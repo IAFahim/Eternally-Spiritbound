@@ -49,7 +49,7 @@ namespace _Root.Scripts.Game.Interactables.Runtime
 
         public virtual void OnInteractableDetectionLost(IInteractorEntryPoint interactorEntryPoint)
         {
-            if (interactorEntryPoint.IsFocused) _currentInteractableConfirmHelper?.Hide();
+            if (interactorEntryPoint.IsMain) _currentInteractableConfirmHelper?.Hide();
         }
 
 #if UNITY_EDITOR

@@ -1,4 +1,4 @@
-﻿using _Root.Scripts.Game.Items.Runtime;
+﻿using _Root.Scripts.Model.Assets.Runtime;
 using _Root.Scripts.Model.Stats.Runtime;
 using Soul.Modifiers.Runtime;
 using UnityEngine;
@@ -6,7 +6,7 @@ using UnityEngine;
 namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
 {
     [CreateAssetMenu(fileName = "Bullet", menuName = "Scriptable/Weapon/Bullet")]
-    public class Bullet : GameItem
+    public class Bullet : AssetScript
     {
         [Header("Weapon Strategy")] [SerializeField]
         private WeaponOffensiveStats offensiveStats;

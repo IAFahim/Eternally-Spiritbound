@@ -12,10 +12,17 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
         public List<Weapon> weapons;
         public List<WeaponComponent> activeWeapons;
         public OffensiveStats<Modifier> offensiveStats;
+
         public int Count => weapons.Count;
+
         public void Add(Weapon weapon)
         {
             weapons.Add(weapon);
+        }
+
+        public void Remove(Weapon weapon)
+        {
+            weapons.Remove(weapon);
         }
 
         private void Start()

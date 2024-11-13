@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HierarchySettings
   m_EditorClassIdentifier: 
   hierarchyObjectMode: 2
-  showHierarchyToggles: 1
+  showHierarchyToggles: 0
   showComponentIcons: 1
   showTreeMap: 1
   treeMapColor: {r: 0.53, g: 0.53, b: 0.53, a: 0.45}

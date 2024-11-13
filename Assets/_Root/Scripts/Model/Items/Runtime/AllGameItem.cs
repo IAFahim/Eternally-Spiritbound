@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Pancake;
 using UnityEngine;
 
-namespace _Root.Scripts.Game.Items.Runtime
+namespace _Root.Scripts.Model.Items.Runtime
 {
     [CreateAssetMenu(fileName = "AllGameItem", menuName = "Scriptable/GameItem/New ALL")]
     public class AllGameItem : ScriptableSettings<AllGameItem>
@@ -20,7 +21,13 @@ namespace _Root.Scripts.Game.Items.Runtime
             get => _dictionary[key];
             set => _dictionary[key] = value;
         }
-        
+
+        private void OnValidate()
+        {
+            _dictionary.Clear();
+            foreach (var item in gameItems) _dictionary.TryAdd(item.Guid, item);
+        }
+
 
 #if UNITY_EDITOR
         [Sirenix.OdinInspector.Button]

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7104383130352488634}
   - component: {fileID: 8882263170544729245}
   m_Layer: 5
-  m_Name: Text (TMP) (1)
+  m_Name: Price (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -223,7 +223,7 @@ GameObject:
   - component: {fileID: 1442362544623038874}
   - component: {fileID: 5201430464882116660}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Title (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -357,10 +357,11 @@ GameObject:
   m_Component:
   - component: {fileID: 7718480901151201282}
   - component: {fileID: 955796549375460430}
+  - component: {fileID: 7676762763643311438}
   - component: {fileID: 5539575140277782187}
-  - component: {fileID: 7699772826482367606}
+  - component: {fileID: 5323129994835565599}
   m_Layer: 5
-  m_Name: Confirm Button
+  m_Name: Buy Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -396,6 +397,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8437728350402867897}
   m_CullTransparentMesh: 1
+--- !u!114 &7676762763643311438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8437728350402867897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22aa3b50b9c94bfdb1bb82f01f75982b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 5323129994835565599}
+  priceTypeImage: {fileID: 6046736372398583579}
+  priceText: {fileID: 8882263170544729245}
+  actionText: {fileID: 5201430464882116660}
+  disableAlpha: 0.5
 --- !u!114 &5539575140277782187
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -426,7 +444,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7699772826482367606
+--- !u!114 &5323129994835565599
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -435,7 +453,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8437728350402867897}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: d327287640dac41b4aaade109e3242c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -451,7 +469,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.5377358, g: 0.5377358, b: 0.5377358, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -470,3 +488,45 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+  clickType: 0
+  allowMultipleClick: 0
+  timeDisableButton: 0.2
+  doubleClickInterval: 0.2
+  longClickInterval: 0.5
+  delayDetectHold: 0.2
+  onDoubleClick:
+    m_PersistentCalls:
+      m_Calls: []
+  onLongClick:
+    m_PersistentCalls:
+      m_Calls: []
+  onPointerUp:
+    m_PersistentCalls:
+      m_Calls: []
+  onPointerDown:
+    m_PersistentCalls:
+      m_Calls: []
+  onHold:
+    m_PersistentCalls:
+      m_Calls: []
+  enabledSound: 0
+  audioClick:
+    name: 
+    id: 
+  isMotion: 1
+  ignoreTimeScale: 0
+  isMotionUnableInteract: 0
+  isAffectToSelf: 1
+  affectObject: {fileID: 0}
+  motionData:
+    scale: {x: 1.2, y: 1.2}
+    motion: 2
+    duration: 0.1
+    easeDown: 5
+    easeUp: 26
+  motionDataUnableInteract:
+    scale: {x: 1.15, y: 1.15}
+    motion: 3
+    duration: 0.1
+    easeDown: 5
+    easeUp: 26

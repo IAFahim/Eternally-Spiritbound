@@ -6,10 +6,10 @@ using Soul.Items.Runtime;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-namespace _Root.Scripts.Game.Items.Runtime
+namespace _Root.Scripts.Model.Items.Runtime
 {
     [Serializable]
-    [CreateAssetMenu(fileName = "Coin", menuName = "Scriptable/Items/New")]
+    [CreateAssetMenu(fileName = "Game Item", menuName = "Scriptable/Asset/Items/New")]
     public class GameItem : AssetScript, IItemBase<GameObject>, IPickupStrategy, IDropStrategy
     {
         public DropStrategyScriptable dropStrategy;
@@ -31,11 +31,7 @@ namespace _Root.Scripts.Game.Items.Runtime
             get => maxStack;
             set => maxStack = value;
         }
-
-
-        public virtual void OnAddedToInventory(GameObject user, int amount)
-        {
-        }
+        
 
         public virtual void OnPick(GameObject picker)
         {

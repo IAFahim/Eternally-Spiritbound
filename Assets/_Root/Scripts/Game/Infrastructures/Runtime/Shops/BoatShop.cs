@@ -1,5 +1,5 @@
 ﻿using _Root.Scripts.Model.Assets.Runtime;
-using _Root.Scripts.Model.Relationships.Runtime;
+using _Root.Scripts.Model.Links.Runtime;
 using Soul.Interactables.Runtime;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -9,12 +9,15 @@ namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
     [RequireComponent(typeof(SingleShopAndBoatConnection))]
     public class BoatShop : ShopBase
     {
-        [FormerlySerializedAs("guidDefaultBoat")] [SerializeField]
-        private string equippedBoatGuid;
-
+        [SerializeField] private string equippedBoatGuid;
         [SerializeField] private AssetScriptDataBase assetScriptDataBase;
         [SerializeField] private SingleShopAndBoatConnection singleShopAndBoatConnection;
-        [SerializeField] private AssetPriceLink assetPriceLink;
+
+        [FormerlySerializedAs("assetScriptPriceLink")] [SerializeField]
+        private AssetPriceLink assetPriceLink;
+
+        [FormerlySerializedAs("assetOwnAssetCountGlobalLink")] [FormerlySerializedAs("assetScriptOwnAssetCountGlobalLink")] [FormerlySerializedAs("assetScriptsOwnAssetCountGlobalLink")] [SerializeField] private AssetOwnAssetGlobalCountLink assetOwnAssetGlobalCountLink;
+
         private AssetScript _currentAssetScript;
 
         protected override void OnEnable()
@@ -55,6 +58,23 @@ namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
         {
             message = string.Empty;
             return true;
+        }
+
+        public override bool HasEnough(AssetScriptReferenceComponent playerAssetScriptReferenceComponent,
+            AssetScript item,
+            out AssetPrice assetPrice)
+        {
+            if (assetPriceLink.TryGetValue(item, out assetPrice))
+            {
+                if (assetOwnAssetGlobalCountLink.TryGetValue(item, out var count))
+                {
+                    var hasEnough = count >= assetPrice.price;
+                    if (!hasEnough) Debug.Log("Not enough money");
+                    return hasEnough;
+                }
+            }
+
+            return false;
         }
 
         public override void OnExit(IInteractorEntryPoint interactorEntryPoint)

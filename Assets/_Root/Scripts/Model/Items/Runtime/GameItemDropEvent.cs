@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace _Root.Scripts.Game.Items.Runtime
+namespace _Root.Scripts.Model.Items.Runtime
 {
     public struct GameItemDropEvent
     {

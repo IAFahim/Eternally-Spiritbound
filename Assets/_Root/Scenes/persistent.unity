@@ -3259,7 +3259,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8437728350402867897, guid: f25586b5c9740d042a46742f1507c5c0, type: 3}
       propertyPath: m_Name
-      value: Confirm Button
+      value: Buy Button
       objectReference: {fileID: 0}
     - target: {fileID: 8437728350402867897, guid: f25586b5c9740d042a46742f1507c5c0, type: 3}
       propertyPath: m_IsActive

@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using _Root.Scripts.Game.GameEntities.Runtime;
 using _Root.Scripts.Game.Infrastructures.Runtime.Shops;
 using _Root.Scripts.Game.Interactables.Runtime;
 using _Root.Scripts.Game.Utils.Runtime;
 using _Root.Scripts.Model.Assets.Runtime;
-using _Root.Scripts.Model.Relationships.Runtime;
+using _Root.Scripts.Model.Links.Runtime;
 using _Root.Scripts.Presentation.Containers.Runtime;
 using Pancake.Linq;
 using TMPro;
@@ -31,7 +30,6 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
         [FormerlySerializedAs("focusManager")] [SerializeField]
         private FocusManagerScript focusManagerScript;
 
-        [SerializeField] private AssetPriceLink assetPriceLink;
         [SerializeField] private AssetReferenceGameObject buttonSelectionControllerAsset;
         [SerializeField] private Sprite lockedSprite;
         [SerializeField] private Sprite equippedSprite;
@@ -42,7 +40,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 
         private List<AssetScript> _unlockedAssets;
         private ButtonSelectionController[] _buttonSelectionControllers;
-        private BuyButtonController _buybuttonSelectionController;
+        private PriceButtonController _buybuttonSelectionController;
         private AssetScriptReferenceComponent _playerAssetScriptReferenceComponent;
         private ScrollRect _scrollRect;
         private ShopBase _shopBase;
@@ -77,6 +75,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
                 (scrollRectAsset, SetupScrollRect, focusReferences.StillCanvasTransformPoint)
             );
         }
+
 
         private void SetupScrollRect(GameObject gameObject)
         {
@@ -152,8 +151,8 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
                 buttonSelectionController.gameObject.SetActive(true);
             }
 
+            SetupBuyButton();
             Select(_lastSelected);
-            SetupBuyButton(_lastSelected, true);
         }
 
 
@@ -197,45 +196,40 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
             var buttonSelectionController = _buttonSelectionControllers[index];
             if (unlocked) NotifyUnLockedSelected(index);
             else NotifyLockedSelect(index);
+            SetupBuyButton(index, unlocked);
+
             var normalizedPosition = _scrollRect.ScrollNormalizedPosition(buttonSelectionController.transform);
             Debug.Log(normalizedPosition);
         }
 
-        private void SetupBuyButton(int index, bool spawn)
+        private void SetupBuyButton()
         {
-            if (spawn)
-            {
-                _buybuttonSelectionController = SharedAssetReferencePoolInactive
-                    .Request<BuyButtonController>(buyButtonAsset, _stillCanvasTransformPoint, true);
-            }
-
-            var assetScript = _assetInfoDTOs[index].AssetScript;
-            var hasEnough = HasEnoguh(assetScript, out var price);
-            _buybuttonSelectionController.Initialize(assetScript.Icon, price, hasEnough, OnBuyButtonPressed);
+            _buybuttonSelectionController = SharedAssetReferencePoolInactive
+                .Request(buyButtonAsset, _stillCanvasTransformPoint)
+                .GetComponent<PriceButtonController>();
         }
+
+        private void SetupBuyButton(int index, bool unlocked)
+        {
+            var assetScript = _assetInfoDTOs[index].AssetScript;
+            var hasEnough = _shopBase.HasEnough(_playerAssetScriptReferenceComponent, assetScript, out var assetPrice);
+            _buybuttonSelectionController.Initialize(
+                assetPrice.asset.Icon,
+                assetPrice.price,
+                "Buy",
+                hasEnough,
+                OnBuyButtonPressed
+            );
+            _buybuttonSelectionController.gameObject.SetActive(!unlocked);
+        }
+
 
         private void OnBuyButtonPressed()
         {
             var assetScript = _assetInfoDTOs[_lastSelected].AssetScript;
             var buySuccess = _shopBase.OnTryBuyButtonClick(_playerAssetScriptReferenceComponent, _category, assetScript,
                 out var message);
-            Debug.Log($"{buySuccess}: {message}");
-        }
-
-        public bool HasEnoguh(AssetScript assetScript, out int price)
-        {
-            if (!assetPriceLink.TryGetValue(assetScript, out var assetPrice))
-            {
-                price = 0;
-                return true;
-            }
-            else
-            {
-                // _playerAssetScriptReferenceComponent.
-            }
-
-            price = 0;
-            return true;
+            Debug.Log($"[{buySuccess}]: {message}");
         }
 
 
@@ -274,17 +268,6 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
             return null;
         }
 
-        public override void OnFocusLost(GameObject targetGameObject)
-        {
-            _closeButton.onClick.RemoveListener(TryPopAndActiveLast);
-            foreach (var buttonSelectionController in _buttonSelectionControllers)
-            {
-                SharedAssetReferencePoolInactive.Return(buttonSelectionControllerAsset,
-                    buttonSelectionController.gameObject);
-            }
-
-            _shopBase.OnExit(null);
-        }
 
         private void SetupCloseButton(GameObject gameObject)
         {
@@ -292,6 +275,21 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
             _closeButton = gameObject.GetComponent<Button>();
             _closeButton.onClick.RemoveListener(TryPopAndActiveLast);
             _closeButton.onClick.AddListener(TryPopAndActiveLast);
+        }
+
+        public override void OnFocusLost(GameObject targetGameObject)
+        {
+            _closeButton.onClick.RemoveListener(TryPopAndActiveLast);
+            SharedAssetReferencePoolInactive.Return(shopCloseButtonAsset, _closeButton.gameObject);
+            SharedAssetReferencePoolInactive.Return(buyButtonAsset, _buybuttonSelectionController.gameObject);
+
+            foreach (var buttonSelectionController in _buttonSelectionControllers)
+            {
+                SharedAssetReferencePoolInactive.Return(buttonSelectionControllerAsset,
+                    buttonSelectionController.gameObject);
+            }
+
+            _shopBase.OnExit(null);
         }
 
         private void TryPopAndActiveLast() => focusManagerScript.PopFocus();
