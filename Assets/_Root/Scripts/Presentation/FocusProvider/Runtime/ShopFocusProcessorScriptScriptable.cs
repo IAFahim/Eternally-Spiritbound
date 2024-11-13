@@ -19,18 +19,15 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
     [CreateAssetMenu(fileName = "Shop Processor", menuName = "Scriptable/FocusProcessor/Shop")]
     public class ShopFocusProcessorScriptScriptable : FocusProcessorScriptCinemachineScriptable
     {
-        [FormerlySerializedAs("boatScrollRectAsset")] [SerializeField]
-        private AssetReferenceGameObject scrollRectAsset;
-
+        [SerializeField] private AssetReferenceGameObject tabVerticalLayoutAsset;
+        [SerializeField] private AssetReferenceGameObject scrollRectAsset;
         [SerializeField] private AssetReferenceGameObject buyButtonAsset;
-
-        [FormerlySerializedAs("boatShopCloseButtonAsset")] [SerializeField]
-        private AssetReferenceGameObject shopCloseButtonAsset;
-
-        [FormerlySerializedAs("focusManager")] [SerializeField]
-        private FocusManagerScript focusManagerScript;
-
+        [SerializeField] private AssetReferenceGameObject shopCloseButtonAsset;
         [SerializeField] private AssetReferenceGameObject buttonSelectionControllerAsset;
+        [SerializeField] private AssetReferenceGameObject tabButtonControllerAsset;
+
+
+        [SerializeField] private FocusManagerScript focusManagerScript;
         [SerializeField] private Sprite lockedSprite;
         [SerializeField] private Sprite equippedSprite;
 
@@ -46,6 +43,8 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
         private ShopBase _shopBase;
         private string _category;
         private Transform _stillCanvasTransformPoint;
+        private VerticalLayoutGroup _tabVerticalLayoutGroup;
+        private TabButtonController[] _tabButtonControllers;
 
         private AssetInfoDto[] _assetInfoDTOs;
         private TMP_Text _titleText;
@@ -71,9 +70,25 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
             BuildCache(
                 focusReferences.ActiveElements,
                 (cinemachineAsset, SetupCinemachine, null),
+                (tabVerticalLayoutAsset, SetupTabButton, focusReferences.UISillTransformPointPadded),
                 (shopCloseButtonAsset, SetupCloseButton, focusReferences.UISillTransformPointPadded),
                 (scrollRectAsset, SetupScrollRect, focusReferences.MovingUITransformPointPadded)
             );
+        }
+
+        private void SetupTabButton(GameObject obj)
+        {
+            _tabVerticalLayoutGroup = obj.GetComponent<VerticalLayoutGroup>();
+            _shopBase = TargetGameObject.GetComponent<ShopBase>();
+            var assetCategories = _shopBase.assetCategories;
+            _tabButtonControllers = new TabButtonController[assetCategories.Length];
+            for (var i = 0; i < assetCategories.Length; i++)
+            {
+                _tabButtonControllers[i] = SharedAssetReferencePoolInactive
+                    .Request(tabButtonControllerAsset, _tabVerticalLayoutGroup.transform)
+                    .GetComponent<TabButtonController>();
+                var assetCategory = assetCategories[i];
+            }
         }
 
 
@@ -88,10 +103,10 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 
         private void InstantiateShopBase()
         {
-            _playerAssetScriptReferenceComponent =
-                focusManagerScript.mainObject.GetComponent<AssetScriptReferenceComponent>();
             _shopBase = TargetGameObject.GetComponent<ShopBase>();
             var assetCategories = _shopBase.assetCategories;
+            _playerAssetScriptReferenceComponent =
+                focusManagerScript.mainObject.GetComponent<AssetScriptReferenceComponent>();
             var selectedCategory = GetSelectedCategory();
             _category = "";
             foreach (var assetCategory in assetCategories)
@@ -277,18 +292,34 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
             _closeButton.onClick.AddListener(TryPopAndActiveLast);
         }
 
-        public override void OnFocusLost(GameObject targetGameObject)
+        private void CleanAssetSelection()
         {
-            _closeButton.onClick.RemoveListener(TryPopAndActiveLast);
-            SharedAssetReferencePoolInactive.Return(shopCloseButtonAsset, _closeButton.gameObject);
-            SharedAssetReferencePoolInactive.Return(buyButtonAsset, _buyButtonSelectionController.gameObject);
-
             foreach (var buttonSelectionController in _buttonSelectionControllers)
             {
                 SharedAssetReferencePoolInactive.Return(buttonSelectionControllerAsset,
                     buttonSelectionController.gameObject);
             }
 
+            SharedAssetReferencePoolInactive.Return(scrollRectAsset, _scrollRect.gameObject);
+        }
+
+        private void CleanTabs()
+        {
+            foreach (var tabButtonController in _tabButtonControllers)
+            {
+                SharedAssetReferencePoolInactive.Return(tabButtonControllerAsset, tabButtonController.gameObject);
+            }
+
+            SharedAssetReferencePoolInactive.Return(tabVerticalLayoutAsset, _tabVerticalLayoutGroup.gameObject);
+        }
+
+        public override void OnFocusLost(GameObject targetGameObject)
+        {
+            _closeButton.onClick.RemoveListener(TryPopAndActiveLast);
+            CleanTabs();
+            CleanAssetSelection();
+            SharedAssetReferencePoolInactive.Return(shopCloseButtonAsset, _closeButton.gameObject);
+            SharedAssetReferencePoolInactive.Return(buyButtonAsset, _buyButtonSelectionController.gameObject);
             _shopBase.OnExit(null);
         }
 

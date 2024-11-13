@@ -15,13 +15,13 @@ namespace _Root.Scripts.Presentation.Containers.Runtime
         [SerializeField] private TMP_Text actionText;
         [SerializeField] private float disableAlpha = 0.5f;
 
-        private Action _onClick;
+        private UnityAction _onClick;
 
         public void Initialize(Sprite priceTypeIcon, int price, string action, bool hasEnough,
             UnityAction onClick)
         {
             priceTypeImage.sprite = priceTypeIcon;
-            button.onClick.AddListener(onClick);
+            AddListener(onClick);
             actionText.text = action;
             SetPrice(price);
             HasEnough(hasEnough);
@@ -48,6 +48,24 @@ namespace _Root.Scripts.Presentation.Containers.Runtime
                 priceText.color = priceText.color.ChangeAlpha(1);
                 actionText.color = actionText.color.ChangeAlpha(1);
                 priceTypeImage.color = priceTypeImage.color.ChangeAlpha(1);
+            }
+        }
+
+        private void OnDisable() => RemoveOldListener();
+
+        private void AddListener(UnityAction onClick)
+        {
+            RemoveOldListener();
+            _onClick = onClick;
+            button.onClick.AddListener(onClick);
+        }
+
+        private void RemoveOldListener()
+        {
+            if (_onClick != null)
+            {
+                button.onClick.RemoveListener(_onClick);
+                _onClick = null;
             }
         }
 
