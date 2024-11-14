@@ -1,12 +1,11 @@
-﻿using _Root.Scripts.Game.Consmatics.Runtime;
+﻿using System.Threading;
+using _Root.Scripts.Game.Consmatics.Runtime;
 using _Root.Scripts.Game.GameEntities.Runtime;
 using _Root.Scripts.Game.Interactables.Runtime;
-using _Root.Scripts.Model.Stats.Runtime;
 using _Root.Scripts.Presentation.Interactions.Runtime;
+using Cysharp.Threading.Tasks;
 using Pancake.Common;
 using Sisus.Init;
-using Soul.Modifiers.Runtime;
-using Soul.Reactives.Runtime;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityProgressBar;
@@ -29,16 +28,16 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
         private DamageFlash _damageFlash;
 
 
-        public override void SetFocus(FocusReferences focusReferences)
+        public override void SetFocus(FocusReferences focusReferences, CancellationToken token)
         {
             TargetGameObject = focusReferences.CurrentGameObject;
             _damageFlash = TargetGameObject.AddComponent<DamageFlash, FlashConfigScript>(flashConfigScript);
             BuildCache(
-                focusReferences.ActiveElements,
+                focusReferences.ActiveElements, null, token,
                 (joyStickAsset, SetupJoystick, focusReferences.MovingUITransformPoint),
                 (healthBarAsset, SetupHealthBar, focusReferences.UISillTransformPointPadded),
                 (cinemachineAsset, SetupCinemachine, null)
-            );
+            ).Forget();
         }
 
         private void SetupJoystick(GameObject obj)

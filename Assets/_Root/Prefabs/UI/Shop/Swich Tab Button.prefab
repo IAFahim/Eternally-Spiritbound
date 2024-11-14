@@ -11,15 +11,15 @@ GameObject:
   - component: {fileID: 5977566743845759263}
   - component: {fileID: 5815468699293331512}
   - component: {fileID: 1288231101577982446}
-  - component: {fileID: 8891278443317791750}
   - component: {fileID: 6652469702033128576}
+  - component: {fileID: 7022474681589946895}
   m_Layer: 5
   m_Name: Swich Tab Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5977566743845759263
 RectTransform:
   m_ObjectHideFlags: 0
@@ -79,7 +79,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 3
---- !u!114 &8891278443317791750
+--- !u!114 &6652469702033128576
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -88,7 +88,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 2670673885712572550}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 9674d6d4138149f596cd05b1148107bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 7022474681589946895}
+  iconImage: {fileID: 9014143088744585014}
+  titleText: {fileID: 2911804708626413485}
+--- !u!114 &7022474681589946895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2670673885712572550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d327287640dac41b4aaade109e3242c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -123,21 +138,48 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &6652469702033128576
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2670673885712572550}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9674d6d4138149f596cd05b1148107bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  button: {fileID: 8891278443317791750}
-  iconImage: {fileID: 9014143088744585014}
-  titleText: {fileID: 2911804708626413485}
+  clickType: 0
+  allowMultipleClick: 0
+  timeDisableButton: 0.2
+  doubleClickInterval: 0.2
+  longClickInterval: 0.5
+  delayDetectHold: 0.2
+  onDoubleClick:
+    m_PersistentCalls:
+      m_Calls: []
+  onLongClick:
+    m_PersistentCalls:
+      m_Calls: []
+  onPointerUp:
+    m_PersistentCalls:
+      m_Calls: []
+  onPointerDown:
+    m_PersistentCalls:
+      m_Calls: []
+  onHold:
+    m_PersistentCalls:
+      m_Calls: []
+  enabledSound: 0
+  audioClick:
+    name: 
+    id: 
+  isMotion: 1
+  ignoreTimeScale: 0
+  isMotionUnableInteract: 0
+  isAffectToSelf: 1
+  affectObject: {fileID: 0}
+  motionData:
+    scale: {x: 1.2, y: 1.2}
+    motion: 2
+    duration: 0.1
+    easeDown: 5
+    easeUp: 26
+  motionDataUnableInteract:
+    scale: {x: 1.15, y: 1.15}
+    motion: 3
+    duration: 0.1
+    easeDown: 5
+    easeUp: 26
 --- !u!1 &4190784252275997984
 GameObject:
   m_ObjectHideFlags: 0

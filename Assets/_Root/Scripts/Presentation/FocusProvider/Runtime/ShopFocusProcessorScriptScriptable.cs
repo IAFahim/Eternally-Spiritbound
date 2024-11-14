@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using _Root.Scripts.Game.Infrastructures.Runtime.Shops;
 using _Root.Scripts.Game.Interactables.Runtime;
 using _Root.Scripts.Game.Utils.Runtime;
 using _Root.Scripts.Model.Assets.Runtime;
 using _Root.Scripts.Model.Links.Runtime;
 using _Root.Scripts.Presentation.Containers.Runtime;
+using Cysharp.Threading.Tasks;
 using Pancake.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
 using Soul.Pools.Runtime;
-using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 {
@@ -63,17 +64,30 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
         private string PlayerEquippedPerCategoryLookUpKey(string category) =>
             focusManagerScript.mainObject.name + category + value;
 
-        public override void SetFocus(FocusReferences focusReferences)
+        public override void SetFocus(FocusReferences focusReferences, CancellationToken token)
         {
             _stillCanvasTransformPoint = focusReferences.UISillTransformPointPadded;
             TargetGameObject = focusReferences.CurrentGameObject;
             BuildCache(
-                focusReferences.ActiveElements,
+                focusReferences.ActiveElements, OnCacheBuiltBeforeActive, token,
                 (cinemachineAsset, SetupCinemachine, null),
                 (tabVerticalLayoutAsset, SetupTabButton, focusReferences.UISillTransformPointPadded),
                 (shopCloseButtonAsset, SetupCloseButton, focusReferences.UISillTransformPointPadded),
                 (scrollRectAsset, SetupScrollRect, focusReferences.MovingUITransformPointPadded)
-            );
+            ).Forget();
+        }
+
+        private void OnCacheBuiltBeforeActive()
+        {
+            foreach (var tabButtonController in _tabButtonControllers)
+            {
+                tabButtonController.gameObject.SetActive(true);
+            }
+
+            foreach (var buttonSelectionController in _buttonSelectionControllers)
+            {
+                buttonSelectionController.gameObject.SetActive(true);
+            }
         }
 
         private void SetupTabButton(GameObject obj)
@@ -103,7 +117,6 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 
         private void InstantiateShopBase()
         {
-            _shopBase = TargetGameObject.GetComponent<ShopBase>();
             var assetCategories = _shopBase.assetCategories;
             _playerAssetScriptReferenceComponent =
                 focusManagerScript.mainObject.GetComponent<AssetScriptReferenceComponent>();
@@ -161,10 +174,6 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
                 if (isEquipped) _lastSelected = i;
             }
 
-            foreach (var buttonSelectionController in _buttonSelectionControllers)
-            {
-                buttonSelectionController.gameObject.SetActive(true);
-            }
 
             SetupBuyButton();
             Select(_lastSelected);
@@ -309,7 +318,6 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
             {
                 SharedAssetReferencePoolInactive.Return(tabButtonControllerAsset, tabButtonController.gameObject);
             }
-
             SharedAssetReferencePoolInactive.Return(tabVerticalLayoutAsset, _tabVerticalLayoutGroup.gameObject);
         }
 

@@ -38,16 +38,16 @@ namespace _Root.Scripts.Presentation.Containers.Runtime
             if (status)
             {
                 button.image.color = button.colors.normalColor;
-                priceText.color = priceText.color.ChangeAlpha(disableAlpha);
-                actionText.color = actionText.color.ChangeAlpha(disableAlpha);
-                priceTypeImage.color = priceTypeImage.color.ChangeAlpha(disableAlpha);
+                priceText.color = priceText.color.ChangeAlpha(1);
+                actionText.color = actionText.color.ChangeAlpha(1);
+                priceTypeImage.color = priceTypeImage.color.ChangeAlpha(1);
             }
             else
             {
                 button.image.color = button.colors.disabledColor;
-                priceText.color = priceText.color.ChangeAlpha(1);
-                actionText.color = actionText.color.ChangeAlpha(1);
-                priceTypeImage.color = priceTypeImage.color.ChangeAlpha(1);
+                priceText.color = priceText.color.ChangeAlpha(disableAlpha);
+                actionText.color = actionText.color.ChangeAlpha(disableAlpha);
+                priceTypeImage.color = priceTypeImage.color.ChangeAlpha(disableAlpha);
             }
         }
 

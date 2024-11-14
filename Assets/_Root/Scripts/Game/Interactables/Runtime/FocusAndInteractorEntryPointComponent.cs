@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -11,9 +13,10 @@ namespace _Root.Scripts.Game.Interactables.Runtime
     {
         [SerializeField] private bool isMain;
         [SerializeField] private bool isFocused;
-        
+
         [FormerlySerializedAs("focusProcessor")] [SerializeField]
         private FocusProcessorScript focusProcessorScript;
+
         [SerializeField] private FocusManagerScript focusManagerScript;
 
         public event Action<GameObject> OnPushFocus;
@@ -37,7 +40,7 @@ namespace _Root.Scripts.Game.Interactables.Runtime
         {
             isFocused = true;
             OnPushFocus?.Invoke(gameObject);
-            focusProcessorScript.SetFocus(focusReferences);
+            focusProcessorScript.SetFocus(focusReferences, this.GetCancellationTokenOnDestroy());
         }
 
         public void RemoveFocus(GameObject targetGameObject)
