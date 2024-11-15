@@ -19,7 +19,7 @@ namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
 
         public async UniTaskVoid SpawnBoat(AssetScript assetScript)
         {
-            var transformPoint = transform.TransformPoint(offset);
+            var transformPoint = transform.position + offset;
             _boat = await assetScript.AssetReference.RequestAsync(transformPoint, rotation);
             _boatRigidbody = _boat.GetComponent<Rigidbody>();
         }

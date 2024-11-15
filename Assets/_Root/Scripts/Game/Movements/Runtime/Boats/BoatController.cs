@@ -93,7 +93,7 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
         {
             float targetAcceleration =
                 _isReversing ? Parameters.reverseAccelerationForce : Parameters.accelerationForce;
-            Vector3 forceDirection = transform.forward * targetAcceleration;
+            Vector3 forceDirection = transform.forward * (targetAcceleration * MoveDirection.magnitude);
             rb.AddForce(forceDirection, ForceMode.Acceleration);
 
             // Limit speed based on direction
@@ -129,17 +129,36 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
             return axis.normalized * (angle * Mathf.Deg2Rad);
         }
 
+        [SerializeField] private float waterLevel = -2f;           // Water surface Y position
+        [SerializeField] private float buoyancyForce = 3f;        // Force pushing object up
+        [SerializeField] private float waterDrag = 1f;            // Drag when in water
+        [SerializeField] private float waterAngularDrag = 1f; 
+        
         private void ApplyBuoyancy()
         {
-            float waterOffset = transform.position.y - waterParameterScript.value.waterLevel;
-            float buoyancyMultiplier = Mathf.Clamp01(-waterOffset / 2);
-            Vector3 buoyancyForceVector = Vector3.up * (waterParameterScript.value.buoyancyForce * buoyancyMultiplier);
-
-            // Apply wave effect
-            float waveOffset = waterParameterScript.WaveOffset;
-            buoyancyForceVector += Vector3.up * waveOffset;
-
-            rb.AddForce(buoyancyForceVector, ForceMode.Acceleration);
+            // Get the object's position
+            float objectBottom = transform.position.y - (transform.localScale.y / 2);
+        
+            // Check if object is in water
+            if (objectBottom < waterLevel)
+            {
+                // Calculate submerged depth
+                float submergedDepth = Mathf.Abs(objectBottom - waterLevel);
+                float submergedRatio = submergedDepth / transform.localScale.y;
+                submergedRatio = Mathf.Clamp01(submergedRatio);
+            
+                // Apply buoyancy force
+                float forceMagnitude = buoyancyForce * submergedRatio * rb.mass;
+                rb.AddForce(Vector3.up * forceMagnitude, ForceMode.Force);
+            
+                // Apply water resistance
+                rb.linearDamping = waterDrag;
+            }
+            else
+            {
+                // Reset drag to original values when out of water
+                rb.linearDamping = 1;
+            }
         }
 
         private void ApplyWaterDrag()

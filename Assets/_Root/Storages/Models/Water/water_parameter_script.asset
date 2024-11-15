@@ -21,10 +21,10 @@ MonoBehaviour:
   parameters:
   - key: 0
     value:
-      waterLevel: 0
+      waterLevel: -2
       waterDrag: 0.99
       buoyancyForce: 100
       waveIntensity: 8.96
       waveFrequency: 1.41
-  lastTime: 0
+  lastTime: 1.8194323
   updateFrequency: 0.2

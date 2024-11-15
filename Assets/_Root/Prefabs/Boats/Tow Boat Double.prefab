@@ -160,6 +160,10 @@ MonoBehaviour:
     boost: 10
   parameterScript: {fileID: 11400000, guid: c85af2ed0908c04449fcb6e6c078b4ec, type: 2}
   waterParameterScript: {fileID: 11400000, guid: 69dcdbe808817c44a9b58a9878b07932, type: 2}
+  waterLevel: -2
+  buoyancyForce: 100
+  waterDrag: 2
+  waterAngularDrag: 1
 --- !u!114 &8240035573106982839
 MonoBehaviour:
   m_ObjectHideFlags: 0
