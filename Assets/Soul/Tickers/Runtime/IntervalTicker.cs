@@ -3,15 +3,10 @@
 namespace Soul.Tickers.Runtime
 {
     [System.Serializable]
-    public class IntervalTicker
+    public struct IntervalTicker
     {
         [SerializeField] private int currentTick;
-        [SerializeField] private int interval = 5;
-
-        public IntervalTicker()
-        {
-            currentTick = 0;
-        }
+        [SerializeField] private int interval;
 
         public IntervalTicker(int interval)
         {

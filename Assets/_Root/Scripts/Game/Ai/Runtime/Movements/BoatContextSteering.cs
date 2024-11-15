@@ -172,7 +172,7 @@ namespace _Root.Scripts.Game.Ai.Runtime.Movements
             Gizmos.DrawRay(transform.position, _resultDirection * config.dangerDecayDistance * 1.2f);
 
             // Use the provided DrawGizmos from OverlapNonAlloc
-            config.obstacleDetector?.DrawGizmos(Color.yellow, Color.red);
+            config.obstacleDetector.DrawGizmos(Color.yellow, Color.red);
         }
 #endif
     }

@@ -4,9 +4,9 @@ using UnityEngine;
 namespace Soul.OverlapSugar.Runtime
 {
     [Serializable]
-    public class OverlapNonAlloc
+    public struct OverlapNonAlloc
     {
-        protected const float Half = 0.5f;
+        internal const float Half = 0.5f;
         public OverlapConfig config;
         public Transform transform;
 
@@ -51,7 +51,7 @@ namespace Soul.OverlapSugar.Runtime
 
         public bool Found() => config.colliderCount > 0;
 
-        public virtual int Perform()
+        public int Perform()
         {
             if (config.checkFirst && config.colliderCount == 0)
             {
@@ -71,7 +71,7 @@ namespace Soul.OverlapSugar.Runtime
             return Perform(transform.TransformPoint(config.positionOffset));
         }
 
-        protected int Perform(Vector3 position)
+        private int Perform(Vector3 position)
         {
             return config.overlapType switch
             {
@@ -144,7 +144,7 @@ namespace Soul.OverlapSugar.Runtime
         }
 
 
-        public virtual void DrawGizmos(Color overlapColor, Color foundColor)
+        public void DrawGizmos(Color overlapColor, Color foundColor)
         {
 #if UNITY_EDITOR
             if (transform == null) return;

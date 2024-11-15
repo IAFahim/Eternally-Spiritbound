@@ -85,10 +85,7 @@ namespace _Root.Scripts.Game.Interactables.Runtime
 
         private void OnDrawGizmosSelected()
         {
-            if (interactableOverlapChecked != null)
-            {
-                interactableOverlapChecked.DrawGizmos(Color.red, Color.green);
-            }
+            interactableOverlapChecked.DrawGizmos(Color.red, Color.green);
         }
 #endif
     }
