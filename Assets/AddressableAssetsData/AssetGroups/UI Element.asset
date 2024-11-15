@@ -20,11 +20,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0492cac06f287be489316487a4c0cb74
-    m_Address: Close Button
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 13e1e39d22112fb4d90c3bc5562501e3
     m_Address: Selection Controller Button
     m_ReadOnly: 0
@@ -42,11 +37,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d33ad5248591b394eb6fd583b92065c7
     m_Address: BoatHealthUI
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f25586b5c9740d042a46742f1507c5c0
-    m_Address: Confirm Button
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

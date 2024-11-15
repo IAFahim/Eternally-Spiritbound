@@ -10,6 +10,7 @@ namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
     [RequireComponent(typeof(InteractableEntryPointComponent))]
     public abstract class ShopBase : MonoBehaviour
     {
+        public string equippedItemGuid;
         public AssetCategory[] assetCategories;
         [SerializeField] protected InteractableEntryPointComponent interactableEntryPointComponent;
         [SerializeField] private bool debugEnabled;

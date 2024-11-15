@@ -9,18 +9,22 @@ using _Root.Scripts.Model.Links.Runtime;
 using _Root.Scripts.Presentation.Containers.Runtime;
 using Cysharp.Threading.Tasks;
 using Pancake.Linq;
+using Soul.Interactables.Runtime;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
 using Soul.Pools.Runtime;
+using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 {
     [CreateAssetMenu(fileName = "Shop Processor", menuName = "Scriptable/FocusProcessor/Shop")]
     public class ShopFocusProcessorScriptScriptable : FocusProcessorScriptCinemachineScriptable
     {
-        [SerializeField] private AssetReferenceGameObject tabVerticalLayoutAsset;
+        [FormerlySerializedAs("tabVerticalLayoutAsset")] [SerializeField]
+        private AssetReferenceGameObject tabLayoutAsset;
+
         [SerializeField] private AssetReferenceGameObject scrollRectAsset;
         [SerializeField] private AssetReferenceGameObject buyButtonAsset;
         [SerializeField] private AssetReferenceGameObject shopCloseButtonAsset;
@@ -29,6 +33,19 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 
 
         [SerializeField] private FocusManagerScript focusManagerScript;
+
+        [FormerlySerializedAs("lockedStatusImage")]
+        [FormerlySerializedAs("lockedImageStatus")]
+        [FormerlySerializedAs("lockedSpriteStatus")]
+        [SerializeField]
+        private StatusSprite lockedStatusSprite;
+
+        [FormerlySerializedAs("equippedStatusImage")]
+        [FormerlySerializedAs("equippedImageStatus")]
+        [FormerlySerializedAs("equippedSpriteStatus")]
+        [SerializeField]
+        private StatusSprite equippedStatusSprite;
+
         [SerializeField] private Sprite lockedSprite;
         [SerializeField] private Sprite equippedSprite;
 
@@ -44,7 +61,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
         private ShopBase _shopBase;
         private string _category;
         private Transform _stillCanvasTransformPoint;
-        private VerticalLayoutGroup _tabVerticalLayoutGroup;
+        private HorizontalLayoutGroup _tabLayoutGroup;
         private TabButtonController[] _tabButtonControllers;
 
         private AssetInfoDto[] _assetInfoDTOs;
@@ -52,17 +69,9 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
         private int _lastSelected;
 
 
-        private string GetSelectedCategory() => PlayerPrefs.GetString(value, string.Empty);
-        private string SetSelectedCategory(string category) => PlayerPrefs.GetString(value, category);
+        private string GetSelectedTab() => PlayerPrefs.GetString(value, string.Empty);
+        private string SetSelectedTab(string category) => PlayerPrefs.GetString(value, category);
 
-        private void SetAssetEquippedOnCategory(string category, string guid) =>
-            PlayerPrefs.GetString(focusManagerScript.mainObject.name + category + value, guid);
-
-        private string GetAssetEquippedCategorySelected(string category) =>
-            PlayerPrefs.GetString(PlayerEquippedPerCategoryLookUpKey(category), string.Empty);
-
-        private string PlayerEquippedPerCategoryLookUpKey(string category) =>
-            focusManagerScript.mainObject.name + category + value;
 
         public override void SetFocus(FocusReferences focusReferences, CancellationToken token)
         {
@@ -71,7 +80,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
             BuildCache(
                 focusReferences.ActiveElements, OnCacheBuiltBeforeActive, token,
                 (cinemachineAsset, SetupCinemachine, null),
-                (tabVerticalLayoutAsset, SetupTabButton, focusReferences.UISillTransformPointPadded),
+                (tabLayoutAsset, SetupTabButton, focusReferences.UISillTransformPointPadded),
                 (shopCloseButtonAsset, SetupCloseButton, focusReferences.UISillTransformPointPadded),
                 (scrollRectAsset, SetupScrollRect, focusReferences.MovingUITransformPointPadded)
             ).Forget();
@@ -92,14 +101,14 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 
         private void SetupTabButton(GameObject obj)
         {
-            _tabVerticalLayoutGroup = obj.GetComponent<VerticalLayoutGroup>();
+            _tabLayoutGroup = obj.GetComponent<HorizontalLayoutGroup>();
             _shopBase = TargetGameObject.GetComponent<ShopBase>();
             var assetCategories = _shopBase.assetCategories;
             _tabButtonControllers = new TabButtonController[assetCategories.Length];
             for (var i = 0; i < assetCategories.Length; i++)
             {
                 _tabButtonControllers[i] = SharedAssetReferencePoolInactive
-                    .Request(tabButtonControllerAsset, _tabVerticalLayoutGroup.transform)
+                    .Request(tabButtonControllerAsset, _tabLayoutGroup.transform)
                     .GetComponent<TabButtonController>();
                 var assetCategory = assetCategories[i];
             }
@@ -120,7 +129,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
             var assetCategories = _shopBase.assetCategories;
             _playerAssetScriptReferenceComponent =
                 focusManagerScript.mainObject.GetComponent<AssetScriptReferenceComponent>();
-            var selectedCategory = GetSelectedCategory();
+            var selectedCategory = GetSelectedTab();
             _category = "";
             foreach (var assetCategory in assetCategories)
             {
@@ -189,12 +198,11 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
                 .Request(buttonSelectionControllerAsset, scrollContentTransform)
                 .GetComponent<ButtonSelectionController>();
             buttonSelectionController.transform.SetSiblingIndex(index);
-            var equippedAssetGuid = GetAssetEquippedCategorySelected(category);
-            isEquipped = equippedAssetGuid == assetInfoDto.AssetScript.Guid;
+            isEquipped = _shopBase.equippedItemGuid == assetInfoDto.AssetScript.Guid;
             buttonSelectionController.Initialize(
                 index, isEquipped,
                 assetInfoDto.AssetScript.Icon,
-                StatusSprite(isEquipped, assetInfoDto.Unlocked),
+                GetSpriteStats(isEquipped, assetInfoDto.Unlocked),
                 Select
             );
             return buttonSelectionController;
@@ -259,21 +267,21 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 
         private void DeSelect(int index)
         {
-            _buttonSelectionControllers[index].SetStatus(StatusSprite(false, _assetInfoDTOs[index].Unlocked));
+            _buttonSelectionControllers[index].SetStatusImage(GetSpriteStats(false, _assetInfoDTOs[index].Unlocked));
             NotifyDeSelect(index);
         }
 
         private void NotifyUnLockedSelected(int index)
         {
-            SetAssetEquippedOnCategory(_category, _assetInfoDTOs[index].AssetScript.Guid);
-            _buttonSelectionControllers[index].SetStatus(equippedSprite);
+            _shopBase.equippedItemGuid = _assetInfoDTOs[index].AssetScript.Guid;
+            _buttonSelectionControllers[index].SetStatusImage(equippedStatusSprite);
             _shopBase.OnUnlockedSelected(_playerAssetScriptReferenceComponent, _category,
                 _assetInfoDTOs[index].AssetScript);
         }
 
         private void NotifyLockedSelect(int index)
         {
-            _buttonSelectionControllers[index].SetStatus(lockedSprite);
+            _buttonSelectionControllers[index].SetStatusImage(lockedStatusSprite);
             _shopBase.OnLockedItemSelected(_playerAssetScriptReferenceComponent, _category,
                 _assetInfoDTOs[index].AssetScript);
         }
@@ -285,10 +293,10 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
                 _assetInfoDTOs[index].AssetScript);
         }
 
-        private Sprite StatusSprite(bool isEquipped, bool unlocked)
+        private StatusSprite GetSpriteStats(bool isEquipped, bool unlocked)
         {
-            if (!unlocked) return lockedSprite;
-            if (isEquipped) return equippedSprite;
+            if (!unlocked) return lockedStatusSprite;
+            if (isEquipped) return equippedStatusSprite;
             return null;
         }
 
@@ -318,7 +326,8 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
             {
                 SharedAssetReferencePoolInactive.Return(tabButtonControllerAsset, tabButtonController.gameObject);
             }
-            SharedAssetReferencePoolInactive.Return(tabVerticalLayoutAsset, _tabVerticalLayoutGroup.gameObject);
+
+            SharedAssetReferencePoolInactive.Return(tabLayoutAsset, _tabLayoutGroup.gameObject);
         }
 
         public override void OnFocusLost(GameObject targetGameObject)
@@ -328,7 +337,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
             CleanAssetSelection();
             SharedAssetReferencePoolInactive.Return(shopCloseButtonAsset, _closeButton.gameObject);
             SharedAssetReferencePoolInactive.Return(buyButtonAsset, _buyButtonSelectionController.gameObject);
-            _shopBase.OnExit(null);
+            _shopBase.OnExit(focusManagerScript.mainObject.GetComponent<IInteractorEntryPoint>());
         }
 
         private void TryPopAndActiveLast() => focusManagerScript.PopFocus();

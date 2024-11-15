@@ -1,9 +1,9 @@
 ﻿using System;
 using Coffee.UIEffects;
+using JetBrains.Annotations;
 using Pancake;
 using Pancake.Common;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace _Root.Scripts.Presentation.Containers.Runtime
@@ -11,38 +11,45 @@ namespace _Root.Scripts.Presentation.Containers.Runtime
     public class ButtonSelectionController : MonoBehaviour
     {
         [SerializeField] private Button button;
-        [FormerlySerializedAs("icon")] [SerializeField] private Image image;
-        [SerializeField] private Optional<UIEffectTweener> effectTweener;
 
+        [SerializeField] private Image image;
+
+        [SerializeField] private Optional<UIEffectTweener> effectTweener;
         [SerializeField] private Image statusImage;
+
 
         private bool _selected;
         private int _index;
         private Action<int> _onIndexClick;
 
 
-        public void Initialize(int index, bool selected, Sprite icon, Sprite statusSprite,
+        public void Initialize(int index, bool selected, Sprite icon, [CanBeNull] StatusSprite statusSprite,
             Action<int> onSelected)
         {
             _selected = selected;
             _index = index;
             image.sprite = icon;
-            SetStatus(statusSprite);
+            SetStatusImage(statusSprite);
             _onIndexClick = onSelected;
             button.onClick.AddListener(OnClick);
             if (_selected && effectTweener.Enabled) App.AddListener(EUpdateMode.Update, OnUpdate);
         }
 
-        public void SetStatus(Sprite statusSprite)
-        {
-            var statusNull = statusSprite == null;
-            if (!statusNull) statusImage.sprite = statusSprite;
-            statusImage.enabled = !statusNull;
-        }
 
         private void OnUpdate()
         {
             if (_selected) effectTweener.Value.UpdateTime(Time.deltaTime);
+        }
+
+        public void SetStatusImage([CanBeNull] StatusSprite statusSprite)
+        {
+            if (statusSprite == null)
+            {
+                statusImage.enabled = false;
+                return;
+            }
+
+            statusSprite.Apply(statusImage);
         }
 
         private void OnClick()
@@ -67,7 +74,6 @@ namespace _Root.Scripts.Presentation.Containers.Runtime
         private void OnDisable()
         {
             if (_onIndexClick != null) button.onClick.RemoveListener(OnClick);
-            DeSelect();
         }
 
         private void Reset()

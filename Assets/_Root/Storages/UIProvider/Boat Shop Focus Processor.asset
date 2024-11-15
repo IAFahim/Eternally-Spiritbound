@@ -56,6 +56,12 @@ MonoBehaviour:
     m_SubObjectType: 
     m_EditorAssetChanged: 1
   focusManagerScript: {fileID: 11400000, guid: 4c147b4345416824f8968062d60f760a, type: 2}
+  lockedSpriteStatus:
+    sprite: {fileID: 21300000, guid: 5bf9bcd8c297e7b408d5664aba37068d, type: 3}
+    anchorMin: {x: 0, y: 0}
+  equippedSpriteStatus:
+    sprite: {fileID: 21300000, guid: 61bee064b9fd1c44cbd4e0b602caa922, type: 3}
+    anchorMin: {x: 0, y: 0}
   lockedSprite: {fileID: 21300000, guid: 5bf9bcd8c297e7b408d5664aba37068d, type: 3}
   equippedSprite: {fileID: 21300000, guid: 61bee064b9fd1c44cbd4e0b602caa922, type: 3}
   assetOwnsAssetsLink: {fileID: 11400000, guid: 3f7ff6966a31734488ede95810d865e6, type: 2}

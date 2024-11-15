@@ -9,22 +9,25 @@ namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
     [RequireComponent(typeof(SingleShopAndBoatConnection))]
     public class BoatShop : ShopBase
     {
-        [SerializeField] private string equippedBoatGuid;
         [SerializeField] private AssetScriptDataBase assetScriptDataBase;
         [SerializeField] private SingleShopAndBoatConnection singleShopAndBoatConnection;
 
         [FormerlySerializedAs("assetScriptPriceLink")] [SerializeField]
         private AssetPriceLink assetPriceLink;
 
-        [FormerlySerializedAs("assetOwnAssetCountGlobalLink")] [FormerlySerializedAs("assetScriptOwnAssetCountGlobalLink")] [FormerlySerializedAs("assetScriptsOwnAssetCountGlobalLink")] [SerializeField] private AssetOwnAssetGlobalCountLink assetOwnAssetGlobalCountLink;
+        [FormerlySerializedAs("assetOwnAssetCountGlobalLink")]
+        [FormerlySerializedAs("assetScriptOwnAssetCountGlobalLink")]
+        [FormerlySerializedAs("assetScriptsOwnAssetCountGlobalLink")]
+        [SerializeField]
+        private AssetOwnAssetGlobalCountLink assetOwnAssetGlobalCountLink;
 
         private AssetScript _currentAssetScript;
 
         protected override void OnEnable()
         {
             base.OnEnable();
-            equippedBoatGuid = PlayerPrefs.GetString(name, equippedBoatGuid);
-            SpawnEquippedBoat(equippedBoatGuid);
+            equippedItemGuid = PlayerPrefs.GetString(name, equippedItemGuid);
+            SpawnEquippedBoat(equippedItemGuid);
         }
 
         public override void OnEnter(IInteractorEntryPoint interactorEntryPoint)
@@ -79,7 +82,7 @@ namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
 
         public override void OnExit(IInteractorEntryPoint interactorEntryPoint)
         {
-            SpawnEquippedBoat(equippedBoatGuid);
+            if (interactorEntryPoint.IsMain) SpawnEquippedBoat(equippedItemGuid);
         }
 
         private void SpawnEquippedBoat(string guid)
@@ -93,8 +96,8 @@ namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
             if (_currentAssetScript != null) singleShopAndBoatConnection.DespawnBoat(_currentAssetScript);
             if (save)
             {
-                equippedBoatGuid = assetScript.Guid;
-                PlayerPrefs.SetString(name, equippedBoatGuid);
+                equippedItemGuid = assetScript.Guid;
+                PlayerPrefs.SetString(name, equippedItemGuid);
             }
 
             _currentAssetScript = assetScript;

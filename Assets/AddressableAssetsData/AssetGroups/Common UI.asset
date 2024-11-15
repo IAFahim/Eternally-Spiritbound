@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Common UI
+  m_EditorClassIdentifier: 
+  m_GroupName: Common UI
+  m_GUID: df45c72d866082b4e8e3c1d1a2a64028
+  m_SerializeEntries:
+  - m_GUID: 0492cac06f287be489316487a4c0cb74
+    m_Address: Close Button
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f25586b5c9740d042a46742f1507c5c0
+    m_Address: Buy Button
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 2c8601dc2ee34bc4b8ca49c157e6a9c4, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: d11eed01d3c15b14f9cd651ee042fb08, type: 2}
+    - {fileID: 11400000, guid: ff4d55ed953a5384aa705afd1bff9e05, type: 2}

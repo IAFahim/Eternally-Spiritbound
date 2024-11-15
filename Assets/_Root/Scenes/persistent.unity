@@ -2299,6 +2299,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Close Button
       objectReference: {fileID: 0}
+    - target: {fileID: 1018508600510768580, guid: 0492cac06f287be489316487a4c0cb74, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4520288944676305691, guid: 0492cac06f287be489316487a4c0cb74, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2401,10 +2405,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Stats Panel BackGround
       objectReference: {fileID: 0}
-    - target: {fileID: 1991124675016765415, guid: bbceba8b7e60c2143a71757c79f6b9c4, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3618326769839488519, guid: bbceba8b7e60c2143a71757c79f6b9c4, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2471,7 +2471,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3618326769839488519, guid: bbceba8b7e60c2143a71757c79f6b9c4, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 449
+      value: 456.43
       objectReference: {fileID: 0}
     - target: {fileID: 3618326769839488519, guid: bbceba8b7e60c2143a71757c79f6b9c4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2764,7 +2764,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6352611909295072535, guid: 02903dcb67bc714469e21706976dfc30, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 448.57
+      value: 456
       objectReference: {fileID: 0}
     - target: {fileID: 6352611909295072535, guid: 02903dcb67bc714469e21706976dfc30, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2921,7 +2921,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 242072405274674490, guid: 61bf6ca6eea2ece49a69094c976caee7, type: 3}
       propertyPath: m_Name
-      value: Stats Tab
+      value: ' Tab'
       objectReference: {fileID: 0}
     - target: {fileID: 242072405274674490, guid: 61bf6ca6eea2ece49a69094c976caee7, type: 3}
       propertyPath: m_IsActive
@@ -2993,7 +2993,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 533590696639532936, guid: 61bf6ca6eea2ece49a69094c976caee7, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1091
+      value: 1024
       objectReference: {fileID: 0}
     - target: {fileID: 533590696639532936, guid: 61bf6ca6eea2ece49a69094c976caee7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3099,7 +3099,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2039086039886917559, guid: bef863356cf6cf94eb37662c70f4b392, type: 3}
       propertyPath: m_SizeDelta.x
-      value: -1007.9999
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3134950409843318293, guid: bef863356cf6cf94eb37662c70f4b392, type: 3}
       propertyPath: m_Name
@@ -3139,7 +3139,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4701589573408713416, guid: bef863356cf6cf94eb37662c70f4b392, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 324
+      value: 233.6133
       objectReference: {fileID: 0}
     - target: {fileID: 4701589573408713416, guid: bef863356cf6cf94eb37662c70f4b392, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3175,7 +3175,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4701589573408713416, guid: bef863356cf6cf94eb37662c70f4b392, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 906
+      value: 862.80664
       objectReference: {fileID: 0}
     - target: {fileID: 4701589573408713416, guid: bef863356cf6cf94eb37662c70f4b392, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3285,6 +3285,10 @@ PrefabInstance:
     - target: {fileID: 8437728350402867897, guid: f25586b5c9740d042a46742f1507c5c0, type: 3}
       propertyPath: m_Name
       value: Buy Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 8437728350402867897, guid: f25586b5c9740d042a46742f1507c5c0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
