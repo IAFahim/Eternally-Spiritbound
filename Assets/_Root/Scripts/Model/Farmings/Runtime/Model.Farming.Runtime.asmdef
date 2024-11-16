@@ -1,0 +1,4 @@
+﻿{
+  "name": "Model.Farming.Runtime",
+  "references":[ "GUID:28e1e6827631413f918a86fbda22dbde", "GUID:0ce8820c9f0d48828499439bca7cd9a1", "GUID:adac8d59ad7e8504f82d387cded797a7" ]
+}
