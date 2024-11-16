@@ -23,6 +23,9 @@ namespace _Root.Scripts.Game.Farmings.Runtime
         public HarvestCrop harvestCrop;
 
         private StateMachine _cropFsm;
+        private IMeshPlanter _meshPlanter;
+
+        private void Awake() => _meshPlanter = GetComponent<IMeshPlanter>();
 
         [Button]
         public void PutCrop()
@@ -46,7 +49,7 @@ namespace _Root.Scripts.Game.Farmings.Runtime
 
             fieldIdle = new FieldIdle(cropData);
             plantCrop = new PlantCrop(cropData);
-            plantGrow = new PlantGrow(cropData);
+            plantGrow = new PlantGrow(cropData, _meshPlanter);
             harvestCrop = new HarvestCrop(cropData);
 
             _cropFsm.AddTransition(fieldIdle, plantCrop, plantCrop.CanPlant);
@@ -66,6 +69,11 @@ namespace _Root.Scripts.Game.Farmings.Runtime
         public void OnUpdateFSM()
         {
             _cropFsm.Update();
+        }
+
+        public void Plant(Mesh mesh)
+        {
+            Debug.Log($"Planting {mesh.name}");
         }
     }
 }

@@ -8,14 +8,16 @@ namespace _Root.Scripts.Game.Farmings.Runtime
     public class PlantGrow : CropState
     {
         public float timeToGrow;
+        private IMeshPlanter _planter;
 
-
-        public PlantGrow(CropData cropData) : base(cropData)
+        public PlantGrow(CropData cropData, IMeshPlanter meshPlanter) : base(cropData)
         {
+            _planter = meshPlanter;
         }
 
         public override void OnEnter()
         {
+            _planter.Plant(cropData.Meshes[0]);
             Debug.Log("Planting Started");
         }
 

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace _Root.Scripts.Game.Farmings.Runtime
+namespace _Root.Scripts.Model.Farmings.Runtime
 {
     public interface IMeshPlanter
     {
