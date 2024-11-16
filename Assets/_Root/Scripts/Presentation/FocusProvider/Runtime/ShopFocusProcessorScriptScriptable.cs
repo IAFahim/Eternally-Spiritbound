@@ -50,7 +50,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
         [SerializeField] private Sprite equippedSprite;
 
         private Button _closeButton;
-        [SerializeField] private AssetOwnsAssetsLink assetOwnsAssetsLink;
+        [FormerlySerializedAs("assetOwnsAssetsLink")] [SerializeField] private AssetScriptOwnsAssetsScriptLink assetScriptOwnsAssetsScriptLink;
 
 
         private List<AssetScript> _unlockedAssets;
@@ -145,7 +145,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
         {
             _category = selectedCategory;
             bool linkExist =
-                assetOwnsAssetsLink.TryGetValue(_playerAssetScriptReferenceComponent.assetScriptReference,
+                assetScriptOwnsAssetsScriptLink.TryGetValue(_playerAssetScriptReferenceComponent.assetScriptReference,
                     out _unlockedAssets);
             _assetInfoDTOs = CreateInfoDto(assetCategory.assets, linkExist);
             Array.Sort(_assetInfoDTOs);

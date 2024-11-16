@@ -12,14 +12,15 @@ namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
         [SerializeField] private AssetScriptDataBase assetScriptDataBase;
         [SerializeField] private SingleShopAndBoatConnection singleShopAndBoatConnection;
 
-        [FormerlySerializedAs("assetScriptPriceLink")] [SerializeField]
-        private AssetPriceLink assetPriceLink;
+        [FormerlySerializedAs("assetPriceLink")] [SerializeField]
+        private AssetScriptPriceLink assetScriptPriceLink;
 
+        [FormerlySerializedAs("assetOwnAssetGlobalCountLink")]
         [FormerlySerializedAs("assetOwnAssetCountGlobalLink")]
         [FormerlySerializedAs("assetScriptOwnAssetCountGlobalLink")]
         [FormerlySerializedAs("assetScriptsOwnAssetCountGlobalLink")]
         [SerializeField]
-        private AssetOwnAssetGlobalCountLink assetOwnAssetGlobalCountLink;
+        private AssetScriptOwnAssetScriptGlobalCountLink assetScriptOwnAssetScriptGlobalCountLink;
 
         private AssetScript _currentAssetScript;
 
@@ -67,9 +68,9 @@ namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
             AssetScript item,
             out AssetPrice assetPrice)
         {
-            if (assetPriceLink.TryGetValue(item, out assetPrice))
+            if (assetScriptPriceLink.TryGetValue(item, out assetPrice))
             {
-                if (assetOwnAssetGlobalCountLink.TryGetValue(item, out var count))
+                if (assetScriptOwnAssetScriptGlobalCountLink.TryGetValue(item, out var count))
                 {
                     var hasEnough = count >= assetPrice.price;
                     if (!hasEnough) Debug.Log("Not enough money");

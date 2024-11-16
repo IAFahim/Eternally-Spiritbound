@@ -9,6 +9,7 @@ namespace _Root.Scripts.Game.Farmings.Runtime
     {
         public float timeToGrow;
 
+
         public PlantGrow(CropData cropData) : base(cropData)
         {
         }

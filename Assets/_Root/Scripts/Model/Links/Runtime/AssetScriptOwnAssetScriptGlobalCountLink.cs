@@ -1,17 +1,13 @@
 ﻿using _Root.Scripts.Model.Assets.Runtime;
 using Pancake.Common;
-using Soul.Links.Runtime;
 using Soul.Serializers.Runtime;
 using UnityEngine;
 
 namespace _Root.Scripts.Model.Links.Runtime
 {
-    [CreateAssetMenu(menuName = "Scriptable/Link/AssetOwnAssetCountGlobal", fileName = "AssetOwnAssetCountGlobalLink")]
-    public class AssetOwnAssetGlobalCountLink : Link<AssetScript, int>
+    [CreateAssetMenu(menuName = "Scriptable/Link/AssetOwnAssetCountGlobal", fileName = "AssetOwnAsset CountGlobalLink")]
+    public class AssetScriptOwnAssetScriptGlobalCountLink : AssetScriptLink<int>
     {
-        public override AssetScript GetSource(string source) => AssetScriptDataBase.Instance[source];
-
-
         public void SaveAll()
         {
             Pair<string, int>[] pairs = new Pair<string, int>[Dictionary.Count];

@@ -1,6 +1,7 @@
 ﻿using System;
 using _Root.Scripts.Model.Assets.Runtime;
 using _Root.Scripts.Model.Farmings.Runtime;
+using _Root.Scripts.Model.Links.Runtime;
 using Pancake.Common;
 using Pancake.Pattern;
 using Sirenix.OdinInspector;
@@ -13,6 +14,7 @@ namespace _Root.Scripts.Game.Farmings.Runtime
     {
         public AssetScript cropAsset;
         public UnityTimeSpan growthTime;
+        public AssetScriptMeshesLink assetScriptMeshesLink;
 
         public CropData cropData;
         public FieldIdle fieldIdle;
@@ -25,7 +27,8 @@ namespace _Root.Scripts.Game.Farmings.Runtime
         [Button]
         public void PutCrop()
         {
-            cropData.Initialize(cropAsset, DateTime.UtcNow, growthTime);
+            assetScriptMeshesLink.TryGetValue(cropAsset, out var cropMeshes);
+            cropData.Initialize(cropAsset, DateTime.UtcNow, growthTime, cropMeshes);
         }
 
 
