@@ -1,19 +1,24 @@
 ﻿using System;
+using _Root.Scripts.Game.MeshRenders.Runtime;
 using _Root.Scripts.Model.Farmings.Runtime;
-using Sirenix.OdinInspector;
-using Unity.Collections;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 namespace _Root.Scripts.Game.Farmings.Runtime
 {
     public class GridMeshPlanter : MonoBehaviour, IMeshPlanter
     {
-        [SerializeField] private Vector2 gridSize;
+        [SerializeField] private Vector2 gridSize = new(1f, 1f);
         [SerializeField] private BoxCollider boxCollider;
+        [SerializeField] private Material material;
+        [SerializeField] private int subMeshIndex;
+        [SerializeField] private Vector3 plantScale = Vector3.one;
 
         private Bounds _bounds;
         private Vector3[] _points;
         private Vector2 _gridCount;
+        private int _instanceId = int.MinValue;
+        private Mesh _mesh;
 
         private void Awake()
         {
@@ -28,37 +33,33 @@ namespace _Root.Scripts.Game.Farmings.Runtime
             _points = GridPointInsideBound(boxCollider, _gridCount, _bounds);
         }
 
-        [SerializeField] private Material material;
-        private Mesh _mesh;
-        private NativeArray<Matrix4x4> _nativeMatrices;
-        private RenderParams _rp;
-        private bool _isReadyForPlant;
-        [SerializeField] private int subMeshIndex;
-
         public void Plant(Mesh mesh)
         {
-            _nativeMatrices = new NativeArray<Matrix4x4>(_points.Length, Allocator.Persistent);
-            _rp = new RenderParams(material);
+            if (mesh == null) throw new System.ArgumentNullException(nameof(mesh));
+            if(_instanceId > -1) RemovePlant(mesh);
+            if (_points == null || _points.Length == 0)
+                throw new System.InvalidOperationException("Grid points are not initialized.");
+            _instanceId = MeshRenderDictionary.AddToRender(mesh, material, subMeshIndex, _points, plantScale);
             _mesh = mesh;
-
-            for (var i = 0; i < _points.Length; i++)
-            {
-                _nativeMatrices[i] = Matrix4x4.TRS(_points[i], Quaternion.identity, Vector3.one);
-            }
-
-            _isReadyForPlant = true;
         }
 
-        private void Update()
+        [Button]
+        public void RemovePlant()
         {
-            if (_isReadyForPlant) Graphics.RenderMeshInstanced(_rp, _mesh, subMeshIndex, _nativeMatrices);
+            if (_instanceId > -1) RemovePlant(_mesh);
         }
 
-        private Vector3[] GridPointInsideBound(BoxCollider boxColliderRef, Vector3 gridCount, Bounds bounds)
+        public void RemovePlant(Mesh mesh)
         {
-            // calculate points inside box collider on xz plane
+            if (_instanceId == -1) return;
+
+            MeshRenderDictionary.RemoveFromRender(mesh, _instanceId);
+            _instanceId = -1;
+        }
+
+        private Vector3[] GridPointInsideBound(BoxCollider boxColliderRef, Vector2 gridCount, Bounds bounds)
+        {
             var points = new Vector3[(int)(gridCount.x * gridCount.y)];
-
             var xStep = bounds.size.x / gridCount.x;
             var zStep = bounds.size.z / gridCount.y;
             var xStart = bounds.min.x + xStep / 2;
@@ -81,25 +82,31 @@ namespace _Root.Scripts.Game.Farmings.Runtime
 
         private Vector2 CalculateGridSize(Vector2 size, Bounds bounds)
         {
-            return new Vector2(bounds.size.x / size.x, bounds.size.z / size.y);
+            return new Vector2(Mathf.Floor(bounds.size.x / size.x), Mathf.Floor(bounds.size.z / size.y));
         }
 
         private void OnDrawGizmosSelected()
         {
-            MakeGrid();
+            if (!boxCollider) return;
+
+            if (_points == null || _bounds != boxCollider.bounds)
+            {
+                MakeGrid();
+            }
+
             if (_points == null) return;
+
             Gizmos.color = Color.red;
             foreach (var point in _points)
             {
-                Gizmos.DrawSphere(point, 0.1f);
+                Gizmos.DrawWireSphere(point, gridSize.x * 0.1f);
             }
         }
 
         private void OnDisable()
         {
-            _nativeMatrices.Dispose();
+            RemovePlant();
         }
-
 
         private void Reset()
         {
