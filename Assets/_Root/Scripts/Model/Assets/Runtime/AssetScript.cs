@@ -39,5 +39,10 @@ namespace _Root.Scripts.Model.Assets.Runtime
         {
             return assetScriptStorageComponent.AssetScriptStorage.TryRemove(this, amount, out removedAmount);
         }
+
+        public static implicit operator AssetReferenceGameObject(AssetScript assetScript)
+        {
+            return assetScript.assetReference;
+        }
     }
 }

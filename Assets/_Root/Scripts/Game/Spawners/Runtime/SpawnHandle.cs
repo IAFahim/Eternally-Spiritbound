@@ -1,5 +1,4 @@
-﻿using System;
-using _Root.Scripts.Game.ObjectModifers.Runtime;
+﻿using _Root.Scripts.Game.ObjectModifers.Runtime;
 using Sirenix.OdinInspector;
 using Sisus.Init;
 using UnityEngine;

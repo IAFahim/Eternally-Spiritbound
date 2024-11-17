@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using _Root.Scripts.Model.Stats.Runtime;
+using Cysharp.Threading.Tasks;
+using Pancake.Pools;
 using Soul.Modifiers.Runtime;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
@@ -12,8 +13,24 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
         public List<Weapon> weapons;
         public List<WeaponComponent> activeWeapons;
         public OffensiveStats<Modifier> offensiveStats;
-
+        public Transform weaponParent;
         public int Count => weapons.Count;
+
+
+        private void Start()
+        {
+            SpawnMainWeapons().Forget();
+        }
+
+        private async UniTaskVoid SpawnMainWeapons()
+        {
+            foreach (var weapon in weapons)
+            {
+                var weaponGameObject = await SharedAssetReferencePoolAsync.RequestAsync(weapon, weaponParent);
+                weapon.PlaceWeapon(weaponParent, weaponGameObject.transform);
+                activeWeapons.Add(weaponGameObject.GetComponent<WeaponComponent>());
+            }
+        }
 
         public void Add(Weapon weapon)
         {
@@ -25,13 +42,6 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
             weapons.Remove(weapon);
         }
 
-        private void Start()
-        {
-            foreach (var weapon in weapons)
-            {
-                Addressables.LoadAssetAsync<GameObject>(weapon.AssetReference).Completed += OnWeaponLoadComplete;
-            }
-        }
 
         private void OnWeaponLoadComplete(AsyncOperationHandle<GameObject> handle)
         {

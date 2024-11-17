@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using _Root.Scripts.Model.Assets.Runtime;
+using UnityEngine;
 
 namespace _Root.Scripts.Game.Vehicles.Runtime
 {
@@ -17,6 +18,13 @@ namespace _Root.Scripts.Game.Vehicles.Runtime
         {
             transform.localPosition = exitPosition;
             transform.SetParent(null);
+            if (vehicleGameObject.TryGetComponent<IAssetScriptStorageReference>(out var vehicleStorageReference))
+            {
+                if (TryGetComponent<IAssetScriptStorageReference>(out var driverStorageReference))
+                {
+                    driverStorageReference.AssetScriptStorage.MergeFrom(driverStorageReference.AssetScriptStorage);
+                }
+            }
             if (disableGameObjectOnEnter) gameObject.SetActive(true);
         }
     }

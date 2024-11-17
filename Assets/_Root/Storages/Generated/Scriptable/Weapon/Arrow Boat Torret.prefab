@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e472a553b92864a25b58515850f6317a, type: 2}
+  - {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -132,20 +132,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   direction: {x: 0, y: 0, z: 0}
-  strategy: {fileID: 11400000, guid: a08c7c885fd342541bbdfafac18552fa, type: 2}
   normalizedRange: 0
+  noDelayOnFirstFire: 1
+  strategy: {fileID: 11400000, guid: a08c7c885fd342541bbdfafac18552fa, type: 2}
   fire: 0
   lastFireTime: 0
   overlapNonAlloc:
-    searchMask:
-      serializedVersion: 2
-      m_Bits: 0
-    overlapPoint: {fileID: 394304606174340685}
-    overlapType: 0
-    boxSize: {x: 1, y: 1, z: 1}
-    sphereRadius: 0.5
-    positionOffset: {x: 0, y: 0, z: 0}
-    foundSize: 0
+    config:
+      searchMask:
+        serializedVersion: 2
+        m_Bits: 32768
+      overlapType: 0
+      positionOffset: {x: 0, y: 0, z: 0}
+      sphereRadius: 40
+      boxSize: {x: 0, y: 0, z: 0}
+      maxCapacity: 4
+      colliderCount: 0
+      checkFirst: 0
+      foundColliders: []
+    transform: {fileID: 5757882519214312840}
   intervalTicker:
     currentTick: 0
     interval: 5
+  weaponOffensiveStats:
+    damage: 0
+    lifeTime: 0
+    fireRate: 0
+    cooldown: 0
+    range: 0
+    reloadTime: 0
+    accuracy: 0
+    recoil: 0
+    size: 0
+    speed: 0
+    defensePenetration: 0
+    elementalDamage: 0
+    penetration: 0

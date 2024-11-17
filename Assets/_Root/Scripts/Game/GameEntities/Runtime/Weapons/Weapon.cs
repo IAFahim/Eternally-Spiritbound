@@ -17,11 +17,18 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
             return base.OnTryAddToInventory(assetScriptStorageComponent, amount, out addedAmount);
         }
 
-        public override bool OnTryRemovedFromInventory(AssetScriptStorageComponent assetScriptStorageComponent, int amount,
+        public override bool OnTryRemovedFromInventory(AssetScriptStorageComponent assetScriptStorageComponent,
+            int amount,
             out int removedAmount)
         {
             assetScriptStorageComponent.GetComponent<IWeaponLoader>().Remove(this);
             return base.OnTryRemovedFromInventory(assetScriptStorageComponent, amount, out removedAmount);
+        }
+
+        public virtual void PlaceWeapon(Transform parent, Transform weaponTransform)
+        {
+            weaponTransform.localPosition = Vector3.zero;
+            weaponTransform.localRotation = Quaternion.identity;
         }
     }
 }

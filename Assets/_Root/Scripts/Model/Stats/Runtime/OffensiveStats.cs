@@ -17,12 +17,12 @@ namespace _Root.Scripts.Model.Stats.Runtime
         public T speed;
         public T defensePenetration;
         public T elementalDamage;
-        public EnableLimitStat<T> penetration;
+        public int penetration;
 
 
         public OffensiveStats(
             T damage, T lifeTime, T fireRate, T cooldown, T range, T reloadTime, T accuracy, T recoil,
-            T size, T speed, T defensePenetration, T elementalDamage, EnableLimitStat<T> penetration
+            T size, T speed, T defensePenetration, T elementalDamage, int penetration
         )
         {
             this.damage = damage;

@@ -1,7 +1,6 @@
 ﻿using System;
 using _Root.Scripts.Model.Stats.Runtime;
 using Soul.Modifiers.Runtime;
-using Soul.Reactives.Runtime;
 
 namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
 {
@@ -26,14 +25,7 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
                 value.speed + playerStats.speed.Value,
                 value.defensePenetration + playerStats.defensePenetration.Value,
                 value.elementalDamage + playerStats.elementalDamage.Value,
-                new EnableLimitStat<float>
-                {
-                    enabled = value.penetration.enabled & playerStats.penetration.enabled,
-                    // current = new Reactive<float>(
-                    //     value.penetration.current.Value + playerStats.penetration.current.Value
-                    // ),
-                    // max = value.penetration.max + playerStats.penetration.max.Value
-                }
+                value.penetration + playerStats.penetration
             );
         }
     }

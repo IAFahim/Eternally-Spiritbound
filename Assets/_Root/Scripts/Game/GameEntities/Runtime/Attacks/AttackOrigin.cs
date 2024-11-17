@@ -12,7 +12,7 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Attacks
     {
         public Optional<GameObject> attacker;
         public Optional<OffensiveStats<Modifier>> attackerOffensiveStats;
-        public Optional<GameObject> target;
+
         public GameObject weaponComponent;
         public IObjectPool<GameObject> BulletPool;
         public Vector3 position;
@@ -20,13 +20,12 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Attacks
         public float normalizedRange;
 
         public AttackOrigin(
-            GameObject attacker, GameObject target, GameObject weaponComponent, OffensiveStats<Modifier> attackerOffensiveStats,
+            GameObject attacker, GameObject weaponComponent, OffensiveStats<Modifier> attackerOffensiveStats,
             IObjectPool<GameObject> bulletPool, Vector3 position, Vector3 direction, float normalizedRange
         )
         {
             this.attacker = attacker;
             this.attackerOffensiveStats = attackerOffensiveStats;
-            this.target = target;
             this.weaponComponent = weaponComponent;
             BulletPool = bulletPool;
             this.position = position;

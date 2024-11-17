@@ -15,23 +15,17 @@ MonoBehaviour:
   value: Arrow Bullet
   guid: ca7cf1cb418f4eb
   assetReference:
-    m_AssetGUID: 
+    m_AssetGUID: 2d220c235d4caf04d965645a60579824
     m_SubObjectName: 
     m_SubObjectGUID: 
     m_SubObjectType: 
-    m_EditorAssetChanged: 0
+    m_EditorAssetChanged: 1
   description: 
   icon: {fileID: 0}
-  dropStrategy: {fileID: 0}
-  maxStack: 0
-  consumable: 0
-  dropOnDeath: 0
-  autoPickup: 0
-  pickupRange: 5
   offensiveStats:
     value:
       damage: 0
-      lifeTime: 0
+      lifeTime: 2
       fireRate: 0
       cooldown: 0
       range: 0
@@ -39,10 +33,9 @@ MonoBehaviour:
       accuracy: 0
       recoil: 0
       size: 0
-      speed: 0
+      speed: 2
       defensePenetration: 0
       elementalDamage: 0
-      penetration:
-        enabled: 0
+      penetration: 0
   minRange: 1
   maxRange: 10

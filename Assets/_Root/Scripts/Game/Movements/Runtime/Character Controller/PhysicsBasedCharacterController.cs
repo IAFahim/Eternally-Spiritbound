@@ -36,7 +36,7 @@ namespace _Root.Scripts.Game.Movements.Runtime.Character_Controller
         [SerializeField] private float rayToGroundLength = 3f;
         [SerializeField] public float rideSpringStrength = 200f; // rideSpringStrength: strength of spring. (?)
         [SerializeField] private float rideSpringDamper = 10f; // rideSpringDampener: dampener of spring. (?)
-        [SerializeField] private Oscillator squashAndStretchOcillator;
+        [SerializeField] private Optional<Oscillator> squashAndStretchOcillator;
 
 
         private enum ELookDirectionOptions
@@ -254,9 +254,13 @@ namespace _Root.Scripts.Game.Movements.Runtime.Character_Controller
             float currHeight = rayHit.distance - rideHeight;
             float springForce = (currHeight * rideSpringStrength) - (relVel * rideSpringDamper);
             Vector3 maintainHeightForce = -_gravitationalForce + springForce * Vector3.down;
-            Vector3 oscillationForce = springForce * Vector3.down;
+            if (squashAndStretchOcillator.Enabled)
+            {
+                Vector3 oscillationForce = springForce * Vector3.down;
+                squashAndStretchOcillator.Value.ApplyForce(oscillationForce);
+            }
+
             _rb.AddForce(maintainHeightForce);
-            squashAndStretchOcillator.ApplyForce(oscillationForce);
             //Debug.DrawLine(transform.position, transform.position + (_rayDir * springForce), Color.yellow);
 
             // Apply force to objects beneath

@@ -59,10 +59,10 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
             if (!overlapNonAlloc.TryGetClosest(out var other, out _)) return;
             direction = (other.transform.position - transform.position).normalized;
             var origin = new AttackOrigin(
-                transform.parent.gameObject, other.gameObject, gameObject, _offensiveStats,
+                transform.parent.gameObject, gameObject, _offensiveStats,
                 _bulletPool, transform.position, direction, normalizedRange
             );
-            Attack(origin);
+            Attack(origin, other.gameObject);
             fire = false;
             lastFireTime = Time.time;
         }
@@ -72,12 +72,12 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
             if (intervalTicker.TryTick()) overlapNonAlloc.Perform();
         }
 
-        public void Attack(AttackOrigin origin)
+        public void Attack(AttackOrigin origin, GameObject target)
         {
             weaponOffensiveStats = strategy.GetWeaponOffensiveStats(_offensiveStats);
             _spawned = _bulletPool.Request(transform.position, transform.rotation);
             _readyAttack = new Attack(origin, weaponOffensiveStats, OnAttackHit, OnAttackMiss, OnReturnToPool);
-            _spawned.GetComponent<BulletComponent>().Init(_readyAttack);
+            _spawned.GetComponent<BulletComponent>().Attack(_readyAttack, target);
         }
 
         private void OnAttackMiss(Attack arg1, Vector3 arg2)

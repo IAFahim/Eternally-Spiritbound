@@ -128,11 +128,6 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
 
             return axis.normalized * (angle * Mathf.Deg2Rad);
         }
-
-        [SerializeField] private float waterLevel = -2f;           // Water surface Y position
-        [SerializeField] private float buoyancyForce = 3f;        // Force pushing object up
-        [SerializeField] private float waterDrag = 1f;            // Drag when in water
-        [SerializeField] private float waterAngularDrag = 1f; 
         
         private void ApplyBuoyancy()
         {
@@ -140,19 +135,19 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
             float objectBottom = transform.position.y - (transform.localScale.y / 2);
         
             // Check if object is in water
-            if (objectBottom < waterLevel)
+            if (objectBottom < waterParameterScript.value.waterLevel)
             {
                 // Calculate submerged depth
-                float submergedDepth = Mathf.Abs(objectBottom - waterLevel);
+                float submergedDepth = Mathf.Abs(objectBottom - waterParameterScript.value.waterLevel);
                 float submergedRatio = submergedDepth / transform.localScale.y;
                 submergedRatio = Mathf.Clamp01(submergedRatio);
             
                 // Apply buoyancy force
-                float forceMagnitude = buoyancyForce * submergedRatio * rb.mass;
+                float forceMagnitude = waterParameterScript.value.buoyancyForce * submergedRatio * rb.mass;
                 rb.AddForce(Vector3.up * forceMagnitude, ForceMode.Force);
             
                 // Apply water resistance
-                rb.linearDamping = waterDrag;
+                rb.linearDamping = waterParameterScript.value.waterDrag;
             }
             else
             {
