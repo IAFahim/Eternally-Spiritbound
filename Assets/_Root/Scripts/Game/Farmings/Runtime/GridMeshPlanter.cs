@@ -1,6 +1,7 @@
 ﻿using System;
 using _Root.Scripts.Model.Farmings.Runtime;
 using Sirenix.OdinInspector;
+using Unity.Collections;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.Farmings.Runtime
@@ -27,8 +28,30 @@ namespace _Root.Scripts.Game.Farmings.Runtime
             _points = GridPointInsideBound(boxCollider, _gridCount, _bounds);
         }
 
+        [SerializeField] private Material material;
+        private Mesh _mesh;
+        private NativeArray<Matrix4x4> _nativeMatrices;
+        private RenderParams _rp;
+        private bool _isReadyForPlant;
+        [SerializeField] private int subMeshIndex;
+
         public void Plant(Mesh mesh)
         {
+            _nativeMatrices = new NativeArray<Matrix4x4>(_points.Length, Allocator.Persistent);
+            _rp = new RenderParams(material);
+            _mesh = mesh;
+
+            for (var i = 0; i < _points.Length; i++)
+            {
+                _nativeMatrices[i] = Matrix4x4.TRS(_points[i], Quaternion.identity, Vector3.one);
+            }
+
+            _isReadyForPlant = true;
+        }
+
+        private void Update()
+        {
+            if (_isReadyForPlant) Graphics.RenderMeshInstanced(_rp, _mesh, subMeshIndex, _nativeMatrices);
         }
 
         private Vector3[] GridPointInsideBound(BoxCollider boxColliderRef, Vector3 gridCount, Bounds bounds)
@@ -70,6 +93,11 @@ namespace _Root.Scripts.Game.Farmings.Runtime
             {
                 Gizmos.DrawSphere(point, 0.1f);
             }
+        }
+
+        private void OnDisable()
+        {
+            _nativeMatrices.Dispose();
         }
 
 
