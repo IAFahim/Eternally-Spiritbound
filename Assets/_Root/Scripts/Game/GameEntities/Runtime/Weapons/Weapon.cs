@@ -1,5 +1,6 @@
 ﻿using System;
 using _Root.Scripts.Model.Assets.Runtime;
+using _Root.Scripts.Model.Stats.Runtime;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
@@ -9,6 +10,8 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
     public class Weapon : AssetScript
     {
         public Bullet bullet;
+        [SerializeField] private OffensiveStatsParameterScript offensiveStatsParameterScript;
+        public OffensiveStatsParameterScript OffensiveStatsParameterScript => offensiveStatsParameterScript;
 
         public override bool OnTryAddToInventory(AssetScriptStorageComponent assetScriptStorageComponent, int amount,
             out int addedAmount)

@@ -1,4 +1,4 @@
-﻿using _Root.Scripts.Model.ParameterScript.Runtime;
+﻿using _Root.Scripts.Model.Parameters.Runtime;
 using Sirenix.OdinInspector;
 using UnityEngine;
 

@@ -1,5 +1,7 @@
 ﻿using System;
 using _Root.Scripts.Game.GameEntities.Runtime.Damages;
+using _Root.Scripts.Game.GameEntities.Runtime.Weapons;
+using _Root.Scripts.Model.Assets.Runtime;
 using _Root.Scripts.Model.Stats.Runtime;
 using UnityEngine;
 
@@ -8,34 +10,27 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Attacks
     [Serializable]
     public class Attack
     {
-        [SerializeField] private OffensiveStats<float> info;
         [SerializeField] private AttackOrigin origin;
+        [SerializeField] private WeaponComponent weaponComponent;
 
-        public OffensiveStats<float> Info
-        {
-            get => info;
-            private set => info = value;
-        }
+        public AttackOrigin Origin => origin;
 
-        public AttackOrigin Origin
-        {
-            get => origin;
-            private set => origin = value;
-        }
+        public WeaponComponent WeaponComponent => weaponComponent;
 
         private event Action<Attack, DamageInfo> AttackHitEvent;
         private event Action<Attack, Vector3> OnAttackMissEvent;
         public event Action<Attack, GameObject> OnReturnToPoolEvent;
 
         public Attack(
-            AttackOrigin origin, OffensiveStats<float> info,
+            AttackOrigin origin,
+            WeaponComponent weaponComponent,
             Action<Attack, DamageInfo> onAttackHit,
-            Action<Attack, Vector3> onAttackMiss, 
+            Action<Attack, Vector3> onAttackMiss,
             Action<Attack, GameObject> onReturnToPool
         )
         {
-            Info = info;
-            Origin = origin;
+            this.origin = origin;
+            this.weaponComponent = weaponComponent;
             AttackHitEvent = onAttackHit;
             OnAttackMissEvent = onAttackMiss;
             OnReturnToPoolEvent = onReturnToPool;

@@ -2,13 +2,14 @@
 using _Root.Scripts.Model.Stats.Runtime;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Game.GameEntities.Runtime
 {
     [DisallowMultipleComponent]
     public class EntityStatsComponent : MonoBehaviour
     {
-        public int key;
+        [FormerlySerializedAs("key")] public int level;
         [SerializeField] private EntityStatParameterScript entityStatsParameterScript;
 
         [ShowInInspector] [ReadOnly] [NonSerialized]
@@ -17,7 +18,7 @@ namespace _Root.Scripts.Game.GameEntities.Runtime
         private event Action OnNewEntityStats;
         private event Action OnOldEntityStatsCleanUp;
 
-        private void Start() => SetEntityStats(key);
+        private void Start() => SetEntityStats(level);
 
         public void Register(Action onEntityStatsChange, Action onOldEntityStatsCleanUp)
         {
@@ -36,7 +37,7 @@ namespace _Root.Scripts.Game.GameEntities.Runtime
         [Button]
         public void SetEntityStats(int newKey)
         {
-            key = newKey;
+            level = newKey;
             OnOldEntityStatsCleanUp?.Invoke();
             entityStatsParameterScript.TryGetParameter(newKey, out entityStats);
             entityStats.Initialize();

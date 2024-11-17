@@ -12,13 +12,7 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
         public void Attack(Attack attack)
         {
             _attackOriginReference = attack;
-            App.Delay(_attackOriginReference.Info.lifeTime, OnTimeUp);
-        }
-
-        public void Attack(Attack attack, GameObject target)
-        {
-            transform.rotation = Quaternion.LookRotation(target.transform.position - transform.position);
-            Attack(attack);
+            App.Delay(_attackOriginReference.Origin.offensiveStats.lifeTime, OnTimeUp);
         }
 
         private void OnTimeUp()
@@ -28,7 +22,10 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
 
         private void OnCollisionEnter(Collision other)
         {
-            _attackOriginReference.OnAttackHit(new DamageInfo(other.gameObject, _attackOriginReference.Info.damage));
+            _attackOriginReference.OnAttackHit(
+                new DamageInfo(other.gameObject,
+                    _attackOriginReference.Origin.offensiveStats.damage, 0, 0)
+            );
         }
     }
 }

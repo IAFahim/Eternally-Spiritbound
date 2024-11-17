@@ -1,84 +1,93 @@
 ﻿using System;
 using _Root.Scripts.Game.GameEntities.Runtime.Attacks;
 using _Root.Scripts.Game.GameEntities.Runtime.Damages;
+using _Root.Scripts.Model.Assets.Runtime;
 using _Root.Scripts.Model.Stats.Runtime;
 using Pancake.Pools;
-using Sisus.Init;
-using Soul.Modifiers.Runtime;
 using Soul.OverlapSugar.Runtime;
 using Soul.Tickers.Runtime;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
 {
-    public class WeaponComponent : MonoBehaviour, IInitializable<OffensiveStats<Modifier>>, IDisposable
+    public class WeaponComponent : MonoBehaviour
     {
-        public Vector3 direction;
-        public float normalizedRange = 1;
+        public int level;
 
-        public bool noDelayOnFirstFire = true;
-        public Bullet strategy;
-        public Bullet Strategy => strategy;
+        [SerializeField] private AssetScript weaponAsset;
+        [SerializeField] private bool noDelayOnFirstFire = true;
+        [SerializeField] private Bullet bulletScript;
+        [SerializeField] private OffensiveStatsParameterScript offensiveStatsParameterScript;
+
 
         public bool fire;
         public float lastFireTime;
-        private Attack _readyAttack;
+        private Attack attackInstence;
         private GameObject _spawned;
 
-        private AddressableGameObjectPool _bulletPool;
         public OverlapNonAlloc overlapNonAlloc;
         public IntervalTicker intervalTicker;
-        public OffensiveStats<float> weaponOffensiveStats;
+        public OffensiveStats<float> offensiveStats;
+        public Bullet BulletScript => bulletScript;
 
         private void OnEnable()
         {
-            Initialize();
-            lastFireTime = Time.time;
+            Initialize(level);
         }
 
-        private OffensiveStats<Modifier> _offensiveStats;
 
-        public void Init(OffensiveStats<Modifier> firstArgument)
+        public void Initialize(int currentLevel)
         {
-            _offensiveStats = firstArgument;
-        }
-
-        public void Initialize()
-        {
-            _bulletPool = new AddressableGameObjectPool(strategy.AssetReference);
-            weaponOffensiveStats = strategy.GetWeaponOffensiveStats(_offensiveStats);
+            offensiveStatsParameterScript.TryGetParameter(level = currentLevel, out offensiveStats);
             overlapNonAlloc.Initialize(transform);
-            if (noDelayOnFirstFire) lastFireTime = Time.time - weaponOffensiveStats.fireRate;
+            lastFireTime = Time.time;
+            if (noDelayOnFirstFire) lastFireTime = Time.time - offensiveStats.fireRate;
         }
 
         private void Update()
         {
             if (!overlapNonAlloc.Found()) return;
-            fire = Time.time - lastFireTime >= weaponOffensiveStats.fireRate;
+            fire = Time.time - lastFireTime >= offensiveStats.fireRate;
             if (!fire) return;
             if (!overlapNonAlloc.TryGetClosest(out var other, out _)) return;
-            direction = (other.transform.position - transform.position).normalized;
-            var origin = new AttackOrigin(
-                transform.parent.gameObject, gameObject, _offensiveStats,
-                _bulletPool, transform.position, direction, normalizedRange
-            );
-            Attack(origin, other.gameObject);
+
+            Attack(other);
+
             fire = false;
             lastFireTime = Time.time;
         }
+
+        public void Attack(Collider other)
+        {
+            var direction = (other.transform.position - transform.position).normalized;
+            var attackOrigin = new AttackOrigin(other.gameObject, offensiveStats, transform.position, direction);
+            Attack(attackOrigin, other.gameObject);
+        }
+
+        public void Attack(AttackOrigin origin, GameObject target)
+        {
+            _spawned = SharedAssetReferencePool.Request(bulletScript, transform.position, transform.rotation);
+            attackInstence = new Attack(origin, this, OnAttackHit, OnAttackMiss, OnReturnToPool);
+            _spawned.GetComponent<BulletComponent>().Attack(attackInstence);
+        }
+
+        public void Attack(Vector3 direction)
+        {
+            var attackOrigin = new AttackOrigin(null, offensiveStats, transform.position, direction);
+            Attack(attackOrigin);
+        }
+
+
+        public void Attack(AttackOrigin origin)
+        {
+        }
+
 
         private void FixedUpdate()
         {
             if (intervalTicker.TryTick()) overlapNonAlloc.Perform();
         }
 
-        public void Attack(AttackOrigin origin, GameObject target)
-        {
-            weaponOffensiveStats = strategy.GetWeaponOffensiveStats(_offensiveStats);
-            _spawned = _bulletPool.Request(transform.position, transform.rotation);
-            _readyAttack = new Attack(origin, weaponOffensiveStats, OnAttackHit, OnAttackMiss, OnReturnToPool);
-            _spawned.GetComponent<BulletComponent>().Attack(_readyAttack, target);
-        }
 
         private void OnAttackMiss(Attack arg1, Vector3 arg2)
         {
@@ -86,9 +95,9 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
         }
 
 
-        private void OnReturnToPool(Attack arg1, GameObject arg2)
+        private void OnReturnToPool(Attack attack, GameObject bulletGameObject)
         {
-            _bulletPool.Return(arg2);
+            SharedAssetReferencePool.Return(attack.WeaponComponent.bulletScript, bulletGameObject);
         }
 
 
@@ -97,17 +106,12 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
             Debug.Log("Hit: " + arg2.damagedGameObject.name);
         }
 
-        public void Dispose()
-        {
-            _bulletPool?.Dispose();
-        }
-
 
 #if UNITY_EDITOR
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawRay(transform.position, direction);
+            Gizmos.DrawRay(transform.position, transform.forward * 10);
             overlapNonAlloc.DrawGizmos(Color.red, Color.green);
         }
 #endif

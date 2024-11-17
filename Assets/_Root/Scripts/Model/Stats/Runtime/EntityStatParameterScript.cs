@@ -1,4 +1,4 @@
-﻿using _Root.Scripts.Model.ParameterScript.Runtime;
+﻿using _Root.Scripts.Model.Parameters.Runtime;
 using UnityEngine;
 
 namespace _Root.Scripts.Model.Stats.Runtime

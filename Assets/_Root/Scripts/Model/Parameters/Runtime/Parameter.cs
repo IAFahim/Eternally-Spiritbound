@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace _Root.Scripts.Model.ParameterScript.Runtime
+namespace _Root.Scripts.Model.Parameters.Runtime
 {
     [Serializable]
     public struct Parameter<T> where T : struct
     {
-        public int key;
+        public int level;
         public T value;
     }
 }
