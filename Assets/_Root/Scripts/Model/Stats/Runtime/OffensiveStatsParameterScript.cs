@@ -4,10 +4,11 @@ namespace _Root.Scripts.Model.Stats.Runtime
 {
     public class OffensiveStatsParameterScript : ParameterScript<OffensiveStats>
     {
-        public void Combine(int level, OffensiveStats otherOffensiveStats)
+        public bool TryCombine(int level, OffensiveStats otherOffensiveStats, out OffensiveStats offensiveStats)
         {
-            TryGetParameter(level, out var offensiveStats);
-            
+            var found = TryGetParameter(level, out offensiveStats);
+            offensiveStats.Combine(otherOffensiveStats);
+            return found;
         }
     }
 }

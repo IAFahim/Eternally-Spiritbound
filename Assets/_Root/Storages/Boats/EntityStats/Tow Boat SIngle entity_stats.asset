@@ -17,244 +17,86 @@ MonoBehaviour:
       health:
         current:
           value: 0
-        max:
-          baseValue: 5
-          rate: 0
-          additive: 0
-      size:
-        baseValue: 0
-        rate: 0
-        additive: 0
+        max: 0
+      size: 0
     defensive:
-      armor:
-        baseValue: 0
-        rate: 0
-        additive: 0
+      armor: 0
       shield:
         current:
           value: 0
-        max:
-          baseValue: 0
-          rate: 0
-          additive: 0
-      dodgeChance:
-        baseValue: 0
-        rate: 0
-        additive: 0
+        max: 0
+      dodgeChance: 0
     movement:
-      speed:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      pickupRange:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      detectRange:
-        baseValue: 0
-        rate: 0
-        additive: 0
+      speed: 0
+      pickupRange: 0
+      detectRange: 0
     progression:
       experience:
         value: 0
-      experienceRate:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      luck:
-        baseValue: 0
-        rate: 0
-        additive: 0
+      experienceRate: 0
+      luck: 0
     critical:
-      chance:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      damage:
-        baseValue: 0
-        rate: 0
-        additive: 0
+      chance: 0
+      damageMultiplier: 0
     ammo:
-      total:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      clipSize:
-        baseValue: 0
-        rate: 0
-        additive: 0
+      total: 0
+      clipSize: 0
     offensive:
-      damage:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      lifeTime:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      fireRate:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      cooldown:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      range:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      reloadTime:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      accuracy:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      recoil:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      size:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      speed:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      defensePenetration:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      elementalDamage:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      penetration:
-        enabled: 0
+      damage: 0
+      lifeTime: 0
+      fireRate: 0
+      cooldown: 0
+      range: 0
+      reloadTime: 0
+      accuracy: 0
+      recoil: 0
+      size: 0
+      speed: 0
+      defensePenetration: 0
+      elementalDamage: 0
+      penetration: 0
   parameters:
-  - key: 0
+  - level: 0
     value:
       vitality:
         health:
           current:
-            value: 0
-          max:
-            baseValue: 5
-            rate: 0
-            additive: 0
-        size:
-          baseValue: 0
-          rate: 0
-          additive: 0
+            value: 3
+          max: 0
+        size: 0
       defensive:
-        armor:
-          baseValue: 0
-          rate: 0
-          additive: 0
+        armor: 0
         shield:
           current:
             value: 0
-          max:
-            baseValue: 0
-            rate: 0
-            additive: 0
-        dodgeChance:
-          baseValue: 0
-          rate: 0
-          additive: 0
+          max: 0
+        dodgeChance: 0
       movement:
-        speed:
-          baseValue: 0
-          rate: 0
-          additive: 0
-        pickupRange:
-          baseValue: 0
-          rate: 0
-          additive: 0
-        detectRange:
-          baseValue: 0
-          rate: 0
-          additive: 0
+        speed: 0
+        pickupRange: 0
+        detectRange: 0
       progression:
         experience:
           value: 0
-        experienceRate:
-          baseValue: 0
-          rate: 0
-          additive: 0
-        luck:
-          baseValue: 0
-          rate: 0
-          additive: 0
+        experienceRate: 0
+        luck: 0
       critical:
-        chance:
-          baseValue: 0
-          rate: 0
-          additive: 0
-        damage:
-          baseValue: 0
-          rate: 0
-          additive: 0
+        chance: 0
+        damageMultiplier: 0
       ammo:
-        total:
-          baseValue: 0
-          rate: 0
-          additive: 0
-        clipSize:
-          baseValue: 0
-          rate: 0
-          additive: 0
+        total: 0
+        clipSize: 0
       offensive:
-        damage:
-          baseValue: 0
-          rate: 0
-          additive: 0
-        lifeTime:
-          baseValue: 0
-          rate: 0
-          additive: 0
-        fireRate:
-          baseValue: 0
-          rate: 0
-          additive: 0
-        cooldown:
-          baseValue: 0
-          rate: 0
-          additive: 0
-        range:
-          baseValue: 0
-          rate: 0
-          additive: 0
-        reloadTime:
-          baseValue: 0
-          rate: 0
-          additive: 0
-        accuracy:
-          baseValue: 0
-          rate: 0
-          additive: 0
-        recoil:
-          baseValue: 0
-          rate: 0
-          additive: 0
-        size:
-          baseValue: 0
-          rate: 0
-          additive: 0
-        speed:
-          baseValue: 0
-          rate: 0
-          additive: 0
-        defensePenetration:
-          baseValue: 0
-          rate: 0
-          additive: 0
-        elementalDamage:
-          baseValue: 0
-          rate: 0
-          additive: 0
-        penetration:
-          enabled: 0
+        damage: 0
+        lifeTime: 0
+        fireRate: 0
+        cooldown: 0
+        range: 0
+        reloadTime: 0
+        accuracy: 0
+        recoil: 0
+        size: 0
+        speed: 0
+        defensePenetration: 0
+        elementalDamage: 0
+        penetration: 0

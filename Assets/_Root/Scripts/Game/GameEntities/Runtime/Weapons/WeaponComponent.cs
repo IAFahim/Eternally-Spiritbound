@@ -1,24 +1,24 @@
-﻿using System;
-using _Root.Scripts.Game.GameEntities.Runtime.Attacks;
+﻿using _Root.Scripts.Game.GameEntities.Runtime.Attacks;
 using _Root.Scripts.Game.GameEntities.Runtime.Damages;
 using _Root.Scripts.Model.Assets.Runtime;
 using _Root.Scripts.Model.Stats.Runtime;
 using Pancake.Pools;
+using Sisus.Init;
 using Soul.OverlapSugar.Runtime;
 using Soul.Tickers.Runtime;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
 {
-    public class WeaponComponent : MonoBehaviour
+    public class WeaponComponent : MonoBehaviour, IInitializable<int, OffensiveStats>
     {
-        public int level;
+        public int currentLevel;
+
 
         [SerializeField] private AssetScript weaponAsset;
         [SerializeField] private bool noDelayOnFirstFire = true;
         [SerializeField] private Bullet bulletScript;
         [SerializeField] private OffensiveStatsParameterScript offensiveStatsParameterScript;
-
 
         public bool fire;
         public float lastFireTime;
@@ -27,27 +27,31 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
 
         public OverlapNonAlloc overlapNonAlloc;
         public IntervalTicker intervalTicker;
-        public OffensiveStats offensiveStats;
         public Bullet BulletScript => bulletScript;
+        private OffensiveStats _offensiveStats;
 
         private void OnEnable()
         {
-            Initialize(level);
+            Initialize();
+        }
+
+        public void Init(int level, OffensiveStats playerOffensiveStats)
+        {
+            offensiveStatsParameterScript.TryCombine(currentLevel = level, playerOffensiveStats, out _offensiveStats);
         }
 
 
-        public void Initialize(int currentLevel)
+        private void Initialize()
         {
-            offensiveStatsParameterScript.TryGetParameter(level = currentLevel, out offensiveStats);
             overlapNonAlloc.Initialize(transform);
             lastFireTime = Time.time;
-            if (noDelayOnFirstFire) lastFireTime = Time.time - offensiveStats.fireRate;
+            if (noDelayOnFirstFire) lastFireTime = Time.time - _offensiveStats.fireRate;
         }
 
         private void Update()
         {
             if (!overlapNonAlloc.Found()) return;
-            fire = Time.time - lastFireTime >= offensiveStats.fireRate;
+            fire = Time.time - lastFireTime >= _offensiveStats.fireRate;
             if (!fire) return;
             if (!overlapNonAlloc.TryGetClosest(out var other, out _)) return;
 
@@ -60,7 +64,7 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
         public void Attack(Collider other)
         {
             var direction = (other.transform.position - transform.position).normalized;
-            var attackOrigin = new AttackOrigin(other.gameObject, offensiveStats, transform.position, direction);
+            var attackOrigin = new AttackOrigin(other.gameObject, _offensiveStats, transform.position, direction);
             Attack(attackOrigin, other.gameObject);
         }
 
@@ -73,7 +77,7 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
 
         public void Attack(Vector3 direction)
         {
-            var attackOrigin = new AttackOrigin(null, offensiveStats, transform.position, direction);
+            var attackOrigin = new AttackOrigin(null, _offensiveStats, transform.position, direction);
             Attack(attackOrigin);
         }
 

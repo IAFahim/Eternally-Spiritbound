@@ -15,7 +15,12 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
         public Transform weaponParent;
         public int Count => weapons.Count;
         
-        private OffensiveStats _offensiveStats; 
+        private OffensiveStats _offensiveStats;
+
+        private void Awake()
+        {
+            entityStatsComponent ??= GetComponent<EntityStatsComponent>();
+        }
 
         private void OnEnable()
         {

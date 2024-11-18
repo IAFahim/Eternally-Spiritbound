@@ -489,6 +489,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tow Boat Double
       objectReference: {fileID: 0}
+    - target: {fileID: 5605311547021212894, guid: 946ea4e6aa4032a48bd434a7b2d0d743, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7696365957442595197, guid: 946ea4e6aa4032a48bd434a7b2d0d743, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -531,91 +535,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 7696365957442595197, guid: 946ea4e6aa4032a48bd434a7b2d0d743, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2082578384}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5605311547021212894, guid: 946ea4e6aa4032a48bd434a7b2d0d743, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 258097310}
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 946ea4e6aa4032a48bd434a7b2d0d743, type: 3}
 --- !u!1 &258097300 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5605311547021212894, guid: 946ea4e6aa4032a48bd434a7b2d0d743, type: 3}
   m_PrefabInstance: {fileID: 258097299}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &258097309 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7696365957442595197, guid: 946ea4e6aa4032a48bd434a7b2d0d743, type: 3}
-  m_PrefabInstance: {fileID: 258097299}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &258097310
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 258097300}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06cce84ae1f04aa88d7aa614e9a4db88, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weapons:
-  - {fileID: 11400000, guid: 439424b3e6a167c47bd5e82d52f2639a, type: 2}
-  activeWeapons: []
-  offensiveStats:
-    damage:
-      baseValue: 0
-      rate: 0
-      additive: 0
-    lifeTime:
-      baseValue: 0
-      rate: 0
-      additive: 0
-    fireRate:
-      baseValue: 0
-      rate: 0
-      additive: 0
-    cooldown:
-      baseValue: 0
-      rate: 0
-      additive: 0
-    range:
-      baseValue: 0
-      rate: 0
-      additive: 0
-    reloadTime:
-      baseValue: 0
-      rate: 0
-      additive: 0
-    accuracy:
-      baseValue: 0
-      rate: 0
-      additive: 0
-    recoil:
-      baseValue: 0
-      rate: 0
-      additive: 0
-    size:
-      baseValue: 0
-      rate: 0
-      additive: 0
-    speed:
-      baseValue: 0
-      rate: 0
-      additive: 0
-    defensePenetration:
-      baseValue: 0
-      rate: 0
-      additive: 0
-    elementalDamage:
-      baseValue: 0
-      rate: 0
-      additive: 0
-    penetration: 0
-  weaponParent: {fileID: 258097309}
 --- !u!1 &430730223
 GameObject:
   m_ObjectHideFlags: 0
@@ -1068,59 +995,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06cce84ae1f04aa88d7aa614e9a4db88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  entityStatsComponent: {fileID: 0}
   weapons:
   - {fileID: 11400000, guid: 439424b3e6a167c47bd5e82d52f2639a, type: 2}
   activeWeapons: []
-  offensiveStats:
-    damage:
-      baseValue: 0
-      rate: 0
-      additive: 0
-    lifeTime:
-      baseValue: 0
-      rate: 0
-      additive: 0
-    fireRate:
-      baseValue: 0
-      rate: 0
-      additive: 0
-    cooldown:
-      baseValue: 0
-      rate: 0
-      additive: 0
-    range:
-      baseValue: 0
-      rate: 0
-      additive: 0
-    reloadTime:
-      baseValue: 0
-      rate: 0
-      additive: 0
-    accuracy:
-      baseValue: 0
-      rate: 0
-      additive: 0
-    recoil:
-      baseValue: 0
-      rate: 0
-      additive: 0
-    size:
-      baseValue: 0
-      rate: 0
-      additive: 0
-    speed:
-      baseValue: 0
-      rate: 0
-      additive: 0
-    defensePenetration:
-      baseValue: 0
-      rate: 0
-      additive: 0
-    elementalDamage:
-      baseValue: 0
-      rate: 0
-      additive: 0
-    penetration: 0
   weaponParent: {fileID: 812386036}
 --- !u!1 &942387663
 GameObject:
@@ -2440,11 +2318,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6c8ab7c40ea40c419f7e91bd073b662, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &2082578384 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5757882519214312840, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}
-  m_PrefabInstance: {fileID: 4061032968817305314}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2106017186
 GameObject:
   m_ObjectHideFlags: 0
@@ -2727,67 +2600,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bbceba8b7e60c2143a71757c79f6b9c4, type: 3}
---- !u!1001 &4061032968817305314
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 258097309}
-    m_Modifications:
-    - target: {fileID: 2629528156248017106, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}
-      propertyPath: m_Name
-      value: Arrow Boat Torret
-      objectReference: {fileID: 0}
-    - target: {fileID: 2629528156248017106, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5757882519214312840, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5757882519214312840, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5757882519214312840, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5757882519214312840, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5757882519214312840, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5757882519214312840, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5757882519214312840, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5757882519214312840, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5757882519214312840, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5757882519214312840, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}
 --- !u!1001 &4534557013808160267
 PrefabInstance:
   m_ObjectHideFlags: 0
