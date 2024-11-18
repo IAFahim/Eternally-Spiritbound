@@ -5,12 +5,13 @@ using _Root.Scripts.Model.Links.Runtime;
 using Pancake.Common;
 using Pancake.Pattern;
 using Sirenix.OdinInspector;
+using Soul.Selectors.Runtime;
 using Soul.Serializers.Runtime;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.Farmings.Runtime
 {
-    public class CropFsm : MonoBehaviour
+    public class CropFsm : MonoBehaviour, ISelectCallBackReceiver
     {
         public AssetScript cropAsset;
         public UnityTimeSpan growthTime;
@@ -24,6 +25,7 @@ namespace _Root.Scripts.Game.Farmings.Runtime
 
         private StateMachine _cropFsm;
         private IMeshPlanter _meshPlanter;
+        public GameObject testPos;
 
         private void Awake() => _meshPlanter = GetComponent<IMeshPlanter>();
 
@@ -74,6 +76,34 @@ namespace _Root.Scripts.Game.Farmings.Runtime
         public void Plant(Mesh mesh)
         {
             Debug.Log($"Planting {mesh.name}");
+        }
+
+        public void OnSelected(RaycastHit hit)
+        {
+            Debug.Log("Selected");
+        }
+
+        public void OnUpdateDrag(RaycastHit hitRef, bool isInside, Vector3 worldPosition, Vector3 delta)
+        {
+            Debug.DrawLine(testPos.transform.position, worldPosition, Color.red);
+            testPos.transform.position = worldPosition;
+            Debug.Log($"UpdateDrag: {worldPosition} {delta} {isInside}");
+        }
+
+        public void OnDragEnd(RaycastHit hitRef, bool isInside, Vector3 worldPosition)
+        {
+            Debug.Log($"DragEnd: {worldPosition} {isInside}");
+        }
+
+
+        public void OnDeselected(RaycastHit lastHitInfo, RaycastHit hit)
+        {
+            Debug.Log("Deselected");
+        }
+
+        public void OnReselected(RaycastHit hit)
+        {
+            Debug.Log("Reselected");
         }
     }
 }

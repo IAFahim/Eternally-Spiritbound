@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5294178264881938536}
   - component: {fileID: 2160903681418236606}
   - component: {fileID: 4690152987054919665}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Seed Bed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59,7 +59,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 8, y: 0.1, z: 12}
+  m_Size: {x: 8, y: 2, z: 12}
   m_Center: {x: 0.0034749988, y: 0.12736669, z: -0.007925034}
 --- !u!114 &2160903681418236606
 MonoBehaviour:
@@ -75,6 +75,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridSize: {x: 1, y: 1}
   boxCollider: {fileID: 5294178264881938536}
+  material: {fileID: 2100000, guid: e5c8ac6092e78214fb866cab5f020f2a, type: 2}
+  subMeshIndex: 0
+  plantScale: {x: 1, y: 1, z: 1}
 --- !u!114 &4690152987054919665
 MonoBehaviour:
   m_ObjectHideFlags: 0

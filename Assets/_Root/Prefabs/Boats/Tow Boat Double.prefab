@@ -39,7 +39,6 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4792150904965261706}
-  - {fileID: 6195658001200622183}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &4005976243181236938
@@ -212,90 +211,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06cce84ae1f04aa88d7aa614e9a4db88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponParent: {fileID: 7696365957442595197}
+  activeWeapons: []
   entityStatsComponent: {fileID: 1559882521595817238}
+  startingLevel: 0
   weapons:
   - {fileID: 11400000, guid: 439424b3e6a167c47bd5e82d52f2639a, type: 2}
-  activeWeapons: []
-  weaponParent: {fileID: 7696365957442595197}
---- !u!1001 &1878983481060354031
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 7696365957442595197}
-    m_Modifications:
-    - target: {fileID: 2629528156248017106, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}
-      propertyPath: m_Name
-      value: Arrow Boat Torret
-      objectReference: {fileID: 0}
-    - target: {fileID: 2629528156248017106, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4875713936234240193, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}
-      propertyPath: firePoint
-      value: 
-      objectReference: {fileID: 2264084064652722594}
-    - target: {fileID: 4875713936234240193, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}
-      propertyPath: overlapNonAlloc.rootTransform
-      value: 
-      objectReference: {fileID: 2264084064652722594}
-    - target: {fileID: 5757882519214312840, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5757882519214312840, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5757882519214312840, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5757882519214312840, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5757882519214312840, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5757882519214312840, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5757882519214312840, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5757882519214312840, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5757882519214312840, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5757882519214312840, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}
---- !u!4 &2264084064652722594 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 394304606174340685, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}
-  m_PrefabInstance: {fileID: 1878983481060354031}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &6195658001200622183 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5757882519214312840, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}
-  m_PrefabInstance: {fileID: 1878983481060354031}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4975240254575873633
 PrefabInstance:
   m_ObjectHideFlags: 0

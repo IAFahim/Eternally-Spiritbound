@@ -21,42 +21,99 @@ namespace Soul.Selectors.Runtime
         private bool _selectProcessRunning = false;
         private EventSystem _eventSystem;
         private Camera _mainCamera;
-        private CancellationTokenSource _cts;
+        private CancellationToken _token;
         private RaycastHit _lastHit;
+        private Vector3 _dragStartPosition;
+        private Vector3 _dragStartWorldPosition;
+        private bool _isDragging = false;
 
         // Efficient short-term caching
         private Transform _lastCheckedTransform;
-        private ISelector[] _cachedCallbacks;
+        private ISelectCallBackReceiver[] _cachedCallbacks;
 
         public void Initialize(Camera camera, EventSystem eventSystemInstance, Action onOverUI,
-            CancellationTokenSource cts)
+            CancellationToken cts)
         {
             _mainCamera = camera;
             _eventSystem = eventSystemInstance;
             _onOverUI = onOverUI;
-            _cts = cts;
+            _token = cts;
         }
 
         public void Subscribe()
         {
             TouchInput.OnStartDrag += HandleStartDrag;
             TouchInput.OnStopDrag += HandleStopDrag;
+            TouchInput.OnUpdateDrag += HandleUpdateDrag;
             TouchInput.OnFingerDown += HandleFingerDown;
+        }
+
+        public float z;
+
+        private void HandleUpdateDrag(Vector3 startPosition, Vector3 currentPosition, Vector3 offset, Vector3 delta)
+        {
+            if (_isDragging && _currentSelection != null)
+            {
+                if (ScreenRayCast(currentPosition, out var raycastHit))
+                {
+                    var isInside = raycastHit.transform == _currentSelection;
+                    var callbacks = GetCallbacks(_currentSelection);
+                    foreach (var callback in callbacks)
+                    {
+                        callback.OnUpdateDrag(_lastHit, isInside, raycastHit.point, delta);
+                    }
+                }
+            }
+        }
+
+        private bool ScreenRayCast(Vector3 currentPosition, out RaycastHit hit)
+        {
+            var ray = _mainCamera.ScreenPointToRay(currentPosition);
+            return Physics.Raycast(ray, out hit, Mathf.Infinity, selectableLayers);
         }
 
         public void Unsubscribe()
         {
             TouchInput.OnStartDrag -= HandleStartDrag;
             TouchInput.OnStopDrag -= HandleStopDrag;
+            TouchInput.OnUpdateDrag -= HandleUpdateDrag;
             TouchInput.OnFingerDown -= HandleFingerDown;
-            _cts.Cancel();
-            _cts.Dispose();
             ClearCache();
         }
 
-        private void HandleStartDrag(Vector3 position, bool isLongTap) => _canSelect = false;
+        private void HandleStartDrag(Vector3 position, bool isLongTap)
+        {
+            _canSelect = false;
+            _isDragging = true;
+            _dragStartPosition = position;
 
-        private void HandleStopDrag(Vector3 arg1, Vector3 arg2) => _canSelect = true;
+            // Perform raycast to get the world position at the start of the drag
+            if (ScreenRayCast(position, out var hit))
+            {
+                _dragStartWorldPosition = hit.point;
+                _lastHit = hit;
+            }
+        }
+
+        private void HandleStopDrag(Vector3 position, Vector3 delta)
+        {
+            _canSelect = true;
+            _isDragging = false;
+
+            if (_currentSelection != null)
+            {
+                if (ScreenRayCast(position, out var hit))
+                {
+                    var isInside = hit.transform == _currentSelection;
+                    var callbacks = GetCallbacks(_currentSelection);
+                    foreach (var callback in callbacks)
+                    {
+                        callback.OnDragEnd(_lastHit, isInside, hit.point);
+                    }
+                }
+                
+            }
+        }
 
         private async void HandleFingerDown(Vector3 screenPoint)
         {
@@ -71,8 +128,12 @@ namespace Soul.Selectors.Runtime
 
             try
             {
-                await Awaitable.WaitForSecondsAsync(waitForDrag, _cts.Token);
-                PerformSelection(screenPoint);
+                await Awaitable.WaitForSecondsAsync(waitForDrag, _token);
+
+                if (!_isDragging)
+                {
+                    PerformSelection(screenPoint);
+                }
             }
             catch (OperationCanceledException)
             {
@@ -117,13 +178,13 @@ namespace Soul.Selectors.Runtime
 #endif
         }
 
-        private void HandleReselection(ISelector[] callbacks, RaycastHit hit)
+        private void HandleReselection(ISelectCallBackReceiver[] callbacks, RaycastHit hit)
         {
             foreach (var callback in callbacks) callback.OnReselected(hit);
             onSelectionEvent.Invoke(hit, ESelectionState.Reselected);
         }
 
-        private void HandleNewSelection(ISelector[] callbacks, RaycastHit hit)
+        private void HandleNewSelection(ISelectCallBackReceiver[] callbacks, RaycastHit hit)
         {
             if (_currentSelection != null) HandleDeselection(hit);
 
@@ -140,16 +201,16 @@ namespace Soul.Selectors.Runtime
             _currentSelection = null;
         }
 
-        private ISelector[] GetCallbacks(Transform transform)
+        private ISelectCallBackReceiver[] GetCallbacks(Transform transform)
         {
             if (_lastCheckedTransform == transform && _cachedCallbacks != null) return _cachedCallbacks;
 
             _lastCheckedTransform = transform;
             _cachedCallbacks = useMultipleCallbacks
-                ? transform.GetComponentsInChildren<ISelector>()
-                : new[] { transform.GetComponent<ISelector>() };
+                ? transform.GetComponentsInChildren<ISelectCallBackReceiver>()
+                : new[] { transform.GetComponent<ISelectCallBackReceiver>() };
 
-            _cachedCallbacks = _cachedCallbacks[0] != null ? _cachedCallbacks : Array.Empty<ISelector>();
+            _cachedCallbacks = _cachedCallbacks[0] != null ? _cachedCallbacks : Array.Empty<ISelectCallBackReceiver>();
             return _cachedCallbacks;
         }
 

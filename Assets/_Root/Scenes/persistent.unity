@@ -477,72 +477,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 198493744}
   m_CullTransparentMesh: 1
---- !u!1001 &258097299
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4498683059916304189, guid: 946ea4e6aa4032a48bd434a7b2d0d743, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5605311547021212894, guid: 946ea4e6aa4032a48bd434a7b2d0d743, type: 3}
-      propertyPath: m_Name
-      value: Tow Boat Double
-      objectReference: {fileID: 0}
-    - target: {fileID: 7696365957442595197, guid: 946ea4e6aa4032a48bd434a7b2d0d743, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7696365957442595197, guid: 946ea4e6aa4032a48bd434a7b2d0d743, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7696365957442595197, guid: 946ea4e6aa4032a48bd434a7b2d0d743, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7696365957442595197, guid: 946ea4e6aa4032a48bd434a7b2d0d743, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7696365957442595197, guid: 946ea4e6aa4032a48bd434a7b2d0d743, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7696365957442595197, guid: 946ea4e6aa4032a48bd434a7b2d0d743, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7696365957442595197, guid: 946ea4e6aa4032a48bd434a7b2d0d743, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7696365957442595197, guid: 946ea4e6aa4032a48bd434a7b2d0d743, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7696365957442595197, guid: 946ea4e6aa4032a48bd434a7b2d0d743, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7696365957442595197, guid: 946ea4e6aa4032a48bd434a7b2d0d743, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 946ea4e6aa4032a48bd434a7b2d0d743, type: 3}
---- !u!1 &258097300 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5605311547021212894, guid: 946ea4e6aa4032a48bd434a7b2d0d743, type: 3}
-  m_PrefabInstance: {fileID: 258097299}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &430730223
 GameObject:
   m_ObjectHideFlags: 0
@@ -978,28 +912,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6962744888380172411, guid: b4184c7082524174b98d01a48ec2ccb2, type: 3}
   m_PrefabInstance: {fileID: 6457823990533871359}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &812386036 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6504782334032963336, guid: b4184c7082524174b98d01a48ec2ccb2, type: 3}
-  m_PrefabInstance: {fileID: 6457823990533871359}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &812386037
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 812386026}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06cce84ae1f04aa88d7aa614e9a4db88, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  entityStatsComponent: {fileID: 0}
-  weapons:
-  - {fileID: 11400000, guid: 439424b3e6a167c47bd5e82d52f2639a, type: 2}
-  activeWeapons: []
-  weaponParent: {fileID: 812386036}
 --- !u!1 &942387663
 GameObject:
   m_ObjectHideFlags: 0
@@ -1179,7 +1091,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8a8c3f1f9d441a4ba63119756ba37e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainGameObjectInstance: {fileID: 258097300}
+  mainGameObjectInstance: {fileID: 812386026}
   mainCamera: {fileID: 1975649736}
   focusManagerScript: {fileID: 11400000, guid: 4c147b4345416824f8968062d60f760a, type: 2}
   focusReferences:
@@ -3199,16 +3111,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6962744888380172411, guid: b4184c7082524174b98d01a48ec2ccb2, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 7302072581313353668, guid: b4184c7082524174b98d01a48ec2ccb2, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6962744888380172411, guid: b4184c7082524174b98d01a48ec2ccb2, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 812386037}
     - targetCorrespondingSourceObject: {fileID: 116010588304736661, guid: b4184c7082524174b98d01a48ec2ccb2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1580748634}
@@ -3438,4 +3347,3 @@ SceneRoots:
   - {fileID: 498101907}
   - {fileID: 544174168}
   - {fileID: 2106017189}
-  - {fileID: 258097299}

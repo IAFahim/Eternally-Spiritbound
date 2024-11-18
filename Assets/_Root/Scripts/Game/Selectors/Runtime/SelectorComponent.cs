@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using Cysharp.Threading.Tasks;
 using Soul.Selectors.Runtime;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -10,11 +11,11 @@ namespace _Root.Scripts.Game.Selectors.Runtime
         [SerializeField] private Selector selector;
         [SerializeField] private Camera camera;
         [SerializeField] private EventSystem eventSystem;
-        private CancellationTokenSource cts;
+        private CancellationToken cts;
 
         public void Awake()
         {
-            cts = new CancellationTokenSource();
+            cts = this.GetCancellationTokenOnDestroy();
             selector.Initialize( camera, eventSystem, OnOverUI, cts);
         }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
 {
     [CreateAssetMenu(fileName = "Bullet", menuName = "Scriptable/Weapon/Bullet")]
-    public class BulletScript : AssetScript
+    public class BulletAsset : AssetScript
     {
         
     }

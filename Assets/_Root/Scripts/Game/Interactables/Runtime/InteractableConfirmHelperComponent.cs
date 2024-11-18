@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 namespace _Root.Scripts.Game.Interactables.Runtime
 {
-    public class InteractableConfirmHelperComponent : MonoBehaviour, ISelector, IInteractableConfirmHelper
+    public class InteractableConfirmHelperComponent : MonoBehaviour, ISelectCallBackReceiver, IInteractableConfirmHelper
     {
         [SerializeField] private bool endInteractOnDeselect;
         [SerializeField] private FocusManagerScript focusManagerScript;
@@ -27,6 +27,15 @@ namespace _Root.Scripts.Game.Interactables.Runtime
         {
             InteractStart();
         }
+
+        public void OnUpdateDrag(RaycastHit hitRef, bool isInside, Vector3 worldPosition, Vector3 worldPositionDelta)
+        {
+        }
+
+        public void OnDragEnd(RaycastHit hitRef, bool isInside, Vector3 worldPosition)
+        {
+        }
+
 
         public void OnDeselected(RaycastHit lastHitInfo, RaycastHit hit)
         {
@@ -53,7 +62,8 @@ namespace _Root.Scripts.Game.Interactables.Runtime
 
         private void InteractEnd()
         {
-            _interactableEntryPointParent.OnInteractionEnded(focusManagerScript.mainObject.GetComponent<IInteractorEntryPoint>());
+            _interactableEntryPointParent.OnInteractionEnded(focusManagerScript.mainObject
+                .GetComponent<IInteractorEntryPoint>());
             Hide();
         }
     }

@@ -44,12 +44,7 @@ namespace Soul.Serializers.Runtime
             get => value;
             set => this.value = value;
         }
-
-        public TV Multiplier
-        {
-            get => value;
-            set => this.value = value;
-        }
+        
 
         public TV Second
         {

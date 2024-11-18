@@ -8,9 +8,9 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
 {
     [CreateAssetMenu(fileName = "weapon", menuName = "Scriptable/Weapon/New")]
     [Serializable]
-    public class Weapon : AssetScript
+    public class WeaponAsset : AssetScript
     {
-        [FormerlySerializedAs("bullet")] public BulletScript bulletScript;
+        [FormerlySerializedAs("bulletScript")] [FormerlySerializedAs("bullet")] public BulletAsset bulletAsset;
         [SerializeField] private OffensiveStatsParameterScript offensiveStatsParameterScript;
         public OffensiveStatsParameterScript OffensiveStatsParameterScript => offensiveStatsParameterScript;
 

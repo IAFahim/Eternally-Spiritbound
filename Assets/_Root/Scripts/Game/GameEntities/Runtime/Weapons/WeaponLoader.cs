@@ -1,7 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using _Root.Scripts.Model.Stats.Runtime;
 using Cysharp.Threading.Tasks;
 using Pancake.Pools;
+using Sirenix.OdinInspector;
+using Soul.Interactables.Runtime;
+using Soul.Serializers.Runtime;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
@@ -9,58 +13,70 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
     [RequireComponent(typeof(EntityStatsComponent))]
     public class WeaponLoader : MonoBehaviour, IWeaponLoader
     {
-        public EntityStatsComponent entityStatsComponent;
-        public List<Weapon> weapons;
-        public List<WeaponComponent> activeWeapons;
         public Transform weaponParent;
-        public int Count => weapons.Count;
-        
+        [DisableInEditorMode] public List<Pair<int, IWeapon>> activeWeapons;
+
+        [SerializeField] private EntityStatsComponent entityStatsComponent;
+        [SerializeField] private int startingLevel = 0;
+        [SerializeField] private List<WeaponAsset> weapons;
+
         private OffensiveStats _offensiveStats;
+        private IFocus _focusReference;
+
+        public int Count => weapons.Count;
 
         private void Awake()
         {
             entityStatsComponent ??= GetComponent<EntityStatsComponent>();
+            _focusReference = GetComponent<IFocus>();
         }
 
-        private void OnEnable()
+        private async void OnEnable()
         {
+            await SpawnMainWeapons();
             entityStatsComponent.Register(OnEntityStatsChange, OnOldEntityStatsCleanUp);
         }
-        
+
 
         private void OnEntityStatsChange()
         {
-            
+            _offensiveStats = entityStatsComponent.entityStats.offensive;
+            foreach (var activeWeapon in activeWeapons)
+            {
+                activeWeapon.Value.Init(_focusReference, activeWeapon.Key, _offensiveStats);
+            }
         }
-        
+
         private void OnOldEntityStatsCleanUp()
         {
-            
         }
 
-        private void Start()
-        {
-            SpawnMainWeapons().Forget();
-        }
-
-        private async UniTaskVoid SpawnMainWeapons()
+        private async UniTask SpawnMainWeapons()
         {
             foreach (var weapon in weapons)
             {
                 var weaponGameObject = await SharedAssetReferencePoolAsync.RequestAsync(weapon, weaponParent);
                 weapon.PlaceWeapon(weaponParent, weaponGameObject.transform);
-                activeWeapons.Add(weaponGameObject.GetComponent<WeaponComponent>());
+                activeWeapons.Add(new Pair<int, IWeapon>(startingLevel, weaponGameObject.GetComponent<IWeapon>()));
             }
         }
 
-        public void Add(Weapon weapon)
+        public void Add(WeaponAsset weaponAsset)
         {
-            weapons.Add(weapon);
+            weapons.Add(weaponAsset);
         }
 
-        public void Remove(Weapon weapon)
+        public void Remove(WeaponAsset weaponAsset)
         {
-            weapons.Remove(weapon);
+            weapons.Remove(weaponAsset);
+        }
+
+        private void OnDisable()
+        {
+            foreach (var activeWeapon in activeWeapons)
+            {
+                SharedAssetReferencePoolAsync.Return(activeWeapon.Value.WeaponAsset, activeWeapon.Value.GameObject);
+            }
         }
 
         private void Reset()

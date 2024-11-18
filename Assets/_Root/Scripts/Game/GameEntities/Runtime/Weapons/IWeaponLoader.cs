@@ -2,8 +2,8 @@
 {
     public interface IWeaponLoader
     {
-        public void Add(Weapon weapon);
-        public void Remove(Weapon weapon);
+        public void Add(WeaponAsset weaponAsset);
+        public void Remove(WeaponAsset weaponAsset);
         public int Count { get; }
     }
 }

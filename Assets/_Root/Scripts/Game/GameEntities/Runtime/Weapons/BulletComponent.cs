@@ -1,6 +1,6 @@
-﻿using _Root.Scripts.Game.GameEntities.Runtime.Attacks;
+﻿using System;
+using _Root.Scripts.Game.GameEntities.Runtime.Attacks;
 using _Root.Scripts.Game.GameEntities.Runtime.Damages;
-using _Root.Scripts.Model.Assets.Runtime;
 using Pancake.Common;
 using Sisus.Init;
 using UnityEngine;
@@ -16,6 +16,11 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
         {
             _attackOriginReference = attackOrigin;
             App.Delay(_attackOriginReference.offensiveStats.lifeTime, OnTimeUp);
+        }
+
+        private void Update()
+        {
+            transform.position += transform.forward * (_attackOriginReference.offensiveStats.speed * Time.deltaTime);
         }
 
         private void OnTimeUp()
