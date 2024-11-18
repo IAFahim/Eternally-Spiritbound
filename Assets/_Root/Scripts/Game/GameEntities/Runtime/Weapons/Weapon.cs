@@ -2,6 +2,7 @@
 using _Root.Scripts.Model.Assets.Runtime;
 using _Root.Scripts.Model.Stats.Runtime;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
 {
@@ -9,7 +10,7 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
     [Serializable]
     public class Weapon : AssetScript
     {
-        public Bullet bullet;
+        [FormerlySerializedAs("bullet")] public BulletScript bulletScript;
         [SerializeField] private OffensiveStatsParameterScript offensiveStatsParameterScript;
         public OffensiveStatsParameterScript OffensiveStatsParameterScript => offensiveStatsParameterScript;
 

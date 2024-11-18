@@ -1,30 +1,31 @@
 ﻿using _Root.Scripts.Game.GameEntities.Runtime.Attacks;
 using _Root.Scripts.Game.GameEntities.Runtime.Damages;
+using _Root.Scripts.Model.Assets.Runtime;
 using Pancake.Common;
+using Sisus.Init;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
 {
-    public class BulletComponent : MonoBehaviour
+    public class BulletComponent : MonoBehaviour, IInitializable<AttackOrigin>
     {
-        private Attack _attackOriginReference;
+        private AttackOrigin _attackOriginReference;
 
-        public void Attack(Attack attack)
+        public void Init(AttackOrigin attackOrigin)
         {
-            _attackOriginReference = attack;
-            App.Delay(_attackOriginReference.Origin.offensiveStats.lifeTime, OnTimeUp);
+            _attackOriginReference = attackOrigin;
+            App.Delay(_attackOriginReference.offensiveStats.lifeTime, OnTimeUp);
         }
 
         private void OnTimeUp()
         {
-            _attackOriginReference.ReturnToPool(gameObject);
+            _attackOriginReference.weaponComponent.OnReturnToPool(this);
         }
 
         private void OnCollisionEnter(Collision other)
         {
-            _attackOriginReference.OnAttackHit(
-                new DamageInfo(other.gameObject,
-                    _attackOriginReference.Origin.offensiveStats.damage, 0, 0)
+            _attackOriginReference.weaponComponent.OnAttackHit(this,
+                new DamageInfo(other.gameObject, _attackOriginReference.offensiveStats.damage, 0, 0)
             );
         }
     }

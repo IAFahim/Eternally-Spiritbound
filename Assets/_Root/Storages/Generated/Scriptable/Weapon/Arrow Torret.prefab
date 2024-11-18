@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 5757882519214312840}
   - component: {fileID: 4875713936234240193}
   m_Layer: 15
-  m_Name: Arrow Boat Torret
+  m_Name: Arrow Torret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -131,10 +131,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16d40dd75e1746b8893802de1e404432, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  direction: {x: 0, y: 0, z: 0}
-  normalizedRange: 0
+  currentLevel: 0
+  weaponAsset: {fileID: 0}
   noDelayOnFirstFire: 1
-  strategy: {fileID: 11400000, guid: a08c7c885fd342541bbdfafac18552fa, type: 2}
+  bulletScript: {fileID: 11400000, guid: a08c7c885fd342541bbdfafac18552fa, type: 2}
+  offensiveStatsParameterScript: {fileID: 0}
   fire: 0
   lastFireTime: 0
   overlapNonAlloc:
@@ -154,17 +155,3 @@ MonoBehaviour:
   intervalTicker:
     currentTick: 0
     interval: 5
-  weaponOffensiveStats:
-    damage: 0
-    lifeTime: 0
-    fireRate: 0
-    cooldown: 0
-    range: 0
-    reloadTime: 0
-    accuracy: 0
-    recoil: 0
-    size: 0
-    speed: 0
-    defensePenetration: 0
-    elementalDamage: 0
-    penetration: 0

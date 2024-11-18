@@ -7,27 +7,23 @@ using Sisus.Init;
 using Soul.OverlapSugar.Runtime;
 using Soul.Tickers.Runtime;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
 {
     public class WeaponComponent : MonoBehaviour, IInitializable<int, OffensiveStats>
     {
         public int currentLevel;
-
-
-        [SerializeField] private AssetScript weaponAsset;
+        [SerializeField] private Weapon weaponAsset;
         [SerializeField] private bool noDelayOnFirstFire = true;
-        [SerializeField] private Bullet bulletScript;
-        [SerializeField] private OffensiveStatsParameterScript offensiveStatsParameterScript;
-
+        [SerializeField] private BulletScript bulletScript;
         public bool fire;
         public float lastFireTime;
-        private Attack attackInstence;
         private GameObject _spawned;
 
         public OverlapNonAlloc overlapNonAlloc;
         public IntervalTicker intervalTicker;
-        public Bullet BulletScript => bulletScript;
+        public BulletScript BulletScript => bulletScript;
         private OffensiveStats _offensiveStats;
 
         private void OnEnable()
@@ -37,7 +33,8 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
 
         public void Init(int level, OffensiveStats playerOffensiveStats)
         {
-            offensiveStatsParameterScript.TryCombine(currentLevel = level, playerOffensiveStats, out _offensiveStats);
+            weaponAsset.OffensiveStatsParameterScript.TryCombine(currentLevel = level, playerOffensiveStats,
+                out _offensiveStats);
         }
 
 
@@ -54,36 +51,27 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
             fire = Time.time - lastFireTime >= _offensiveStats.fireRate;
             if (!fire) return;
             if (!overlapNonAlloc.TryGetClosest(out var other, out _)) return;
-
-            Attack(other);
-
+            PerformAttack(other);
             fire = false;
             lastFireTime = Time.time;
         }
 
-        public void Attack(Collider other)
-        {
-            var direction = (other.transform.position - transform.position).normalized;
-            var attackOrigin = new AttackOrigin(other.gameObject, _offensiveStats, transform.position, direction);
-            Attack(attackOrigin, other.gameObject);
-        }
-
-        public void Attack(AttackOrigin origin, GameObject target)
+        public void PerformAttack(Collider other)
         {
             _spawned = SharedAssetReferencePool.Request(bulletScript, transform.position, transform.rotation);
-            attackInstence = new Attack(origin, this, OnAttackHit, OnAttackMiss, OnReturnToPool);
-            _spawned.GetComponent<BulletComponent>().Attack(attackInstence);
+            InitBullet(other.gameObject);
         }
 
-        public void Attack(Vector3 direction)
+        private void InitBullet(GameObject other)
         {
-            var attackOrigin = new AttackOrigin(null, _offensiveStats, transform.position, direction);
-            Attack(attackOrigin);
-        }
-
-
-        public void Attack(AttackOrigin origin)
-        {
+            _spawned.GetComponent<BulletComponent>().Init(
+                new AttackOrigin(this,
+                    _offensiveStats,
+                    other,
+                    transform.position,
+                    other.transform.position
+                )
+            );
         }
 
 
@@ -93,21 +81,14 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
         }
 
 
-        private void OnAttackMiss(Attack arg1, Vector3 arg2)
-        {
-            Debug.Log("Miss: " + arg2);
-        }
-
-
-        private void OnReturnToPool(Attack attack, GameObject bulletGameObject)
-        {
-            SharedAssetReferencePool.Return(attack.WeaponComponent.bulletScript, bulletGameObject);
-        }
-
-
-        private void OnAttackHit(Attack arg1, DamageInfo arg2)
+        public void OnAttackHit(BulletComponent arg1, DamageInfo arg2)
         {
             Debug.Log("Hit: " + arg2.damagedGameObject.name);
+        }
+
+        public void OnReturnToPool(BulletComponent bulletComponent)
+        {
+            SharedAssetReferencePool.Return(bulletScript, bulletComponent.gameObject);
         }
 
 

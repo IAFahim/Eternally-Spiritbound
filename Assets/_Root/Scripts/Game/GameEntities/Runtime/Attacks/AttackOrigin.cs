@@ -12,20 +12,20 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Attacks
     [Serializable]
     public struct AttackOrigin
     {
-        public Optional<GameObject> target;
+        public WeaponComponent weaponComponent;
         public OffensiveStats offensiveStats;
-        public Vector3 position;
-        public Vector3 direction;
+        
+        public Optional<GameObject> target;
+        public Vector3 originPosition;
+        public Vector3 targetPosition;
 
-        public AttackOrigin(GameObject target, OffensiveStats offensiveStats,
-            Vector3 position,
-            Vector3 direction
-        )
+        public AttackOrigin(WeaponComponent weaponComponent, OffensiveStats offensiveStats, Optional<GameObject> target, Vector3 originPosition, Vector3 targetPosition)
         {
-            this.target = target;
+            this.weaponComponent = weaponComponent;
             this.offensiveStats = offensiveStats;
-            this.position = position;
-            this.direction = direction;
+            this.target = target;
+            this.originPosition = originPosition;
+            this.targetPosition = targetPosition;
         }
     }
 }

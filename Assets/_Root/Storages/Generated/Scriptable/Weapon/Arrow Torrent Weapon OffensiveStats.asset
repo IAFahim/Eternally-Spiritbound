@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab8dedd611b648d4a5c2d6cd66cce509, type: 3}
+  m_Name: Arrow Torrent Weapon OffensiveStats
+  m_EditorClassIdentifier: 
+  value:
+    damage: 0
+    lifeTime: 0
+    fireRate: 0
+    cooldown: 0
+    range: 0
+    reloadTime: 0
+    accuracy: 0
+    recoil: 0
+    size: 0
+    speed: 0
+    defensePenetration: 0
+    elementalDamage: 0
+    penetration: 0
+  parameters:
+  - level: 0
+    value:
+      damage: 1
+      lifeTime: 5
+      fireRate: 3
+      cooldown: 1
+      range: 100
+      reloadTime: 1
+      accuracy: 1
+      recoil: 0
+      size: 1
+      speed: 10
+      defensePenetration: 0
+      elementalDamage: 0
+      penetration: 0

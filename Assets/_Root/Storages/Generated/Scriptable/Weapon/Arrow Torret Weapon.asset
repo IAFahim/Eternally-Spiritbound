@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: de73c0cbe00f4d969a12ede83d4486ad, type: 3}
-  m_Name: Arrow Boat Torret Weapon
+  m_Name: Arrow Torret Weapon
   m_EditorClassIdentifier: 
   value: Arrow Torrent
   guid: f6461c91a7ad485
@@ -23,3 +23,4 @@ MonoBehaviour:
   description: 
   icon: {fileID: 0}
   bullet: {fileID: 11400000, guid: a08c7c885fd342541bbdfafac18552fa, type: 2}
+  offensiveStatsParameterScript: {fileID: 11400000, guid: 6ab6babc587ea4441be140bba2d46c20, type: 2}
