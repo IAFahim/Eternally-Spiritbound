@@ -1,18 +1,37 @@
 ﻿using System.Collections.Generic;
+using _Root.Scripts.Model.Stats.Runtime;
 using Cysharp.Threading.Tasks;
 using Pancake.Pools;
 using UnityEngine;
-using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
 {
+    [RequireComponent(typeof(EntityStatsComponent))]
     public class WeaponLoader : MonoBehaviour, IWeaponLoader
     {
+        public EntityStatsComponent entityStatsComponent;
         public List<Weapon> weapons;
         public List<WeaponComponent> activeWeapons;
         public Transform weaponParent;
         public int Count => weapons.Count;
+        
+        private OffensiveStats _offensiveStats; 
 
+        private void OnEnable()
+        {
+            entityStatsComponent.Register(OnEntityStatsChange, OnOldEntityStatsCleanUp);
+        }
+        
+
+        private void OnEntityStatsChange()
+        {
+            
+        }
+        
+        private void OnOldEntityStatsCleanUp()
+        {
+            
+        }
 
         private void Start()
         {
@@ -39,12 +58,9 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
             weapons.Remove(weapon);
         }
 
-
-        private void OnWeaponLoadComplete(AsyncOperationHandle<GameObject> handle)
+        private void Reset()
         {
-            GameObject weaponObject = Instantiate(handle.Result, transform);
-            var weaponComponent = weaponObject.GetComponent<WeaponComponent>();
-            activeWeapons.Add(weaponComponent);
+            entityStatsComponent = GetComponent<EntityStatsComponent>();
         }
     }
 }

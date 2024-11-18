@@ -3,10 +3,10 @@
 namespace _Root.Scripts.Model.Stats.Runtime
 {
     [Serializable]
-    public class DefensiveStats<T> 
+    public class DefensiveStats 
     {
-        public T armor;
-        public LimitStat<T> shield;
-        public T dodgeChance;
+        public float armor;
+        public LimitStat shield;
+        public float dodgeChance;
     }
 }

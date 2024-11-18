@@ -4,7 +4,6 @@ using _Root.Scripts.Game.GameEntities.Runtime.Healths;
 using _Root.Scripts.Game.Stats.Runtime;
 using _Root.Scripts.Model.Assets.Runtime;
 using _Root.Scripts.Model.Stats.Runtime;
-using Soul.Modifiers.Runtime;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.GameEntities.Runtime
@@ -34,7 +33,7 @@ namespace _Root.Scripts.Game.GameEntities.Runtime
 
         #endregion
 
-        public LimitStat<Modifier> HealthReference => entityStatsComponent.entityStats.vitality.health;
+        public LimitStat HealthReference => entityStatsComponent.entityStats.vitality.health;
 
         private void OnHealthChange(float old, float current)
         {

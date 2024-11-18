@@ -27,7 +27,7 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
 
         public OverlapNonAlloc overlapNonAlloc;
         public IntervalTicker intervalTicker;
-        public OffensiveStats<float> offensiveStats;
+        public OffensiveStats offensiveStats;
         public Bullet BulletScript => bulletScript;
 
         private void OnEnable()

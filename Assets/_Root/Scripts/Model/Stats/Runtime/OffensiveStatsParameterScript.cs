@@ -2,7 +2,12 @@
 
 namespace _Root.Scripts.Model.Stats.Runtime
 {
-    public class OffensiveStatsParameterScript : ParameterScript<OffensiveStats<float>>
+    public class OffensiveStatsParameterScript : ParameterScript<OffensiveStats>
     {
+        public void Combine(int level, OffensiveStats otherOffensiveStats)
+        {
+            TryGetParameter(level, out var offensiveStats);
+            
+        }
     }
 }

@@ -13,11 +13,11 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Attacks
     public struct AttackOrigin
     {
         public Optional<GameObject> target;
-        public OffensiveStats<float> offensiveStats;
+        public OffensiveStats offensiveStats;
         public Vector3 position;
         public Vector3 direction;
 
-        public AttackOrigin(GameObject target, OffensiveStats<float> offensiveStats,
+        public AttackOrigin(GameObject target, OffensiveStats offensiveStats,
             Vector3 position,
             Vector3 direction
         )

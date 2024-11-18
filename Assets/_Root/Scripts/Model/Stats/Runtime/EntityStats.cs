@@ -10,20 +10,20 @@ namespace _Root.Scripts.Model.Stats.Runtime
     [Searchable]
     public struct EntityStats
     {
-        public VitalityStats<Modifier> vitality;
-        public DefensiveStats<Modifier> defensive;
-        public MovementStats<Modifier> movement;
-        public ProgressionStats<Modifier> progression;
-        public CriticalStats<Modifier> critical;
-        public AmmoStats<Modifier> ammo;
-        public OffensiveStats<Modifier> offensive;
+        public VitalityStats vitality;
+        public DefensiveStats defensive;
+        public MovementStats movement;
+        public ProgressionStats progression;
+        public CriticalStats critical;
+        public AmmoStats ammo;
+        public OffensiveStats offensive;
 
         public void Initialize()
         {
-            vitality.health.current.SetValueWithoutNotify(vitality.health.max.Value);
+            vitality.health.current.SetValueWithoutNotify(vitality.health.max);
         }
 
-        public float HealthPercentage => vitality.health.current / vitality.health.max.Value;
+        public float HealthPercentage => vitality.health.current / vitality.health.max;
 
         [Button]
         private void DamageTest(float damage)
@@ -40,10 +40,10 @@ namespace _Root.Scripts.Model.Stats.Runtime
             }
 
             // Calculate critical damage if applicable
-            var afterCritDamage = ApplyChanceMultiplier(damage, critical.chance.Value, critical.damage.Value);
+            var afterCritDamage = ApplyChanceMultiplier(damage, critical.chance, critical.damageMultiplier);
 
             // Apply armor reduction
-            var afterArmor = Mathf.Max(afterCritDamage - defensive.armor.Value, 0);
+            var afterArmor = Mathf.Max(afterCritDamage - defensive.armor, 0);
             damageDealt = afterArmor;
 
             // Handle shield damage first
@@ -86,36 +86,36 @@ namespace _Root.Scripts.Model.Stats.Runtime
         public void Heal(float amount)
         {
             vitality.health.current.Value =
-                Mathf.Min(vitality.health.current.Value + amount, vitality.health.max.Value);
+                Mathf.Min(vitality.health.current.Value + amount, vitality.health.max);
         }
 
         public void RestoreShield(float amount)
         {
             defensive.shield.current.Value =
-                Mathf.Min(defensive.shield.current.Value + amount, defensive.shield.max.Value);
+                Mathf.Min(defensive.shield.current.Value + amount, defensive.shield.max);
         }
 
 
         public bool TryDodge()
         {
-            return Random.value < defensive.dodgeChance.Value;
+            return Random.value < defensive.dodgeChance;
         }
         
         public void AddExperience(int amount)
         {
-            float bonusExp = amount * (1 + progression.experienceRate.Value);
+            float bonusExp = amount * (1 + progression.experienceRate);
             progression.experience.Value += Mathf.RoundToInt(bonusExp);
         }
         
         public bool CanAttack(float currentTime)
         {
-            return currentTime >= offensive.cooldown.Value;
+            return currentTime >= offensive.cooldown;
         }
         
         public float GetAttackAccuracy()
         {
             // Returns a value between 0 and 1, where 1 is perfect accuracy
-            return Mathf.Clamp01(offensive.accuracy.Value);
+            return Mathf.Clamp01(offensive.accuracy);
         }
     }
 }

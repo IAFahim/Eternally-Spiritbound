@@ -69,7 +69,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
                 Time.timeScale = 0f;
             }
 
-            _healthBarCache.Value = current / _entityStatsComponent.entityStats.vitality.health.max.Value;
+            _healthBarCache.Value = current / _entityStatsComponent.entityStats.vitality.health.max;
             App.Delay(timeScaleStopDuration, RestoreTimeScale, useRealTime: true);
         }
 

@@ -4,10 +4,10 @@ using Soul.Reactives.Runtime;
 namespace _Root.Scripts.Model.Stats.Runtime
 {
     [Serializable]
-    public struct ProgressionStats<T>
+    public struct ProgressionStats
     {
         public Reactive<int> experience;
-        public T experienceRate;
-        public T luck;
+        public float experienceRate;
+        public float luck;
     }
 }

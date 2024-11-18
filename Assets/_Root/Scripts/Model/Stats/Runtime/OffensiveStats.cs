@@ -3,41 +3,41 @@
 namespace _Root.Scripts.Model.Stats.Runtime
 {
     [Serializable]
-    public struct OffensiveStats<T>
+    public struct OffensiveStats
     {
-        public T damage;
-        public T lifeTime;
-        public T fireRate;
-        public T cooldown;
-        public T range;
-        public T reloadTime;
-        public T accuracy;
-        public T recoil;
-        public T size;
-        public T speed;
-        public T defensePenetration;
-        public T elementalDamage;
+        public float damage;
+        public float lifeTime;
+        public float fireRate;
+        public float cooldown;
+        public float range;
+        public float reloadTime;
+        public float accuracy;
+        public float recoil;
+        public float size;
+        public float speed;
+        public float defensePenetration;
+        public float elementalDamage;
         public int penetration;
 
 
-        public OffensiveStats(
-            T damage, T lifeTime, T fireRate, T cooldown, T range, T reloadTime, T accuracy, T recoil,
-            T size, T speed, T defensePenetration, T elementalDamage, int penetration
-        )
+        public OffensiveStats Combine(OffensiveStats other)
         {
-            this.damage = damage;
-            this.lifeTime = lifeTime;
-            this.fireRate = fireRate;
-            this.cooldown = cooldown;
-            this.range = range;
-            this.reloadTime = reloadTime;
-            this.accuracy = accuracy;
-            this.recoil = recoil;
-            this.size = size;
-            this.speed = speed;
-            this.defensePenetration = defensePenetration;
-            this.elementalDamage = elementalDamage;
-            this.penetration = penetration;
+            return new OffensiveStats
+            {
+                damage = damage + other.damage,
+                lifeTime = lifeTime + other.lifeTime,
+                fireRate = fireRate + other.fireRate,
+                cooldown = cooldown + other.cooldown,
+                range = range + other.range,
+                reloadTime = reloadTime + other.reloadTime,
+                accuracy = accuracy + other.accuracy,
+                recoil = recoil + other.recoil,
+                size = size + other.size,
+                speed = speed + other.speed,
+                defensePenetration = defensePenetration + other.defensePenetration,
+                elementalDamage = elementalDamage + other.elementalDamage,
+                penetration = penetration + other.penetration
+            };
         }
     }
 }

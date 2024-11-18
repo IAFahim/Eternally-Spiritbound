@@ -3,10 +3,10 @@
 namespace _Root.Scripts.Model.Stats.Runtime
 {
     [Serializable]
-    public class AmmoStats<T> 
+    public class AmmoStats
     {
-        public T total;
-        public T clipSize;
+        public float total;
+        public float clipSize;
         
     }
 }
