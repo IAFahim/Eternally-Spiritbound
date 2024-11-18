@@ -7,8 +7,9 @@ using UnityEngine;
 
 namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
 {
-    public class BulletComponent : MonoBehaviour, IInitializable<AttackOrigin>
+    public class BulletComponent : MonoBehaviour, IInitializable<AttackOrigin>, IBullet
     {
+        public GameObject GameObject => gameObject;
         private AttackOrigin _attackOriginReference;
 
         public void Init(AttackOrigin attackOrigin)
@@ -28,5 +29,6 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
                 new DamageInfo(other.gameObject, _attackOriginReference.offensiveStats.damage, 0, 0)
             );
         }
+
     }
 }

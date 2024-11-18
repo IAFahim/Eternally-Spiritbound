@@ -135,7 +135,6 @@ MonoBehaviour:
   weaponAsset: {fileID: 0}
   noDelayOnFirstFire: 1
   bulletScript: {fileID: 11400000, guid: a08c7c885fd342541bbdfafac18552fa, type: 2}
-  offensiveStatsParameterScript: {fileID: 0}
   fire: 0
   lastFireTime: 0
   overlapNonAlloc:
@@ -152,6 +151,8 @@ MonoBehaviour:
       checkFirst: 0
       foundColliders: []
     transform: {fileID: 5757882519214312840}
+    rootTransform: {fileID: 394304606174340685}
   intervalTicker:
     currentTick: 0
     interval: 5
+  firePoint: {fileID: 394304606174340685}

@@ -15,11 +15,11 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Attacks
         public WeaponComponent weaponComponent;
         public OffensiveStats offensiveStats;
         
-        public Optional<GameObject> target;
+        public GameObject target;
         public Vector3 originPosition;
         public Vector3 targetPosition;
 
-        public AttackOrigin(WeaponComponent weaponComponent, OffensiveStats offensiveStats, Optional<GameObject> target, Vector3 originPosition, Vector3 targetPosition)
+        public AttackOrigin(WeaponComponent weaponComponent, OffensiveStats offensiveStats, GameObject target, Vector3 originPosition, Vector3 targetPosition)
         {
             this.weaponComponent = weaponComponent;
             this.offensiveStats = offensiveStats;

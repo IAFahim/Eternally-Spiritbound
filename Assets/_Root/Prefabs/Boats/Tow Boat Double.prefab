@@ -142,6 +142,7 @@ MonoBehaviour:
       checkFirst: 0
       foundColliders: []
     transform: {fileID: 0}
+    rootTransform: {fileID: 0}
 --- !u!114 &3804166669297714955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,8 +231,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2629528156248017106, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4875713936234240193, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}
+      propertyPath: firePoint
+      value: 
+      objectReference: {fileID: 2264084064652722594}
+    - target: {fileID: 4875713936234240193, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}
+      propertyPath: overlapNonAlloc.rootTransform
+      value: 
+      objectReference: {fileID: 2264084064652722594}
     - target: {fileID: 5757882519214312840, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -277,6 +286,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}
+--- !u!4 &2264084064652722594 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 394304606174340685, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}
+  m_PrefabInstance: {fileID: 1878983481060354031}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6195658001200622183 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5757882519214312840, guid: 8a4f57a5db431a849a6cd06bf3233908, type: 3}

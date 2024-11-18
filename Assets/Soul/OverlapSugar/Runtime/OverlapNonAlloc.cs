@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Soul.OverlapSugar.Runtime
@@ -9,25 +10,27 @@ namespace Soul.OverlapSugar.Runtime
         internal const float Half = 0.5f;
         public OverlapConfig config;
         public Transform transform;
-
-        public void Initialize()
-        {
-            config.Initialize();
-        }
+        public Transform rootTransform;
+        
+        // Instance-based filtered colliders list
+        [NonSerialized] private List<Collider> filteredColliders;
 
         public void Initialize(Transform pointTransform)
         {
+            rootTransform = pointTransform.root;
+            SetOverlapPoint(pointTransform);
             config.Initialize();
-            transform = pointTransform;
-
-#if DEBUG
-            if (transform == null)
-                throw new ArgumentNullException(nameof(transform));
-#endif
+            
+            // Initialize the filtered colliders list with the same capacity
+            filteredColliders = new List<Collider>(config.maxCapacity);
         }
 
         public void SetOverlapPoint(Transform newOverlapPoint)
         {
+#if DEBUG
+            if (newOverlapPoint == null)
+                throw new ArgumentNullException(nameof(newOverlapPoint));
+#endif
             transform = newOverlapPoint;
         }
 
@@ -53,6 +56,12 @@ namespace Soul.OverlapSugar.Runtime
 
         public int Perform()
         {
+            // Ensure filteredColliders is initialized
+            if (filteredColliders == null)
+            {
+                filteredColliders = new List<Collider>(config.maxCapacity);
+            }
+
             if (config.checkFirst && config.colliderCount == 0)
             {
                 var position = transform.TransformPoint(config.positionOffset);
@@ -68,7 +77,8 @@ namespace Soul.OverlapSugar.Runtime
                 if (!quickCheck) return config.colliderCount = 0;
             }
 
-            return Perform(transform.TransformPoint(config.positionOffset));
+            var rawCount = Perform(transform.TransformPoint(config.positionOffset));
+            return FilterColliders(rawCount);
         }
 
         private int Perform(Vector3 position)
@@ -81,6 +91,40 @@ namespace Soul.OverlapSugar.Runtime
             };
         }
 
+        private int FilterColliders(int rawCount)
+        {
+            if (rawCount == 0) return 0;
+
+            filteredColliders.Clear();
+            
+            for (int i = 0; i < rawCount; i++)
+            {
+                var collider = config.foundColliders[i];
+                
+                // Skip null colliders
+                if (collider == null) continue;
+                
+                // Skip colliders with the same root transform
+                if (collider.transform.root == rootTransform) continue;
+                
+                filteredColliders.Add(collider);
+            }
+
+            // Update the foundColliders array with filtered results
+            config.colliderCount = filteredColliders.Count;
+            for (int i = 0; i < config.colliderCount; i++)
+            {
+                config.foundColliders[i] = filteredColliders[i];
+            }
+            
+            // Clear the remaining slots
+            for (int i = config.colliderCount; i < rawCount; i++)
+            {
+                config.foundColliders[i] = null;
+            }
+
+            return config.colliderCount;
+        }
 
         public int GetColliders(out Collider[] foundColliders)
         {
@@ -90,24 +134,21 @@ namespace Soul.OverlapSugar.Runtime
 
         private int OverlapBox(Vector3 position)
         {
-            config.colliderCount = Physics.OverlapBoxNonAlloc(position,
+            return Physics.OverlapBoxNonAlloc(position,
                 config.boxSize * Half,
                 config.foundColliders,
                 transform.rotation,
                 config.searchMask.value);
-            return config.colliderCount;
         }
-
 
         private int OverlapSphere(Vector3 position)
         {
-            config.colliderCount = Physics.OverlapSphereNonAlloc(position,
+            return Physics.OverlapSphereNonAlloc(position,
                 config.sphereRadius,
                 config.foundColliders,
                 config.searchMask.value);
-            return config.colliderCount;
         }
-
+        
         public bool TryGetClosest(out Collider closestCollider, out float distance)
         {
             closestCollider = null;
@@ -116,13 +157,17 @@ namespace Soul.OverlapSugar.Runtime
 
             for (int i = 0; i < config.colliderCount; i++)
             {
-                var currentDistance = Vector3.Distance(config.foundColliders[i].transform.position, transform.position);
+                var currentCollider = config.foundColliders[i];
+                if (currentCollider == null) continue;
+                
+                var currentDistance = Vector3.Distance(currentCollider.transform.position, transform.position);
                 if (currentDistance > distance) continue;
+                
                 distance = currentDistance;
-                closestCollider = config.foundColliders[i];
+                closestCollider = currentCollider;
             }
 
-            return true;
+            return closestCollider != null;
         }
 
         public bool TryGetFurthest(out Collider furthestCollider, out float distance)
@@ -133,16 +178,18 @@ namespace Soul.OverlapSugar.Runtime
 
             for (int i = 0; i < config.colliderCount; i++)
             {
-                float currentDistance =
-                    Vector3.Distance(config.foundColliders[i].transform.position, transform.position);
+                var currentCollider = config.foundColliders[i];
+                if (currentCollider == null) continue;
+                
+                var currentDistance = Vector3.Distance(currentCollider.transform.position, transform.position);
                 if (currentDistance < distance) continue;
+                
                 distance = currentDistance;
-                furthestCollider = config.foundColliders[i];
+                furthestCollider = currentCollider;
             }
 
-            return true;
+            return furthestCollider != null;
         }
-
 
         public void DrawGizmos(Color overlapColor, Color foundColor)
         {
@@ -166,7 +213,10 @@ namespace Soul.OverlapSugar.Runtime
 
             Gizmos.color = foundColor;
             for (int i = 0; i < config.colliderCount; i++)
-                Gizmos.DrawWireSphere(config.foundColliders[i].transform.position, 0.5f);
+            {
+                if (config.foundColliders[i] != null)
+                    Gizmos.DrawWireSphere(config.foundColliders[i].transform.position, 0.5f);
+            }
 #endif
         }
     }
