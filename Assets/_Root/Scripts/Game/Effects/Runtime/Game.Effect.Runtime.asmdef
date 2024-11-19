@@ -1,0 +1,4 @@
+﻿{
+  "name": "Game.Effect.Runtime",
+  "references":[ "GUID:adac8d59ad7e8504f82d387cded797a7", "GUID:ed5e4f8d14b5443a886b7d2efe7abd3f", "GUID:c25274b4f4ca4ce7b28aa3d72685439a" ]
+}

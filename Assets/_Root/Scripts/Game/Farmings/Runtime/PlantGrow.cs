@@ -1,5 +1,6 @@
 ﻿using System;
 using _Root.Scripts.Model.Farmings.Runtime;
+using _Root.Scripts.Model.ObjectPlacers.Runtime;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.Farmings.Runtime
@@ -31,6 +32,7 @@ namespace _Root.Scripts.Game.Farmings.Runtime
         public override void OnExit()
         {
             Debug.Log("Planting Finished");
+            _planter.MoveSlice();
         }
     }
 }

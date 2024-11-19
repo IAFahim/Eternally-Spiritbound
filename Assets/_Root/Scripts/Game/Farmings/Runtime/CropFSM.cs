@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using _Root.Scripts.Model.Assets.Runtime;
 using _Root.Scripts.Model.Farmings.Runtime;
 using _Root.Scripts.Model.Links.Runtime;
+using _Root.Scripts.Model.ObjectPlacers.Runtime;
 using Pancake.Common;
 using Pancake.Pattern;
 using Sirenix.OdinInspector;
@@ -81,20 +83,25 @@ namespace _Root.Scripts.Game.Farmings.Runtime
         public void OnSelected(RaycastHit hit)
         {
             Debug.Log("Selected");
+            _movedIndices = new HashSet<Vector2Int>();
         }
+
+        private HashSet<Vector2Int> _movedIndices;
 
         public void OnUpdateDrag(RaycastHit hitRef, bool isInside, Vector3 worldPosition, Vector3 delta)
         {
             Debug.DrawLine(testPos.transform.position, worldPosition, Color.red);
             testPos.transform.position = worldPosition;
+            (Vector2Int gridIndex, Vector3 position) = _meshPlanter.GetClosestPoint(worldPosition);
+            if (_movedIndices.Add(gridIndex)) _meshPlanter.MoveSingle(gridIndex, position + Vector3.up * 3);
             Debug.Log($"UpdateDrag: {worldPosition} {delta} {isInside}");
         }
 
         public void OnDragEnd(RaycastHit hitRef, bool isInside, Vector3 worldPosition)
         {
             Debug.Log($"DragEnd: {worldPosition} {isInside}");
+            _movedIndices = null;
         }
-
 
         public void OnDeselected(RaycastHit lastHitInfo, RaycastHit hit)
         {

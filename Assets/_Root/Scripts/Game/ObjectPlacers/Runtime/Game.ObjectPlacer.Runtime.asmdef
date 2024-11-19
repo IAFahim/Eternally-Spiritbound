@@ -1,0 +1,4 @@
+﻿{
+  "name": "Game.ObjectPlacer.Runtime",
+  "references":[ "GUID:0e19951e02b144da826cd467d6d86170", "GUID:4ad560779c644f898793b2f5787907f5" ]
+}

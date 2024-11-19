@@ -13,13 +13,8 @@ namespace _Root.Scripts.Game.MeshRenders.Runtime
         [RuntimeInitializeOnLoadMethod]
         public static void Initialize()
         {
-            if (isInitialized)
-            {
-                Cleanup();
-            }
-
+            Cleanup();
             App.AddListener(EUpdateMode.Update, Render);
-            isInitialized = true;
         }
 
         private static void Cleanup()
@@ -37,11 +32,6 @@ namespace _Root.Scripts.Game.MeshRenders.Runtime
         public static int AddToRender(Mesh mesh, Material material, int subMeshIndex, Vector3[] points,
             Vector3 size)
         {
-            if (!isInitialized)
-            {
-                Initialize();
-            }
-
             if (dictionary.TryGetValue(mesh, out var renderGroup))
             {
                 renderGroup.renderParams.material = material;
@@ -75,8 +65,7 @@ namespace _Root.Scripts.Game.MeshRenders.Runtime
 
             if (instanceId < 0 || instanceId >= renderGroup.instanceIdStartEndInNativeArray.Count)
             {
-                Debug.LogWarning($"Invalid instance ID: {instanceId}");
-                return;
+                throw new System.ArgumentOutOfRangeException($"Invalid instance ID: {instanceId}");
             }
 
             renderGroup.Remove(instanceId);
@@ -92,6 +81,24 @@ namespace _Root.Scripts.Game.MeshRenders.Runtime
                     isInitialized = false;
                 }
             }
+        }
+
+        public static void Move(Mesh mesh, int instanceId, Vector3[] positions)
+        {
+            if (dictionary.TryGetValue(mesh, out var renderGroup))
+            {
+                renderGroup.MoveSlice(instanceId, positions);
+            }
+            else throw new System.ArgumentException($"Mesh {mesh.name} not found in dictionary");
+        }
+
+        public static void Move(Mesh mesh, int instanceId, int startOffset, Vector3 position)
+        {
+            if (dictionary.TryGetValue(mesh, out var renderGroup))
+            {
+                renderGroup.MoveSingle(instanceId, startOffset, position);
+            }
+            else throw new System.ArgumentException($"Mesh {mesh.name} not found in dictionary");
         }
     }
 
@@ -153,6 +160,41 @@ namespace _Root.Scripts.Game.MeshRenders.Runtime
             nativeMatrices.Dispose();
             nativeMatrices = newNativeMatrices;
             instanceIdStartEndInNativeArray.RemoveAt(instanceId);
+        }
+
+        public void MoveSingle(int instanceId, int startOffset, Vector3 position)
+        {
+            if (instanceId < 0 || instanceId >= instanceIdStartEndInNativeArray.Count)
+            {
+                throw new System.ArgumentOutOfRangeException($"Invalid instance ID: {instanceId}");
+            }
+
+            var (startIndex, endIndex) = instanceIdStartEndInNativeArray[instanceId];
+            if (startOffset < 0 || startOffset >= endIndex - startIndex)
+            {
+                throw new System.ArgumentOutOfRangeException($"Invalid start offset: {startOffset}");
+            }
+
+            var matrix = nativeMatrices[startIndex + startOffset];
+            matrix.SetColumn(3, position);
+            nativeMatrices[startIndex + startOffset] = matrix;
+        }
+
+        public void MoveSlice(int instanceId, Vector3[] positions)
+        {
+            if (instanceId < 0 || instanceId >= instanceIdStartEndInNativeArray.Count)
+            {
+                throw new System.ArgumentOutOfRangeException($"Invalid instance ID: {instanceId}");
+            }
+
+            var (startIndex, endIndex) = instanceIdStartEndInNativeArray[instanceId];
+
+            for (var i = startIndex; i < endIndex; i++)
+            {
+                var matrix = nativeMatrices[i];
+                matrix.SetColumn(3, positions[i - startIndex]);
+                nativeMatrices[i] = matrix;
+            }
         }
 
 
