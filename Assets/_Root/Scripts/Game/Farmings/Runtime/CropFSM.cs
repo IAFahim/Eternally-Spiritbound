@@ -83,7 +83,8 @@ namespace _Root.Scripts.Game.Farmings.Runtime
         public void OnSelected(RaycastHit hit)
         {
             Debug.Log("Selected");
-            _movedIndices = new HashSet<Vector2Int>();
+
+            if (_cropFsm.CurrentState == harvestCrop) _movedIndices = new HashSet<Vector2Int>();
         }
 
         private HashSet<Vector2Int> _movedIndices;

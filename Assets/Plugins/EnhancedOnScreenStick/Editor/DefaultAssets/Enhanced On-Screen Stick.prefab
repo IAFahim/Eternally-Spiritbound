@@ -240,8 +240,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 184cdbbc5b5c44d92998557dc052cada, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _controlPath: 
+  internalControlPath: 
   stickType: 0
+  axisOptions: 0
   movementRange: 100
   deadZone: 0
   showOnlyWhenPressed: 0

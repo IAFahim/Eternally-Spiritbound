@@ -84,7 +84,7 @@ namespace Pancake.UI
         private float _holdTimer; // calculate how long was the button pressed
         private Vector3 _endValue;
         private bool _isCompletePhaseDown;
-        private readonly WaitForEndOfFrame _waitForEndOfFrame = new WaitForEndOfFrame();
+        private readonly WaitForEndOfFrame _waitForEndOfFrame = new();
 #if PANCAKE_LITMOTION
         private MotionHandle _handleUp;
         private MotionHandle _handleDown;
@@ -549,13 +549,10 @@ namespace Pancake.UI
                     break;
                 case EButtonMotion.Normal:
 #if PANCAKE_UNITASK
-                    try
+                    while (!_isCompletePhaseDown)
                     {
-                        await UniTask.WaitUntil(() => _isCompletePhaseDown, cancellationToken: _tokenSource.Token);
-                    }
-                    catch (OperationCanceledException)
-                    {
-                        break;
+                        if (_tokenSource.Token.IsCancellationRequested) break;
+                        await UniTask.Yield();
                     }
 #endif
 
@@ -582,13 +579,10 @@ namespace Pancake.UI
 #endif
 
 #if PANCAKE_UNITASK
-                    try
+                    while (!_isCompletePhaseDown)
                     {
-                        await UniTask.WaitUntil(() => _isCompletePhaseDown, cancellationToken: _tokenSource.Token);
-                    }
-                    catch (OperationCanceledException)
-                    {
-                        break;
+                        if (_tokenSource.Token.IsCancellationRequested) break;
+                        await UniTask.Yield();
                     }
 #endif
 
@@ -641,13 +635,10 @@ namespace Pancake.UI
 #endif
 
 #if PANCAKE_UNITASK
-                    try
+                    while (!_isCompletePhaseDown)
                     {
-                        await UniTask.WaitUntil(() => _isCompletePhaseDown, cancellationToken: _tokenSource.Token);
-                    }
-                    catch (OperationCanceledException)
-                    {
-                        break;
+                        if (_tokenSource.Token.IsCancellationRequested) break;
+                        await UniTask.Yield();
                     }
 #endif
 
