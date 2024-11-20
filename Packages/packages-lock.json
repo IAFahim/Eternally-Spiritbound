@@ -122,6 +122,13 @@
       },
       "url": "https://packages.unity.com"
     },
+    "com.unity.collab-proxy": {
+      "version": "2.5.2",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
     "com.unity.collections": {
       "version": "2.5.1",
       "depth": 0,
@@ -298,11 +305,11 @@
       }
     },
     "com.unity.render-pipelines.universal-config": {
-      "version": "file:com.unity.render-pipelines.universal-config",
+      "version": "17.0.3",
       "depth": 0,
-      "source": "embedded",
+      "source": "builtin",
       "dependencies": {
-        "com.unity.render-pipelines.core": "17.0.1"
+        "com.unity.render-pipelines.core": "17.0.3"
       }
     },
     "com.unity.rendering.light-transport": {

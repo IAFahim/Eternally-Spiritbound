@@ -79,6 +79,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce5b3c68086d4e5fae1e624749d67a9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  assetScriptReference: {fileID: 0}
   entityStatsComponent: {fileID: 8256658712619696832}
 --- !u!114 &970737332303009931
 MonoBehaviour:
@@ -92,10 +93,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dd1b6e4a9d6417ea8d68da35f549900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemStorage:
-    defaultData:
-    - keyFirst: {fileID: 11400000, guid: 3c2adabcdf8aaef46be373b9297f1491, type: 2}
-      valueSecond: 1
+  assetScriptStorage:
+    defaultData: []
 --- !u!114 &6755126369491827642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,14 +107,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a17b197a69ac46a081db05634b320d9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  entityStatsComponent: {fileID: 0}
   inputEnabled: 0
   rb: {fileID: 7589321065733351887}
+  level: 0
   lean:
     leanAmount: {x: -10, y: 0, z: -10}
     model: {fileID: 1516211408497349390}
     boost: 10
   parameterScript: {fileID: 11400000, guid: c85af2ed0908c04449fcb6e6c078b4ec, type: 2}
-  waterParameterScript: {fileID: 11400000, guid: 69dcdbe808817c44a9b58a9878b07932, type: 2}
+  waterScript: {fileID: 11400000, guid: 69dcdbe808817c44a9b58a9878b07932, type: 2}
 --- !u!136 &7943169366095257837
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -153,7 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetLayer:
     serializedVersion: 2
-    m_Bits: 32768
+    m_Bits: 0
 --- !u!114 &8256658712619696832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,136 +167,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f90d4f1fd98b4c7fab38751ec3bf783b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  level: 0
   entityStatsParameterScript: {fileID: 11400000, guid: bfb0a96c47417b247840ebbf5d1d57f8, type: 2}
-  entityStats:
-    vitality:
-      health:
-        current:
-          value: 0
-        max:
-          baseValue: 3
-          rate: 0
-          additive: 0
-        enabled: 0
-      size:
-        baseValue: 0
-        rate: 0
-        additive: 0
-    defensive:
-      armor:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      shield:
-        current:
-          value: 0
-        max:
-          baseValue: 0
-          rate: 0
-          additive: 0
-      dodgeChance:
-        baseValue: 0
-        rate: 0
-        additive: 0
-    movement:
-      speed:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      pickupRange:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      detectRange:
-        baseValue: 0
-        rate: 0
-        additive: 0
-    progression:
-      experience:
-        value: 0
-      experienceRate:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      luck:
-        baseValue: 0
-        rate: 0
-        additive: 0
-    critical:
-      chance:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      damage:
-        baseValue: 0
-        rate: 0
-        additive: 0
-    ammo:
-      total:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      clipSize:
-        baseValue: 0
-        rate: 0
-        additive: 0
-    offensive:
-      damage:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      lifeTime:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      fireRate:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      cooldown:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      range:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      reloadTime:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      accuracy:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      recoil:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      size:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      speed:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      defensePenetration:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      elementalDamage:
-        baseValue: 0
-        rate: 0
-        additive: 0
-      penetration:
-        current:
-          value: 0
-        max:
-          baseValue: 0
-          rate: 0
-          additive: 0
-        enabled: 0
 --- !u!114 &4510898471342222219
 MonoBehaviour:
   m_ObjectHideFlags: 0

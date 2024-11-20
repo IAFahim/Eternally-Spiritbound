@@ -242,20 +242,20 @@ namespace Pancake.IAP
             // ReSharper disable once ConvertToConstant.Local
             var validPurchase = true;
 #if (UNITY_ANDROID || UNITY_IOS || UNITY_STANDALONE_OSX) && !UNITY_EDITOR
-            var validator = new UnityEngine.Purchasing.Security.CrossPlatformValidator(UnityEngine.Purchasing.Security.GooglePlayTangle.Data(),
-                UnityEngine.Purchasing.Security.AppleTangle.Data(),
-                Application.identifier);
-
-            try
-            {
-                validator.Validate(receipt);
-            }
-            catch (UnityEngine.Purchasing.Security.IAPSecurityException e)
-            {
-                exception = e;
-                validPurchase = false;
-                throw;
-            }
+            // var validator = new UnityEngine.Purchasing.Security.CrossPlatformValidator(UnityEngine.Purchasing.Security.GooglePlayTangle.Data(),
+            //     UnityEngine.Purchasing.Security.AppleTangle.Data(),
+            //     Application.identifier);
+            //
+            // try
+            // {
+            //     validator.Validate(receipt);
+            // }
+            // catch (UnityEngine.Purchasing.Security.IAPSecurityException e)
+            // {
+            //     exception = e;
+            //     validPurchase = false;
+            //     throw;
+            // }
 
 #endif
             // ReSharper disable once ConditionIsAlwaysTrueOrFalse

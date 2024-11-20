@@ -20,4 +20,4 @@ MonoBehaviour:
     m_EditorAssetChanged: 1
   mainObject: {fileID: 0}
   mainCamera: {fileID: 0}
-  moveAction: {fileID: -1680190386980627800, guid: 9334937fad4e1ad4ba5357282c93ace5, type: 3}
+  moveAction: {fileID: -1680190386980627800, guid: 052faaac586de48259a63d0c4782560b, type: 3}

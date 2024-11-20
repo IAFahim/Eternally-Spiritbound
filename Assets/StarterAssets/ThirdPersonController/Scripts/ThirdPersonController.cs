@@ -305,7 +305,11 @@ namespace StarterAssets
 
         public Camera MainCamera
         {
-            set => _mainCamera = value.transform;
+            set
+            {
+                if(value == null) return;
+                _mainCamera = new Optional<Transform>(value.transform);
+            }
         }
     }
 }
