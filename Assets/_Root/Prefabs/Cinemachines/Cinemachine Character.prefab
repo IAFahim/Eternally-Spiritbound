@@ -58,7 +58,7 @@ MonoBehaviour:
     LookAtTarget: {fileID: 0}
     CustomLookAtTarget: 0
   Lens:
-    FieldOfView: 21.6
+    FieldOfView: 70
     OrthographicSize: 50
     NearClipPlane: 0.01
     FarClipPlane: 400
@@ -95,7 +95,7 @@ MonoBehaviour:
     AngularDampingMode: 0
     RotationDamping: {x: 1, y: 1, z: 1}
     QuaternionDamping: 1
-  FollowOffset: {x: 0, y: 14.5, z: -48.8}
+  FollowOffset: {x: 0, y: 7.3, z: -9.4}
 --- !u!114 &1605197861189288486
 MonoBehaviour:
   m_ObjectHideFlags: 0

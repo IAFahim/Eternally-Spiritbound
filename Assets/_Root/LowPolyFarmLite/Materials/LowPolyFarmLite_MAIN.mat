@@ -34,19 +34,19 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: LowPolyFarmLite_MAIN
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Shader: {fileID: 4800000, guid: 6ec1afc7d53b4974ab764de8b09311f7, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _ENVIRONMENTREFLECTIONS_OFF
+  - _OVERRIDE_RAMP
   m_InvalidKeywords:
+  - _ENVIRONMENTREFLECTIONS_OFF
   - _GLOSSYREFLECTIONS_OFF
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap:
-    RenderType: Opaque
+  stringTagMap: {}
   disabledShaderPasses:
   - DistortionVectors
   - MOTIONVECTORS
@@ -130,6 +130,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 7bc9a4bafdf20d7409ec5c6155c56f4e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _MainTexture:
+        m_Texture: {fileID: 2800000, guid: 7bc9a4bafdf20d7409ec5c6155c56f4e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MaskMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -202,6 +206,8 @@ Material:
     - _AddPrecomputedVelocity: 0
     - _AlbedoAffectEmissive: 0
     - _AlphaClip: 0
+    - _AlphaClipThreshold: 0.5
+    - _AlphaClipping: 0
     - _AlphaCutoff: 0.5
     - _AlphaCutoffEnable: 0
     - _AlphaCutoffPostpass: 0.5
@@ -213,8 +219,10 @@ Material:
     - _AlphaToMaskInspectorValue: 0
     - _Anisotropy: 0
     - _Blend: 0
+    - _BlendDst: 0
     - _BlendMode: 0
     - _BlendModePreserveSpecular: 1
+    - _BlendSrc: 1
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -265,6 +273,13 @@ Material:
     - _EnableWind: 0
     - _EnergyConservingSpecularColor: 1
     - _EnvironmentReflections: 0
+    - _ForceDisableEnvironmentLight: 0
+    - _ForceDisableFog: 0
+    - _ForwardStencilComp: 0
+    - _ForwardStencilPass: 0
+    - _ForwardStencilReadMask: 255
+    - _ForwardStencilRef: 0
+    - _ForwardStencilWriteMask: 255
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
@@ -293,6 +308,14 @@ Material:
     - _NormalScale: 1
     - _OcclusionStrength: 1
     - _OpaqueCullMode: 2
+    - _OutlinesStencilLayer: 0
+    - _OverrideRamp: 1
+    - _OverrideRamp_RimSmoothness: 0.1
+    - _OverrideRamp_RimThreshold: 0.5
+    - _OverrideRamp_Smoothness: 0.079
+    - _OverrideRamp_SpecularSmoothness: 0.005
+    - _OverrideRamp_SpecularThreshold: 0.995
+    - _OverrideRamp_Threshold: -0.472
     - _PPDLodThreshold: 5
     - _PPDMaxSamples: 15
     - _PPDMinSamples: 5
@@ -302,10 +325,13 @@ Material:
     - _PreRefractionPass: 0
     - _QueueOffset: 0
     - _RayTracing: 0
+    - _ReceiveBlobShadows: 0
     - _ReceiveShadows: 1
     - _ReceivesSSR: 1
     - _ReceivesSSRTransparent: 0
     - _RefractionModel: 0
+    - _RenderFace: 2
+    - _RimSizeOffset: 0
     - _SSRefractionProjectionModel: 0
     - _ShiverDirectionality: 0.5
     - _ShiverDrag: 0.2
@@ -317,6 +343,7 @@ Material:
     - _SpecularAAThreshold: 0.2
     - _SpecularHighlights: 1
     - _SpecularOcclusionMode: 1
+    - _SpecularSizeOffset: 0
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _StencilRef: 0
@@ -364,13 +391,16 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
-    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _EmissiveColor: {r: 0, g: 0, b: 0, a: 1}
     - _EmissiveColorLDR: {r: 0, g: 0, b: 0, a: 1}
     - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}
     - _IridescenceThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _MainColor: {r: 1, g: 1, b: 1, a: 1}
+    - _RimColor: {r: 0, g: 0, b: 0, a: 0}
+    - _ShadowColor: {r: 0, g: 0, b: 0, a: 0.7372549}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SpecularColor: {r: 0, g: 0, b: 0, a: 1}
     - _ThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
     - _TransmittanceColor: {r: 1, g: 1, b: 1, a: 1}
     - _UVDetailsMappingMask: {r: 1, g: 0, b: 0, a: 0}
