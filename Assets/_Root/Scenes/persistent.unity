@@ -175,6 +175,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 14
       objectReference: {fileID: 0}
+    - target: {fileID: 4416926081852918481, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4416926081852918490, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: inputEnabled
       value: 1
@@ -194,7 +198,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4416926081852918481, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1588767267}
   m_SourcePrefab: {fileID: 100100000, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
 --- !u!1 &82122283
 GameObject:
@@ -1569,6 +1576,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f90d4f1fd98b4c7fab38751ec3bf783b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &1588767266 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3893294197879345259, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+  m_PrefabInstance: {fileID: 54847722}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1588767267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757500542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f381edcd2274334926ce523724d087c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  breadCrumbInterval: 60
+  currentInterval: 0
+  moveDistance: 2
+  breadCrumbCount: 2
+  breadCrumbTarget: {fileID: 1588767266}
 --- !u!1 &1710120074
 GameObject:
   m_ObjectHideFlags: 0
@@ -3183,7 +3212,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6962744888380172411, guid: b4184c7082524174b98d01a48ec2ccb2, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

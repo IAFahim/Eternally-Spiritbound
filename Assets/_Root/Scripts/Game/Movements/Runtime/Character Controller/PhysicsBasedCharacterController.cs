@@ -449,10 +449,5 @@ namespace _Root.Scripts.Game.Movements.Runtime.Character_Controller
         }
 
         public void SetParent(Transform parentTransform) => parent = parentTransform;
-
-        protected override void OnMoveInput(InputAction.CallbackContext context)
-        {
-            MoveDirection = context.ReadValue<Vector2>();
-        }
     }
 }

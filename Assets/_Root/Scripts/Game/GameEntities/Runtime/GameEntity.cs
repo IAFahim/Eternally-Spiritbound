@@ -1,9 +1,11 @@
-﻿using _Root.Scripts.Game.GameEntities.Runtime.Attacks;
+﻿using System;
+using _Root.Scripts.Game.GameEntities.Runtime.Attacks;
 using _Root.Scripts.Game.GameEntities.Runtime.Damages;
 using _Root.Scripts.Game.GameEntities.Runtime.Healths;
 using _Root.Scripts.Game.Stats.Runtime;
 using _Root.Scripts.Model.Assets.Runtime;
 using _Root.Scripts.Model.Stats.Runtime;
+using Pancake.Common;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.GameEntities.Runtime
@@ -13,17 +15,23 @@ namespace _Root.Scripts.Game.GameEntities.Runtime
     public class GameEntity : AssetScriptReferenceComponent, IDamage, IHealth
     {
         public EntityStatsComponent entityStatsComponent;
+        
+
+        public Action<GameEntity> OnDeath;
 
         #region Plumbing
 
         private void OnEnable()
         {
             entityStatsComponent.entityStats.vitality.health.current.OnChange += OnHealthChange;
+            App.AddListener(EUpdateMode.Update, BreadCrumbUpdate);
         }
+
 
         private void OnDisable()
         {
             entityStatsComponent.entityStats.vitality.health.current.OnChange -= OnHealthChange;
+            App.RemoveListener(EUpdateMode.Update, BreadCrumbUpdate);
         }
 
         private void OnValidate()
@@ -34,6 +42,11 @@ namespace _Root.Scripts.Game.GameEntities.Runtime
         #endregion
 
         public LimitStat HealthReference => entityStatsComponent.entityStats.vitality.health;
+
+
+        private void BreadCrumbUpdate()
+        {
+        }
 
         private void OnHealthChange(float old, float current)
         {
@@ -56,6 +69,8 @@ namespace _Root.Scripts.Game.GameEntities.Runtime
         {
         }
 
+        public void Kill() => OnDeath?.Invoke(this);
+
         public bool TryKill(AttackOrigin attackOrigin, out DamageInfo damage)
         {
             damage = new DamageInfo();
@@ -64,7 +79,9 @@ namespace _Root.Scripts.Game.GameEntities.Runtime
 
         public bool TryKill(float damage, out float damageDelt)
         {
-            return entityStatsComponent.entityStats.TryKill(damage, out damageDelt);
+            var isDead = entityStatsComponent.entityStats.TryKill(damage, out damageDelt);
+            if (isDead) Kill();
+            return isDead;
         }
     }
 }

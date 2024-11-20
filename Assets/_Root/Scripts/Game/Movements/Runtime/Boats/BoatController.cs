@@ -52,9 +52,9 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
         }
 
 
-        protected override void OnMoveInput(InputAction.CallbackContext context)
+        public override void Move(Vector2 direction)
         {
-            Vector2 input = IsInputEnabled ? context.ReadValue<Vector2>() : Vector2.zero;
+            Vector2 input = IsInputEnabled ? direction : Vector2.zero;
 
             if (_mainCamera.Enabled)
             {

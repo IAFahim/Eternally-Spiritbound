@@ -1,0 +1,4 @@
+﻿{
+  "name": "Game.Drone.Runtime",
+  "references":[ "GUID:d2cb8d325fb64758ae4c024f27594a20" ]
+}

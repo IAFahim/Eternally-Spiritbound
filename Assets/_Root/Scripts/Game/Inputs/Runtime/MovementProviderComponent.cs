@@ -46,15 +46,12 @@ namespace _Root.Scripts.Game.Inputs.Runtime
         {
             HasInputThisFrame = true;
             Move(context.ReadValue<Vector2>());
-            OnMoveInput(context);
         }
 
-        public void Move(Vector2 direction)
+        public virtual void Move(Vector2 direction)
         {
             MoveDirection = direction;
         }
-
-        protected abstract void OnMoveInput(InputAction.CallbackContext context);
 
         void IMoveInputConsumer.OnMoveInputCancel(InputAction.CallbackContext context) => OnMoveInputCancel(context);
 

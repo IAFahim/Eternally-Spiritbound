@@ -29,7 +29,7 @@ MonoBehaviour:
           max: 0
         dodgeChance: 0
       movement:
-        speed: 2
+        speed: 8
         pickupRange: 0
         detectRange: 0
       progression:

@@ -297,11 +297,6 @@ namespace StarterAssets
             }
         }
 
-        protected override void OnMoveInput(InputAction.CallbackContext context)
-        {
-            Direction = context.ReadValue<Vector2>();
-        }
-
         protected override void Reset()
         {
             base.Reset();
