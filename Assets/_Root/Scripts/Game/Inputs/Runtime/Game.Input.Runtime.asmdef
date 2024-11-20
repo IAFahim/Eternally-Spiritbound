@@ -2,7 +2,8 @@
     "name": "Game.Input.Runtime",
     "rootNamespace": "",
     "references": [
-        "GUID:75469ad4d38634e559750d17036d5f7c"
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:519a48b5a12a4e15b48a3b2f45098690"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

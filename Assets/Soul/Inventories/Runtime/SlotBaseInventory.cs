@@ -7,7 +7,8 @@ using UnityEngine;
 namespace Soul.Inventories.Runtime
 {
     [Serializable]
-    public abstract class InventoryBase<TElement> : StorageBase<TElement, int>, IInventoryBase<TElement> where TElement : IStackAble
+    public abstract class InventoryBase<TElement> : StorageBase<TElement, int>, IInventoryBase<TElement>
+        where TElement : IStackAble
     {
         [SerializeField] private int maxSlots = 20;
 
@@ -19,10 +20,11 @@ namespace Soul.Inventories.Runtime
 
         public int AvailableSlots => MaxSlots - Count;
 
-        public override bool TryAdd(TElement stackable, int amount, out int added, bool saveOnSuccess = false)
+        public override bool TryAdd(TElement stackable, int amount, out int added, out int afterAddAmount,
+            bool saveOnSuccess = false)
         {
             added = 0;
-
+            afterAddAmount = 0;
             if (amount <= 0)
                 return false;
 
@@ -37,7 +39,7 @@ namespace Soul.Inventories.Runtime
             if (availableSpace <= 0) return false; // Item stack is full
 
             int toAdd = Mathf.Min(amount, availableSpace);
-            bool result = base.TryAdd(stackable, toAdd, out added, saveOnSuccess);
+            bool result = base.TryAdd(stackable, toAdd, out added, out afterAddAmount, saveOnSuccess);
 
             if (result && added > 0) OnItemAdded(stackable, added);
 
@@ -54,7 +56,7 @@ namespace Soul.Inventories.Runtime
                 int remainingToAdd = pair.Value;
                 while (remainingToAdd > 0)
                 {
-                    if (TryAdd(pair.Key, remainingToAdd, out int added, false))
+                    if (TryAdd(pair.Key, remainingToAdd, out int added, out _, false))
                     {
                         remainingToAdd -= added;
                     }
@@ -73,10 +75,11 @@ namespace Soul.Inventories.Runtime
             return failedToAdd.Count == 0;
         }
 
-        public override bool TryRemove(TElement stackable, int amount, out int removed, bool saveOnSuccess = false)
+        public override bool TryRemove(TElement stackable, int amount, out int removed, out int afterRemoveAmount,
+            bool saveOnSuccess = false)
         {
             removed = 0;
-
+            afterRemoveAmount = 0;
             if (amount <= 0)
                 return false;
 
@@ -84,7 +87,7 @@ namespace Soul.Inventories.Runtime
                 return false;
 
             int toRemove = Mathf.Min(amount, currentAmount);
-            bool result = base.TryRemove(stackable, toRemove, out removed, saveOnSuccess);
+            bool result = base.TryRemove(stackable, toRemove, out removed, out afterRemoveAmount, saveOnSuccess);
 
             if (result && removed > 0) OnItemRemoved(stackable, removed);
 
@@ -98,7 +101,7 @@ namespace Soul.Inventories.Runtime
 
             foreach (var pair in elementsToRemove)
             {
-                if (TryRemove(pair.Key, pair.Value, out int removed, false))
+                if (TryRemove(pair.Key, pair.Value, out int removed, out _, false))
                 {
                     if (removed < pair.Value)
                         failedToRemove.Add(new Pair<TElement, int>(pair.Key, pair.Value - removed));
@@ -120,7 +123,7 @@ namespace Soul.Inventories.Runtime
 
             return currentAmount + amount <= stackable.MaxStack;
         }
-        
+
         public int SpaceLeft(TElement stackable)
         {
             if (!TryGetAmount(stackable, out int currentAmount))

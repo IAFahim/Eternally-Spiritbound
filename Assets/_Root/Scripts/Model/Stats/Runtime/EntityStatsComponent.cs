@@ -1,10 +1,9 @@
 ﻿using System;
-using _Root.Scripts.Model.Stats.Runtime;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace _Root.Scripts.Game.GameEntities.Runtime
+namespace _Root.Scripts.Model.Stats.Runtime
 {
     [DisallowMultipleComponent]
     public class EntityStatsComponent : MonoBehaviour

@@ -94,20 +94,23 @@ namespace Soul.Storages.Runtime
         /// <param name="element">The element to add to.</param>
         /// <param name="amount">The amount to add.</param>
         /// <param name="added">The amount actually added.</param>
+        /// <param name="afterAdd">The current amount in inventory</param>
         /// <param name="saveOnSuccess">Whether to save the data after a successful addition.</param>
         /// <returns>True if the addition was successful, false otherwise.</returns>
-        public virtual bool TryAdd(TElement element, TValue amount, out TValue added, bool saveOnSuccess = false)
+        public virtual bool TryAdd(TElement element, TValue amount, out TValue added, out TValue afterAdd, bool
+            saveOnSuccess = false)
+
         {
             if (!CanAdd(element, amount, out var currentAmount))
             {
-                added = default;
+                afterAdd = added = default;
                 return false;
             }
 
-            var newAmount = Sum(currentAmount, amount);
-            elements[element] = newAmount;
+            afterAdd = Sum(currentAmount, amount);
+            elements[element] = afterAdd;
             added = amount;
-            OnItemChanged?.Invoke(element, currentAmount, newAmount);
+            OnItemChanged?.Invoke(element, currentAmount, afterAdd);
 
             if (saveOnSuccess)
                 SaveData();
@@ -128,7 +131,7 @@ namespace Soul.Storages.Runtime
             failedToAdd = new List<Pair<TElement, TValue>>();
             foreach (var pair in elementsToAdd)
             {
-                if (!TryAdd(pair.Key, pair.Value, out _, false))
+                if (!TryAdd(pair.Key, pair.Value, out _, out _, false))
                     failedToAdd.Add(pair);
             }
 
@@ -140,7 +143,7 @@ namespace Soul.Storages.Runtime
         public virtual bool CanRemove(TElement element, TValue amount, out TValue currentAmount)
         {
             if (elements.TryGetValue(element, out currentAmount)) return Compare(currentAmount, amount) >= 0;
-            return false; // Or throw an exception, depending on your requirements
+            return false;
         }
 
         /// <summary>
@@ -149,22 +152,22 @@ namespace Soul.Storages.Runtime
         /// <param name="element">The element to remove from.</param>
         /// <param name="amount">The amount to remove.</param>
         /// <param name="removed">The amount actually removed.</param>
+        /// <param name="afterRemove">The current amount in inventory</param>
         /// <param name="saveOnSuccess">Whether to save the data after a successful removal.</param>
         /// <returns>True if the removal was successful, false otherwise.</returns>
-        public virtual bool TryRemove(TElement element, TValue amount, out TValue removed, bool saveOnSuccess = false)
+        public virtual bool TryRemove(TElement element, TValue amount, out TValue removed, out TValue afterRemove,
+            bool saveOnSuccess = false)
         {
             removed = default;
+            afterRemove = default;
             if (CanRemove(element, amount, out TValue currentAmount))
             {
-                var newAmount = Sub(currentAmount, amount);
-                elements[element] = newAmount;
+                afterRemove = Sub(currentAmount, amount);
+                elements[element] = afterRemove;
                 removed = amount;
-                OnItemChanged?.Invoke(element, currentAmount, newAmount);
-
-                if (Compare(newAmount, default) == 0)
-                    elements.Remove(element);
-                if (saveOnSuccess)
-                    SaveData();
+                OnItemChanged?.Invoke(element, currentAmount, afterRemove);
+                if (Compare(afterRemove, default) == 0) elements.Remove(element);
+                if (saveOnSuccess) SaveData();
                 return true;
             }
 
@@ -184,7 +187,7 @@ namespace Soul.Storages.Runtime
             failedToRemove = new List<Pair<TElement, TValue>>();
             foreach (var pair in elementsToRemove)
             {
-                if (!TryRemove(pair.Key, pair.Value, out _, false))
+                if (!TryRemove(pair.Key, pair.Value, out _, out _, false))
                     failedToRemove.Add(pair);
             }
 
@@ -442,7 +445,7 @@ namespace Soul.Storages.Runtime
         {
             foreach (var kvp in elementsToAdd)
             {
-                TryAdd(kvp.Key, kvp.Value, out _, false);
+                TryAdd(kvp.Key, kvp.Value, out _, out _, false);
             }
         }
 
@@ -515,7 +518,7 @@ namespace Soul.Storages.Runtime
         {
             foreach (var kvp in otherStorage.GetIEnumerable())
             {
-                TryAdd(kvp.Key, kvp.Value, out _, false);
+                TryAdd(kvp.Key, kvp.Value, out _, out _, false);
             }
 
             if (save) SaveData();

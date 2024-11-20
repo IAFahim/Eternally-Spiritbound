@@ -1,20 +1,32 @@
-﻿using UnityEngine;
+﻿
+using _Root.Scripts.Model.Stats.Runtime;
+using Sirenix.OdinInspector;
+using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Game.Inputs.Runtime
 {
+    [RequireComponent(typeof(EntityStatsComponent))]
     public abstract class MovementProviderComponent : MonoBehaviour, IMove
     {
+        public EntityStatsComponent entityStatsComponent;
         [FormerlySerializedAs("isInputEnabled")]
         public bool inputEnabled;
 
-        protected Vector3 MoveDirection;
+        [ShowInInspector] [ReadOnly] protected Vector3 MoveDirection;
+        [ShowInInspector] [ReadOnly] protected bool hasInputThisFrame;
 
         public bool IsInputEnabled
         {
             get => inputEnabled;
             set => inputEnabled = value;
+        }
+
+        public bool HasInputThisFrame
+        {
+            get => hasInputThisFrame;
+            set => hasInputThisFrame = value;
         }
 
         public Vector3 Direction
@@ -30,7 +42,17 @@ namespace _Root.Scripts.Game.Inputs.Runtime
             moveAction.action.canceled += ((IMoveInputConsumer)this).OnMoveInputCancel;
         }
 
-        void IMoveInputConsumer.OnMoveInput(InputAction.CallbackContext context) => OnMoveInput(context);
+        void IMoveInputConsumer.OnMoveInput(InputAction.CallbackContext context)
+        {
+            HasInputThisFrame = true;
+            Move(context.ReadValue<Vector2>());
+            OnMoveInput(context);
+        }
+
+        public void Move(Vector2 direction)
+        {
+            MoveDirection = direction;
+        }
 
         protected abstract void OnMoveInput(InputAction.CallbackContext context);
 
@@ -43,6 +65,15 @@ namespace _Root.Scripts.Game.Inputs.Runtime
             moveAction.action.canceled -= ((IMoveInputConsumer)this).OnMoveInputCancel;
         }
 
-        protected virtual void OnMoveInputCancel(InputAction.CallbackContext context) => MoveDirection = Vector3.zero;
+        protected virtual void OnMoveInputCancel(InputAction.CallbackContext context)
+        {
+            HasInputThisFrame = false;
+            Move(Vector2.zero);
+        }
+
+        protected virtual void Reset()
+        {
+            entityStatsComponent = GetComponent<EntityStatsComponent>();
+        }
     }
 }

@@ -25,19 +25,27 @@ namespace _Root.Scripts.Model.Assets.Runtime
         public virtual bool OnTryAddToInventory(
             AssetScriptStorageComponent assetScriptStorageComponent,
             int amount,
-            out int addedAmount
+            out int addedAmount,
+            out int afterAddAmount
         )
         {
-            return assetScriptStorageComponent.AssetScriptStorage.TryAdd(this, amount, out addedAmount);
+            return assetScriptStorageComponent.AssetScriptStorage.TryAdd(this, amount, out addedAmount,
+                out afterAddAmount);
         }
 
         public virtual bool OnTryRemovedFromInventory(
             AssetScriptStorageComponent assetScriptStorageComponent,
             int amount,
-            out int removedAmount
+            out int removedAmount,
+            out int afterRemoveAmount
         )
         {
-            return assetScriptStorageComponent.AssetScriptStorage.TryRemove(this, amount, out removedAmount);
+            return assetScriptStorageComponent.AssetScriptStorage.TryRemove(
+                this,
+                amount,
+                out removedAmount,
+                out afterRemoveAmount
+            );
         }
 
         public static implicit operator AssetReferenceGameObject(AssetScript assetScript)

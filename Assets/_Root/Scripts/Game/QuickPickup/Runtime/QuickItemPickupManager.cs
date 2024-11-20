@@ -58,7 +58,7 @@ namespace _Root.Scripts.Game.QuickPickup.Runtime
             if (pickupContainer.otherTransform != null)
             {
                 pickupContainer.StorageReferenceReference.AssetScriptStorage.TryAdd(
-                    pickupContainer.element, pickupContainer.amount, out var added
+                    pickupContainer.element, pickupContainer.amount, out var added, out _
                 );
                 pickupContainer.amount -= added;
                 if (pickupContainer.amount == 0)

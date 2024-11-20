@@ -1,4 +1,5 @@
-﻿using UnityEngine.InputSystem;
+﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace _Root.Scripts.Game.Inputs.Runtime
 {
@@ -6,6 +7,7 @@ namespace _Root.Scripts.Game.Inputs.Runtime
     {
         void EnableMoveInput(InputActionReference moveAction);
         void OnMoveInput(InputAction.CallbackContext context);
+        void Move(Vector2 direction);
         void OnMoveInputCancel(InputAction.CallbackContext context);
         void DisableMoveInput(InputActionReference moveAction);
     }

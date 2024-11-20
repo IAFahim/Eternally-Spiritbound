@@ -7,6 +7,7 @@ using Pancake;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Game.Movements.Runtime.Boats
 {
@@ -14,13 +15,16 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
     public class BoatController : MovementProviderComponent, IMainCameraProvider
     {
         [Header("References")] public Rigidbody rb;
+        public int level;
         [SerializeField] private Lean lean;
         [SerializeField] private BoatControllerParameterScript parameterScript;
 
         [ShowInInspector, NonSerialized, ReadOnly]
         public BoatControllerParameters Parameters;
 
-        [SerializeField] private WaterParameterScript waterParameterScript;
+        [FormerlySerializedAs("waterParameterScript")] [SerializeField]
+        private WaterScript waterScript;
+
         private bool _isReversing;
         private Optional<Camera> _mainCamera;
 
@@ -28,7 +32,7 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
         private void OnEnable()
         {
             rb = GetComponent<Rigidbody>();
-            Parameters = parameterScript.value;
+            parameterScript.TryGetParameter(level, out Parameters);
         }
 
         private void Update()
@@ -72,11 +76,6 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
             else MoveDirection = new Vector3(input.x, 0, input.y).normalized;
         }
 
-        protected override void OnMoveInputCancel(InputAction.CallbackContext context)
-        {
-            MoveDirection = Vector3.zero;
-            Debug.Log("Move Direction: " + MoveDirection);
-        }
 
         private void UpdateLean()
         {
@@ -128,26 +127,26 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
 
             return axis.normalized * (angle * Mathf.Deg2Rad);
         }
-        
+
         private void ApplyBuoyancy()
         {
             // Get the object's position
             float objectBottom = transform.position.y - (transform.localScale.y / 2);
-        
+
             // Check if object is in water
-            if (objectBottom < waterParameterScript.value.waterLevel)
+            if (objectBottom < waterScript.value.waterLevel)
             {
                 // Calculate submerged depth
-                float submergedDepth = Mathf.Abs(objectBottom - waterParameterScript.value.waterLevel);
+                float submergedDepth = Mathf.Abs(objectBottom - waterScript.value.waterLevel);
                 float submergedRatio = submergedDepth / transform.localScale.y;
                 submergedRatio = Mathf.Clamp01(submergedRatio);
-            
+
                 // Apply buoyancy force
-                float forceMagnitude = waterParameterScript.value.buoyancyForce * submergedRatio * rb.mass;
+                float forceMagnitude = waterScript.value.buoyancyForce * submergedRatio * rb.mass;
                 rb.AddForce(Vector3.up * forceMagnitude, ForceMode.Force);
-            
+
                 // Apply water resistance
-                rb.linearDamping = waterParameterScript.value.waterDrag;
+                rb.linearDamping = waterScript.value.waterDrag;
             }
             else
             {
@@ -158,8 +157,8 @@ namespace _Root.Scripts.Game.Movements.Runtime.Boats
 
         private void ApplyWaterDrag()
         {
-            rb.linearVelocity *= waterParameterScript.value.waterDrag;
-            rb.angularVelocity *= waterParameterScript.value.waterDrag;
+            rb.linearVelocity *= waterScript.value.waterDrag;
+            rb.angularVelocity *= waterScript.value.waterDrag;
         }
 
 

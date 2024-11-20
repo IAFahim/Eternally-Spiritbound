@@ -10,23 +10,35 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
     [Serializable]
     public class WeaponAsset : AssetScript
     {
-        [FormerlySerializedAs("bulletScript")] [FormerlySerializedAs("bullet")] public BulletAsset bulletAsset;
+        [FormerlySerializedAs("bulletScript")] [FormerlySerializedAs("bullet")]
+        public BulletAsset bulletAsset;
+
         [SerializeField] private OffensiveStatsParameterScript offensiveStatsParameterScript;
         public OffensiveStatsParameterScript OffensiveStatsParameterScript => offensiveStatsParameterScript;
 
-        public override bool OnTryAddToInventory(AssetScriptStorageComponent assetScriptStorageComponent, int amount,
-            out int addedAmount)
+        public override bool OnTryAddToInventory(
+            AssetScriptStorageComponent assetScriptStorageComponent,
+            int amount,
+            out int addedAmount,
+            out int afterAddAmount)
         {
             assetScriptStorageComponent.GetComponent<IWeaponLoader>().Add(this);
-            return base.OnTryAddToInventory(assetScriptStorageComponent, amount, out addedAmount);
+            return base.OnTryAddToInventory(assetScriptStorageComponent, amount, out addedAmount, out afterAddAmount);
         }
 
         public override bool OnTryRemovedFromInventory(AssetScriptStorageComponent assetScriptStorageComponent,
             int amount,
-            out int removedAmount)
+            out int removedAmount,
+            out int afterRemoveAmount
+        )
         {
             assetScriptStorageComponent.GetComponent<IWeaponLoader>().Remove(this);
-            return base.OnTryRemovedFromInventory(assetScriptStorageComponent, amount, out removedAmount);
+            return base.OnTryRemovedFromInventory(
+                assetScriptStorageComponent,
+                amount,
+                out removedAmount,
+                out afterRemoveAmount
+            );
         }
 
         public virtual void PlaceWeapon(Transform parent, Transform weaponTransform)

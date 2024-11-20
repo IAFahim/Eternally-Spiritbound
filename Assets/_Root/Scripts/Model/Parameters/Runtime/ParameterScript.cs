@@ -4,7 +4,6 @@ namespace _Root.Scripts.Model.Parameters.Runtime
 {
     public abstract class ParameterScript<T> : ScriptableObject where T : struct
     {
-        public T value;
         public Parameter<T>[] parameters;
 
         public bool TryGetParameter(int level, out T parameter)

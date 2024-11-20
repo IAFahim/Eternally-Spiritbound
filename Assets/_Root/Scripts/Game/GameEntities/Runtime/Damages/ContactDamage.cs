@@ -1,4 +1,5 @@
-﻿using Pancake.Common;
+﻿using _Root.Scripts.Model.Stats.Runtime;
+using Pancake.Common;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.GameEntities.Runtime.Damages

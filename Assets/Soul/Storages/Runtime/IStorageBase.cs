@@ -13,8 +13,7 @@ namespace Soul.Storages.Runtime
     /// <typeparam name="TValue">The type of values associated with elements.</typeparam>
     public interface IStorageBase<TElement, TValue> : IStorageAdapter<Pair<TElement, TValue>[]>,
         IReadOnlyDictionary<TElement, TValue>,
-
-    IEnumerable<KeyValuePair<TElement, TValue>>, IClearStorage
+        IEnumerable<KeyValuePair<TElement, TValue>>, IClearStorage
         where TElement : notnull
         where TValue : IComparable<TValue>
     {
@@ -36,7 +35,7 @@ namespace Soul.Storages.Runtime
         /// <summary>
         /// Tries to add an amount to an element in the storage.
         /// </summary>
-        bool TryAdd(TElement element, TValue amount, out TValue added, bool saveOnSuccess = false);
+        bool TryAdd(TElement element, TValue amount, out TValue added, out TValue afterAdd, bool saveOnSuccess = false);
 
         /// <summary>
         /// Tries to add multiple elements to the storage.
@@ -47,7 +46,8 @@ namespace Soul.Storages.Runtime
         /// <summary>
         /// Tries to remove an amount from an element in the storage.
         /// </summary>
-        bool TryRemove(TElement element, TValue amount, out TValue removed, bool saveOnSuccess = false);
+        bool TryRemove(TElement element, TValue amount, out TValue removed, out TValue afterRemove,
+            bool saveOnSuccess = false);
 
         /// <summary>
         /// Tries to remove multiple elements from the storage.
@@ -125,7 +125,7 @@ namespace Soul.Storages.Runtime
         /// Gets an Array of all element-value KeyValuePair in the storage.
         /// </summary>
         KeyValuePair<TElement, TValue>[] GetArrayKeyValuePair();
-        
+
         /// <summary>
         /// Gets an IEnumerable of all element-value pairs in the storage.
         /// </summary>

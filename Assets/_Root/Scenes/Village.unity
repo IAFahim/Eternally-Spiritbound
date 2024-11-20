@@ -7918,63 +7918,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be1920e12105b684db858e9371d2d646, type: 3}
---- !u!1001 &2453119620410821415
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4285873536163332734, guid: e7527858b7f564c4385d715c567f060f, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -72.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4285873536163332734, guid: e7527858b7f564c4385d715c567f060f, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4285873536163332734, guid: e7527858b7f564c4385d715c567f060f, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 141.3686
-      objectReference: {fileID: 0}
-    - target: {fileID: 4285873536163332734, guid: e7527858b7f564c4385d715c567f060f, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4285873536163332734, guid: e7527858b7f564c4385d715c567f060f, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4285873536163332734, guid: e7527858b7f564c4385d715c567f060f, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4285873536163332734, guid: e7527858b7f564c4385d715c567f060f, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4285873536163332734, guid: e7527858b7f564c4385d715c567f060f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4285873536163332734, guid: e7527858b7f564c4385d715c567f060f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4285873536163332734, guid: e7527858b7f564c4385d715c567f060f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5260993558809409611, guid: e7527858b7f564c4385d715c567f060f, type: 3}
-      propertyPath: m_Name
-      value: Boat store
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: e7527858b7f564c4385d715c567f060f, type: 3}
 --- !u!1001 &2738626179353533066
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8915,6 +8858,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2621099527063082638, guid: b563901dc515c89429a23389c45f9660, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6341726769077910133, guid: b563901dc515c89429a23389c45f9660, type: 3}
       propertyPath: m_Name
       value: House
@@ -9232,13 +9179,70 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c7821875e7cab74d9ff30daa8b58fa2, type: 3}
+--- !u!1001 &8859338550139038498
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4285873536163332734, guid: e7527858b7f564c4385d715c567f060f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -72.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4285873536163332734, guid: e7527858b7f564c4385d715c567f060f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4285873536163332734, guid: e7527858b7f564c4385d715c567f060f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 141.3686
+      objectReference: {fileID: 0}
+    - target: {fileID: 4285873536163332734, guid: e7527858b7f564c4385d715c567f060f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4285873536163332734, guid: e7527858b7f564c4385d715c567f060f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4285873536163332734, guid: e7527858b7f564c4385d715c567f060f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4285873536163332734, guid: e7527858b7f564c4385d715c567f060f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4285873536163332734, guid: e7527858b7f564c4385d715c567f060f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4285873536163332734, guid: e7527858b7f564c4385d715c567f060f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4285873536163332734, guid: e7527858b7f564c4385d715c567f060f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5260993558809409611, guid: e7527858b7f564c4385d715c567f060f, type: 3}
+      propertyPath: m_Name
+      value: Boat store
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e7527858b7f564c4385d715c567f060f, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 186644319}
   - {fileID: 2922250243414303424}
-  - {fileID: 2453119620410821415}
+  - {fileID: 8859338550139038498}
   - {fileID: 8425509585864194824}
   - {fileID: 2987275281219619215}
   - {fileID: 1775240206989971901}

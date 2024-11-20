@@ -5,8 +5,9 @@ using UnityEngine;
 namespace _Root.Scripts.Model.Water.Runtime
 {
     [CreateAssetMenu(fileName = "WaterParameters", menuName = "Scriptable/Parameters/Water")]
-    public class WaterParameterScript : ParameterScript<WaterParameters>
+    public class WaterScript : ScriptableObject
     {
+        public WaterParameters value;
         [SerializeField] private float lastTime = 0;
         [SerializeField] private float updateFrequency = 0.2f;
         [ShowInInspector] private float _waveOffset;
@@ -25,6 +26,7 @@ namespace _Root.Scripts.Model.Water.Runtime
                     _waveOffset = Mathf.Sin(Time.time * value.waveFrequency) * value.waveIntensity;
                     lastTime = Time.time;
                 }
+
                 return _waveOffset;
             }
         }

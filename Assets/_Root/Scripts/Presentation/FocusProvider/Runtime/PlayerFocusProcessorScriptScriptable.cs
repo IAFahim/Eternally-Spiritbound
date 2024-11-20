@@ -2,6 +2,7 @@
 using _Root.Scripts.Game.Consmatics.Runtime;
 using _Root.Scripts.Game.GameEntities.Runtime;
 using _Root.Scripts.Game.Interactables.Runtime;
+using _Root.Scripts.Model.Stats.Runtime;
 using _Root.Scripts.Presentation.Interactions.Runtime;
 using Cysharp.Threading.Tasks;
 using Pancake.Common;
