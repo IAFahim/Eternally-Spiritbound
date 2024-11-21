@@ -1692,7 +1692,7 @@ MonoBehaviour:
   breadCrumbInterval: 60
   currentInterval: 0
   moveDistance: 2
-  breadCrumbCount: 2
+  breadCrumbCount: 5
   breadCrumbTarget: {fileID: 1588767266}
 --- !u!1001 &1678193067
 PrefabInstance:

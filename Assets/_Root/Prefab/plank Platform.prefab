@@ -111,6 +111,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: b83ce8896abe55f4a935da81c48fb75f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a9252761b0f905545af4f0cbd91773f2, type: 2}
     - target: {fileID: 919132149155446097, guid: b83ce8896abe55f4a935da81c48fb75f, type: 3}
       propertyPath: m_Name
       value: fence-straight
@@ -337,6 +341,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 4159bcfaae0ac8848b896ee1a2b9e1d8, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a9252761b0f905545af4f0cbd91773f2, type: 2}
     - target: {fileID: 919132149155446097, guid: 4159bcfaae0ac8848b896ee1a2b9e1d8, type: 3}
       propertyPath: m_Name
       value: platform (3)
@@ -407,6 +415,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 4159bcfaae0ac8848b896ee1a2b9e1d8, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a9252761b0f905545af4f0cbd91773f2, type: 2}
     - target: {fileID: 919132149155446097, guid: 4159bcfaae0ac8848b896ee1a2b9e1d8, type: 3}
       propertyPath: m_Name
       value: platform (1)
@@ -555,6 +567,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: b83ce8896abe55f4a935da81c48fb75f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a9252761b0f905545af4f0cbd91773f2, type: 2}
     - target: {fileID: 919132149155446097, guid: b83ce8896abe55f4a935da81c48fb75f, type: 3}
       propertyPath: m_Name
       value: fence-straight (1)
@@ -633,6 +649,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: b83ce8896abe55f4a935da81c48fb75f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a9252761b0f905545af4f0cbd91773f2, type: 2}
     - target: {fileID: 919132149155446097, guid: b83ce8896abe55f4a935da81c48fb75f, type: 3}
       propertyPath: m_Name
       value: fence-straight (3)
@@ -859,6 +879,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 27dd1b4f6e267084781c1f35df8e960b, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a9252761b0f905545af4f0cbd91773f2, type: 2}
     - target: {fileID: 919132149155446097, guid: 27dd1b4f6e267084781c1f35df8e960b, type: 3}
       propertyPath: m_Name
       value: fence-corner
@@ -937,6 +961,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 27dd1b4f6e267084781c1f35df8e960b, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a9252761b0f905545af4f0cbd91773f2, type: 2}
     - target: {fileID: 919132149155446097, guid: 27dd1b4f6e267084781c1f35df8e960b, type: 3}
       propertyPath: m_Name
       value: fence-corner (1)
@@ -1085,6 +1113,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 4159bcfaae0ac8848b896ee1a2b9e1d8, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a9252761b0f905545af4f0cbd91773f2, type: 2}
     - target: {fileID: 919132149155446097, guid: 4159bcfaae0ac8848b896ee1a2b9e1d8, type: 3}
       propertyPath: m_Name
       value: platform
@@ -1163,6 +1195,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: b83ce8896abe55f4a935da81c48fb75f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a9252761b0f905545af4f0cbd91773f2, type: 2}
     - target: {fileID: 919132149155446097, guid: b83ce8896abe55f4a935da81c48fb75f, type: 3}
       propertyPath: m_Name
       value: fence-straight (2)
@@ -1233,6 +1269,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 4159bcfaae0ac8848b896ee1a2b9e1d8, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a9252761b0f905545af4f0cbd91773f2, type: 2}
     - target: {fileID: 919132149155446097, guid: 4159bcfaae0ac8848b896ee1a2b9e1d8, type: 3}
       propertyPath: m_Name
       value: platform (2)

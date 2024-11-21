@@ -74,12 +74,12 @@ MonoBehaviour:
   interactableConfirmHelperAsset:
     enabled: 1
     value:
-      m_AssetGUID: 1f6d1eab66d2ba44b898b321b0b61d42
+      m_AssetGUID: 96af7552c88e063488218aec4fe7624a
       m_SubObjectName: 
       m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  offset: {x: 0.76, y: 3, z: 0}
+  offset: {x: 0, y: 5.64, z: 0}
 --- !u!114 &6201677777090694995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -342,6 +342,14 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1f6511f95b3de824eb15eb6528fc2f8d, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 6235c759e70ec16459e5ca01d434327b, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 1f6511f95b3de824eb15eb6528fc2f8d, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a2a6591b343a0244493ad75a57d7e202, type: 2}
     - target: {fileID: 919132149155446097, guid: 1f6511f95b3de824eb15eb6528fc2f8d, type: 3}
       propertyPath: m_Name
       value: roofPoint
@@ -420,6 +428,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: ec9d05e447d763445b4980fed2d132a1, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a9252761b0f905545af4f0cbd91773f2, type: 2}
     - target: {fileID: 919132149155446097, guid: ec9d05e447d763445b4980fed2d132a1, type: 3}
       propertyPath: m_Name
       value: resource-planks
@@ -573,6 +585,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 08b1e5133f985674d9f45c482fb8db3c, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: df85515c01800b14a9f583a31b95fee2, type: 2}
     - target: {fileID: 919132149155446097, guid: 08b1e5133f985674d9f45c482fb8db3c, type: 3}
       propertyPath: m_Name
       value: building-window-door-window

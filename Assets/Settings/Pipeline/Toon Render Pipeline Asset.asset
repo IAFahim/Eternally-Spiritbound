@@ -53,12 +53,16 @@ MonoBehaviour:
       m_Bits: 4294967295
     TransparentLayerMask:
       serializedVersion: 2
-      m_Bits: 247
+      m_Bits: 183
+    MotionVectorsZeroLayerMask:
+      serializedVersion: 2
+      m_Bits: 0
     UseSrpBatching: 1
     UseDynamicBatching: 0
     ForceRenderToIntermediateBuffer: 0
     NativeRenderPasses: 0
     ForceStoreCameraDepth: 0
+    BakedLightingFeatures: -1
   ShadowSettings:
     Mode: 1
     Threshold: 0.422
@@ -94,6 +98,9 @@ MonoBehaviour:
         DepthBias: 0.034
         NormalBias: 0.03
         SlopeBias: 1.37
+      Additional:
+        Enabled: 0
+        AtlasSize: 1024
     Blobs:
       AtlasSize: 128
       Mode: 0
