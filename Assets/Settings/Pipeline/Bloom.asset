@@ -21,10 +21,13 @@ MonoBehaviour:
     MaxIterations: 3
     ResolutionFactor: 2
     DownsampleLimit: 2
-    BicubicUpsampling: 0
     Pattern:
       Enabled: 1
       Scale: 350
       Power: 1.7
       Multiplier: 33
       Smoothness: 0.8
+      LuminanceThreshold: 0.05
+      DotSizeLimit: 0
+      Blend: 0
+      FinalIntensityThreshold: 0

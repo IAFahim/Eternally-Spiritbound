@@ -14,12 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ForceIncludedShaders:
   - {fileID: 4800000, guid: 32cf79821a574ca29fd7697e92aae19d, type: 3}
-  - {fileID: 4800000, guid: 11527595c9484fb09a4ee48b0e47204f, type: 3}
   - {fileID: 4800000, guid: 48be904f99f74bee85d2e82c67910da8, type: 3}
   - {fileID: 4800000, guid: 3774c88acba044f58195398345cfc7cd, type: 3}
-  - {fileID: 4800000, guid: 7be86da3d47840bd8b73ba28db1a2ca1, type: 3}
-  - {fileID: 4800000, guid: 2268c7f425a8453ba9e77607d402a9b4, type: 3}
-  - {fileID: 4800000, guid: 4aee5d6e842043a384557e2f0557f76c, type: 3}
   GlobalRampSettings:
     Threshold: 0
     SpecularThreshold: 0.79
@@ -53,22 +49,18 @@ MonoBehaviour:
       m_Bits: 4294967295
     TransparentLayerMask:
       serializedVersion: 2
-      m_Bits: 183
-    MotionVectorsZeroLayerMask:
-      serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 247
     UseSrpBatching: 1
     UseDynamicBatching: 0
     ForceRenderToIntermediateBuffer: 0
     NativeRenderPasses: 0
     ForceStoreCameraDepth: 0
-    BakedLightingFeatures: -1
   ShadowSettings:
     Mode: 1
     Threshold: 0.422
-    CrispAntiAliased: 0
+    CrispAntiAliased: 1
     Smoothness: 1
-    MaxDistance: 40
+    MaxDistance: 25
     DistanceFade: 0.354
     Pattern: {fileID: 2800000, guid: 370591c24596965498bac30a92b5a7cf, type: 3}
     PatternScale: {x: 1, y: 0, z: 1}
@@ -98,9 +90,6 @@ MonoBehaviour:
         DepthBias: 0.034
         NormalBias: 0.03
         SlopeBias: 1.37
-      Additional:
-        Enabled: 0
-        AtlasSize: 1024
     Blobs:
       AtlasSize: 128
       Mode: 0

@@ -21,7 +21,7 @@ MonoBehaviour:
     AfterTransparent: 0
     LayerMask:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 256
     Tint: {r: 1, g: 1, b: 1, a: 1}
     Pattern: {fileID: 2800000, guid: ccbd3348a4f42614b978aa012cab5239, type: 3}
     PatternHorizontalTiling: 200

@@ -19,28 +19,40 @@ MonoBehaviour:
     - Name: Thick (Outer)
       LayerMask:
         serializedVersion: 2
-        m_Bits: 183
+        m_Bits: 32951
       StencilLayer: 8
+      StencilPassOp: 0
       Color: {r: 0, g: 0, b: 0, a: 0}
-      Thickness: 0.02
+      Thickness: 0.015
+      FixedScreenSpaceThickness: 0
       NoiseAmplitude: 0.015
       NoiseFrequency: 1000
+      OverrideMaterial: {fileID: 0}
       NormalsSource: 0
-      VertexColorThicknessSource: 1
       DepthBias: 0
       MaxDistance: 15
       DistanceFade: 0.1
+      PrePassIgnoreMask: 0
+      CameraOverrides:
+        Enabled: 0
+        FieldOfView: 0
     - Name: Thin (Inner)
       LayerMask:
         serializedVersion: 2
-        m_Bits: 55
+        m_Bits: 32823
       StencilLayer: 0
+      StencilPassOp: 0
       Color: {r: 0, g: 0, b: 0, a: 0}
       Thickness: 0.0125
+      FixedScreenSpaceThickness: 0
       NoiseAmplitude: 0
       NoiseFrequency: 0
+      OverrideMaterial: {fileID: 0}
       NormalsSource: 0
-      VertexColorThicknessSource: 1
       DepthBias: -1.5
       MaxDistance: 15
       DistanceFade: 0.1
+      PrePassIgnoreMask: 0
+      CameraOverrides:
+        Enabled: 0
+        FieldOfView: 0

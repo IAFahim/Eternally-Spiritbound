@@ -24,8 +24,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: 6ec1afc7d53b4974ab764de8b09311f7, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _OVERRIDE_RAMP
+  m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -140,7 +139,7 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _OutlinesStencilLayer: 0
-    - _OverrideRamp: 1
+    - _OverrideRamp: 0
     - _OverrideRamp_RimSmoothness: 2
     - _OverrideRamp_RimThreshold: 1
     - _OverrideRamp_Smoothness: 0
