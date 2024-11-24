@@ -13,17 +13,21 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Attacks
     public struct AttackOrigin
     {
         public WeaponComponent weaponComponent;
+        public EntityStatsComponent entityStatsComponent;
         public OffensiveStats offensiveStats;
-        
-        public GameObject target;
+
+
+        public Optional<GameObject> target;
         public Vector3 originPosition;
         public Vector3 targetPosition;
 
-        public AttackOrigin(WeaponComponent weaponComponent, OffensiveStats offensiveStats, GameObject target, Vector3 originPosition, Vector3 targetPosition)
+        public AttackOrigin(WeaponComponent weaponComponent, EntityStatsComponent entityStatsComponent,
+            OffensiveStats offensiveStats, GameObject target, Vector3 originPosition, Vector3 targetPosition)
         {
             this.weaponComponent = weaponComponent;
+            this.entityStatsComponent = entityStatsComponent;
             this.offensiveStats = offensiveStats;
-            this.target = target;
+            this.target = new Optional<GameObject>(target, target);
             this.originPosition = originPosition;
             this.targetPosition = targetPosition;
         }

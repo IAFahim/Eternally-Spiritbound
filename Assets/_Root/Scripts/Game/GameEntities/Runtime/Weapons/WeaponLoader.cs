@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using _Root.Scripts.Model.Stats.Runtime;
 using Cysharp.Threading.Tasks;
 using Pancake.Pools;
@@ -43,7 +42,7 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
             _offensiveStats = entityStatsComponent.entityStats.offensive;
             foreach (var activeWeapon in activeWeapons)
             {
-                activeWeapon.Value.Init(_focusReference, activeWeapon.Key, _offensiveStats);
+                activeWeapon.Value.Init(entityStatsComponent, _focusReference, activeWeapon.Key, _offensiveStats);
             }
         }
 

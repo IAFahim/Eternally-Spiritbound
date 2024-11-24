@@ -132,11 +132,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentLevel: 0
-  weaponAsset: {fileID: 11400000, guid: 439424b3e6a167c47bd5e82d52f2639a, type: 2}
-  noDelayOnFirstFire: 1
-  bulletScript: {fileID: 11400000, guid: a08c7c885fd342541bbdfafac18552fa, type: 2}
   fire: 0
   lastFireTime: 0
+  weaponAsset: {fileID: 11400000, guid: 439424b3e6a167c47bd5e82d52f2639a, type: 2}
+  noDelayOnFirstFire: 1
+  bulletAsset: {fileID: 11400000, guid: a08c7c885fd342541bbdfafac18552fa, type: 2}
   overlapNonAlloc:
     config:
       searchMask:

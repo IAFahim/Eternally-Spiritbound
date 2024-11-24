@@ -3,41 +3,31 @@ using _Root.Scripts.Game.GameEntities.Runtime.Damages;
 using _Root.Scripts.Model.Stats.Runtime;
 using Pancake.Common;
 using Pancake.Pools;
-using Sisus.Init;
 using Soul.Interactables.Runtime;
 using Soul.OverlapSugar.Runtime;
 using Soul.Tickers.Runtime;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
 {
     public class WeaponComponent : MonoBehaviour, IWeapon
     {
         public int currentLevel;
-
-        [FormerlySerializedAs("weaponAssetAsset")] [SerializeField]
-        private WeaponAsset weaponAsset;
-
-        [SerializeField] private bool noDelayOnFirstFire = true;
-
-        [FormerlySerializedAs("bulletScript")] [SerializeField]
-        private BulletAsset bulletAsset;
-
         public bool fire;
         public float lastFireTime;
+
+        [SerializeField] private WeaponAsset weaponAsset;
+        [SerializeField] private bool noDelayOnFirstFire = true;
+        [SerializeField] private BulletAsset bulletAsset;
 
         [SerializeField] private OverlapNonAlloc overlapNonAlloc;
         [SerializeField] private IntervalTicker intervalTicker;
         [SerializeField] private Transform firePoint;
+
         private OffensiveStats _offensiveStats;
 
-        private IFocus focusReference;
-
-        public IFocus FocusReference => focusReference;
-        public WeaponAsset WeaponAsset => weaponAsset;
-        public GameObject GameObject => gameObject;
-        public Transform FirePoint => firePoint;
+        public IFocus FocusReference { get; private set; }
+        public EntityStatsComponent EntityStatsComponent { get; private set; }
 
         public BulletAsset BulletAsset
         {
@@ -45,9 +35,17 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
             set => bulletAsset = value;
         }
 
-        public void Init(IFocus focus, int level, OffensiveStats playerOffensiveStats)
+        public WeaponAsset WeaponAsset => weaponAsset;
+        public GameObject GameObject => gameObject;
+        public Transform FirePoint => firePoint;
+
+
+        public void Init(EntityStatsComponent entityStatsComponent, IFocus focus, int level,
+            OffensiveStats playerOffensiveStats)
+
         {
-            focusReference = focus;
+            EntityStatsComponent = entityStatsComponent;
+            FocusReference = focus;
             weaponAsset.OffensiveStatsParameterScript.TryCombine(
                 currentLevel = level,
                 playerOffensiveStats, out _offensiveStats
@@ -67,6 +65,26 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
             App.AddListener(EUpdateMode.FixedUpdate, OnFixedUpdate);
         }
 
+        public void PerformAttack(GameObject other)
+        {
+            InitBullet(GetFromPool(), other);
+        }
+
+        public void PerformAttack(Vector3 targetPosition)
+        {
+            InitBullet(GetFromPool(), targetPosition);
+        }
+
+        public void OnAttackHit(IBullet bullet, DamageInfo damageInfo)
+        {
+            Debug.Log("Hit: " + damageInfo.damagedGameObject.name);
+        }
+
+        public void OnReturnToPool(IBullet bullet)
+        {
+            SharedAssetReferencePool.Return(bulletAsset, bullet.GameObject);
+        }
+
         private void OnUpdate()
         {
             if (!overlapNonAlloc.Found()) return;
@@ -78,21 +96,17 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
             lastFireTime = Time.time;
         }
 
-
-        public void PerformAttack(GameObject other)
+        private GameObject GetFromPool()
         {
-            InitBullet(SharedAssetReferencePool.Request(bulletAsset), other);
+            return SharedAssetReferencePool.Request(bulletAsset, firePoint.position, firePoint.rotation);
         }
 
-        public void PerformAttack(Vector3 targetPosition)
-        {
-            InitBullet(SharedAssetReferencePool.Request(bulletAsset), targetPosition);
-        }
 
         private void InitBullet(GameObject bullet, GameObject target)
         {
             bullet.GetComponent<IBullet>().Init(
                 new AttackOrigin(this,
+                    EntityStatsComponent,
                     _offensiveStats,
                     target,
                     transform.position,
@@ -105,6 +119,7 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
         {
             bullet.GetComponent<IBullet>().Init(
                 new AttackOrigin(this,
+                    EntityStatsComponent,
                     _offensiveStats,
                     null,
                     transform.position,
@@ -118,16 +133,6 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
             if (intervalTicker.TryTick()) overlapNonAlloc.Perform();
         }
 
-
-        public void OnAttackHit(IBullet bullet, DamageInfo damageInfo)
-        {
-            Debug.Log("Hit: " + damageInfo.damagedGameObject.name);
-        }
-
-        public void OnReturnToPool(IBullet bullet)
-        {
-            SharedAssetReferencePool.Return(bulletAsset, bullet.GameObject);
-        }
 
         private void RemoveListeners()
         {
