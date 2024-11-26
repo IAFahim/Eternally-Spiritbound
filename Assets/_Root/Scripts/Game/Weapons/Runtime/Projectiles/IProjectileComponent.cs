@@ -1,38 +1,38 @@
-﻿using _Root.Scripts.Game.GameEntities.Runtime.Damages;
+﻿using _Root.Scripts.Game.Stats.Runtime;
 using _Root.Scripts.Game.Weapons.Runtime.Attacks;
 using Pancake.Common;
-using Sisus.Init;
 using UnityEngine;
 
-namespace _Root.Scripts.Game.Weapons.Runtime
+namespace _Root.Scripts.Game.Weapons.Runtime.Projectiles
 {
-    public class IProjectileComponent : MonoBehaviour, IInitializable<AttackOrigin>, IProjectile
+    public class IProjectileComponent : MonoBehaviour, IProjectile
     {
         public GameObject GameObject => gameObject;
-        private AttackOrigin _attackOriginReference;
+        private AttackOrigin _attackOrigin;
 
         public void Init(AttackOrigin attackOrigin)
         {
-            _attackOriginReference = attackOrigin;
-            App.Delay(_attackOriginReference.offensiveStats.lifeTime, OnTimeUp);
+            _attackOrigin = attackOrigin;
+            App.Delay(_attackOrigin.offensiveStats.lifeTime, OnTimeUp);
         }
 
         private void Update()
         {
-            transform.position += transform.forward * (_attackOriginReference.offensiveStats.speed * Time.deltaTime);
+            transform.position += transform.forward * (_attackOrigin.offensiveStats.speed * Time.deltaTime);
         }
 
         private void OnTimeUp()
         {
-            _attackOriginReference.weaponComponent.OnReturnToPool(this);
+            _attackOrigin.weaponComponent.OnReturnToPool(this);
         }
 
         private void OnCollisionEnter(Collision other)
         {
-            _attackOriginReference.weaponComponent.OnAttackHit(this,
-                new DamageInfo(other.gameObject, _attackOriginReference.offensiveStats.damage, 0, 0)
-            );
+            if (other.gameObject.TryGetComponent<EntityStatsComponent>(out var entityStatsComponent))
+            {
+                entityStatsComponent.entityStats.Damage(_attackOrigin.offensiveStats.damage, out var damageResult);
+                _attackOrigin.weaponComponent.OnAttackHit(this, damageResult);
+            }
         }
-
     }
 }

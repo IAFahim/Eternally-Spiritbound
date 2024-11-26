@@ -3,7 +3,6 @@ using _Root.Scripts.Game.GameEntities.Runtime.Healths;
 using _Root.Scripts.Game.Stats.Runtime;
 using _Root.Scripts.Model.Assets.Runtime;
 using _Root.Scripts.Model.Stats.Runtime;
-using Pancake.Common;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.GameEntities.Runtime
@@ -22,14 +21,12 @@ namespace _Root.Scripts.Game.GameEntities.Runtime
         private void OnEnable()
         {
             entityStatsComponent.entityStats.vitality.health.current.OnChange += OnHealthChange;
-            App.AddListener(EUpdateMode.Update, BreadCrumbUpdate);
         }
 
 
         private void OnDisable()
         {
             entityStatsComponent.entityStats.vitality.health.current.OnChange -= OnHealthChange;
-            App.RemoveListener(EUpdateMode.Update, BreadCrumbUpdate);
         }
 
         private void OnValidate()
@@ -40,11 +37,7 @@ namespace _Root.Scripts.Game.GameEntities.Runtime
         #endregion
 
         public LimitStat HealthReference => entityStatsComponent.entityStats.vitality.health;
-
-
-        private void BreadCrumbUpdate()
-        {
-        }
+        
 
         private void OnHealthChange(float old, float current)
         {

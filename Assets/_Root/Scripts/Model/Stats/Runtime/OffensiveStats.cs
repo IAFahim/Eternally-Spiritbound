@@ -16,8 +16,6 @@ namespace _Root.Scripts.Model.Stats.Runtime
         public float clipSize;
         public float size;
         public float speed;
-        public float defensePenetration;
-        public float elementalDamage;
         public int penetration;
 
 
@@ -36,8 +34,6 @@ namespace _Root.Scripts.Model.Stats.Runtime
                 clipSize = clipSize + other.clipSize,
                 size = size + other.size,
                 speed = speed + other.speed,
-                defensePenetration = defensePenetration + other.defensePenetration,
-                elementalDamage = elementalDamage + other.elementalDamage,
                 penetration = penetration + other.penetration
             };
         }

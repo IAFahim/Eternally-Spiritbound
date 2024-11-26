@@ -1,4 +1,5 @@
-﻿using _Root.Scripts.Game.GameEntities.Runtime.Damages;
+﻿using _Root.Scripts.Game.Stats.Runtime;
+using _Root.Scripts.Game.Weapons.Runtime.Projectiles;
 using _Root.Scripts.Model.Stats.Runtime;
 using Sisus.Init;
 using Soul.Interactables.Runtime;
@@ -14,7 +15,7 @@ namespace _Root.Scripts.Game.Weapons.Runtime
         public Transform FirePoint { get; }
         public void PerformAttack(GameObject target);
         public void PerformAttack(Vector3 targetPosition);
-        public void OnAttackHit(IProjectile iProjectile, DamageInfo damageInfo);
+        public void OnAttackHit(IProjectile iProjectile, DamageResult damageResult);
         public void OnReturnToPool(IProjectile iProjectile);
     }
 }

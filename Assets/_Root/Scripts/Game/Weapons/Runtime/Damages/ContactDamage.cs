@@ -1,4 +1,4 @@
-﻿using _Root.Scripts.Game.GameEntities.Runtime.Damages;
+﻿using _Root.Scripts.Game.Stats.Runtime;
 using _Root.Scripts.Model.Stats.Runtime;
 using Pancake.Common;
 using UnityEngine;
@@ -15,14 +15,14 @@ namespace _Root.Scripts.Game.Weapons.Runtime.Damages
         {
             _entityStatsReference = GetComponent<EntityStatsComponent>();
         }
-        
+
         private void OnCollisionEnter(Collision other)
         {
             if (C.Contains(other.gameObject.layer, targetLayer))
             {
-                if (other.gameObject.TryGetComponent<IDamage>(out var damage))
+                if (other.gameObject.TryGetComponent<EntityStatsComponent>(out var entityStatsComponent))
                 {
-                    damage.TryKill(1, out _);
+                    entityStatsComponent.entityStats.Damage(1, out _);
                 }
             }
         }

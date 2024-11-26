@@ -1,5 +1,6 @@
 using System;
 using _Root.Scripts.Game.Popups.NoInternet;
+using Cysharp.Threading.Tasks;
 using Pancake;
 using Pancake.Common;
 using Pancake.UI;
@@ -28,7 +29,7 @@ namespace _Root.Scripts.Game.Persistent
                 {
                     var popupContainer = MainUIContainer.In.GetMain<PopupContainer>();
                     popupContainer.Popups.TryGetValue(noInternetPopupKey, out var popup);
-                    if (popup == null) popupContainer.Push<NoInternetPopup>(noInternetPopupKey, true, popupId: noInternetPopupKey);
+                    if (popup == null) popupContainer.PushAsync<NoInternetPopup>(noInternetPopupKey, true, popupId: noInternetPopupKey).Forget();
                 }
             });
         }

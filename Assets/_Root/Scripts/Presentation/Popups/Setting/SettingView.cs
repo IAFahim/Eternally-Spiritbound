@@ -8,9 +8,8 @@ namespace _Root.Scripts.Presentation.Popups.Setting
 {
     public class SettingView : View
     {
-        
         [SerializeField] private Button buttonClose;
-        
+
         [SerializeField, PopupPickup] private string creditPopupKey;
         [SerializeField, PopupPickup] private string backupDataPopupKey;
 
@@ -20,10 +19,16 @@ namespace _Root.Scripts.Presentation.Popups.Setting
             return UniTask.CompletedTask;
         }
 
-        private void OnButtonBackupPressed() { MainUIContainer.In.GetMain<PopupContainer>().Push(backupDataPopupKey, true); }
+        private void OnButtonBackupPressed()
+        {
+            MainUIContainer.In.GetMain<PopupContainer>().PushAsync(backupDataPopupKey, true).Forget();
+        }
 
-        private void OnButtonCreditPressed() { MainUIContainer.In.GetMain<PopupContainer>().Push(creditPopupKey, true); }
-        
+        private void OnButtonCreditPressed()
+        {
+            MainUIContainer.In.GetMain<PopupContainer>().PushAsync(creditPopupKey, true).Forget();
+        }
+
 
         private async void OnButtoClosePressed()
         {

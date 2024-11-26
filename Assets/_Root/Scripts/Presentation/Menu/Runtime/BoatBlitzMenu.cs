@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using Pancake;
 using Pancake.UI;
 using UnityEngine;
@@ -22,7 +23,7 @@ namespace _Root.Scripts.Presentation.Menu.Runtime
 
         private void OnButtonSettingPressed()
         {
-            MainUIContainer.In.GetMain<PopupContainer>().Push(settingPopupKey, true);
+            MainUIContainer.In.GetMain<PopupContainer>().PushAsync(settingPopupKey, true).Forget();
         }
     }
 }

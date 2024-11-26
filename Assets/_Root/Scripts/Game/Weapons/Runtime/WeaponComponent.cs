@@ -1,4 +1,4 @@
-﻿using _Root.Scripts.Game.GameEntities.Runtime.Damages;
+﻿using _Root.Scripts.Game.Stats.Runtime;
 using _Root.Scripts.Game.Weapons.Runtime.Attacks;
 using _Root.Scripts.Game.Weapons.Runtime.Projectiles;
 using _Root.Scripts.Model.Stats.Runtime;
@@ -80,9 +80,9 @@ namespace _Root.Scripts.Game.Weapons.Runtime
             InitBullet(GetFromPool(), targetPosition);
         }
 
-        public void OnAttackHit(IProjectile iProjectile, DamageInfo damageInfo)
+        public void OnAttackHit(IProjectile iProjectile, DamageResult damageResult)
         {
-            Debug.Log("Hit: " + damageInfo.damagedGameObject.name);
+            Debug.Log("Hit: " + damageResult.Victim.name);
         }
 
         public void OnReturnToPool(IProjectile iProjectile)

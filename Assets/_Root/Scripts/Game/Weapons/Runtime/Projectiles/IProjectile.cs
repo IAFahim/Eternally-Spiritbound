@@ -2,7 +2,7 @@
 using Sisus.Init;
 using UnityEngine;
 
-namespace _Root.Scripts.Game.Weapons.Runtime
+namespace _Root.Scripts.Game.Weapons.Runtime.Projectiles
 {
     public interface IProjectile: IInitializable<AttackOrigin>
     {

@@ -1,14 +1,13 @@
 ﻿using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace _Root.Scripts.Model.Stats.Runtime
+namespace _Root.Scripts.Game.Stats.Runtime
 {
     [DisallowMultipleComponent]
     public class EntityStatsComponent : MonoBehaviour
     {
-        [FormerlySerializedAs("key")] public int level;
+        public int level;
         [SerializeField] private EntityStatParameterScript entityStatsParameterScript;
 
         [ShowInInspector] [ReadOnly] [NonSerialized]

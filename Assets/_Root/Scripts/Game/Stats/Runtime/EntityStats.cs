@@ -1,10 +1,11 @@
 ﻿using System;
+using _Root.Scripts.Game.Utils.Runtime;
+using _Root.Scripts.Model.Stats.Runtime;
 using Sirenix.OdinInspector;
-using Soul.Modifiers.Runtime;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace _Root.Scripts.Model.Stats.Runtime
+namespace _Root.Scripts.Game.Stats.Runtime
 {
     [Serializable]
     [Searchable]
@@ -25,62 +26,65 @@ namespace _Root.Scripts.Model.Stats.Runtime
 
         public float HealthPercentage => vitality.health.current / vitality.health.max;
 
-        [Button]
-        private void DamageTest(float damage)
-        {
-            TryKill(damage, out var damageTaken);
-        }
 
-        public bool TryKill(float damage, out float damageDealt)
+        public void Damage(float damage, out DamageResult damageResult)
         {
+            damageResult = new DamageResult
+            {
+                RawDamage = damage,
+                RemainingShield = defensive.shield.current.Value,
+                RemainingHealth = vitality.health.current.Value
+            };
+
+            // Check for dodge
             if (TryDodge())
             {
-                damageDealt = 0;
-                return false;
+                damageResult.WasDodged = true;
+                return; // Dodged
             }
 
-            // Calculate critical damage if applicable
-            var afterCritDamage = ApplyChanceMultiplier(damage, critical.chance, critical.damageMultiplier);
+            // Calculate critical hit
+            bool wasCritical = GameMath.ApplyChanceMultiplier(
+                damage,
+                critical.chance,
+                critical.damageMultiplier,
+                out var totalDamage
+            );
+
+            damageResult.WasCritical = wasCritical;
+            damageResult.CriticalDamage = totalDamage - damage;
+
 
             // Apply armor reduction
-            var afterArmor = Mathf.Max(afterCritDamage - defensive.armor, 0);
-            damageDealt = afterArmor;
+            float afterArmor = Mathf.Max(totalDamage - defensive.armor, 0);
+            float armorDamage = totalDamage - afterArmor;
 
-            // Handle shield damage first
-            float remainingDamage = damageDealt;
+
+            // Handle shield damage
+            float remainingDamage = afterArmor;
+            float shieldDamage = 0;
+
             if (defensive.shield.current.Value > 0)
             {
-                float shieldDamage = Mathf.Min(defensive.shield.current.Value, remainingDamage);
+                shieldDamage = Mathf.Min(defensive.shield.current.Value, remainingDamage);
                 defensive.shield.current.Value -= shieldDamage;
                 remainingDamage -= shieldDamage;
+                damageResult.RemainingShield = defensive.shield.current.Value;
             }
 
-            // Apply remaining damage to health
+            damageResult.ShieldDamage = shieldDamage;
+
+            // Apply final damage to health
             if (remainingDamage > 0)
             {
                 vitality.health.current.Value -= remainingDamage;
+                damageResult.HealthDamage = remainingDamage;
+                damageResult.RemainingHealth = vitality.health.current.Value;
             }
 
-            return vitality.health.current.Value <= 0;
-        }
-
-        /// <summary>
-        /// Applies a chance-based rate to the current Value.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="chance">The probability of applying the bonus rate. If >= 1, it's treated as a guaranteed rate.</param>
-        /// <param name="rate">The rate to apply if the chance check succeeds.</param>
-        /// <returns>The result of Value multiplied by the determined rate.</returns>
-        public float ApplyChanceMultiplier(float value, float chance, float rate)
-        {
-            float chanceMultiplier;
-            if (chance >= 1f)
-                chanceMultiplier = chance;
-            else if (Random.value < chance)
-                chanceMultiplier = rate + 1;
-            else
-                chanceMultiplier = 1f;
-            return value * chanceMultiplier;
+            // Calculate total damage dealt
+            damageResult.TotalDamageDealt = shieldDamage + damageResult.HealthDamage;
+            damageResult.IsAlive = vitality.health.current.Value <= 0;
         }
 
         public void Heal(float amount)
@@ -100,18 +104,18 @@ namespace _Root.Scripts.Model.Stats.Runtime
         {
             return Random.value < defensive.dodgeChance;
         }
-        
+
         public void AddExperience(int amount)
         {
             float bonusExp = amount * (1 + progression.experienceRate);
             progression.experience.Value += Mathf.RoundToInt(bonusExp);
         }
-        
+
         public bool CanAttack(float currentTime)
         {
             return currentTime >= offensive.cooldown;
         }
-        
+
         public float GetAttackAccuracy()
         {
             // Returns a value between 0 and 1, where 1 is perfect accuracy
