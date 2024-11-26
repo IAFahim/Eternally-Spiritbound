@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections;
 using UnityEngine;
 using System.Runtime.CompilerServices;
 
 namespace Pancake.Common
 {
-    public struct App
+    public static class App
     {
         private static GlobalComponent globalComponent;
 
@@ -14,6 +13,7 @@ namespace Pancake.Common
         {
             var app = new GameObject("App") {hideFlags = HideFlags.HideInHierarchy};
             globalComponent = app.AddComponent<GlobalComponent>();
+            globalComponent.EntryPoint();
             UnityEngine.Object.DontDestroyOnLoad(app);
             Data.Init();
         }
@@ -80,17 +80,13 @@ namespace Pancake.Common
 
         public static void RemoveQuitCallback(Action callback) { globalComponent.OnGameQuit -= callback; }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static AsyncProcessHandle StartCoroutine(IEnumerator routine) => globalComponent.StartCoroutineInternal(routine);
+        public static void AddLowMemoryCallback(Action callback)
+        {
+            globalComponent.OnLowMemory -= callback;
+            globalComponent.OnLowMemory += callback;
+        }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void StopCoroutine(AsyncProcessHandle handle) => globalComponent.StopCoroutineInternal(handle);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void DisableThrowException() => globalComponent.ThrowException = false;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void EnableThrowException() => globalComponent.ThrowException = true;
+        public static void RemoveLowMemoryCallback(Action callback) { globalComponent.OnLowMemory -= callback; }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Action ToMainThread(Action action) => globalComponent.ToMainThreadImpl(action);
@@ -184,20 +180,6 @@ namespace Pancake.Common
         public static void PauseAllDelay() { globalComponent.PauseAllDelayHandle(); }
 
         public static void ResumeAllDelay() { globalComponent.ResumeAllDelayHandle(); }
-
-        public static void StopAndClean(ref AsyncProcessHandle handle)
-        {
-            if (handle is not {keepWaiting: true}) return;
-
-            StopCoroutine(handle);
-            handle = null;
-        }
-
-        public static void StopAndReassign(ref AsyncProcessHandle handle, IEnumerator enumerator)
-        {
-            if (handle is {keepWaiting: true}) StopCoroutine(handle);
-            handle = StartCoroutine(enumerator);
-        }
 
         public static void StopAndClean(ref DelayHandle handle)
         {

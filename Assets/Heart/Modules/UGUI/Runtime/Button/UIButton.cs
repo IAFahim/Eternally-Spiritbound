@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Threading;
-using Pancake.Common;
 using Pancake.Sound;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -74,7 +73,6 @@ namespace Pancake.UI
 
         private Coroutine _routineLongClick;
         private Coroutine _routineHold;
-        private AsyncProcessHandle _handleMultipleClick;
         private bool _clickedOnce; // marked as true after one click. (only check for double click)
         private bool _longClickDone; // marks as true after long click or hold up
         private bool _holdDone;
@@ -85,11 +83,11 @@ namespace Pancake.UI
         private Vector3 _endValue;
         private bool _isCompletePhaseDown;
         private readonly WaitForEndOfFrame _waitForEndOfFrame = new();
+        private CancellationToken _destroyToken;
 #if PANCAKE_LITMOTION
         private MotionHandle _handleUp;
         private MotionHandle _handleDown;
 #endif
-        private CancellationTokenSource _tokenSource;
 
         #endregion
 
@@ -129,9 +127,9 @@ namespace Pancake.UI
         {
             base.Awake();
             if (!Application.isPlaying) return; // not execute awake when not playing
-            _tokenSource = new CancellationTokenSource();
             DefaultScale = AffectObject.localScale;
             onClick.AddListener(PlaySound);
+            _destroyToken = destroyCancellationToken;
         }
 
         private void PlaySound()
@@ -159,19 +157,6 @@ namespace Pancake.UI
             base.OnDisable();
             if (!Application.isPlaying) return; // not execute awake when not playing
 
-            if (_handleMultipleClick is {IsTerminated: false})
-            {
-                // avoid case app be destroyed sooner than other component
-                try
-                {
-                    App.StopCoroutine(_handleMultipleClick);
-                }
-                catch (Exception)
-                {
-                    // ignored
-                }
-            }
-
             if (_routineLongClick != null) StopCoroutine(_routineLongClick);
             if (_routineHold != null) StopCoroutine(_routineHold);
             interactable = true;
@@ -190,7 +175,6 @@ namespace Pancake.UI
             if (_handleUp.IsActive()) _handleUp.Cancel();
             if (_handleDown.IsActive()) _handleDown.Cancel();
 #endif
-            _tokenSource?.Cancel();
         }
 
         #region Overrides of Button
@@ -287,13 +271,14 @@ namespace Pancake.UI
             MotionUp(motionData);
         }
 
-        private IEnumerator IeDisableButton(float duration)
+#if PANCAKE_UNITASK
+        private async UniTask DisableButtonAsync(float duration, CancellationToken token)
         {
             interactable = false;
-            if (ignoreTimeScale) yield return new WaitForSecondsRealtime(duration);
-            else yield return new WaitForSeconds(duration);
+            if(!token.IsCancellationRequested) await UniTask.WaitForSeconds(duration, ignoreTimeScale, cancellationToken: token);
             interactable = true;
         }
+#endif
 
         private void InternalInvokePointerDownEvent()
         {
@@ -326,26 +311,29 @@ namespace Pancake.UI
                 return;
             }
 
-            StartCoroutine(IeExecute(eventData));
+#if PANCAKE_UNITASK
+            Execute(eventData).Forget();
+#endif
         }
 
+#if PANCAKE_UNITASK
         /// <summary>
         /// execute for click button
         /// </summary>
         /// <returns></returns>
-        private IEnumerator IeExecute(PointerEventData eventData)
+        private async UniTask Execute(PointerEventData eventData)
         {
             if (IsDetectSingleClick) base.OnPointerClick(eventData);
 
             if (!allowMultipleClick && clickType == EButtonClickType.OnlySingleClick)
             {
-                if (!interactable) yield break;
+                if (!interactable) return;
 
-                _handleMultipleClick = App.StartCoroutine(IeDisableButton(timeDisableButton));
-                yield break;
+                await DisableButtonAsync(timeDisableButton, _destroyToken);
+                return;
             }
 
-            if (clickType == EButtonClickType.OnlySingleClick || clickType == EButtonClickType.LongClick || clickType == EButtonClickType.Hold) yield break;
+            if (clickType == EButtonClickType.OnlySingleClick || clickType == EButtonClickType.LongClick || clickType == EButtonClickType.Hold) return;
 
             if (!_clickedOnce && _doubleClickTimer < doubleClickInterval)
             {
@@ -354,10 +342,10 @@ namespace Pancake.UI
             else
             {
                 _clickedOnce = false;
-                yield break;
+                return;
             }
 
-            yield return null;
+            await UniTask.Yield();
 
             while (_doubleClickTimer < doubleClickInterval)
             {
@@ -366,12 +354,12 @@ namespace Pancake.UI
                     ExecuteDoubleClick();
                     _doubleClickTimer = 0;
                     _clickedOnce = false;
-                    yield break;
+                    return;
                 }
 
                 if (ignoreTimeScale) _doubleClickTimer += Time.unscaledDeltaTime;
                 else _doubleClickTimer += Time.deltaTime;
-                yield return null;
+                await UniTask.Yield();
             }
 
             if (clickType == EButtonClickType.Delayed) base.OnPointerClick(eventData);
@@ -379,6 +367,7 @@ namespace Pancake.UI
             _doubleClickTimer = 0;
             _clickedOnce = false;
         }
+#endif
 
         #endregion
 
@@ -539,7 +528,7 @@ namespace Pancake.UI
 
         #region Motion
 
-        public async void MotionUp(MotionData data)
+        private async void MotionUp(MotionData data)
         {
             _endValue = DefaultScale;
             switch (data.motion)
@@ -551,7 +540,7 @@ namespace Pancake.UI
 #if PANCAKE_UNITASK
                     while (!_isCompletePhaseDown)
                     {
-                        if (_tokenSource.Token.IsCancellationRequested) break;
+                        if (_destroyToken.IsCancellationRequested) return;
                         await UniTask.Yield();
                     }
 #endif
@@ -581,7 +570,7 @@ namespace Pancake.UI
 #if PANCAKE_UNITASK
                     while (!_isCompletePhaseDown)
                     {
-                        if (_tokenSource.Token.IsCancellationRequested) break;
+                        if (_destroyToken.IsCancellationRequested) return;
                         await UniTask.Yield();
                     }
 #endif
@@ -598,11 +587,7 @@ namespace Pancake.UI
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="data"></param>
-        public async void MotionDown(MotionData data)
+        private async void MotionDown(MotionData data)
         {
             _endValue = new Vector3(DefaultScale.x * motionData.scale.x, DefaultScale.y * motionData.scale.y);
             switch (data.motion)
@@ -637,7 +622,7 @@ namespace Pancake.UI
 #if PANCAKE_UNITASK
                     while (!_isCompletePhaseDown)
                     {
-                        if (_tokenSource.Token.IsCancellationRequested) break;
+                        if (_destroyToken.IsCancellationRequested) return;
                         await UniTask.Yield();
                     }
 #endif

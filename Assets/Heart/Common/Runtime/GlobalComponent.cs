@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace Pancake.Common
@@ -16,12 +15,12 @@ namespace Pancake.Common
         internal event Action<bool> OnGamePause;
         internal event Action<bool> OnGameFocus;
         internal event Action OnGameQuit;
+        internal event Action OnLowMemory;
 
         private readonly List<Action> _toMainThreads = new();
         private volatile bool _isToMainThreadQueueEmpty = true; // Flag indicating whether there's any action queued to be run on game thread.
         private readonly List<Action> _localToMainThreads = new();
-
-
+        
         #region delay handle
 
         private List<DelayHandle> _timers = new();
@@ -76,116 +75,15 @@ namespace Pancake.Common
         }
 
         #endregion
-
-
-        #region coroutine
-
-        private readonly Dictionary<int, Coroutine> _runningCoroutines = new();
-        private int _currentRoutineId;
-        internal bool ThrowException { get; set; } = true;
-
-        internal AsyncProcessHandle StartCoroutineInternal(IEnumerator routine)
-        {
-            if (routine == null) throw new ArgumentNullException(nameof(routine));
-
-            int id = _currentRoutineId++;
-            var handle = new AsyncProcessHandle(id);
-            var handleSetter = (IAsyncProcessHandleSetter) handle;
-
-            var coroutine = StartCoroutineInDeep(routine,
-                ThrowException,
-                OnCompleted,
-                OnError,
-                OnTerminate);
-            _runningCoroutines.Add(id, coroutine);
-            return handle;
-
-            void OnCompleted(object result) => handleSetter.Complete(result);
-            void OnError(Exception e) => handleSetter.Error(e);
-            void OnTerminate() => _runningCoroutines.Remove(id);
-        }
-
-        internal void StopCoroutineInternal(AsyncProcessHandle handle)
-        {
-            var coroutine = _runningCoroutines[handle.Id];
-            StopCoroutine(coroutine);
-            _runningCoroutines.Remove(handle.Id);
-        }
-
-        /// <summary>
-        /// Start coroutine with handle
-        /// </summary>
-        /// <param name="routine"></param>
-        /// <param name="throwException"></param>
-        /// <param name="onComplete"></param>
-        /// <param name="onError"></param>
-        /// <param name="onTerminate"></param>
-        /// <returns></returns>
-        private Coroutine StartCoroutineInDeep(
-            IEnumerator routine,
-            bool throwException = true,
-            Action<object> onComplete = null,
-            Action<Exception> onError = null,
-            Action onTerminate = null)
-        {
-            return StartCoroutine(ProcessRoutine(routine,
-                throwException,
-                onComplete,
-                onError,
-                onTerminate));
-        }
-
-        /// <summary>
-        /// Process coroutine handle with complete, error and terminate
-        /// </summary>
-        /// <param name="routine"></param>
-        /// <param name="throwException"></param>
-        /// <param name="onComplete"></param>
-        /// <param name="onError"></param>
-        /// <param name="onTerminate"></param>
-        /// <returns></returns>
-        private IEnumerator ProcessRoutine(
-            IEnumerator routine,
-            bool throwException = true,
-            Action<object> onComplete = null,
-            Action<Exception> onError = null,
-            Action onTerminate = null)
-        {
-            object current = null;
-            while (true)
-            {
-                Exception ex = null;
-                try
-                {
-                    if (!routine.MoveNext()) break;
-
-                    current = routine.Current;
-                }
-                catch (Exception e)
-                {
-                    ex = e;
-                    onError?.Invoke(e);
-                    onTerminate?.Invoke();
-                    if (throwException) throw;
-                }
-
-                if (ex != null)
-                {
-                    yield return ex;
-                    yield break;
-                }
-
-                yield return current;
-            }
-
-            onComplete?.Invoke(current);
-            onTerminate?.Invoke();
-        }
-
-        #endregion
-
-
+        
         #region event function
+
+        internal void EntryPoint()
+        {
+#if UNITY_ANDROID || UNITY_IOS
+            Application.lowMemory += OnLowMemoryInvoke;
+#endif
+        }
 
         private void Update()
         {
@@ -239,9 +137,13 @@ namespace Pancake.Common
         /// </remarks>
         private void OnApplicationQuit() { OnGameQuit?.Invoke(); }
 
+        /// <summary>
+        /// Called when application low memory
+        /// </summary>
+        private void OnLowMemoryInvoke() { OnLowMemory?.Invoke(); }
+
         #endregion
-
-
+        
         #region internal effective
 
         /// <summary>
