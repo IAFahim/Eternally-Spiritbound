@@ -1,3 +1,3 @@
 # Eternally-Spiritbound 
 
-![CenterArtboard 1 (Custom)](https://github.com/user-attachments/assets/42962f7f-89f7-4cfa-a613-8b90f5ba7aca)
+![Frame 1](https://github.com/user-attachments/assets/1c779c9a-8e36-4805-96c0-67f0ab76cc6e)
