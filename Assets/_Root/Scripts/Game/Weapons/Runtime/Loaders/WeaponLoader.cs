@@ -7,7 +7,7 @@ using Soul.Interactables.Runtime;
 using Soul.Serializers.Runtime;
 using UnityEngine;
 
-namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
+namespace _Root.Scripts.Game.Weapons.Runtime.Loaders
 {
     [RequireComponent(typeof(EntityStatsComponent))]
     public class WeaponLoader : MonoBehaviour, IWeaponLoader
@@ -19,7 +19,6 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
         [SerializeField] private int startingLevel = 0;
         [SerializeField] private List<WeaponAsset> weapons;
 
-        private OffensiveStats _offensiveStats;
         private IFocus _focusReference;
 
         public int Count => weapons.Count;
@@ -39,10 +38,9 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
 
         private void OnEntityStatsChange()
         {
-            _offensiveStats = entityStatsComponent.entityStats.offensive;
             foreach (var activeWeapon in activeWeapons)
             {
-                activeWeapon.Value.Init(entityStatsComponent, _focusReference, activeWeapon.Key, _offensiveStats);
+                activeWeapon.Value.Init(entityStatsComponent, _focusReference, activeWeapon.Key, 0);
             }
         }
 

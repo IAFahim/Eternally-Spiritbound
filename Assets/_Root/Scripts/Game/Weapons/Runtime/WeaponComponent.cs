@@ -1,5 +1,6 @@
-﻿using _Root.Scripts.Game.GameEntities.Runtime.Attacks;
-using _Root.Scripts.Game.GameEntities.Runtime.Damages;
+﻿using _Root.Scripts.Game.GameEntities.Runtime.Damages;
+using _Root.Scripts.Game.Weapons.Runtime.Attacks;
+using _Root.Scripts.Game.Weapons.Runtime.Projectiles;
 using _Root.Scripts.Model.Stats.Runtime;
 using Pancake.Common;
 using Pancake.Pools;
@@ -8,7 +9,7 @@ using Soul.OverlapSugar.Runtime;
 using Soul.Tickers.Runtime;
 using UnityEngine;
 
-namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
+namespace _Root.Scripts.Game.Weapons.Runtime
 {
     public class WeaponComponent : MonoBehaviour, IWeapon
     {
@@ -18,38 +19,42 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
 
         [SerializeField] private WeaponAsset weaponAsset;
         [SerializeField] private bool noDelayOnFirstFire = true;
-        [SerializeField] private BulletAsset bulletAsset;
-
         [SerializeField] private OverlapNonAlloc overlapNonAlloc;
         [SerializeField] private IntervalTicker intervalTicker;
         [SerializeField] private Transform firePoint;
 
+        private ProjectileAsset _projectileAsset;
         private OffensiveStats _offensiveStats;
 
         public IFocus FocusReference { get; private set; }
         public EntityStatsComponent EntityStatsComponent { get; private set; }
 
-        public BulletAsset BulletAsset
-        {
-            get => bulletAsset;
-            set => bulletAsset = value;
-        }
 
         public WeaponAsset WeaponAsset => weaponAsset;
         public GameObject GameObject => gameObject;
         public Transform FirePoint => firePoint;
 
+        private OffensiveStats CombineOffensiveStats()
+        {
+            return _offensiveStats = weaponAsset.OffensiveStatsParameters.Combine(
+                currentLevel,
+                EntityStatsComponent.entityStats.offensive
+            );
+        }
 
-        public void Init(EntityStatsComponent entityStatsComponent, IFocus focus, int level,
-            OffensiveStats playerOffensiveStats)
 
+        public void Init(EntityStatsComponent entityStatsComponent, IFocus focus,
+            int level,
+            int selectedProjectileIndex
+        )
         {
             EntityStatsComponent = entityStatsComponent;
             FocusReference = focus;
-            weaponAsset.OffensiveStatsParameterScript.TryCombine(
+            _offensiveStats = weaponAsset.OffensiveStatsParameters.Combine(
                 currentLevel = level,
-                playerOffensiveStats, out _offensiveStats
+                entityStatsComponent.entityStats.offensive
             );
+            _projectileAsset = weaponAsset.SupportedProjectileAssets[selectedProjectileIndex];
         }
 
         private void OnEnable() => Initialize();
@@ -75,14 +80,14 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
             InitBullet(GetFromPool(), targetPosition);
         }
 
-        public void OnAttackHit(IBullet bullet, DamageInfo damageInfo)
+        public void OnAttackHit(IProjectile iProjectile, DamageInfo damageInfo)
         {
             Debug.Log("Hit: " + damageInfo.damagedGameObject.name);
         }
 
-        public void OnReturnToPool(IBullet bullet)
+        public void OnReturnToPool(IProjectile iProjectile)
         {
-            SharedAssetReferencePool.Return(bulletAsset, bullet.GameObject);
+            SharedAssetReferencePool.Return(_projectileAsset, iProjectile.GameObject);
         }
 
         private void OnUpdate()
@@ -98,16 +103,16 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
 
         private GameObject GetFromPool()
         {
-            return SharedAssetReferencePool.Request(bulletAsset, firePoint.position, firePoint.rotation);
+            return SharedAssetReferencePool.Request(_projectileAsset, firePoint.position, firePoint.rotation);
         }
 
 
         private void InitBullet(GameObject bullet, GameObject target)
         {
-            bullet.GetComponent<IBullet>().Init(
+            bullet.GetComponent<IProjectile>().Init(
                 new AttackOrigin(this,
                     EntityStatsComponent,
-                    _offensiveStats,
+                    CombineOffensiveStats(),
                     target,
                     transform.position,
                     target.transform.position
@@ -117,10 +122,10 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
 
         private void InitBullet(GameObject bullet, Vector3 targetPosition)
         {
-            bullet.GetComponent<IBullet>().Init(
+            bullet.GetComponent<IProjectile>().Init(
                 new AttackOrigin(this,
                     EntityStatsComponent,
-                    _offensiveStats,
+                    CombineOffensiveStats(),
                     null,
                     transform.position,
                     targetPosition

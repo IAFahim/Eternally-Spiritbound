@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cbb29abc97f59804eac1f6d1c55c5038, type: 2}
+  - {fileID: 2100000, guid: 807ce5399ca6f484694f8750e1e4604f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -136,7 +136,6 @@ MonoBehaviour:
   lastFireTime: 0
   weaponAsset: {fileID: 11400000, guid: 439424b3e6a167c47bd5e82d52f2639a, type: 2}
   noDelayOnFirstFire: 1
-  bulletAsset: {fileID: 11400000, guid: a08c7c885fd342541bbdfafac18552fa, type: 2}
   overlapNonAlloc:
     config:
       searchMask:

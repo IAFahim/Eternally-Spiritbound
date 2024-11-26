@@ -1,7 +1,8 @@
-﻿using Pancake;
+﻿using _Root.Scripts.Game.Weapons.Runtime.Attacks;
+using Pancake;
 using UnityEngine;
 
-namespace _Root.Scripts.Game.GameEntities.Runtime.Attacks
+namespace _Root.Scripts.Game.Weapons.Runtime.Damages
 {
     public abstract class DamageType : ScriptableObject
     {

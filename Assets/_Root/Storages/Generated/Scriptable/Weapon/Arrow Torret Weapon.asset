@@ -22,5 +22,22 @@ MonoBehaviour:
     m_EditorAssetChanged: 1
   description: 
   icon: {fileID: 0}
-  bullet: {fileID: 11400000, guid: a08c7c885fd342541bbdfafac18552fa, type: 2}
-  offensiveStatsParameterScript: {fileID: 11400000, guid: 6ab6babc587ea4441be140bba2d46c20, type: 2}
+  offensiveStatsParameters:
+    parameters:
+    - level: 0
+      value:
+        damage: 1
+        lifeTime: 3
+        fireRate: 1
+        cooldown: 0.1
+        range: -1
+        reloadTime: 1
+        accuracy: 1
+        recoil: 0
+        size: 1
+        speed: 10
+        defensePenetration: 0
+        elementalDamage: 0
+        penetration: 0
+  supportedProjectileAssets:
+  - {fileID: 11400000, guid: a08c7c885fd342541bbdfafac18552fa, type: 2}

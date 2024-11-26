@@ -1,6 +1,4 @@
 ﻿using System;
-using _Root.Scripts.Game.GameEntities.Runtime.Attacks;
-using _Root.Scripts.Game.GameEntities.Runtime.Damages;
 using _Root.Scripts.Game.GameEntities.Runtime.Healths;
 using _Root.Scripts.Game.Stats.Runtime;
 using _Root.Scripts.Model.Assets.Runtime;
@@ -12,7 +10,7 @@ namespace _Root.Scripts.Game.GameEntities.Runtime
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(EntityStatsComponent))]
-    public class GameEntity : AssetScriptReferenceComponent, IDamage, IHealth
+    public class GameEntity : AssetScriptReferenceComponent, IHealth
     {
         public EntityStatsComponent entityStatsComponent;
         
@@ -70,18 +68,6 @@ namespace _Root.Scripts.Game.GameEntities.Runtime
         }
 
         public void Kill() => OnDeath?.Invoke(this);
-
-        public bool TryKill(AttackOrigin attackOrigin, out DamageInfo damage)
-        {
-            damage = new DamageInfo();
-            return false;
-        }
-
-        public bool TryKill(float damage, out float damageDelt)
-        {
-            var isDead = entityStatsComponent.entityStats.TryKill(damage, out damageDelt);
-            if (isDead) Kill();
-            return isDead;
-        }
+        
     }
 }

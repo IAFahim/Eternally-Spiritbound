@@ -4,9 +4,9 @@ using Sisus.Init;
 using Soul.Interactables.Runtime;
 using UnityEngine;
 
-namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
+namespace _Root.Scripts.Game.Weapons.Runtime
 {
-    public interface IWeapon : IInitializable<EntityStatsComponent, IFocus, int, OffensiveStats>
+    public interface IWeapon : IInitializable<EntityStatsComponent, IFocus, int, int>
     {
         public WeaponAsset WeaponAsset { get; }
         public IFocus FocusReference { get; }
@@ -14,7 +14,7 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
         public Transform FirePoint { get; }
         public void PerformAttack(GameObject target);
         public void PerformAttack(Vector3 targetPosition);
-        public void OnAttackHit(IBullet bullet, DamageInfo damageInfo);
-        public void OnReturnToPool(IBullet bullet);
+        public void OnAttackHit(IProjectile iProjectile, DamageInfo damageInfo);
+        public void OnReturnToPool(IProjectile iProjectile);
     }
 }

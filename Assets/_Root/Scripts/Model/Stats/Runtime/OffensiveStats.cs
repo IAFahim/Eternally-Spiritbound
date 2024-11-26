@@ -13,6 +13,7 @@ namespace _Root.Scripts.Model.Stats.Runtime
         public float reloadTime;
         public float accuracy;
         public float recoil;
+        public float clipSize;
         public float size;
         public float speed;
         public float defensePenetration;
@@ -32,6 +33,7 @@ namespace _Root.Scripts.Model.Stats.Runtime
                 reloadTime = reloadTime + other.reloadTime,
                 accuracy = accuracy + other.accuracy,
                 recoil = recoil + other.recoil,
+                clipSize = clipSize + other.clipSize,
                 size = size + other.size,
                 speed = speed + other.speed,
                 defensePenetration = defensePenetration + other.defensePenetration,

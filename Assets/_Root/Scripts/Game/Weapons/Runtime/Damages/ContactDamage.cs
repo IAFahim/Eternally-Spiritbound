@@ -1,8 +1,9 @@
-﻿using _Root.Scripts.Model.Stats.Runtime;
+﻿using _Root.Scripts.Game.GameEntities.Runtime.Damages;
+using _Root.Scripts.Model.Stats.Runtime;
 using Pancake.Common;
 using UnityEngine;
 
-namespace _Root.Scripts.Game.GameEntities.Runtime.Damages
+namespace _Root.Scripts.Game.Weapons.Runtime.Damages
 {
     [RequireComponent(typeof(EntityStatsComponent))]
     public class ContactDamage : MonoBehaviour

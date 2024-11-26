@@ -1,13 +1,9 @@
 ﻿using System;
-using _Root.Scripts.Game.GameEntities.Runtime.Weapons;
 using _Root.Scripts.Model.Stats.Runtime;
 using Pancake;
-using Pancake.Pools;
-using Soul.Modifiers.Runtime;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace _Root.Scripts.Game.GameEntities.Runtime.Attacks
+namespace _Root.Scripts.Game.Weapons.Runtime.Attacks
 {
     [Serializable]
     public struct AttackOrigin

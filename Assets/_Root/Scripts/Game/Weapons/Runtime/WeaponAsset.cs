@@ -1,20 +1,20 @@
 ﻿using System;
+using _Root.Scripts.Game.Weapons.Runtime.Projectiles;
 using _Root.Scripts.Model.Assets.Runtime;
 using _Root.Scripts.Model.Stats.Runtime;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace _Root.Scripts.Game.GameEntities.Runtime.Weapons
+namespace _Root.Scripts.Game.Weapons.Runtime
 {
-    [CreateAssetMenu(fileName = "weapon", menuName = "Scriptable/Weapon/New")]
+    [CreateAssetMenu(fileName = "Weapon", menuName = "Scriptable/Weapon/New")]
     [Serializable]
     public class WeaponAsset : AssetScript
     {
-        [FormerlySerializedAs("bulletScript")] [FormerlySerializedAs("bullet")]
-        public BulletAsset bulletAsset;
+        [SerializeField] private OffensiveStatsParameters offensiveStatsParameters;
+        [SerializeField] private ProjectileAsset[] supportedProjectileAssets;
 
-        [SerializeField] private OffensiveStatsParameterScript offensiveStatsParameterScript;
-        public OffensiveStatsParameterScript OffensiveStatsParameterScript => offensiveStatsParameterScript;
+        public OffensiveStatsParameters OffensiveStatsParameters => offensiveStatsParameters;
+        public ProjectileAsset[] SupportedProjectileAssets => supportedProjectileAssets;
 
         public override bool OnTryAddToInventory(
             AssetScriptStorageComponent assetScriptStorageComponent,
