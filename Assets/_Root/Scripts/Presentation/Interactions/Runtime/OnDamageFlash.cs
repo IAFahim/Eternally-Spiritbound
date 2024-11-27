@@ -13,7 +13,6 @@ namespace _Root.Scripts.Presentation.Interactions.Runtime
     {
         private FlashConfigScript _flashConfigScript;
         private Renderer _targetRenderer;
-        private IHealth _health;
         private EntityStatsComponent _entityStatsComponent;
         private Material _defaultMaterial;
         private DelayHandle _delayHandle;
@@ -26,31 +25,29 @@ namespace _Root.Scripts.Presentation.Interactions.Runtime
         protected override void OnAwake()
         {
             base.OnAwake();
-            _health = GetComponent<IHealth>();
             _entityStatsComponent = GetComponent<EntityStatsComponent>();
             _targetRenderer = GetComponentInChildren<Renderer>();
             _defaultMaterial = _targetRenderer.material;
         }
         
+        private void OnEnable()
+        {
+            _defaultMaterial = _targetRenderer.material;
+            _entityStatsComponent.RegisterChange(OnEntityStatsChange, OnEntityStatsDisable);
+        }
+        
         private void OnEntityStatsChange()
         {
-            _health.HealthReference.current.OnChange += OnHealthChange;
             _entityStatsComponent.entityStats.vitality.health.current.OnChange += OnHealthChange;
         }
         
         private void OnEntityStatsDisable()
         {
-            _health.HealthReference.current.OnChange -= OnHealthChange;
             _entityStatsComponent.entityStats.vitality.health.current.OnChange -= OnHealthChange;
             _delayHandle?.Cancel();
             Restore();
         }
-
-        public void OnEnable()
-        {
-            _defaultMaterial = _targetRenderer.material;
-            _entityStatsComponent.Register(OnEntityStatsChange, OnEntityStatsDisable);
-        }
+        
 
         private void OnHealthChange(float old, float current)
         {

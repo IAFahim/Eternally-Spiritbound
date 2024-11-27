@@ -33,7 +33,7 @@ namespace _Root.Scripts.Game.Weapons.Runtime.Loaders
         private async void OnEnable()
         {
             await SpawnMainWeapons();
-            entityStatsComponent.Register(OnEntityStatsChange, OnOldEntityStatsCleanUp);
+            entityStatsComponent.RegisterChange(OnEntityStatsChange, OnOldEntityStatsCleanUp);
         }
 
 

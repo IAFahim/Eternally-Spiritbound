@@ -58,7 +58,7 @@ namespace _Root.Scripts.Game.Stats.Runtime
             // Apply armor reduction
             float afterArmor = Mathf.Max(totalDamage - defensive.armor, 0);
             float armorDamage = totalDamage - afterArmor;
-
+            damageResult.ArmorDamageReduced = armorDamage;
 
             // Handle shield damage
             float remainingDamage = afterArmor;

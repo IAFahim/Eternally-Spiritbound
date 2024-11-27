@@ -18,7 +18,7 @@ namespace _Root.Scripts.Game.Stats.Runtime
 
         private void Start() => SetEntityStats(level);
 
-        public void Register(Action onEntityStatsChange, Action onOldEntityStatsCleanUp)
+        public void RegisterChange(Action onEntityStatsChange, Action onOldEntityStatsCleanUp)
         {
             OnNewEntityStats += onEntityStatsChange;
             OnOldEntityStatsCleanUp += onOldEntityStatsCleanUp;

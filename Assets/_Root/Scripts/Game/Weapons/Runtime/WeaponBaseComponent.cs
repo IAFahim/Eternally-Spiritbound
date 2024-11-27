@@ -1,5 +1,6 @@
 ﻿using _Root.Scripts.Game.Stats.Runtime;
 using _Root.Scripts.Game.Weapons.Runtime.Attacks;
+using _Root.Scripts.Game.Weapons.Runtime.Damages;
 using _Root.Scripts.Game.Weapons.Runtime.Projectiles;
 using _Root.Scripts.Model.Stats.Runtime;
 using Pancake.Common;
@@ -11,7 +12,7 @@ using UnityEngine;
 
 namespace _Root.Scripts.Game.Weapons.Runtime
 {
-    public class WeaponComponent : MonoBehaviour, IWeapon
+    public class WeaponBaseComponent : MonoBehaviour, IWeapon
     {
         public int currentLevel;
         public bool fire;
@@ -80,9 +81,9 @@ namespace _Root.Scripts.Game.Weapons.Runtime
             InitBullet(GetFromPool(), targetPosition);
         }
 
-        public void OnAttackHit(IProjectile iProjectile, DamageResult damageResult)
+        public void OnAttackHit(GameObject victim, IProjectile iProjectile, DamageResult damageResult)
         {
-            Debug.Log("Hit: " + damageResult.Victim.name);
+            Debug.Log("Hit: " + victim.name);
         }
 
         public void OnReturnToPool(IProjectile iProjectile)

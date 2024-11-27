@@ -4,7 +4,6 @@ namespace _Root.Scripts.Game.Stats.Runtime
 {
     public struct DamageResult
     {
-        public readonly GameObject Victim;
         public float RawDamage; // Original damage before any modifications
         public float CriticalDamage; // Additional damage from critical hit
         public float ArmorDamageReduced; // Damage reduced by armor
@@ -22,7 +21,7 @@ namespace _Root.Scripts.Game.Stats.Runtime
         public override string ToString()
         {
             return
-                $"{Victim}: {nameof(RawDamage)}: {RawDamage}, {nameof(CriticalDamage)}: {CriticalDamage}, {nameof(ArmorDamageReduced)}: {ArmorDamageReduced}, {nameof(ShieldDamage)}: {ShieldDamage}, {nameof(HealthDamage)}: {HealthDamage}, {nameof(TotalDamageDealt)}: {TotalDamageDealt}, {nameof(WasCritical)}: {WasCritical}, {nameof(WasDodged)}: {WasDodged}, {nameof(RemainingShield)}: {RemainingShield}, {nameof(RemainingHealth)}: {RemainingHealth}";
+                $"{nameof(RawDamage)}: {RawDamage}, {nameof(CriticalDamage)}: {CriticalDamage}, {nameof(ArmorDamageReduced)}: {ArmorDamageReduced}, {nameof(ShieldDamage)}: {ShieldDamage}, {nameof(HealthDamage)}: {HealthDamage}, {nameof(TotalDamageDealt)}: {TotalDamageDealt}, {nameof(WasCritical)}: {WasCritical}, {nameof(WasDodged)}: {WasDodged}, {nameof(RemainingShield)}: {RemainingShield}, {nameof(RemainingHealth)}: {RemainingHealth}";
         }
     }
 }

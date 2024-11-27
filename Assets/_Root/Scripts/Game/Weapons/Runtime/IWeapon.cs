@@ -15,7 +15,7 @@ namespace _Root.Scripts.Game.Weapons.Runtime
         public Transform FirePoint { get; }
         public void PerformAttack(GameObject target);
         public void PerformAttack(Vector3 targetPosition);
-        public void OnAttackHit(IProjectile iProjectile, DamageResult damageResult);
+        public void OnAttackHit(GameObject victim, IProjectile iProjectile, DamageResult damageResult);
         public void OnReturnToPool(IProjectile iProjectile);
     }
 }
