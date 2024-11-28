@@ -4,6 +4,7 @@ namespace _Root.Scripts.Game.Stats.Runtime
 {
     public struct DamageResult
     {
+        public Transform VitimRootTransform; // Root transform of the victim
         public float RawDamage; // Original damage before any modifications
         public float CriticalDamage; // Additional damage from critical hit
         public float ArmorDamageReduced; // Damage reduced by armor
@@ -15,8 +16,6 @@ namespace _Root.Scripts.Game.Stats.Runtime
         public float RemainingShield; // Shield amount remaining
         public float RemainingHealth; // Health amount remaining
         public bool IsAlive; // Whether the victim is still alive
-        
-
 
         public override string ToString()
         {

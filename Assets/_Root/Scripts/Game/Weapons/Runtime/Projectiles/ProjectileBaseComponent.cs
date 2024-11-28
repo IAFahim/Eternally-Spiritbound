@@ -31,16 +31,17 @@ namespace _Root.Scripts.Game.Weapons.Runtime.Projectiles
 
         private void OnTriggerEnter(Collider other)
         {
-            DoDamage(other.gameObject);
+            DoDamage(other.transform.root);
         }
 
-        private void DoDamage(GameObject other)
+        private void DoDamage(Transform otherRootTransform)
         {
-            if (other.transform.root == _attackOrigin.weaponBaseComponent.transform.root) return;
-            if (other.TryGetComponent<EntityStatsComponent>(out var entityStatsComponent))
+            if (otherRootTransform == _attackOrigin.weaponBaseComponent.transform.root) return;
+            if (otherRootTransform.TryGetComponent<EntityStatsComponent>(out var entityStatsComponent))
             {
                 entityStatsComponent.entityStats.Damage(_attackOrigin.offensiveStats.damage, out var damageResult);
-                _attackOrigin.weaponBaseComponent.OnAttackHit(other, this, damageResult);
+                damageResult.VitimRootTransform = otherRootTransform;
+                _attackOrigin.weaponBaseComponent.OnAttackHit(this, damageResult);
                 damagePopup.ShowPopup(Transform.position, damageResult);
                 Debug.Log("Hit");
             }

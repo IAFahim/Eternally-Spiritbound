@@ -81,9 +81,9 @@ namespace _Root.Scripts.Game.Weapons.Runtime
             InitBullet(GetFromPool(), targetPosition);
         }
 
-        public void OnAttackHit(GameObject victim, IProjectile iProjectile, DamageResult damageResult)
+        public void OnAttackHit(IProjectile iProjectile, DamageResult damageResult)
         {
-            Debug.Log("Hit: " + victim.name);
+            Debug.Log("Hit: " + damageResult.VitimRootTransform.name);
         }
 
         public void OnReturnToPool(IProjectile iProjectile)
