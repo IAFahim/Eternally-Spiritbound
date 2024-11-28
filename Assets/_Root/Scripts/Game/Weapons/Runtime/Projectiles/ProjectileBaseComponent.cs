@@ -1,7 +1,6 @@
-﻿using System;
+﻿using _Root.Scripts.Game.DamagePopups.Runtime;
 using _Root.Scripts.Game.Stats.Runtime;
 using _Root.Scripts.Game.Weapons.Runtime.Attacks;
-using _Root.Scripts.Game.Weapons.Runtime.Damages;
 using Pancake.Common;
 using UnityEngine;
 
@@ -37,6 +36,7 @@ namespace _Root.Scripts.Game.Weapons.Runtime.Projectiles
 
         private void DoDamage(GameObject other)
         {
+            if (other.transform.root == _attackOrigin.weaponBaseComponent.transform.root) return;
             if (other.TryGetComponent<EntityStatsComponent>(out var entityStatsComponent))
             {
                 entityStatsComponent.entityStats.Damage(_attackOrigin.offensiveStats.damage, out var damageResult);
