@@ -10,8 +10,7 @@ namespace _Root.Scripts.Game.Stats.Runtime
         public int level;
         [SerializeField] private EntityStatParameterScript entityStatsParameterScript;
 
-        [ShowInInspector] [ReadOnly] [NonSerialized]
-        public EntityStats entityStats;
+        [ShowInInspector] [NonSerialized] public EntityStats entityStats;
 
         private event Action OnNewEntityStats;
         private event Action OnOldEntityStatsCleanUp;
@@ -41,5 +40,16 @@ namespace _Root.Scripts.Game.Stats.Runtime
             entityStats.Initialize();
             OnNewEntityStats?.Invoke();
         }
+
+#if UNITY_EDITOR
+        private void OnDrawGizmosSelected()
+        {
+            var size = entityStats.vitality.size;
+            var center = entityStats.vitality.Center(transform.position);
+            
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawWireCube(center, size);
+        }
+#endif
     }
 }

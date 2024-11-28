@@ -2802,10 +2802,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 209269494579663582, guid: 0d7461ebd1f8f544db625f1153cabba1, type: 3}
-      propertyPath: m_SortingOrder
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1570866375536018817, guid: 0d7461ebd1f8f544db625f1153cabba1, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2890,25 +2886,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Damage Popup TMP
       objectReference: {fileID: 0}
-    - target: {fileID: 2615783390258835266, guid: 0d7461ebd1f8f544db625f1153cabba1, type: 3}
-      propertyPath: m_Layer
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2615783390258835266, guid: 0d7461ebd1f8f544db625f1153cabba1, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7905390001239151720, guid: 0d7461ebd1f8f544db625f1153cabba1, type: 3}
-      propertyPath: m_geometrySortingOrder
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2615783390258835266, guid: 0d7461ebd1f8f544db625f1153cabba1, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0d7461ebd1f8f544db625f1153cabba1, type: 3}
 --- !u!224 &3953959675351355987 stripped
 RectTransform:
@@ -3773,9 +3754,9 @@ SceneRoots:
   - {fileID: 2049456052}
   - {fileID: 1448403483}
   - {fileID: 498101907}
+  - {fileID: 1251501191}
   - {fileID: 544174168}
   - {fileID: 2106017189}
   - {fileID: 782393663}
   - {fileID: 1434697858}
   - {fileID: 2691792116055902644}
-  - {fileID: 1251501191}

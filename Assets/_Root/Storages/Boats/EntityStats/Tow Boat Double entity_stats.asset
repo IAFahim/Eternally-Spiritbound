@@ -12,49 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c54e73f9a3a241a6a121ab5fa525fb16, type: 3}
   m_Name: Tow Boat Double entity_stats
   m_EditorClassIdentifier: 
-  value:
-    vitality:
-      health:
-        current:
-          value: 0
-        max: 0
-      size: 0
-    defensive:
-      armor: 0
-      shield:
-        current:
-          value: 0
-        max: 0
-      dodgeChance: 0
-    movement:
-      speed: 0
-      pickupRange: 0
-      detectRange: 0
-    progression:
-      experience:
-        value: 0
-      experienceRate: 0
-      luck: 0
-    critical:
-      chance: 0
-      damageMultiplier: 0
-    ammo:
-      total: 0
-      clipSize: 0
-    offensive:
-      damage: 0
-      lifeTime: 0
-      fireRate: 0
-      cooldown: 0
-      range: 0
-      reloadTime: 0
-      accuracy: 0
-      recoil: 0
-      size: 0
-      speed: 0
-      defensePenetration: 0
-      elementalDamage: 0
-      penetration: 0
   parameters:
   - level: 0
     value:
@@ -63,7 +20,7 @@ MonoBehaviour:
           current:
             value: 0
           max: 4
-        size: 0
+        size: {x: 2.5, y: 3.5, z: 5.5}
       defensive:
         armor: 0
         shield:
@@ -95,10 +52,9 @@ MonoBehaviour:
         reloadTime: 0
         accuracy: 0
         recoil: 0
+        clipSize: 0
         size: 0
         speed: 0
-        defensePenetration: 0
-        elementalDamage: 0
         penetration: 0
   - level: 0
     value:
@@ -107,7 +63,7 @@ MonoBehaviour:
           current:
             value: 0
           max: 0
-        size: 0
+        size: {x: 0, y: 0, z: 0}
       defensive:
         armor: 0
         shield:
@@ -139,8 +95,7 @@ MonoBehaviour:
         reloadTime: 0
         accuracy: 0
         recoil: 0
+        clipSize: 0
         size: 0
         speed: 0
-        defensePenetration: 0
-        elementalDamage: 0
         penetration: 0

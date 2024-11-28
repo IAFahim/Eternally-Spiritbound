@@ -6,45 +6,52 @@ using UnityEngine;
 
 namespace _Root.Scripts.Game.Weapons.Runtime.Projectiles
 {
-    public class ProjectileBaseComponent : MonoBehaviour, IProjectile
+    public abstract class ProjectileBaseComponent : MonoBehaviour, IProjectile
     {
         [SerializeField] private DamagePopup damagePopup;
-        private AttackOrigin _attackOrigin;
+        protected AttackOrigin AttackOrigin;
+        protected int Penetration;
+        
         public GameObject GameObject => gameObject;
         public Transform Transform => transform;
-
-        public void Init(AttackOrigin attackOrigin)
+        
+        public virtual void Init(AttackOrigin attackOrigin)
         {
-            _attackOrigin = attackOrigin;
-            App.Delay(_attackOrigin.offensiveStats.lifeTime, OnTimeUp);
+            AttackOrigin = attackOrigin;
+            App.Delay(AttackOrigin.offensiveStats.lifeTime, OnTimeUp, OnUpdate);
         }
 
-        private void Update()
-        {
-            transform.position += transform.forward * (_attackOrigin.offensiveStats.speed * Time.deltaTime);
-        }
+        protected abstract void OnUpdate(float timePassed);
 
-        private void OnTimeUp()
-        {
-            _attackOrigin.weaponBaseComponent.OnReturnToPool(this);
-        }
 
-        private void OnTriggerEnter(Collider other)
+        protected virtual void OnTimeUp()
         {
-            DoDamage(other.transform.root);
+            AttackOrigin.weaponBaseComponent.OnReturnToPool(this);
         }
+        
 
-        private void DoDamage(Transform otherRootTransform)
+        protected void DamageInformPentrationCounterUp(Transform otherRootTransform)
         {
-            if (otherRootTransform == _attackOrigin.weaponBaseComponent.transform.root) return;
+            if (otherRootTransform == AttackOrigin.weaponBaseComponent.transform.root) return;
             if (otherRootTransform.TryGetComponent<EntityStatsComponent>(out var entityStatsComponent))
             {
-                entityStatsComponent.entityStats.Damage(_attackOrigin.offensiveStats.damage, out var damageResult);
-                damageResult.VitimRootTransform = otherRootTransform;
-                _attackOrigin.weaponBaseComponent.OnAttackHit(this, damageResult);
-                damagePopup.ShowPopup(Transform.position, damageResult);
-                Debug.Log("Hit");
+                InformWeapon(entityStatsComponent);
+                PenetrationCheck();
             }
+        }
+
+        protected void InformWeapon(EntityStatsComponent entityStatsComponent)
+        {
+            entityStatsComponent.entityStats.Damage(AttackOrigin.offensiveStats.damage, out var damageResult);
+            damageResult.EntityStatsComponent = entityStatsComponent;
+            AttackOrigin.weaponBaseComponent.OnAttackHit(this, damageResult);
+            damagePopup.ShowPopup(Transform.position, damageResult);
+        }
+
+        protected void PenetrationCheck()
+        {
+            if (Penetration < AttackOrigin.offensiveStats.penetration) Penetration++;
+            else AttackOrigin.weaponBaseComponent.OnReturnToPool(this);
         }
     }
 }

@@ -83,7 +83,7 @@ namespace _Root.Scripts.Game.Weapons.Runtime
 
         public void OnAttackHit(IProjectile iProjectile, DamageResult damageResult)
         {
-            Debug.Log("Hit: " + damageResult.VitimRootTransform.name);
+            Debug.Log("Hit: " + damageResult.EntityStatsComponent.name);
         }
 
         public void OnReturnToPool(IProjectile iProjectile)

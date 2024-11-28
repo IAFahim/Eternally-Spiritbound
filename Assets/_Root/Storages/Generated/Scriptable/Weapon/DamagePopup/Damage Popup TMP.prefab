@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1570866375536018817}
   - component: {fileID: 209269494579663582}
   - component: {fileID: 7905390001239151720}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Damage Popup TMP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 10+
+  m_text: 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 74ad3312168c66e43a59291961350e55, type: 2}
   m_sharedMaterial: {fileID: 1872832085346666087, guid: 74ad3312168c66e43a59291961350e55, type: 2}
@@ -111,8 +111,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190335
+  m_fontColor: {r: 1, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

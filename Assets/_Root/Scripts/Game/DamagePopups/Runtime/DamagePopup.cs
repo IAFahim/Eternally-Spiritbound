@@ -16,8 +16,13 @@ namespace _Root.Scripts.Game.DamagePopups.Runtime
         public AssetReferenceGameObject damageTextAsset;
         public FocusManagerScript focusManagerScript;
 
+        public float fadeTime = .3f;
+        public Vector3 startSize = new(1, 1, 1);
+        public Vector3 endSize = new(.1f, .1f, .1f);
+
+
         private List<(TMP_Text tmp, float endTime)> texts;
-        private const float FadeTime = .5f;
+
 
         public void Enable()
         {
@@ -33,6 +38,7 @@ namespace _Root.Scripts.Game.DamagePopups.Runtime
             {
                 var text = texts[i];
                 text.tmp.transform.rotation = cameraRot;
+                AnimateSizeOverTime(text.tmp, text.endTime);
 
                 if (!(Time.time > text.endTime)) continue;
                 SharedAssetReferencePoolInactive.Return(damageTextAsset, text.tmp.gameObject);
@@ -40,23 +46,40 @@ namespace _Root.Scripts.Game.DamagePopups.Runtime
             }
         }
 
+        private void AnimateSizeOverTime(TMP_Text tmp, float endTime)
+        {
+            var time = Time.time;
+            var progress = (endTime - time) / fadeTime;
+            var size = Vector3.Lerp(startSize, endSize, progress);
+            tmp.transform.localScale = size;
+        }
+
         public void ShowPopup(Vector3 hitPosition, DamageResult damageResult)
         {
+            var positionTop = damageResult.EntityStatsComponent.entityStats.vitality.Top(
+                damageResult.EntityStatsComponent.transform
+            );
             var text = SharedAssetReferencePoolInactive.Request<TMP_Text>(
-                damageTextAsset, hitPosition,
-                focusManagerScript.mainCamera.transform.rotation,
-                damageResult.VitimRootTransform
+                damageTextAsset,
+                positionTop,
+                focusManagerScript.mainCamera.transform.rotation
             );
 
+            text.transform.localScale = startSize;
             text.text = damageResult.TotalDamageDealt.ToString(CultureInfo.InvariantCulture);
             text.gameObject.SetActive(true);
-            texts.Add((text, Time.time + FadeTime));
+            texts.Add((text, Time.time + fadeTime));
         }
 
         public void Disable()
         {
             texts.Clear();
             App.RemoveListener(EUpdateMode.Update, Update);
+        }
+
+        struct TweenSettings
+        {
+            public float duration;
         }
     }
 }

@@ -14,12 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawners:
   - assetReference:
-      m_AssetGUID: bf0d8b0182b572f4b911cbdbb2f08a76
+      m_AssetGUID: 23e451c3d0ec2b643a3e4de9d844a886
       m_SubObjectName: 
       m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 1
-    pool: {fileID: 11400000, guid: eb9b5ddfc95cdce4ba5e984f6abd7193, type: 2}
     placementStrategy: {fileID: 11400000, guid: b90642002762014448b8d3d630b8a2d6, type: 2}
     gameObjectModifer: {fileID: 11400000, guid: 72c1dcd273f3d744a8bffa66e95ff568, type: 2}
     startDelay: 1
