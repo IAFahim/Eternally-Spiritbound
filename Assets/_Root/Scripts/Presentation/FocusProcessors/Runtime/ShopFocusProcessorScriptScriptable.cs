@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading;
 using _Root.Scripts.Game.Infrastructures.Runtime.Shops;
-using _Root.Scripts.Game.Interactables.Runtime;
 using _Root.Scripts.Game.Interactables.Runtime.Focus;
 using _Root.Scripts.Game.Utils.Runtime;
 using _Root.Scripts.Model.Assets.Runtime;
@@ -11,14 +10,14 @@ using _Root.Scripts.Presentation.Containers.Runtime;
 using Cysharp.Threading.Tasks;
 using Pancake.Linq;
 using Soul.Interactables.Runtime;
+using Soul.Pools.Runtime;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.UI;
-using Soul.Pools.Runtime;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
-namespace _Root.Scripts.Presentation.FocusProvider.Runtime
+namespace _Root.Scripts.Presentation.FocusProcessors.Runtime
 {
     [CreateAssetMenu(fileName = "Shop Processor", menuName = "Scriptable/FocusProcessor/Shop")]
     public class ShopFocusProcessorScriptScriptable : FocusProcessorScriptCinemachineScriptable
@@ -35,15 +34,10 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
 
         [SerializeField] private FocusManagerScript focusManagerScript;
 
-        [FormerlySerializedAs("lockedStatusImage")]
-        [FormerlySerializedAs("lockedImageStatus")]
-        [FormerlySerializedAs("lockedSpriteStatus")]
+        
         [SerializeField]
         private StatusSprite lockedStatusSprite;
 
-        [FormerlySerializedAs("equippedStatusImage")]
-        [FormerlySerializedAs("equippedImageStatus")]
-        [FormerlySerializedAs("equippedSpriteStatus")]
         [SerializeField]
         private StatusSprite equippedStatusSprite;
 
@@ -51,7 +45,7 @@ namespace _Root.Scripts.Presentation.FocusProvider.Runtime
         [SerializeField] private Sprite equippedSprite;
 
         private Button _closeButton;
-        [FormerlySerializedAs("assetOwnsAssetsLink")] [SerializeField] private AssetScriptOwnsAssetsScriptLink assetScriptOwnsAssetsScriptLink;
+        [SerializeField] private AssetScriptOwnsAssetsScriptLink assetScriptOwnsAssetsScriptLink;
 
 
         private List<AssetScript> _unlockedAssets;

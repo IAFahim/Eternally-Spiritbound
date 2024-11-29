@@ -1,4 +1,5 @@
 ﻿using _Root.Scripts.Game.Interactables.Runtime.Focus;
+using Pancake.Common;
 using Soul.Interactables.Runtime;
 using Soul.Selectors.Runtime;
 using UnityEngine;
@@ -10,23 +11,27 @@ namespace _Root.Scripts.Game.Interactables.Runtime.Helper
     {
         [SerializeField] protected FocusManagerScript focusManagerScript;
         protected IInteractableEntryPoint InteractableEntryPointParent;
-        
+
         [SerializeField] private bool endInteractOnDeselect;
-        [Space(20)]
-        [SerializeField] private UnityEvent activeEvent;
+        [Space(20)] [SerializeField] private UnityEvent activeEvent;
         [SerializeField] private UnityEvent selectedEvent;
         [SerializeField] private UnityEvent deselectedEvent;
-        
+
         private Vector3[] _offset;
         public GameObject GameObject => gameObject;
-        
+
         public virtual void Init(IInteractableEntryPoint interactableEntryPoint, Vector3[] offset)
         {
             InteractableEntryPointParent = interactableEntryPoint;
             _offset = offset;
+            if (_offset.Length > 1)
+            {
+                App.AddListener(EUpdateMode.Update, OnUpdate);
+            }
+            transform.localPosition += _offset[0];
             activeEvent.Invoke();
         }
-        
+
         private void OnUpdate()
         {
             // check on which side the player is
@@ -45,7 +50,7 @@ namespace _Root.Scripts.Game.Interactables.Runtime.Helper
                     closestIndex = i;
                 }
             }
-            
+
             transform.position = interactablePosition + _offset[closestIndex];
         }
 
@@ -73,14 +78,10 @@ namespace _Root.Scripts.Game.Interactables.Runtime.Helper
             InteractStart();
         }
 
-        public void Active(IInteractableEntryPoint interactableEntryPoint)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public virtual void Hide()
         {
             deselectedEvent.Invoke();
+            if(_offset.Length > 1) App.RemoveListener(EUpdateMode.Update, OnUpdate);
         }
 
         private void InteractStart()
@@ -97,7 +98,7 @@ namespace _Root.Scripts.Game.Interactables.Runtime.Helper
                 .GetComponent<IInteractorEntryPoint>());
             Hide();
         }
-        
+
         private void OnDisable()
         {
             Hide();

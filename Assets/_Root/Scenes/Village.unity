@@ -8453,10 +8453,51 @@ PrefabInstance:
       value: Boat store
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: -34408933764786869, guid: e7527858b7f564c4385d715c567f060f, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5260993558809409611, guid: e7527858b7f564c4385d715c567f060f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8859338550139038501}
   m_SourcePrefab: {fileID: 100100000, guid: e7527858b7f564c4385d715c567f060f, type: 3}
+--- !u!1 &8859338550139038499 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5260993558809409611, guid: e7527858b7f564c4385d715c567f060f, type: 3}
+  m_PrefabInstance: {fileID: 8859338550139038498}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8859338550139038500 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3419996891410727275, guid: e7527858b7f564c4385d715c567f060f, type: 3}
+  m_PrefabInstance: {fileID: 8859338550139038498}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8859338550139038499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30ce0e9b66e941baa9cc341460840106, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8859338550139038501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8859338550139038499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3dbfa71253c4ce48f3d90cea126b65f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactableEntryPointComponent: {fileID: 8859338550139038500}
+  confirmationPopupAsset:
+    m_AssetGUID: 96af7552c88e063488218aec4fe7624a
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 1
+  offset:
+  - {x: 0, y: 5, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

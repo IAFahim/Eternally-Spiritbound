@@ -1,6 +1,5 @@
 ﻿using System.Threading;
 using _Root.Scripts.Game.Consmatics.Runtime;
-using _Root.Scripts.Game.Interactables.Runtime;
 using _Root.Scripts.Game.Interactables.Runtime.Focus;
 using _Root.Scripts.Game.Stats.Runtime;
 using _Root.Scripts.Presentation.Interactions.Runtime;
@@ -11,7 +10,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityProgressBar;
 
-namespace _Root.Scripts.Presentation.FocusProvider.Runtime
+namespace _Root.Scripts.Presentation.FocusProcessors.Runtime
 {
     [CreateAssetMenu(fileName = "Boat Focus Processor", menuName = "Scriptable/FocusProcessor/Boat")]
     public class PlayerFocusProcessorScriptScriptable : FocusProcessorScriptCinemachineScriptable

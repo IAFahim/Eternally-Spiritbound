@@ -1,5 +1,4 @@
-﻿using System;
-using Pancake.Pools;
+﻿using Pancake.Pools;
 using Soul.Interactables.Runtime;
 using UnityEngine;
 using UnityEngine.AddressableAssets;

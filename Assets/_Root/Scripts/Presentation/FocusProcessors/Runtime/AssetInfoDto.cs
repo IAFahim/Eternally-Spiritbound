@@ -1,7 +1,7 @@
 ﻿using System;
 using _Root.Scripts.Model.Assets.Runtime;
 
-namespace _Root.Scripts.Presentation.FocusProvider.Runtime
+namespace _Root.Scripts.Presentation.FocusProcessors.Runtime
 {
     internal struct AssetInfoDto : IComparable<AssetInfoDto>
     {

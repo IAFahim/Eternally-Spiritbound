@@ -182,6 +182,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5441092939432874242, guid: 4af9a3ffeac3ae24ca6e5c6c3855a6d5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1251256404}
+    - targetCorrespondingSourceObject: {fileID: 5441092939432874242, guid: 4af9a3ffeac3ae24ca6e5c6c3855a6d5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1251256405}
+    - targetCorrespondingSourceObject: {fileID: 5441092939432874242, guid: 4af9a3ffeac3ae24ca6e5c6c3855a6d5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1251256410}
   m_SourcePrefab: {fileID: 100100000, guid: 4af9a3ffeac3ae24ca6e5c6c3855a6d5, type: 3}
 --- !u!1001 &453749501
 PrefabInstance:
@@ -322,15 +328,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30ce0e9b66e941baa9cc341460840106, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableConfirmHelperAsset:
-    enabled: 1
-    value:
-      m_AssetGUID: 96af7552c88e063488218aec4fe7624a
-      m_SubObjectName: 
-      m_SubObjectGUID: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  centerOffset: {x: 0, y: 5, z: 0}
+--- !u!114 &1251256405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1251256399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3dbfa71253c4ce48f3d90cea126b65f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactableEntryPointComponent: {fileID: 1251256404}
+  confirmationPopupAsset:
+    m_AssetGUID: 96af7552c88e063488218aec4fe7624a
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 1
+  offset:
+  - {x: 0, y: 5, z: 0}
+  - {x: -5, y: 5, z: 0}
+  - {x: 5, y: 5, z: 0}
+  - {x: -2.5, y: 5, z: 3}
+  - {x: 2.5, y: 5, z: 3}
+  - {x: 0, y: 5, z: -3}
+--- !u!114 &1251256410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1251256399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a928920dbbf4f9fbdddd300464f2173, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isMain: 0
+  isFocused: 0
+  focusProcessorScript: {fileID: 11400000, guid: e6a2eae12e412c04aba9069978e628f3, type: 2}
+  focusManagerScript: {fileID: 11400000, guid: 4c147b4345416824f8968062d60f760a, type: 2}
 --- !u!1001 &1876456368
 PrefabInstance:
   m_ObjectHideFlags: 0
