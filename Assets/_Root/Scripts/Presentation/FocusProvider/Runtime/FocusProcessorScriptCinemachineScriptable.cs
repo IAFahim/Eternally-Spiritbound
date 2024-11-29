@@ -1,4 +1,5 @@
 ﻿using _Root.Scripts.Game.Interactables.Runtime;
+using _Root.Scripts.Game.Interactables.Runtime.Focus;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.AddressableAssets;

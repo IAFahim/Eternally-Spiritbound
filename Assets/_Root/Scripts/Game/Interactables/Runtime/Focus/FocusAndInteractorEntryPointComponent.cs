@@ -4,7 +4,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace _Root.Scripts.Game.Interactables.Runtime
+namespace _Root.Scripts.Game.Interactables.Runtime.Focus
 {
     [DisallowMultipleComponent]
     [SelectionBase]

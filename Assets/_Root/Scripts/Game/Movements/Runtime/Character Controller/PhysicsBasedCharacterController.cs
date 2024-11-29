@@ -1,5 +1,6 @@
 using _Root.Scripts.Game.Inputs.Runtime;
 using _Root.Scripts.Game.Interactables.Runtime;
+using _Root.Scripts.Game.Interactables.Runtime.Provider;
 using _Root.Scripts.Game.Utils.Runtime;
 using Pancake;
 using UnityEngine;

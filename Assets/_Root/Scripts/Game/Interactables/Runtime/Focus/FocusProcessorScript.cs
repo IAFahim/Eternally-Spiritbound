@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
 using System.Threading;
+using Cysharp.Threading.Tasks;
 using Pancake;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-namespace _Root.Scripts.Game.Interactables.Runtime
+namespace _Root.Scripts.Game.Interactables.Runtime.Focus
 {
     public abstract class FocusProcessorScript : StringConstant
     {

@@ -1,6 +1,7 @@
 ﻿using _Root.Scripts.Game.Ai.Runtime.BreadCrumbs;
 using _Root.Scripts.Game.GameEntities.Runtime;
 using _Root.Scripts.Game.Interactables.Runtime;
+using _Root.Scripts.Game.Interactables.Runtime.Focus;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.Falls.Runtime

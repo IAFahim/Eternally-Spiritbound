@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using _Root.Scripts.Game.Inputs.Runtime;
+using _Root.Scripts.Game.Interactables.Runtime.Provider;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.InputSystem;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-namespace _Root.Scripts.Game.Interactables.Runtime
+namespace _Root.Scripts.Game.Interactables.Runtime.Focus
 {
     public class FocusManagerScript : ScriptableObject
     {

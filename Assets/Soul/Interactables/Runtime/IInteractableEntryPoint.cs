@@ -5,11 +5,13 @@ namespace Soul.Interactables.Runtime
 {
     public interface IInteractableEntryPoint
     {
-        public event Action<IInteractorEntryPoint> OnInteractionStartedEvent;
-        public event Action<IInteractorEntryPoint> OnInteractionEndedEvent;
+        Transform Transform { get; }
+        public event Action<IInteractorEntryPoint> OnEnteredEvent;
+        public event Action<IInteractorEntryPoint> OnExitEvent;
+        public event Action<IInteractorEntryPoint> OnStartedEvent;
+        public event Action<IInteractorEntryPoint> OnEndedEvent;
         public void OnInteractionStarted(IInteractorEntryPoint interactorEntryPoint);
         public void OnInteractionEnded(IInteractorEntryPoint interactorEntryPoint);
-        Transform Transform { get; }
         public void OnInteractableDetected(IInteractorEntryPoint interactorEntryPoint);
         public void OnInteractableDetectionLost(IInteractorEntryPoint interactorEntryPoint);
     }

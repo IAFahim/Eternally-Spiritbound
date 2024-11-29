@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using _Root.Scripts.Game.Interactables.Runtime;
+using _Root.Scripts.Game.Interactables.Runtime.Focus;
 using _Root.Scripts.Game.Stats.Runtime;
 using Pancake.Common;
 using Soul.Pools.Runtime;

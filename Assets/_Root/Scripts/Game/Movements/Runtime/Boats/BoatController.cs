@@ -1,6 +1,7 @@
 ﻿using System;
 using _Root.Scripts.Game.Inputs.Runtime;
 using _Root.Scripts.Game.Interactables.Runtime;
+using _Root.Scripts.Game.Interactables.Runtime.Provider;
 using _Root.Scripts.Model.Boats.Runtime;
 using _Root.Scripts.Model.Water.Runtime;
 using Pancake;

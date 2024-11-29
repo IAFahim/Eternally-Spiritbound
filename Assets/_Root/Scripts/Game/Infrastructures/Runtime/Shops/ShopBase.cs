@@ -19,8 +19,8 @@ namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
 
         protected virtual void OnEnable()
         {
-            interactableEntryPointComponent.OnInteractionStartedEvent += OnEnter;
-            interactableEntryPointComponent.OnInteractionEndedEvent += OnExit;
+            interactableEntryPointComponent.OnStartedEvent += OnEnter;
+            interactableEntryPointComponent.OnEndedEvent += OnExit;
         }
 
 
@@ -51,8 +51,8 @@ namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
 
         protected virtual void OnDisable()
         {
-            interactableEntryPointComponent.OnInteractionStartedEvent -= OnEnter;
-            interactableEntryPointComponent.OnInteractionEndedEvent -= OnExit;
+            interactableEntryPointComponent.OnStartedEvent -= OnEnter;
+            interactableEntryPointComponent.OnEndedEvent -= OnExit;
         }
 
         protected virtual void InvokeShopUpdateEvent() => OnShopUpdateEvent?.Invoke();

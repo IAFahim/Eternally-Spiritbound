@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using _Root.Scripts.Game.Consmatics.Runtime;
 using _Root.Scripts.Game.Interactables.Runtime;
+using _Root.Scripts.Game.Interactables.Runtime.Focus;
 using _Root.Scripts.Game.Stats.Runtime;
 using _Root.Scripts.Presentation.Interactions.Runtime;
 using Cysharp.Threading.Tasks;

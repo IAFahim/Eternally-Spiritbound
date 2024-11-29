@@ -23,9 +23,8 @@ namespace _Root.Scripts.Game.Vehicles.Runtime
         }
 
 #if UNITY_EDITOR
-        protected override void OnDrawGizmosSelected()
+        protected void OnDrawGizmosSelected()
         {
-            base.OnDrawGizmosSelected();
             Gizmos.color = Color.green;
             Gizmos.DrawSphere(mountPosition, 0.1f);
             Gizmos.color = Color.red;

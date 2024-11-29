@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using _Root.Scripts.Game.Infrastructures.Runtime.Shops;
 using _Root.Scripts.Game.Interactables.Runtime;
+using _Root.Scripts.Game.Interactables.Runtime.Focus;
 using _Root.Scripts.Game.Utils.Runtime;
 using _Root.Scripts.Model.Assets.Runtime;
 using _Root.Scripts.Model.Links.Runtime;
