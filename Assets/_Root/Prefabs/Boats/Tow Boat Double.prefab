@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 9215854104336800689}
   - component: {fileID: 6824013014840771562}
   - component: {fileID: 7561353326827857477}
+  - component: {fileID: 1912690127310161599}
   m_Layer: 15
   m_Name: Tow Boat Double
   m_TagString: Untagged
@@ -177,15 +178,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cae01df60fc4746b570ce165271f4c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableConfirmHelperAsset:
-    enabled: 1
-    value:
-      m_AssetGUID: 96af7552c88e063488218aec4fe7624a
-      m_SubObjectName: 
-      m_SubObjectGUID: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  offset: {x: 0, y: 5, z: 0}
   driverComponent: {fileID: 0}
   mountPosition: {x: 0, y: 0, z: 0}
   exitPosition: {x: 0, y: 0, z: 0}
@@ -243,6 +235,27 @@ CapsuleCollider:
   m_Height: 6.0679436
   m_Direction: 2
   m_Center: {x: 0, y: 1.3939831, z: -0.29963112}
+--- !u!114 &1912690127310161599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5605311547021212894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3dbfa71253c4ce48f3d90cea126b65f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactableEntryPointComponent: {fileID: 8240035573106982839}
+  confirmationPopupAsset:
+    m_AssetGUID: 96af7552c88e063488218aec4fe7624a
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 1
+  offset:
+  - {x: 0, y: 5, z: 0}
 --- !u!1001 &6581452744895799561
 PrefabInstance:
   m_ObjectHideFlags: 0

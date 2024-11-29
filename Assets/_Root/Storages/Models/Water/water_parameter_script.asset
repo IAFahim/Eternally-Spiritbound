@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: water_parameter_script
   m_EditorClassIdentifier: 
   value:
-    waterLevel: 0
+    waterLevel: -2
     waterDrag: 0.99
     buoyancyForce: 100
     waveIntensity: 8.96
     waveFrequency: 1.41
-  lastTime: 2.6242087
+  lastTime: 0
   updateFrequency: 0.2

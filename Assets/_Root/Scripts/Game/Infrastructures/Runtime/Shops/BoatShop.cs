@@ -12,13 +12,9 @@ namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
         [SerializeField] private AssetScriptDataBase assetScriptDataBase;
         [SerializeField] private SingleShopAndBoatConnection singleShopAndBoatConnection;
 
-        [FormerlySerializedAs("assetPriceLink")] [SerializeField]
+        [SerializeField]
         private AssetScriptPriceLink assetScriptPriceLink;
 
-        [FormerlySerializedAs("assetOwnAssetGlobalCountLink")]
-        [FormerlySerializedAs("assetOwnAssetCountGlobalLink")]
-        [FormerlySerializedAs("assetScriptOwnAssetCountGlobalLink")]
-        [FormerlySerializedAs("assetScriptsOwnAssetCountGlobalLink")]
         [SerializeField]
         private AssetScriptOwnAssetScriptGlobalCountLink assetScriptOwnAssetScriptGlobalCountLink;
 

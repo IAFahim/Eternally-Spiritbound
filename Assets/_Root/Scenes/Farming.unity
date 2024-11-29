@@ -368,7 +368,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMain: 0
   isFocused: 0
-  focusProcessorScript: {fileID: 11400000, guid: e6a2eae12e412c04aba9069978e628f3, type: 2}
+  focusProcessorScript: {fileID: 11400000, guid: f95d67ed5f7b8f04f9fe559cf8ae31da, type: 2}
   focusManagerScript: {fileID: 11400000, guid: 4c147b4345416824f8968062d60f760a, type: 2}
 --- !u!1001 &1876456368
 PrefabInstance:
