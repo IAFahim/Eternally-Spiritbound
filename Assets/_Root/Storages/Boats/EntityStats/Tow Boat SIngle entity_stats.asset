@@ -19,7 +19,7 @@ MonoBehaviour:
         health:
           current:
             value: 3
-          max: 0
+          max: 3
         size: {x: 2.5, y: 3.5, z: 5.5}
       defensive:
         armor: 0

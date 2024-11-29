@@ -18,8 +18,8 @@ MonoBehaviour:
       vitality:
         health:
           current:
-            value: 0
-          max: 0
+            value: 3
+          max: 3
         size: {x: 1, y: 1.8, z: 0.5}
       defensive:
         armor: 0

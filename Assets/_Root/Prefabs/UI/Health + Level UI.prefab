@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 5579237949611814560}
   - component: {fileID: 7405065268236972407}
   m_Layer: 5
-  m_Name: Xp (TMP)
+  m_Name: Level (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -281,13 +281,14 @@ GameObject:
   - component: {fileID: 7208412776679490653}
   - component: {fileID: 7930185042358683873}
   - component: {fileID: 8233854786413005804}
+  - component: {fileID: 4957900315714184545}
   m_Layer: 5
-  m_Name: BoatHealthUI
+  m_Name: Health + Level UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7208412776679490653
 RectTransform:
   m_ObjectHideFlags: 0
@@ -308,8 +309,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 207, y: -51}
-  m_SizeDelta: {x: 330, y: 58.975}
+  m_AnchoredPosition: {x: 219.31384, y: -72.64252}
+  m_SizeDelta: {x: 400, y: 128}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7930185042358683873
 CanvasRenderer:
@@ -349,6 +350,26 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 5
+--- !u!114 &4957900315714184545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5948221220085659517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb967b2e39e140f280f2498e37275a9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBar: {fileID: 3434254989369968995}
+  healthText:
+    tmp: {fileID: 2494115689041464653}
+    format: '{0}'
+  levelBar: {fileID: 5026852429949807855}
+  levelText:
+    tmp: {fileID: 7405065268236972407}
+    format: Lev {0}
 --- !u!1 &6565574657258203868
 GameObject:
   m_ObjectHideFlags: 0
@@ -361,7 +382,7 @@ GameObject:
   - component: {fileID: 3332805426820786110}
   - component: {fileID: 2494115689041464653}
   m_Layer: 5
-  m_Name: Life (TMP)
+  m_Name: Health (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

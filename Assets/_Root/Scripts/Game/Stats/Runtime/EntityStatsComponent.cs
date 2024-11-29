@@ -23,6 +23,12 @@ namespace _Root.Scripts.Game.Stats.Runtime
             OnOldEntityStatsCleanUp += onOldEntityStatsCleanUp;
             OnNewEntityStats?.Invoke();
         }
+        
+        public void UnregisterChange(Action onEntityStatsChange, Action onOldEntityStatsCleanUp)
+        {
+            OnNewEntityStats -= onEntityStatsChange;
+            OnOldEntityStatsCleanUp -= onOldEntityStatsCleanUp;
+        }
 
         private void OnDisable()
         {

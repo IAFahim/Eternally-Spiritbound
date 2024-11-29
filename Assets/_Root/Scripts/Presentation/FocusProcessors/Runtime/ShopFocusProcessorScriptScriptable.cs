@@ -64,8 +64,8 @@ namespace _Root.Scripts.Presentation.FocusProcessors.Runtime
         private int _lastSelected;
 
 
-        private string GetSelectedTab() => PlayerPrefs.GetString(value, string.Empty);
-        private string SetSelectedTab(string category) => PlayerPrefs.GetString(value, category);
+        private string GetSelectedTab() => PlayerPrefs.GetString(name, string.Empty);
+        private string SetSelectedTab(string category) => PlayerPrefs.GetString(name, category);
 
 
         public override void SetFocus(FocusReferences focusReferences, CancellationToken token)

@@ -8,7 +8,7 @@ using UnityEngine.AddressableAssets;
 
 namespace _Root.Scripts.Game.Interactables.Runtime.Focus
 {
-    public abstract class FocusProcessorScript : StringConstant
+    public abstract class FocusProcessorScript : ScriptableObject
     {
         public abstract void SetFocus(FocusReferences focusReferences, CancellationToken cancellationToken);
 
