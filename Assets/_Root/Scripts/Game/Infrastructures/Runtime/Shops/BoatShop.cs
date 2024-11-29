@@ -2,21 +2,19 @@
 using _Root.Scripts.Model.Links.Runtime;
 using Soul.Interactables.Runtime;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
 {
     [RequireComponent(typeof(SingleShopAndBoatConnection))]
     public class BoatShop : ShopBase
     {
+        [SerializeField] protected AssetCategory[] assetCategories;
         [SerializeField] private AssetScriptDataBase assetScriptDataBase;
         [SerializeField] private SingleShopAndBoatConnection singleShopAndBoatConnection;
 
-        [SerializeField]
-        private AssetScriptPriceLink assetScriptPriceLink;
+        [SerializeField] private AssetScriptPriceLink assetScriptPriceLink;
 
-        [SerializeField]
-        private AssetScriptOwnAssetScriptGlobalCountLink assetScriptOwnAssetScriptGlobalCountLink;
+        [SerializeField] private AssetScriptOwnAssetScriptGlobalCountLink assetScriptOwnAssetScriptGlobalCountLink;
 
         private AssetScript _currentAssetScript;
 
@@ -26,6 +24,8 @@ namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
             equippedItemGuid = PlayerPrefs.GetString(name, equippedItemGuid);
             SpawnEquippedBoat(equippedItemGuid);
         }
+
+        public override AssetCategory[] GetAssetCategories() => assetCategories;
 
         public override void OnEnter(IInteractorEntryPoint interactorEntryPoint)
         {

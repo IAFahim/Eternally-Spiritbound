@@ -34,12 +34,10 @@ namespace _Root.Scripts.Presentation.FocusProcessors.Runtime
 
         [SerializeField] private FocusManagerScript focusManagerScript;
 
-        
-        [SerializeField]
-        private StatusSprite lockedStatusSprite;
 
-        [SerializeField]
-        private StatusSprite equippedStatusSprite;
+        [SerializeField] private StatusSprite lockedStatusSprite;
+
+        [SerializeField] private StatusSprite equippedStatusSprite;
 
         [SerializeField] private Sprite lockedSprite;
         [SerializeField] private Sprite equippedSprite;
@@ -72,6 +70,7 @@ namespace _Root.Scripts.Presentation.FocusProcessors.Runtime
         {
             _stillCanvasTransformPoint = focusReferences.UISillTransformPointPadded;
             TargetGameObject = focusReferences.CurrentGameObject;
+            _shopBase = TargetGameObject.GetComponent<ShopBase>();
             BuildCache(
                 focusReferences.ActiveElements, OnCacheBuiltBeforeActive, token,
                 (cinemachineAsset, SetupCinemachine, null),
@@ -97,15 +96,13 @@ namespace _Root.Scripts.Presentation.FocusProcessors.Runtime
         private void SetupTabButton(GameObject obj)
         {
             _tabLayoutGroup = obj.GetComponent<HorizontalLayoutGroup>();
-            _shopBase = TargetGameObject.GetComponent<ShopBase>();
-            var assetCategories = _shopBase.assetCategories;
+            var assetCategories = _shopBase.GetAssetCategories();
             _tabButtonControllers = new TabButtonController[assetCategories.Length];
             for (var i = 0; i < assetCategories.Length; i++)
             {
                 _tabButtonControllers[i] = SharedAssetReferencePoolInactive
                     .Request(tabButtonControllerAsset, _tabLayoutGroup.transform)
                     .GetComponent<TabButtonController>();
-                var assetCategory = assetCategories[i];
             }
         }
 
@@ -121,7 +118,7 @@ namespace _Root.Scripts.Presentation.FocusProcessors.Runtime
 
         private void InstantiateShopBase()
         {
-            var assetCategories = _shopBase.assetCategories;
+            var assetCategories = _shopBase.GetAssetCategories();
             _playerAssetScriptReferenceComponent =
                 focusManagerScript.mainObject.GetComponent<AssetScriptReferenceComponent>();
             var selectedCategory = GetSelectedTab();

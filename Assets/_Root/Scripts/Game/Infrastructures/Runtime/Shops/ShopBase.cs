@@ -11,10 +11,9 @@ namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
     public abstract class ShopBase : MonoBehaviour
     {
         public string equippedItemGuid;
-        public AssetCategory[] assetCategories;
         [SerializeField] protected InteractableEntryPointComponent interactableEntryPointComponent;
         [SerializeField] private bool debugEnabled;
-
+        
         public event Action OnShopUpdateEvent;
 
         protected virtual void OnEnable()
@@ -22,7 +21,8 @@ namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
             interactableEntryPointComponent.OnStartedEvent += OnEnter;
             interactableEntryPointComponent.OnEndedEvent += OnExit;
         }
-
+        
+        public abstract AssetCategory[] GetAssetCategories();
 
         public abstract void OnEnter(IInteractorEntryPoint interactorEntryPoint);
 

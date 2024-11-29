@@ -171,11 +171,40 @@ PrefabInstance:
       propertyPath: testPos
       value: 
       objectReference: {fileID: 2132038461}
+    - target: {fileID: 4690152987054919665, guid: 4af9a3ffeac3ae24ca6e5c6c3855a6d5, type: 3}
+      propertyPath: dummyAssetPrice.asset
+      value: 
+      objectReference: {fileID: 11400000, guid: 2299e714b503bcb428f6f4d8558fabc9, type: 2}
+    - target: {fileID: 4690152987054919665, guid: 4af9a3ffeac3ae24ca6e5c6c3855a6d5, type: 3}
+      propertyPath: dummyAssetPrice.price
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4690152987054919665, guid: 4af9a3ffeac3ae24ca6e5c6c3855a6d5, type: 3}
+      propertyPath: assetCategories.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4690152987054919665, guid: 4af9a3ffeac3ae24ca6e5c6c3855a6d5, type: 3}
+      propertyPath: interactableEntryPointComponent
+      value: 
+      objectReference: {fileID: 1251256404}
+    - target: {fileID: 4690152987054919665, guid: 4af9a3ffeac3ae24ca6e5c6c3855a6d5, type: 3}
+      propertyPath: assetCategories.Array.data[0].name
+      value: Summer
+      objectReference: {fileID: 0}
+    - target: {fileID: 4690152987054919665, guid: 4af9a3ffeac3ae24ca6e5c6c3855a6d5, type: 3}
+      propertyPath: assetCategories.Array.data[0].assets.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4690152987054919665, guid: 4af9a3ffeac3ae24ca6e5c6c3855a6d5, type: 3}
+      propertyPath: 'assetCategories.Array.data[0].assets.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 1cd129781017cad409f37f3bed68c2af, type: 2}
     - target: {fileID: 5441092939432874242, guid: 4af9a3ffeac3ae24ca6e5c6c3855a6d5, type: 3}
       propertyPath: m_Name
       value: Seed Bed 3
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1973131006943111670, guid: 4af9a3ffeac3ae24ca6e5c6c3855a6d5, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using _Root.Scripts.Game.Infrastructures.Runtime.Shops;
 using _Root.Scripts.Model.Assets.Runtime;
 using _Root.Scripts.Model.Farmings.Runtime;
 using _Root.Scripts.Model.Links.Runtime;
@@ -7,13 +8,14 @@ using _Root.Scripts.Model.ObjectPlacers.Runtime;
 using Pancake.Common;
 using Pancake.Pattern;
 using Sirenix.OdinInspector;
+using Soul.Interactables.Runtime;
 using Soul.Selectors.Runtime;
 using Soul.Serializers.Runtime;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.Farmings.Runtime
 {
-    public class CropFsm : MonoBehaviour, ISelectCallBackReceiver
+    public class CropFsm : ShopBase, ISelectCallBackReceiver
     {
         public AssetScript cropAsset;
         public UnityTimeSpan growthTime;
@@ -112,6 +114,60 @@ namespace _Root.Scripts.Game.Farmings.Runtime
         public void OnReselected(RaycastHit hit)
         {
             Debug.Log("Reselected");
+        }
+
+        public AssetCategory[] assetCategories;
+
+        public override AssetCategory[] GetAssetCategories()
+        {
+            return assetCategories;
+        }
+
+        public override void OnUnlockedSelected(AssetScriptReferenceComponent playerAssetScriptReferenceComponent,
+            string category,
+            AssetScript assetScript)
+        {
+            cropAsset = assetScript;
+        }
+
+        public override void OnDeSelected(AssetScriptReferenceComponent playerAssetScriptReferenceComponent,
+            string category,
+            AssetScript assetScript)
+        {
+            cropAsset = null;
+        }
+
+        public override void OnLockedItemSelected(AssetScriptReferenceComponent playerAssetScriptReferenceComponent,
+            string category,
+            AssetScript assetScript)
+        {
+            Debug.Log("LockedItemSelected " + assetScript.Value);
+        }
+
+        public override bool OnTryBuyButtonClick(AssetScriptReferenceComponent playerAssetScriptReferenceComponent,
+            string category,
+            AssetScript assetScript, out string message)
+        {
+            throw new NotImplementedException();
+        }
+        
+        public AssetPrice dummyAssetPrice;
+        public override bool HasEnough(AssetScriptReferenceComponent playerAssetScriptReferenceComponent,
+            AssetScript item,
+            out AssetPrice assetPrice)
+        {
+            assetPrice = dummyAssetPrice;
+            return true;
+        }
+
+        public override void OnExit(IInteractorEntryPoint interactorEntryPoint)
+        {
+            Debug.Log("OnExit");
+        }
+
+        public override void OnEnter(IInteractorEntryPoint interactorEntryPoint)
+        {
+            Debug.Log("OnEnter");
         }
     }
 }
