@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Rice Seed
   m_EditorClassIdentifier: 
   value: Rice Seed
-  guid: fbfb0ed4a09946f
+  guid: fa75cc6cd05e4d3
   assetReference:
     m_AssetGUID: 
     m_SubObjectName: 
@@ -22,4 +22,6 @@ MonoBehaviour:
     m_EditorAssetChanged: 0
   description: 
   icon: {fileID: 0}
-  plant: {fileID: 0}
+  materials: []
+  meshes: []
+  plant: {fileID: 11400000, guid: 1bc8e47b5a313a8438677a5833e2b15c, type: 2}

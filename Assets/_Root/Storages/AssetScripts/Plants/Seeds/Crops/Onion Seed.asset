@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc7a51b473cb43a46befc6f9a1ace00f, type: 3}
   m_Name: Onion Seed
   m_EditorClassIdentifier: 
-  value: Rice Seed
-  guid: fbfb0ed4a09946f
+  value: Onion Seed
+  guid: d46199d78dcc456
   assetReference:
     m_AssetGUID: 
     m_SubObjectName: 
@@ -22,4 +22,6 @@ MonoBehaviour:
     m_EditorAssetChanged: 0
   description: 
   icon: {fileID: 0}
-  plant: {fileID: 0}
+  materials: []
+  meshes: []
+  plant: {fileID: 11400000, guid: caf7e78bd9c94814d9759e8d6e887d78, type: 2}

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc7a51b473cb43a46befc6f9a1ace00f, type: 3}
   m_Name: Chili Seed
   m_EditorClassIdentifier: 
-  value: Rice Seed
+  value: Chili Seed
   guid: fbfb0ed4a09946f
   assetReference:
     m_AssetGUID: 
@@ -22,4 +22,4 @@ MonoBehaviour:
     m_EditorAssetChanged: 0
   description: 
   icon: {fileID: 0}
-  plant: {fileID: 0}
+  plant: {fileID: 11400000, guid: eb2e4ef4a2ded9246b416edd03399f95, type: 2}

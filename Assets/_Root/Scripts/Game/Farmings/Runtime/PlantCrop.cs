@@ -26,6 +26,6 @@ namespace _Root.Scripts.Game.Farmings.Runtime
             Debug.Log("Planting Finished");
         }
 
-        public bool CanPlant() => cropData.asset != null;
+        public bool CanPlant() => cropData.seedAsset != null;
     }
 }

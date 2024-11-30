@@ -17,9 +17,8 @@ namespace _Root.Scripts.Game.Farmings.Runtime
 {
     public class CropFsm : ShopBase, ISelectCallBackReceiver
     {
-        public AssetScript cropAsset;
+        public SeedAsset seedAsset;
         public UnityTimeSpan growthTime;
-        public AssetScriptMeshesLink assetScriptMeshesLink;
 
         public CropData cropData;
         public FieldIdle fieldIdle;
@@ -36,8 +35,7 @@ namespace _Root.Scripts.Game.Farmings.Runtime
         [Button]
         public void PutCrop()
         {
-            assetScriptMeshesLink.TryGetValue(cropAsset, out var cropMeshes);
-            cropData.Initialize(cropAsset, DateTime.UtcNow, growthTime, cropMeshes);
+            cropData.Initialize(seedAsset, DateTime.UtcNow, growthTime);
         }
 
 
@@ -63,7 +61,7 @@ namespace _Root.Scripts.Game.Farmings.Runtime
             _cropFsm.AddTransition(plantGrow, harvestCrop, plantGrow.IsCompleteGrowing);
             _cropFsm.AddTransition(harvestCrop, fieldIdle, () =>
             {
-                cropData.asset = null;
+                cropData.seedAsset = null;
                 App.RemoveListener(EUpdateMode.Update, OnUpdateFSM);
                 return true;
             });
@@ -127,14 +125,14 @@ namespace _Root.Scripts.Game.Farmings.Runtime
             string category,
             AssetScript assetScript)
         {
-            cropAsset = assetScript;
+            seedAsset = (SeedAsset)assetScript;
         }
 
         public override void OnDeSelected(AssetScriptReferenceComponent playerAssetScriptReferenceComponent,
             string category,
             AssetScript assetScript)
         {
-            cropAsset = null;
+            seedAsset = null;
         }
 
         public override void OnLockedItemSelected(AssetScriptReferenceComponent playerAssetScriptReferenceComponent,
@@ -150,8 +148,9 @@ namespace _Root.Scripts.Game.Farmings.Runtime
         {
             throw new NotImplementedException();
         }
-        
+
         public AssetPrice dummyAssetPrice;
+
         public override bool HasEnough(AssetScriptReferenceComponent playerAssetScriptReferenceComponent,
             AssetScript item,
             out AssetPrice assetPrice)

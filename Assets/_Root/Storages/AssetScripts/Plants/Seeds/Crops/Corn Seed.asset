@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc7a51b473cb43a46befc6f9a1ace00f, type: 3}
   m_Name: Corn Seed
   m_EditorClassIdentifier: 
-  value: Rice Seed
-  guid: fbfb0ed4a09946f
+  value: Cron Seed
+  guid: 341c5ff1072e4d2
   assetReference:
     m_AssetGUID: 
     m_SubObjectName: 
@@ -22,4 +22,4 @@ MonoBehaviour:
     m_EditorAssetChanged: 0
   description: 
   icon: {fileID: 0}
-  plant: {fileID: 0}
+  plant: {fileID: 11400000, guid: 45c64eadc99f6c14dbae12006dfa80c2, type: 2}

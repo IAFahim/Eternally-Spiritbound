@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc7a51b473cb43a46befc6f9a1ace00f, type: 3}
   m_Name: Mange Seed
   m_EditorClassIdentifier: 
-  value: 
-  guid: f6b0803867dd4a2
+  value: Mange Seed
+  guid: ba1a4474a3a84c5
   assetReference:
     m_AssetGUID: 
     m_SubObjectName: 
@@ -22,4 +22,6 @@ MonoBehaviour:
     m_EditorAssetChanged: 0
   description: 
   icon: {fileID: 0}
+  materials: []
+  meshes: []
   plant: {fileID: 0}

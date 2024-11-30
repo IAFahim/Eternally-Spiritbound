@@ -18,7 +18,7 @@ namespace _Root.Scripts.Game.Farmings.Runtime
 
         public override void OnEnter()
         {
-            _planter.Plant(cropData.Meshes[0]);
+            _planter.Plant(cropData.seedAsset.meshes[0]);
             Debug.Log("Planting Started");
         }
 
