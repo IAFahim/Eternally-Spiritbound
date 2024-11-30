@@ -17,6 +17,7 @@ namespace _Root.Scripts.Model.Stats.Runtime
         public float size;
         public float speed;
         public int penetration;
+        public float knockback;
 
 
         public OffensiveStats Combine(OffensiveStats other)
@@ -34,7 +35,8 @@ namespace _Root.Scripts.Model.Stats.Runtime
                 clipSize = clipSize + other.clipSize,
                 size = size + other.size,
                 speed = speed + other.speed,
-                penetration = penetration + other.penetration
+                penetration = penetration + other.penetration,
+                knockback = knockback + other.knockback
             };
         }
     }

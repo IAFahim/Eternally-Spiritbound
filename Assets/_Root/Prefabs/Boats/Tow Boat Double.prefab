@@ -98,6 +98,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   level: 0
   entityStatsParameterScript: {fileID: 11400000, guid: 3d13b3d2cf2ce0340b0a4e0d9dbbe091, type: 2}
+  rigidbody:
+    enabled: 1
+    value: {fileID: 4005976243181236938}
 --- !u!114 &4121787031315781494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,8 +213,7 @@ MonoBehaviour:
   activeWeapons: []
   entityStatsComponent: {fileID: 1559882521595817238}
   startingLevel: 0
-  weapons:
-  - {fileID: 11400000, guid: 439424b3e6a167c47bd5e82d52f2639a, type: 2}
+  weapons: []
 --- !u!136 &7561353326827857477
 CapsuleCollider:
   m_ObjectHideFlags: 0

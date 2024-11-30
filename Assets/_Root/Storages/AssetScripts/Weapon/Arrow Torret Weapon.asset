@@ -27,17 +27,18 @@ MonoBehaviour:
     - level: 0
       value:
         damage: 1
-        lifeTime: 3
-        fireRate: 1
+        lifeTime: 10
+        fireRate: 0.2
         cooldown: 0.1
         range: -1
         reloadTime: 1
         accuracy: 1
         recoil: 0
+        clipSize: 0
         size: 1
         speed: 10
-        defensePenetration: 0
-        elementalDamage: 0
         penetration: 0
+        knockback: 1000000
   supportedProjectileAssets:
+  - {fileID: 11400000, guid: 1c61756c5e9d49b459a53979de6f8fc7, type: 2}
   - {fileID: 11400000, guid: a08c7c885fd342541bbdfafac18552fa, type: 2}

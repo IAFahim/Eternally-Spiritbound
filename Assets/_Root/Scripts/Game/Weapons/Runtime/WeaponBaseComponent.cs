@@ -1,6 +1,5 @@
 ﻿using _Root.Scripts.Game.Stats.Runtime;
 using _Root.Scripts.Game.Weapons.Runtime.Attacks;
-using _Root.Scripts.Game.Weapons.Runtime.Damages;
 using _Root.Scripts.Game.Weapons.Runtime.Projectiles;
 using _Root.Scripts.Model.Stats.Runtime;
 using Pancake.Common;
@@ -15,7 +14,6 @@ namespace _Root.Scripts.Game.Weapons.Runtime
     public class WeaponBaseComponent : MonoBehaviour, IWeapon
     {
         public int currentLevel;
-        public bool fire;
         public float lastFireTime;
 
         [SerializeField] private WeaponAsset weaponAsset;
@@ -94,13 +92,11 @@ namespace _Root.Scripts.Game.Weapons.Runtime
         private void OnUpdate()
         {
             if (!overlapNonAlloc.Found()) return;
-            fire = Time.time - lastFireTime >= _offensiveStats.fireRate;
-            if (!fire) return;
+            if (!(Time.time - lastFireTime >= _offensiveStats.fireRate)) return;
             if (!overlapNonAlloc.TryGetClosest(out var other, out _)) return;
             PerformAttack(other.gameObject);
-            fire = false;
-            lastFireTime = Time.time;
         }
+        
 
         private GameObject GetFromPool()
         {
@@ -119,6 +115,7 @@ namespace _Root.Scripts.Game.Weapons.Runtime
                     target.transform.position
                 )
             );
+            lastFireTime = Time.time;
         }
 
         private void InitBullet(GameObject bullet, Vector3 targetPosition)
@@ -132,9 +129,10 @@ namespace _Root.Scripts.Game.Weapons.Runtime
                     targetPosition
                 )
             );
+            lastFireTime = Time.time;
         }
 
-        private void OnFixedUpdate()
+        protected virtual void OnFixedUpdate()
         {
             if (intervalTicker.TryTick()) overlapNonAlloc.Perform();
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Pancake;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -9,8 +10,8 @@ namespace _Root.Scripts.Game.Stats.Runtime
     {
         public int level;
         [SerializeField] private EntityStatParameterScript entityStatsParameterScript;
-
         [ShowInInspector] [NonSerialized] public EntityStats entityStats;
+        public Optional<Rigidbody> rigidbody;
 
         private event Action OnNewEntityStats;
         private event Action OnOldEntityStatsCleanUp;
@@ -23,7 +24,7 @@ namespace _Root.Scripts.Game.Stats.Runtime
             OnOldEntityStatsCleanUp += onOldEntityStatsCleanUp;
             OnNewEntityStats?.Invoke();
         }
-        
+
         public void UnregisterChange(Action onEntityStatsChange, Action onOldEntityStatsCleanUp)
         {
             OnNewEntityStats -= onEntityStatsChange;
@@ -52,10 +53,16 @@ namespace _Root.Scripts.Game.Stats.Runtime
         {
             var size = entityStats.vitality.size;
             var center = entityStats.vitality.Center(transform.position);
-            
+
             Gizmos.color = Color.cyan;
             Gizmos.DrawWireCube(center, size);
         }
 #endif
+
+        private void Reset()
+        {
+            var rigidbodyComponent = GetComponent<Rigidbody>();
+            rigidbody = new Optional<Rigidbody>(rigidbodyComponent, rigidbodyComponent);
+        }
     }
 }

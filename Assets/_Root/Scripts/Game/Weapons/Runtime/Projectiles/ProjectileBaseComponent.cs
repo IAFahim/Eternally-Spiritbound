@@ -1,4 +1,5 @@
-﻿using _Root.Scripts.Game.DamagePopups.Runtime;
+﻿using System;
+using _Root.Scripts.Game.DamagePopups.Runtime;
 using _Root.Scripts.Game.Stats.Runtime;
 using _Root.Scripts.Game.Weapons.Runtime.Attacks;
 using Pancake.Common;
@@ -11,10 +12,10 @@ namespace _Root.Scripts.Game.Weapons.Runtime.Projectiles
         [SerializeField] private DamagePopup damagePopup;
         protected AttackOrigin AttackOrigin;
         protected int Penetration;
-        
         public GameObject GameObject => gameObject;
         public Transform Transform => transform;
-        
+
+
         public virtual void Init(AttackOrigin attackOrigin)
         {
             AttackOrigin = attackOrigin;
@@ -29,14 +30,34 @@ namespace _Root.Scripts.Game.Weapons.Runtime.Projectiles
             AttackOrigin.weaponBaseComponent.OnReturnToPool(this);
         }
         
+        protected virtual void OnTriggerEnter(Collider other)
+        {
+            Damage(other.transform.root);
+        }
 
-        protected void DamageInformPentrationCounterUp(Transform otherRootTransform)
+
+        protected void Damage(Transform otherRootTransform)
         {
             if (otherRootTransform == AttackOrigin.weaponBaseComponent.transform.root) return;
             if (otherRootTransform.TryGetComponent<EntityStatsComponent>(out var entityStatsComponent))
             {
                 InformWeapon(entityStatsComponent);
                 PenetrationCheck();
+                PerformKnockback(entityStatsComponent);
+            }
+        }
+
+        private void PerformKnockback(EntityStatsComponent entityStatsComponent)
+        {
+            if (entityStatsComponent.rigidbody)
+            {
+                var knockback = AttackOrigin.offensiveStats.knockback -
+                                entityStatsComponent.entityStats.defensive.knockbackResistance;
+                if (knockback > 0)
+                {
+                    entityStatsComponent.GetComponent<Rigidbody>()
+                        .AddForce(entityStatsComponent.transform.forward * -knockback);
+                }
             }
         }
 

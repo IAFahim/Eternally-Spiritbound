@@ -8,5 +8,6 @@ namespace _Root.Scripts.Model.Stats.Runtime
         public float armor;
         public LimitStat shield;
         public float dodgeChance;
+        public float knockbackResistance;
     }
 }
