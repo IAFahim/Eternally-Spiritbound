@@ -192,6 +192,10 @@ PrefabInstance:
       value: Summer
       objectReference: {fileID: 0}
     - target: {fileID: 4690152987054919665, guid: 4af9a3ffeac3ae24ca6e5c6c3855a6d5, type: 3}
+      propertyPath: assetCategories.Array.data[0].title
+      value: Summer
+      objectReference: {fileID: 0}
+    - target: {fileID: 4690152987054919665, guid: 4af9a3ffeac3ae24ca6e5c6c3855a6d5, type: 3}
       propertyPath: assetCategories.Array.data[0].assets.Array.size
       value: 1
       objectReference: {fileID: 0}

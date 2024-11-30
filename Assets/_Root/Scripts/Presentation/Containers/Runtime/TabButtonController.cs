@@ -1,4 +1,6 @@
 ﻿using System;
+using _Root.Scripts.Model.Assets.Runtime;
+using Sisus.Init;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -6,25 +8,33 @@ using UnityEngine.UI;
 
 namespace _Root.Scripts.Presentation.Containers.Runtime
 {
-    public class TabButtonController : MonoBehaviour
+    public class TabButtonController : MonoBehaviour, IInitializable<int, string, Sprite, bool, UnityAction<int>>
     {
+        [SerializeField] private int indexNumber;
         [SerializeField] private Button button;
         [SerializeField] private Image iconImage;
         [SerializeField] private TMP_Text titleText;
 
-        private UnityAction _onClick;
+        private UnityAction<int> _onIndexClick;
 
-        public void Initialize(string title, Sprite icon, bool selected, UnityAction onClick)
+        public void Init(int index, string title, Sprite icon, bool selected, UnityAction<int> onIndexClicked)
         {
+            indexNumber = index;
             titleText.text = title;
             iconImage.sprite = icon;
-            AddListener(onClick);
+            _onIndexClick = onIndexClicked;
+            AddListener(OnIndexClicked);
             SetSelected(selected);
+        }
+
+        private void OnIndexClicked()
+        {
+            _onIndexClick?.Invoke(indexNumber);
         }
 
         private void SetSelected(bool selected)
         {
-            if(selected) button.Select();
+            if (selected) button.Select();
             else button.OnDeselect(null);
         }
 
@@ -33,16 +43,15 @@ namespace _Root.Scripts.Presentation.Containers.Runtime
         private void AddListener(UnityAction onClick)
         {
             RemoveOldListener();
-            _onClick = onClick;
             button.onClick.AddListener(onClick);
         }
 
         private void RemoveOldListener()
         {
-            if (_onClick != null)
+            if (_onIndexClick != null)
             {
-                button.onClick.RemoveListener(_onClick);
-                _onClick = null;
+                button.onClick.RemoveListener(OnIndexClicked);
+                _onIndexClick = null;
             }
         }
 

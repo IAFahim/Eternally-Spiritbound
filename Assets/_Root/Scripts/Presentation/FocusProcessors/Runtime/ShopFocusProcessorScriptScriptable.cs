@@ -72,7 +72,7 @@ namespace _Root.Scripts.Presentation.FocusProcessors.Runtime
             TargetGameObject = focusReferences.CurrentGameObject;
             _shopBase = TargetGameObject.GetComponent<ShopBase>();
             BuildCache(
-                focusReferences.ActiveElements, OnCacheBuiltBeforeActive, token,
+                focusReferences.ActiveElements, BeforeActive, token,
                 (cinemachineAsset, SetupCinemachine, null),
                 (tabLayoutAsset, SetupTabButton, focusReferences.UISillTransformPointPadded),
                 (shopCloseButtonAsset, SetupCloseButton, focusReferences.UISillTransformPointPadded),
@@ -80,12 +80,9 @@ namespace _Root.Scripts.Presentation.FocusProcessors.Runtime
             ).Forget();
         }
 
-        private void OnCacheBuiltBeforeActive()
+        private void BeforeActive()
         {
-            foreach (var tabButtonController in _tabButtonControllers)
-            {
-                tabButtonController.gameObject.SetActive(true);
-            }
+            foreach (var tabButtonController in _tabButtonControllers) tabButtonController.gameObject.SetActive(true);
 
             foreach (var buttonSelectionController in _buttonSelectionControllers)
             {
@@ -100,10 +97,21 @@ namespace _Root.Scripts.Presentation.FocusProcessors.Runtime
             _tabButtonControllers = new TabButtonController[assetCategories.Length];
             for (var i = 0; i < assetCategories.Length; i++)
             {
+                var assetCategory = assetCategories[i];
                 _tabButtonControllers[i] = SharedAssetReferencePoolInactive
                     .Request(tabButtonControllerAsset, _tabLayoutGroup.transform)
                     .GetComponent<TabButtonController>();
+                _tabButtonControllers[i].Init(i, assetCategory.title, assetCategory.icon, true, TabSelectionClick);
             }
+        }
+
+        private void TabSelectionClick(int tabIndex)
+        {
+            var selectedCategory = _shopBase.GetAssetCategories()[tabIndex].title;
+            if (selectedCategory == _category) return;
+            SetSelectedTab(selectedCategory);
+            CleanAssetSelection();
+            InstantiateShopBase();
         }
 
 
@@ -125,12 +133,12 @@ namespace _Root.Scripts.Presentation.FocusProcessors.Runtime
             _category = "";
             foreach (var assetCategory in assetCategories)
             {
-                if (assetCategory.name != selectedCategory) continue;
+                if (assetCategory.title != selectedCategory) continue;
                 InstantiateCategory(selectedCategory, assetCategory);
                 break;
             }
 
-            if (string.IsNullOrEmpty(_category)) InstantiateCategory(assetCategories[0].name, assetCategories[0]);
+            if (string.IsNullOrEmpty(_category)) InstantiateCategory(assetCategories[0].title, assetCategories[0]);
         }
 
         private void InstantiateCategory(string selectedCategory, AssetCategory assetCategory)
@@ -169,7 +177,7 @@ namespace _Root.Scripts.Presentation.FocusProcessors.Runtime
             var scrollContentTransform = scrollRect.content.transform;
             for (var i = 0; i < assetInfoDTOs.Length; i++)
             {
-                _buttonSelectionControllers[i] = CreateController(i, assetCategory.name, scrollContentTransform,
+                _buttonSelectionControllers[i] = CreateController(i, assetCategory.title, scrollContentTransform,
                     assetInfoDTOs[i],
                     out var isEquipped);
                 if (isEquipped) _lastSelected = i;
@@ -305,8 +313,10 @@ namespace _Root.Scripts.Presentation.FocusProcessors.Runtime
         {
             foreach (var buttonSelectionController in _buttonSelectionControllers)
             {
-                SharedAssetReferencePoolInactive.Return(buttonSelectionControllerAsset,
-                    buttonSelectionController.gameObject);
+                SharedAssetReferencePoolInactive.Return(
+                    buttonSelectionControllerAsset,
+                    buttonSelectionController.gameObject
+                );
             }
 
             SharedAssetReferencePoolInactive.Return(scrollRectAsset, _scrollRect.gameObject);
