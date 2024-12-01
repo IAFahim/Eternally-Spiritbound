@@ -801,7 +801,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &544174168
 Transform:
   m_ObjectHideFlags: 0
@@ -830,38 +830,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allGameItem: {fileID: 11400000, guid: 60500ef7e30813440af707e176c0e250, type: 2}
-  itemPickupManager:
-    handlers: []
-    detectHandlerBase:
-      skipFrame: 10
-      layerMask:
-        serializedVersion: 2
-        m_Bits: 32768
-      gizmoColor: {r: 0, g: 1, b: 0, a: 1}
-    activeTweenHandlerBase:
-      skipFrame: 10
-      repelDistance: 5
-      repelDuration: 0.5
-      upHeight: 10
-      repelEase: 5
-      gizmoColor: {r: 1, g: 0, b: 0, a: 1}
-    pickupHomingHandlerBase:
-      skipFrame: 0
-      closeDistance: 0.5
-      attractSpeed: 100
-      gizmoColor: {r: 0, g: 0, b: 1, a: 1}
-    pickupRecycleHandlerBase:
-      skipFrame: 0
-      controllers: []
-      delay: 1
-      gizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  autoPickList: []
-  randomTest: 96
-  range: 100
+  itemPickupManager: {fileID: 11400000, guid: 811194cb7ab7c244eb2eb91732af81ac, type: 2}
+  autoPickList:
+  - {fileID: 11400000, guid: 3c2adabcdf8aaef46be373b9297f1491, type: 2}
+  randomTest: 100
+  range: 200
   waterLevel: 0
-  references:
-    version: 2
-    RefIds: []
 --- !u!1 &757500542 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4416926081852918481, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}

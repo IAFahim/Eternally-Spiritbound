@@ -14,22 +14,10 @@ namespace _Root.Scripts.Game.QuickPickup.Runtime
         public float range = 1000;
         public float waterLevel = 0;
 
-        private void OnEnable()
-        {
-            foreach (var gameItem in allGameItem.gameItems)
-            {
-                if (gameItem.AutoPickup)
-                {
-                    autoPickList.Add(gameItem);
-                }
-            }
-
-            itemPickupManager.Setup(autoPickList.ToArray());
-        }
-
 
         private void Start()
         {
+            itemPickupManager.Setup();
             SpawnItems();
         }
 
@@ -39,14 +27,22 @@ namespace _Root.Scripts.Game.QuickPickup.Runtime
             {
                 var randomItem = autoPickList[Random.Range(0, autoPickList.Count)];
                 var randomV2 = Random.insideUnitCircle * range;
-                itemPickupManager.Add(randomItem, transform.position + new Vector3(randomV2.x, waterLevel, randomV2.y),
-                    1);
+                itemPickupManager.Add(
+                    randomItem,
+                    transform.position + new Vector3(randomV2.x, waterLevel, randomV2.y),
+                    1
+                ).Forget();
             }
         }
 
         public void Update()
         {
             itemPickupManager.Process();
+        }
+        
+        public void OnDisable()
+        {
+            itemPickupManager.DisposeAll();
         }
 
 #if UNITY_EDITOR

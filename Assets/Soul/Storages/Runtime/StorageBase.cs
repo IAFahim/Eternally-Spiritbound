@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Sirenix.OdinInspector;
 using Soul.Serializers.Runtime;
 using UnityEngine;
 
@@ -20,7 +21,7 @@ namespace Soul.Storages.Runtime
         [SerializeField, Tooltip("Starting elements when you load for the first time, useful for scriptable objects")]
         protected Pair<TElement, TValue>[] defaultData = Array.Empty<Pair<TElement, TValue>>();
 
-        [SerializeField] protected Dictionary<TElement, TValue> elements = new();
+        [ShowInInspector] protected Dictionary<TElement, TValue> elements = new();
 
         /// <summary>
         /// Initializes the storage with either loaded data or default data.

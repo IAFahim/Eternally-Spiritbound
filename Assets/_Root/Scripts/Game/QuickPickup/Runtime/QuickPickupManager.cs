@@ -6,13 +6,14 @@ using UnityEngine;
 namespace _Root.Scripts.Game.QuickPickup.Runtime
 {
     [Serializable]
-    public abstract class QuickPickupManager<T>
+     public abstract class QuickPickupManager<T> : ScriptableObject
     {
         private Pair<int, int>[] _skipFrameHandlers;
-        [SerializeReference] public PickupHandlerBase<T>[] handlers;
+        private PickupHandlerBase<T>[] handlers;
 
         public virtual void Enable(PickupHandlerBase<T>[] handlers)
         {
+            
             this.handlers = handlers;
             for (var i = 0; i < handlers.Length - 1; i++)
             {
@@ -25,8 +26,10 @@ namespace _Root.Scripts.Game.QuickPickup.Runtime
             for (var i = 0; i < handlers.Length; i++)
             {
                 var alwaysLoopingHandler = handlers[i];
+                alwaysLoopingHandler.Initialization();
                 _skipFrameHandlers[i] = new(alwaysLoopingHandler.skipFrame, 0);
             }
+
         }
 
         public void Add(T controller)
@@ -47,12 +50,9 @@ namespace _Root.Scripts.Game.QuickPickup.Runtime
             }
         }
 
-        public void Clear()
+        public void DisposeAll()
         {
-            foreach (var handler in handlers)
-            {
-                handler.Dispose();
-            }
+            foreach (var handler in handlers) handler.Dispose();
         }
 
 #if UNITY_EDITOR

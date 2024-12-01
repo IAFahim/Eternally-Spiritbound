@@ -16,6 +16,9 @@ namespace _Root.Scripts.Model.Stats.Runtime
 
         public Vector3 Bottom(Transform transform) => Bottom(transform.position);
         public Vector3 Bottom(Vector3 position) => position;
+        
+        public Vector3 Back(Transform transform) => Back(transform.position);
+        public Vector3 Back(Vector3 position) => position + new Vector3(0, 0, size.z * Half);
 
         public Vector3 Top(Transform transform) => Top(transform.position);
         public Vector3 Top(Vector3 position) => position + new Vector3(0, size.y, 0);

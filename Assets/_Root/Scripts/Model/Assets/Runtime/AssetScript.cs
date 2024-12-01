@@ -48,9 +48,6 @@ namespace _Root.Scripts.Model.Assets.Runtime
             );
         }
 
-        public static implicit operator AssetReferenceGameObject(AssetScript assetScript)
-        {
-            return assetScript.assetReference;
-        }
+        public static implicit operator AssetReferenceGameObject(AssetScript assetScript) => assetScript.assetReference;
     }
 }

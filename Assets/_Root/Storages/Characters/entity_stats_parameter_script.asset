@@ -58,3 +58,7 @@ MonoBehaviour:
         speed: 0
         penetration: 0
         knockback: 0
+      contactDamage:
+        value: 0
+      pickupRadius:
+        value: 5

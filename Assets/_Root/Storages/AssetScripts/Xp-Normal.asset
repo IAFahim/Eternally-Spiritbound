@@ -15,11 +15,11 @@ MonoBehaviour:
   value: Xp
   guid: 2532507bf4f1451
   assetReference:
-    m_AssetGUID: 
+    m_AssetGUID: 2e9193bb2762ece47904aa03f72b9059
     m_SubObjectName: 
     m_SubObjectGUID: 
     m_SubObjectType: 
-    m_EditorAssetChanged: 0
+    m_EditorAssetChanged: 1
   description: 
   icon: {fileID: 0}
   dropStrategy: {fileID: 0}
@@ -27,4 +27,3 @@ MonoBehaviour:
   consumable: 1
   dropOnDeath: 0
   autoPickup: 1
-  pickupRange: 5

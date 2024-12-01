@@ -4,13 +4,12 @@ using UnityEngine;
 namespace Soul.QuickPickup.Runtime
 {
     [Serializable]
-    public class PickupContainerBase<T>
+    public struct PickupContainerBase<T>
     {
         public T element;
         public Transform transform;
         public Vector3 startPosition;
         public int amount;
-        public Transform otherTransform;
 
 
         public PickupContainerBase(T element, Transform transform , int staringAmount)

@@ -10,7 +10,7 @@ namespace _Root.Scripts.Model.Items.Runtime
 {
     [Serializable]
     [CreateAssetMenu(fileName = "Game Item", menuName = "Scriptable/Asset/Items/New")]
-    public class GameItem : AssetScript, IItemBase<GameObject>, IPickupStrategy, IDropStrategy
+    public class GameItem : AssetScript, IItemBase<GameObject>, IDropStrategy
     {
         public DropStrategyScriptable dropStrategy;
 
@@ -19,12 +19,10 @@ namespace _Root.Scripts.Model.Items.Runtime
 
         [SerializeField] private bool dropOnDeath;
         [SerializeField] private bool autoPickup;
-        [SerializeField] private float pickupRange = 5;
         public bool Consumable => consumable;
         public bool DropOnDeath => dropOnDeath;
         public bool IsStackable => maxStack > 1;
         public bool AutoPickup => autoPickup;
-        public float PickupRange => pickupRange;
 
         public int MaxStack
         {

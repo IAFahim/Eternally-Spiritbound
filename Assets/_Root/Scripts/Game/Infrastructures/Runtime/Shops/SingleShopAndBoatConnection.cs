@@ -1,4 +1,5 @@
 ﻿using _Root.Scripts.Model.Assets.Runtime;
+using _Root.Scripts.Model.Stats.Runtime;
 using Cysharp.Threading.Tasks;
 using Pancake.Pools;
 using Sirenix.OdinInspector;
@@ -16,13 +17,27 @@ namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
 
         private GameObject _boat;
         private Rigidbody _boatRigidbody;
+        private Vector3 _transformPoint;
+        private EntityStatsComponent _entityStatsComponent;
 
         public async UniTask<GameObject> SpawnBoat(AssetScript assetScript)
         {
-            var transformPoint = transform.position + offset;
-            _boat = await assetScript.AssetReference.RequestAsync(transformPoint, rotation);
+            _transformPoint = transform.position + offset;
+            _boat = await assetScript.AssetReference.RequestAsync(_transformPoint, rotation);
+            _entityStatsComponent = _boat.GetComponent<EntityStatsComponent>();
+            _entityStatsComponent.RegisterChange(OnEntityStatsChange, OnOldEntityStatsCleanUp);
             _boatRigidbody = _boat.GetComponent<Rigidbody>();
             return _boat;
+        }
+
+        private void OnOldEntityStatsCleanUp()
+        {
+        }
+
+        private void OnEntityStatsChange()
+        {
+            _boat.transform.position =
+                _transformPoint = _entityStatsComponent.entityStats.vitality.Back(_transformPoint);
         }
 
         public void DespawnBoat(AssetScript assetScript) => assetScript.AssetReference.Return(_boat);
@@ -30,7 +45,7 @@ namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
         private void PlaceAndAlignViaRigidBody()
         {
             // Calculate the desired position and rotation
-            Vector3 desiredPosition = transform.position + offset;
+            Vector3 desiredPosition = _transformPoint;
             Quaternion desiredRotation = rotation;
 
             // Calculate the force needed to move the boat to the desired position

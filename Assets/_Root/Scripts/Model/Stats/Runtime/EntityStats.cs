@@ -1,6 +1,7 @@
 ﻿using System;
 using _Root.Scripts.Game.Utils.Runtime;
 using Sirenix.OdinInspector;
+using Soul.Reactives.Runtime;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -17,6 +18,8 @@ namespace _Root.Scripts.Model.Stats.Runtime
         public CriticalStats critical;
         public AmmoStats ammo;
         public OffensiveStats offensive;
+        public Reactive<float> contactDamage;
+        public Reactive<float> pickupRadius;
 
         public void Initialize()
         {

@@ -20,7 +20,7 @@ MonoBehaviour:
           current:
             value: 2
           max: 2
-        size: {x: 2.5, y: 3.5, z: 5.5}
+        size: {x: 2, y: 2.3, z: 3.5}
       defensive:
         armor: 0
         shield:
@@ -28,6 +28,7 @@ MonoBehaviour:
             value: 0
           max: 0
         dodgeChance: 0
+        knockbackResistance: 0
       movement:
         speed: 0
         pickupRange: 0
@@ -56,3 +57,4 @@ MonoBehaviour:
         size: 0
         speed: 0
         penetration: 0
+        knockback: 0

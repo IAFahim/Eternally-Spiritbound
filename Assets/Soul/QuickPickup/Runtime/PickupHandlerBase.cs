@@ -5,10 +5,12 @@ using UnityEngine;
 namespace Soul.QuickPickup.Runtime
 {
     [Serializable]
-    public abstract class PickupHandlerBase<T> : IResponsibilityHandler<T>,IDisposable
+    public abstract class PickupHandlerBase<T> : IResponsibilityHandler<T>, IDisposable
     {
         [SerializeField] public int skipFrame = 0;
         public IResponsibilityHandler<T> Next { get; set; }
+
+        public abstract void Initialization();
 
         public abstract void Handle(T responsibility);
 

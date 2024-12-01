@@ -1,65 +1,70 @@
 ﻿using System;
 using System.Collections.Generic;
-using _Root.Scripts.Game.Interactables;
-using _Root.Scripts.Game.Interactables.Runtime;
+using _Root.Scripts.Game.Interactables.Runtime.Focus;
+using _Root.Scripts.Model.Stats.Runtime;
 using Soul.QuickPickup.Runtime;
 using UnityEngine;
 
 namespace _Root.Scripts.Game.QuickPickup.Runtime.Handlers
 {
     [Serializable]
-    public class PickupDetectHandlerBase<T> : PickupHandlerBase<PickupContainer<T>> where T : IPickupStrategy
+    public class PickupDetectHandlerBase<T> : PickupHandlerBase<PickupContainerBase<T>>
     {
-        [SerializeField] private LayerMask layerMask;
-        private readonly List<PickupContainer<T>> detectedControllers = new();
-        private readonly List<PickupContainer<T>> checkIfCanBeAddedControllers = new();
-        public Func<PickupContainer<T>, bool> HaveSpaceInInventory;
+        [SerializeField] FocusManagerScript focusManager;
+        private readonly List<PickupContainerBase<T>> checkIfCanBeAddedControllers = new();
+        private EntityStatsComponent _entityStatsComponent;
+        private float pickupRange;
 
-        public override void Handle(PickupContainer<T> responsibility)
+        public override void Initialization()
+        {
+            focusManager.OnMainChanged += OnMainChanged;
+            OnMainChanged(focusManager.mainObject);
+        }
+
+        private void OnMainChanged(GameObject obj)
+        {
+            _entityStatsComponent = obj.GetComponent<EntityStatsComponent>();
+            _entityStatsComponent.RegisterChange(OnEntityStatsChange, OnOldEntityStatsCleanUp);
+        }
+
+        private void OnOldEntityStatsCleanUp() => _entityStatsComponent.entityStats.pickupRadius.OnChange -= OnPickupRadiusChange;
+
+        private void OnEntityStatsChange()
+        {
+            _entityStatsComponent.entityStats.pickupRadius.OnChange += OnPickupRadiusChange;
+            OnPickupRadiusChange(0, _entityStatsComponent.entityStats.pickupRadius);
+        }
+
+        private void OnPickupRadiusChange(float old, float current)
+        {
+            pickupRange = current;
+        }
+
+        public override void Handle(PickupContainerBase<T> responsibility)
         {
             responsibility.transform.gameObject.SetActive(true);
-            detectedControllers.Add(responsibility);
+            checkIfCanBeAddedControllers.Add(responsibility);
         }
 
         public override void Process()
         {
-            for (var i = detectedControllers.Count - 1; i >= 0; i--) InRangeChangeList(i);
+            var targetPosition = _entityStatsComponent.transform.position;
             for (var i = checkIfCanBeAddedControllers.Count - 1; i >= 0; i--)
             {
-                var pickupContainer = checkIfCanBeAddedControllers[i];
-                if (CheckCanBeAdded(pickupContainer))
+                var controller = checkIfCanBeAddedControllers[i];
+                if (Vector3.Distance(controller.transform.position, targetPosition) < pickupRange)
                 {
+                    HandleNext(controller);
                     checkIfCanBeAddedControllers.RemoveAt(i);
-                    HandleNext(pickupContainer);
                 }
-                else detectedControllers.Add(pickupContainer);
-            }
-        }
-
-        private void InRangeChangeList(int i)
-        {
-            var pickupContainer = detectedControllers[i];
-            if (Physics.CheckSphere(pickupContainer.startPosition, pickupContainer.element.PickupRange, layerMask))
-            {
-                checkIfCanBeAddedControllers.Add(pickupContainer);
-                detectedControllers.RemoveAt(i);
             }
         }
 
 
         public override void Dispose()
         {
-            detectedControllers.Clear();
-        }
-
-
-        public bool CheckCanBeAdded(PickupContainer<T> pickupContainer)
-        {
-            var colliders = new Collider[1];
-            Physics.OverlapSphereNonAlloc(pickupContainer.startPosition, pickupContainer.element.PickupRange, colliders, layerMask);
-            var transform = colliders[0].transform;
-            pickupContainer.otherTransform = transform;
-            return HaveSpaceInInventory.Invoke(pickupContainer);
+            checkIfCanBeAddedControllers.Clear();
+            focusManager.OnMainChanged -= OnMainChanged;
         }
 
 
@@ -67,10 +72,9 @@ namespace _Root.Scripts.Game.QuickPickup.Runtime.Handlers
         [SerializeField] protected Color gizmoColor = Color.green;
         public override void OnDrawGizmos()
         {
-            if (detectedControllers == null) return;
             Gizmos.color = gizmoColor;
-            foreach (var container in detectedControllers)
-                Gizmos.DrawWireSphere(container.transform.position, container.element.PickupRange);
+            foreach (var container in checkIfCanBeAddedControllers)
+                Gizmos.DrawWireSphere(container.transform.position, _entityStatsComponent.entityStats.pickupRadius);
         }
 #endif
     }
