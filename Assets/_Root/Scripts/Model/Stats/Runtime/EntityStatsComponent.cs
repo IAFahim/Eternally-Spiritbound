@@ -1,28 +1,43 @@
 ﻿using System;
 using Pancake;
 using Sirenix.OdinInspector;
+using Sisus.Init;
 using UnityEngine;
 
 namespace _Root.Scripts.Model.Stats.Runtime
 {
     [DisallowMultipleComponent]
-    public class EntityStatsComponent : MonoBehaviour
+    public class EntityStatsComponent : MonoBehaviour, IInitializable<int>
     {
         public int level;
         [SerializeField] private EntityStatParameterScript entityStatsParameterScript;
         [ShowInInspector] [NonSerialized] public EntityStats entityStats;
         public Optional<Rigidbody> rigidbody;
+        private bool isInitialized;
 
         private event Action OnNewEntityStats;
         private event Action OnOldEntityStatsCleanUp;
 
-        private void Start() => SetEntityStats(level);
+        private void Start()
+        {
+            Init(level);
+        }
+        
+        public void Init(int newKey)
+        {
+            if (isInitialized) OnOldEntityStatsCleanUp?.Invoke();
+            level = newKey;
+            isInitialized = true;
+            entityStatsParameterScript.TryGetParameter(newKey, out entityStats);
+            entityStats.Initialize();
+            OnNewEntityStats?.Invoke();
+        }
 
         public void RegisterChange(Action onEntityStatsChange, Action onOldEntityStatsCleanUp)
         {
             OnNewEntityStats += onEntityStatsChange;
             OnOldEntityStatsCleanUp += onOldEntityStatsCleanUp;
-            OnNewEntityStats?.Invoke();
+            if (isInitialized) onEntityStatsChange?.Invoke();
         }
 
         public void UnregisterChange(Action onEntityStatsChange, Action onOldEntityStatsCleanUp)
@@ -38,15 +53,7 @@ namespace _Root.Scripts.Model.Stats.Runtime
             OnOldEntityStatsCleanUp = null;
         }
 
-        [Button]
-        public void SetEntityStats(int newKey)
-        {
-            level = newKey;
-            OnOldEntityStatsCleanUp?.Invoke();
-            entityStatsParameterScript.TryGetParameter(newKey, out entityStats);
-            entityStats.Initialize();
-            OnNewEntityStats?.Invoke();
-        }
+        
 
 #if UNITY_EDITOR
         private void OnDrawGizmosSelected()

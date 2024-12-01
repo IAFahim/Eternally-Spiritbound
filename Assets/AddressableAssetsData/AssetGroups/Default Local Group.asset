@@ -56,6 +56,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6d34b88572a26f946b85f7719d3750c2
+    m_Address: Assets/_Root/Prefabs/Boats/Boat Dead Particle System.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 78d430a1d91773544b201049b83f5697
     m_Address: Assets/_Root/Storages/UIProvider/Enhanced On-Screen Stick.prefab
     m_ReadOnly: 0

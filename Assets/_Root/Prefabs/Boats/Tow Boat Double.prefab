@@ -84,6 +84,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   assetScriptReference: {fileID: 11400000, guid: 6d2425dc84a541241813d581c954ebd5, type: 2}
   entityStatsComponent: {fileID: 1559882521595817238}
+  deathEffectAsset:
+    m_AssetGUID: 6d34b88572a26f946b85f7719d3750c2
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 1
 --- !u!114 &1559882521595817238
 MonoBehaviour:
   m_ObjectHideFlags: 0

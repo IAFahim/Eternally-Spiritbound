@@ -4,6 +4,5 @@ namespace _Root.Scripts.Game.GameEntities.Runtime.Healths
 {
     public interface IHealth
     {
-        public LimitStat HealthReference { get; }
     }
 }

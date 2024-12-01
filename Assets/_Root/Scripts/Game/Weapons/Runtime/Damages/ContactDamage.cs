@@ -1,5 +1,4 @@
-﻿using _Root.Scripts.Game.Stats.Runtime;
-using _Root.Scripts.Model.Stats.Runtime;
+﻿using _Root.Scripts.Model.Stats.Runtime;
 using Pancake.Common;
 using UnityEngine;
 
