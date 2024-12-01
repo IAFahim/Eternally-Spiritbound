@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5840729734016819694}
   - component: {fileID: 7212939340017592607}
   - component: {fileID: 1015965988296213138}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Stats Panel BackGround
   m_TagString: Untagged
   m_Icon: {fileID: 0}

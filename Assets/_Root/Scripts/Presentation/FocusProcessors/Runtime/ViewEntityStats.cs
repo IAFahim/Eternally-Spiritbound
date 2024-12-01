@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using _Root.Scripts.Game.Interactables.Runtime.Focus;
 using _Root.Scripts.Model.Assets.Runtime;
-using _Root.Scripts.Model.Focus.Runtime;
 using _Root.Scripts.Model.Stats.Runtime;
 using _Root.Scripts.Presentation.Containers.Runtime;
 using Cysharp.Threading.Tasks;
@@ -10,25 +9,36 @@ using UnityEngine.AddressableAssets;
 
 namespace _Root.Scripts.Presentation.FocusProcessors.Runtime
 {
+    [CreateAssetMenu(menuName = "Scriptable/FocusProcessor/Sub/ViewEntityStats", fileName = "ViewEntityStats")]
     public class ViewEntityStats : View, IGameObjectView
     {
-        public AssetReferenceGameObject statsViewControllerAsset;
-        public Sprite healthIcon;
-        private List<StatsViewController> statsViewControllers;
+        [SerializeField] private AssetReferenceGameObject statsPanelBGAsset;
+        [SerializeField] private AssetReferenceGameObject statsViewAsset;
+        [SerializeField] private AssetReferenceGameObject statsViewControllerAsset;
+        [SerializeField] private Sprite healthIcon;
+        [SerializeField] private FocusManagerScript focusManagerScript;
 
-        public void Init(FocusReferences focusReferences, GameObject gameObject)
+        private GameObject statsPanelBG;
+        private GameObject statsView;
+        private StatsViewController[] statsViewControllers;
+
+        public void Init(GameObject gameObject)
         {
             EntityStatsComponent entityStatsComponent = gameObject.GetComponent<EntityStatsComponent>();
-            statsViewControllers = new List<StatsViewController>();
-            InitStats(focusReferences, entityStatsComponent).Forget();
-            ActiveAll();
+            InitStats(entityStatsComponent).Forget();
         }
 
-        private async UniTaskVoid InitStats(FocusReferences focusReferences, EntityStatsComponent entityStatsComponent)
+        private async UniTaskVoid InitStats(EntityStatsComponent entityStatsComponent)
         {
-            var uiSillTransform = focusReferences.UISillTransformPointPadded;
-            statsViewControllers.Add(
-                await ShowHealth(uiSillTransform, entityStatsComponent.entityStats.vitality.health));
+            var uiSillTransform = focusManagerScript.FocusReferences.UISillTransformPointPadded;
+            statsPanelBG = await SharedAssetPoolInactive.RequestAsync(statsPanelBGAsset, uiSillTransform);
+            statsView = await SharedAssetPoolInactive.RequestAsync(statsViewAsset, uiSillTransform);
+            var spawnRect = statsView.transform;
+            statsViewControllers = new StatsViewController[]
+            {
+                await ShowHealth(spawnRect, entityStatsComponent.entityStats.vitality.health)
+            };
+            ActiveAll();
         }
 
 
@@ -44,10 +54,9 @@ namespace _Root.Scripts.Presentation.FocusProcessors.Runtime
 
         public void ActiveAll()
         {
-            foreach (var statsViewController in statsViewControllers)
-            {
-                statsViewController.gameObject.SetActive(true);
-            }
+            statsPanelBG.SetActive(true);
+            statsView.SetActive(true);
+            foreach (var statsViewController in statsViewControllers) statsViewController.gameObject.SetActive(true);
         }
 
         public override void Return()
@@ -56,6 +65,9 @@ namespace _Root.Scripts.Presentation.FocusProcessors.Runtime
             {
                 SharedAssetPoolInactive.Return(statsViewControllerAsset, statsViewController.gameObject);
             }
+
+            SharedAssetPoolInactive.Return(statsViewAsset, statsView);
+            SharedAssetPoolInactive.Return(statsPanelBGAsset, statsPanelBG);
         }
     }
 }

@@ -84,11 +84,13 @@ namespace _Root.Scripts.Presentation.FocusProcessors.Runtime
         }
 
 
-        private void SetupTabButton(GameObject obj) => SetupTabButtonAsync(obj).Forget();
-
-        private async UniTaskVoid SetupTabButtonAsync(GameObject obj)
+        private void SetupTabButton(GameObject obj)
         {
             _tabLayoutGroup = obj.GetComponent<HorizontalLayoutGroup>();
+        }
+
+        private async UniTask SetupTabButtonAsync()
+        {
             var assetCategories = _shopBase.GetAssetCategories();
             _tabButtonControllers = new TabButtonController[assetCategories.Length];
             var selectedTabTitleString = GetSelectedTabTitleString();
@@ -123,26 +125,35 @@ namespace _Root.Scripts.Presentation.FocusProcessors.Runtime
 
         private void BeforeActive()
         {
-            Debug.Log(_selectedTabIndex);
-            InstantiateCategory(_shopBase.GetAssetCategories()[_selectedTabIndex]);
+            BeforeActiveAsync().Forget();
+        }
 
-            // foreach (var tabButtonController in _tabButtonControllers) tabButtonController.gameObject.SetActive(true);
-            //
-            // foreach (var buttonSelectionController in _buttonSelectionControllers)
-            // {
-            //     buttonSelectionController.gameObject.SetActive(true);
-            // }
+        private async UniTaskVoid BeforeActiveAsync()
+        {
+            Debug.Log(_selectedTabIndex);
+            await SetupTabButtonAsync();
+            await InstantiateCategory(_shopBase.GetAssetCategories()[_selectedTabIndex]);
+
+            foreach (var tabButtonController in _tabButtonControllers)
+            {
+                tabButtonController.gameObject.SetActive(true);
+            }
+
+            foreach (var buttonSelectionController in _buttonSelectionControllers)
+            {
+                buttonSelectionController.gameObject.SetActive(true);
+            }
         }
 
 
-        private void InstantiateCategory(AssetCategory assetCategory)
+        private async UniTask InstantiateCategory(AssetCategory assetCategory)
         {
             bool linkExist =
                 assetScriptOwnsAssetsScriptLink.TryGetValue(_playerAssetScriptReferenceComponent.assetScriptReference,
                     out _unlockedAssets);
             _assetInfoDTOs = CreateInfoDto(assetCategory.assets, linkExist);
             Array.Sort(_assetInfoDTOs);
-            PopulatePool(_scrollRect, assetCategory, _assetInfoDTOs).Forget();
+            await PopulatePool(_scrollRect, assetCategory, _assetInfoDTOs);
         }
 
         private AssetInfoDto[] CreateInfoDto(List<AssetScript> assetScripts, bool linkExist)
@@ -164,7 +175,7 @@ namespace _Root.Scripts.Presentation.FocusProcessors.Runtime
         }
 
 
-        private async UniTaskVoid PopulatePool(ScrollRect scrollRect, AssetCategory assetCategory,
+        private async UniTask PopulatePool(ScrollRect scrollRect, AssetCategory assetCategory,
             AssetInfoDto[] assetInfoDTOs)
         {
             _buttonSelectionControllers = new ButtonSelectionController[assetCategory.assets.Count];

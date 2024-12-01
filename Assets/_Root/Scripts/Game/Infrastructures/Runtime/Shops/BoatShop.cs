@@ -16,8 +16,8 @@ namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
         [SerializeField] private AssetScriptPriceLink assetScriptPriceLink;
 
         [SerializeField] private AssetScriptOwnAssetScriptGlobalCountLink assetScriptOwnAssetScriptGlobalCountLink;
-
         private AssetScript _currentAssetScript;
+        private View _currentView;
 
         protected override void OnEnable()
         {
@@ -44,14 +44,14 @@ namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
             int categoryIndex,
             AssetScript assetScript)
         {
-            SpawnBoat(assetScript, true).Forget();
+            SpawnBoat(assetScript, categoryIndex, true, true).Forget();
         }
 
         public override void OnLockedItemSelected(AssetScriptReferenceComponent playerAssetScriptReferenceComponent,
             int categoryIndex,
             AssetScript assetScript)
         {
-            SpawnBoat(assetScript, false);
+            SpawnBoat(assetScript, categoryIndex, false, true).Forget();
         }
 
         public override bool OnTryBuyButtonClick(AssetScriptReferenceComponent playerAssetScriptReferenceComponent,
@@ -80,26 +80,41 @@ namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
 
         public override void OnExit(IInteractorEntryPoint interactorEntryPoint)
         {
-            if (interactorEntryPoint.IsMain) SpawnEquippedBoat(equippedItemGuid);
+            if (interactorEntryPoint.IsMain)
+            {
+                SpawnEquippedBoat(equippedItemGuid);
+                _currentView.Return();
+            }
         }
 
         private void SpawnEquippedBoat(string guid)
         {
-            if (assetScriptDataBase.TryGetValue(guid, out var assetScript)) SpawnBoat(assetScript, false);
+            if (assetScriptDataBase.TryGetValue(guid, out var assetScript))
+                SpawnBoat(assetScript, 0, false, false).Forget();
         }
 
-        private async UniTaskVoid SpawnBoat(AssetScript assetScript, bool save)
+        private async UniTaskVoid SpawnBoat(AssetScript assetScript, int categoryIndex, bool save, bool spawnView)
         {
-            if (_currentAssetScript == assetScript) return;
-            if (_currentAssetScript != null) singleShopAndBoatConnection.DespawnBoat(_currentAssetScript);
-            if (save)
+            if (_currentAssetScript != assetScript)
             {
-                equippedItemGuid = assetScript.Guid;
-                PlayerPrefs.SetString(name, equippedItemGuid);
-            }
+                if (_currentAssetScript != null) singleShopAndBoatConnection.DespawnBoat(_currentAssetScript);
+                if (save)
+                {
+                    equippedItemGuid = assetScript.Guid;
+                    PlayerPrefs.SetString(name, equippedItemGuid);
+                }
 
-            _currentAssetScript = assetScript;
-            currentPreviewGameObject = await singleShopAndBoatConnection.SpawnBoat(assetScript);
+                _currentAssetScript = assetScript;
+                currentPreviewGameObject = await singleShopAndBoatConnection.SpawnBoat(assetScript);
+            }
+            
+            if (spawnView)
+            {
+                var assetCategory = assetCategories[categoryIndex];
+                if (_currentView) _currentView.Return();
+                _currentView = assetCategory.view;
+                if (assetCategory.gameObjectView) ((IGameObjectView)assetCategory.view).Init(currentPreviewGameObject);
+            }
         }
     }
 }

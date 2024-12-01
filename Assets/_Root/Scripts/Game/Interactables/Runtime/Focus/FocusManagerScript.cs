@@ -25,7 +25,7 @@ namespace _Root.Scripts.Game.Interactables.Runtime.Focus
         [Header("Input Actions")] [SerializeField]
         private InputActionReference moveAction;
 
-        private FocusReferences _focusReferences;
+        [NonSerialized] public FocusReferences FocusReferences;
         private Action<GameObject> _spawnedGameObjectCallBack;
 
         // Stack to store the focused GameObjects
@@ -34,7 +34,7 @@ namespace _Root.Scripts.Game.Interactables.Runtime.Focus
         public void Initialize(Camera camera, FocusReferences focusReferences)
         {
             mainCamera = camera;
-            _focusReferences = focusReferences;
+            this.FocusReferences = focusReferences;
         }
 
         public void SpawnMainGameObject(Action<GameObject> gameObjectCallBack)
@@ -82,9 +82,9 @@ namespace _Root.Scripts.Game.Interactables.Runtime.Focus
 
         private void AssignFocus(GameObject gameObject)
         {
-            _focusReferences.CurrentGameObject = gameObject;
+            FocusReferences.CurrentGameObject = gameObject;
             var focusEntryPoint = gameObject.GetComponent<IFocusEntryPoint>();
-            focusEntryPoint.PushFocus(_focusReferences);
+            focusEntryPoint.PushFocus(FocusReferences);
         }
 
 
@@ -127,7 +127,7 @@ namespace _Root.Scripts.Game.Interactables.Runtime.Focus
 
         public void Clear()
         {
-            _focusReferences.Clear();
+            FocusReferences.Clear();
             mainObject = null;
             mainCamera = null;
             _focusStack.Clear();

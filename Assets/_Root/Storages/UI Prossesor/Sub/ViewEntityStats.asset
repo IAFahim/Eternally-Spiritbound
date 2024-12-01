@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 319aa122b7204e458443209b9de24eec, type: 3}
+  m_Name: ViewEntityStats
+  m_EditorClassIdentifier: 
+  statsPanelBGAsset:
+    m_AssetGUID: bbceba8b7e60c2143a71757c79f6b9c4
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 1
+  statsViewAsset:
+    m_AssetGUID: 02903dcb67bc714469e21706976dfc30
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 1
+  statsViewControllerAsset:
+    m_AssetGUID: 2350e9412a1e3f745a97026e6ad14505
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 1
+  healthIcon: {fileID: 0}
+  focusManagerScript: {fileID: 11400000, guid: 4c147b4345416824f8968062d60f760a, type: 2}

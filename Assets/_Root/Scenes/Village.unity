@@ -8460,6 +8460,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Boat store
       objectReference: {fileID: 0}
+    - target: {fileID: 6201677777090694995, guid: e7527858b7f564c4385d715c567f060f, type: 3}
+      propertyPath: assetCategories.Array.data[0].view
+      value: 
+      objectReference: {fileID: 11400000, guid: daed59828ddb3ee45827068e811f89b9, type: 2}
+    - target: {fileID: 6201677777090694995, guid: e7527858b7f564c4385d715c567f060f, type: 3}
+      propertyPath: assetCategories.Array.data[0].title
+      value: Boat
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: -34408933764786869, guid: e7527858b7f564c4385d715c567f060f, type: 3}

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace _Root.Scripts.Model.Assets.Runtime
 {
-    public interface IGameObjectView : IInitializable<FocusReferences, GameObject>
+    public interface IGameObjectView : IInitializable<GameObject>
     {
     }
 }
