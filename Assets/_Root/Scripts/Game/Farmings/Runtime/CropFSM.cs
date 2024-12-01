@@ -122,28 +122,28 @@ namespace _Root.Scripts.Game.Farmings.Runtime
         }
 
         public override void OnUnlockedSelected(AssetScriptReferenceComponent playerAssetScriptReferenceComponent,
-            string category,
+            int categoryIndex,
             AssetScript assetScript)
         {
             seedAsset = (SeedAsset)assetScript;
         }
 
         public override void OnDeSelected(AssetScriptReferenceComponent playerAssetScriptReferenceComponent,
-            string category,
+            int categoryIndex,
             AssetScript assetScript)
         {
             seedAsset = null;
         }
 
         public override void OnLockedItemSelected(AssetScriptReferenceComponent playerAssetScriptReferenceComponent,
-            string category,
+            int categoryIndex,
             AssetScript assetScript)
         {
             Debug.Log("LockedItemSelected " + assetScript.Value);
         }
 
         public override bool OnTryBuyButtonClick(AssetScriptReferenceComponent playerAssetScriptReferenceComponent,
-            string category,
+            int categoryIndex,
             AssetScript assetScript, out string message)
         {
             throw new NotImplementedException();

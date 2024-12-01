@@ -53,14 +53,13 @@ namespace _Root.Scripts.Presentation.FocusProcessors.Runtime
         private AssetScriptReferenceComponent _playerAssetScriptReferenceComponent;
         private ScrollRect _scrollRect;
         private ShopBase _shopBase;
-        private string _category;
-        private Transform _stillCanvasTransformPoint;
         private HorizontalLayoutGroup _tabLayoutGroup;
         private TabButtonController[] _tabButtonControllers;
 
         private AssetInfoDto[] _assetInfoDTOs;
         private TMP_Text _titleText;
-        private int _lastSelected;
+        private int _lastSelectedIndexOnThisTab;
+        private int _selectedTabIndex;
 
 
         private string GetSelectedTabTitleString() => PlayerPrefs.GetString(name, string.Empty);
@@ -69,27 +68,21 @@ namespace _Root.Scripts.Presentation.FocusProcessors.Runtime
 
         public override void SetFocus(FocusReferences focusReferences, CancellationToken token)
         {
-            _stillCanvasTransformPoint = focusReferences.UISillTransformPointPadded;
             TargetGameObject = focusReferences.CurrentGameObject;
             _shopBase = TargetGameObject.GetComponent<ShopBase>();
+            _playerAssetScriptReferenceComponent =
+                focusManagerScript.mainObject.GetComponent<AssetScriptReferenceComponent>();
+
             BuildCache(
-                focusReferences.ActiveElements, token,
+                focusReferences.ActiveElements, BeforeActive, token,
                 (cinemachineAsset, SetupCinemachine, null),
                 (tabLayoutAsset, SetupTabButton, focusReferences.UISillTransformPointPadded),
-                (shopCloseButtonAsset, SetupCloseButton, focusReferences.UISillTransformPointPadded)
-                // (scrollRectAsset, SetupScrollRect, focusReferences.MovingUITransformPointPadded)
+                (shopCloseButtonAsset, SetupCloseButton, focusReferences.UISillTransformPointPadded),
+                (scrollRectAsset, SetupScrollRect, focusReferences.MovingUITransformPointPadded),
+                (buyButtonAsset, SetupBuyButton, focusReferences.UISillTransformPointPadded)
             ).Forget();
         }
 
-        private void BeforeActive()
-        {
-            foreach (var tabButtonController in _tabButtonControllers) tabButtonController.gameObject.SetActive(true);
-
-            foreach (var buttonSelectionController in _buttonSelectionControllers)
-            {
-                buttonSelectionController.gameObject.SetActive(true);
-            }
-        }
 
         private void SetupTabButton(GameObject obj) => SetupTabButtonAsync(obj).Forget();
 
@@ -99,7 +92,7 @@ namespace _Root.Scripts.Presentation.FocusProcessors.Runtime
             var assetCategories = _shopBase.GetAssetCategories();
             _tabButtonControllers = new TabButtonController[assetCategories.Length];
             var selectedTabTitleString = GetSelectedTabTitleString();
-            var selectedTabIndex = 0;
+            _selectedTabIndex = 0;
             for (var i = 0; i < assetCategories.Length; i++)
             {
                 var assetCategory = assetCategories[i];
@@ -108,51 +101,42 @@ namespace _Root.Scripts.Presentation.FocusProcessors.Runtime
                 );
 
                 _tabButtonControllers[i].Init(i, assetCategory.title, assetCategory.icon, TabSelectionClick);
-                if (assetCategory.title == selectedTabTitleString) selectedTabIndex = i;
+                if (assetCategory.title == selectedTabTitleString) _selectedTabIndex = i;
                 else _tabButtonControllers[i].SetSelected(false);
             }
 
-            TabSelectionClick(selectedTabIndex);
+            TabSelectionClick(_selectedTabIndex);
         }
 
         private void TabSelectionClick(int tabIndex)
         {
             var selectedCategory = _shopBase.GetAssetCategories()[tabIndex];
-            if (selectedCategory.title == _category) return;
+            if (tabIndex == _selectedTabIndex) return;
             StoreSelectedTabString(selectedCategory.title);
-            InstantiateShopBase();
         }
-
 
         private void SetupScrollRect(GameObject gameObject)
         {
-            _lastSelected = 0;
             _scrollRect = gameObject.GetComponent<ScrollRect>();
             _titleText = gameObject.GetComponentInChildren<TMP_Text>();
-            InstantiateShopBase();
+        }
+
+        private void BeforeActive()
+        {
+            Debug.Log(_selectedTabIndex);
+            InstantiateCategory(_shopBase.GetAssetCategories()[_selectedTabIndex]);
+
+            // foreach (var tabButtonController in _tabButtonControllers) tabButtonController.gameObject.SetActive(true);
+            //
+            // foreach (var buttonSelectionController in _buttonSelectionControllers)
+            // {
+            //     buttonSelectionController.gameObject.SetActive(true);
+            // }
         }
 
 
-        private void InstantiateShopBase()
+        private void InstantiateCategory(AssetCategory assetCategory)
         {
-            var assetCategories = _shopBase.GetAssetCategories();
-            _playerAssetScriptReferenceComponent =
-                focusManagerScript.mainObject.GetComponent<AssetScriptReferenceComponent>();
-            var selectedCategory = GetSelectedTabTitleString();
-            _category = "";
-            foreach (var assetCategory in assetCategories)
-            {
-                if (assetCategory.title != selectedCategory) continue;
-                InstantiateCategory(selectedCategory, assetCategory);
-                break;
-            }
-
-            if (string.IsNullOrEmpty(_category)) InstantiateCategory(assetCategories[0].title, assetCategories[0]);
-        }
-
-        private void InstantiateCategory(string selectedCategory, AssetCategory assetCategory)
-        {
-            _category = selectedCategory;
             bool linkExist =
                 assetScriptOwnsAssetsScriptLink.TryGetValue(_playerAssetScriptReferenceComponent.assetScriptReference,
                     out _unlockedAssets);
@@ -187,21 +171,17 @@ namespace _Root.Scripts.Presentation.FocusProcessors.Runtime
             var scrollContentTransform = scrollRect.content.transform;
             for (var i = 0; i < assetInfoDTOs.Length; i++)
             {
-                (ButtonSelectionController buttonSelectionController, bool isEquipped) = await CreateController(
-                    i, assetCategory.title, scrollContentTransform,
-                    assetInfoDTOs[i]);
+                (ButtonSelectionController buttonSelectionController, bool isEquipped) =
+                    await CreateController(i, scrollContentTransform, assetInfoDTOs[i]);
                 _buttonSelectionControllers[i] = buttonSelectionController;
-                if (isEquipped) _lastSelected = i;
+                if (isEquipped) _lastSelectedIndexOnThisTab = i;
             }
 
-
-            await SetupBuyButton();
-            Select(_lastSelected);
-            BeforeActive();
+            SelectAssetInCurrentTab(_lastSelectedIndexOnThisTab);
         }
 
 
-        private async UniTask<(ButtonSelectionController, bool)> CreateController(int index, string category,
+        private async UniTask<(ButtonSelectionController, bool)> CreateController(int index,
             Transform scrollContentTransform,
             AssetInfoDto assetInfoDto)
         {
@@ -213,18 +193,18 @@ namespace _Root.Scripts.Presentation.FocusProcessors.Runtime
                 index, isEquipped,
                 assetInfoDto.AssetScript.Icon,
                 GetSpriteStats(isEquipped, assetInfoDto.Unlocked),
-                Select
+                SelectAssetInCurrentTab
             );
             return (buttonSelectionController, isEquipped);
         }
 
 
-        private void Select(int index)
+        private void SelectAssetInCurrentTab(int index)
         {
-            if (_lastSelected != index)
+            if (_lastSelectedIndexOnThisTab != index)
             {
-                if (_assetInfoDTOs[index].Unlocked) DeSelect(_lastSelected);
-                else NotifyDeSelect(_lastSelected);
+                if (_assetInfoDTOs[index].Unlocked) DeSelect(_lastSelectedIndexOnThisTab);
+                else NotifyDeSelect(_lastSelectedIndexOnThisTab);
             }
 
             SetSelected(index);
@@ -232,7 +212,7 @@ namespace _Root.Scripts.Presentation.FocusProcessors.Runtime
 
         private void SetSelected(int index)
         {
-            _lastSelected = index;
+            _lastSelectedIndexOnThisTab = index;
             bool unlocked = _assetInfoDTOs[index].Unlocked;
             _titleText.text = _assetInfoDTOs[index].AssetScript.Value;
             var buttonSelectionController = _buttonSelectionControllers[index];
@@ -244,10 +224,9 @@ namespace _Root.Scripts.Presentation.FocusProcessors.Runtime
             Debug.Log(normalizedPosition);
         }
 
-        private async UniTask SetupBuyButton()
+        private void SetupBuyButton(GameObject gameObject)
         {
-            _buyButtonSelectionController = await SharedAssetPoolInactive
-                .RequestAsync<PriceButtonController>(buyButtonAsset, _stillCanvasTransformPoint);
+            _buyButtonSelectionController = gameObject.GetComponent<PriceButtonController>();
         }
 
         private void SetupBuyButton(int index, bool unlocked)
@@ -267,8 +246,9 @@ namespace _Root.Scripts.Presentation.FocusProcessors.Runtime
 
         private void OnBuyButtonPressed()
         {
-            var assetScript = _assetInfoDTOs[_lastSelected].AssetScript;
-            var buySuccess = _shopBase.OnTryBuyButtonClick(_playerAssetScriptReferenceComponent, _category, assetScript,
+            var assetScript = _assetInfoDTOs[_lastSelectedIndexOnThisTab].AssetScript;
+            var buySuccess = _shopBase.OnTryBuyButtonClick(_playerAssetScriptReferenceComponent, _selectedTabIndex,
+                assetScript,
                 out var message);
             Debug.Log($"[{buySuccess}]: {message}");
         }
@@ -284,21 +264,21 @@ namespace _Root.Scripts.Presentation.FocusProcessors.Runtime
         {
             _shopBase.equippedItemGuid = _assetInfoDTOs[index].AssetScript.Guid;
             _buttonSelectionControllers[index].SetStatusImage(equippedStatusSprite);
-            _shopBase.OnUnlockedSelected(_playerAssetScriptReferenceComponent, _category,
+            _shopBase.OnUnlockedSelected(_playerAssetScriptReferenceComponent, _selectedTabIndex,
                 _assetInfoDTOs[index].AssetScript);
         }
 
         private void NotifyLockedSelect(int index)
         {
             _buttonSelectionControllers[index].SetStatusImage(lockedStatusSprite);
-            _shopBase.OnLockedItemSelected(_playerAssetScriptReferenceComponent, _category,
+            _shopBase.OnLockedItemSelected(_playerAssetScriptReferenceComponent, _selectedTabIndex,
                 _assetInfoDTOs[index].AssetScript);
         }
 
         private void NotifyDeSelect(int index)
         {
             _buttonSelectionControllers[index].DeSelect();
-            _shopBase.OnDeSelected(_playerAssetScriptReferenceComponent, _category,
+            _shopBase.OnDeSelected(_playerAssetScriptReferenceComponent, _selectedTabIndex,
                 _assetInfoDTOs[index].AssetScript);
         }
 
@@ -320,15 +300,15 @@ namespace _Root.Scripts.Presentation.FocusProcessors.Runtime
 
         private void CleanAssetSelection()
         {
-            // foreach (var buttonSelectionController in _buttonSelectionControllers)
-            // {
-            //     SharedAssetPoolInactive.Return(
-            //         buttonSelectionControllerAsset,
-            //         buttonSelectionController.gameObject
-            //     );
-            // }
-            //
-            // SharedAssetPoolInactive.Return(scrollRectAsset, _scrollRect.gameObject);
+            foreach (var buttonSelectionController in _buttonSelectionControllers)
+            {
+                SharedAssetPoolInactive.Return(
+                    buttonSelectionControllerAsset,
+                    buttonSelectionController.gameObject
+                );
+            }
+
+            SharedAssetPoolInactive.Return(scrollRectAsset, _scrollRect.gameObject);
         }
 
         private void CleanTabs()
@@ -347,7 +327,7 @@ namespace _Root.Scripts.Presentation.FocusProcessors.Runtime
             CleanTabs();
             CleanAssetSelection();
             SharedAssetPoolInactive.Return(shopCloseButtonAsset, _closeButton.gameObject);
-            // SharedAssetPoolInactive.Return(buyButtonAsset, _buyButtonSelectionController.gameObject);
+            SharedAssetPoolInactive.Return(buyButtonAsset, _buyButtonSelectionController.gameObject);
             _shopBase.OnExit(focusManagerScript.mainObject.GetComponent<IInteractorEntryPoint>());
         }
 

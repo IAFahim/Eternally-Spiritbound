@@ -32,11 +32,16 @@ namespace _Root.Scripts.Presentation.FocusProcessors.Runtime
             TargetGameObject = focusReferences.CurrentGameObject;
             _damageFlash = TargetGameObject.AddComponent<DamageFlash, FlashConfigScript>(flashConfigScript);
             BuildCache(
-                focusReferences.ActiveElements,  token,
+                focusReferences.ActiveElements, BeforeActive, token,
                 (joyStickAsset, SetupJoystick, focusReferences.MovingUITransformPoint),
                 (healthBarAsset, SetupHealthBar, focusReferences.UISillTransformPointPadded),
                 (cinemachineAsset, SetupCinemachine, null)
             ).Forget();
+        }
+
+        private void BeforeActive()
+        {
+            
         }
 
         private void SetupJoystick(GameObject obj)

@@ -29,19 +29,19 @@ namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
         public abstract void OnEnter(IInteractorEntryPoint interactorEntryPoint);
 
         public abstract void OnUnlockedSelected(AssetScriptReferenceComponent playerAssetScriptReferenceComponent,
-            string category,
+            int categoryIndex,
             AssetScript assetScript);
 
         public abstract void OnDeSelected(AssetScriptReferenceComponent playerAssetScriptReferenceComponent,
-            string category,
+            int categoryIndex,
             AssetScript assetScript);
 
         public abstract void OnLockedItemSelected(AssetScriptReferenceComponent playerAssetScriptReferenceComponent,
-            string category,
+            int categoryIndex,
             AssetScript assetScript);
 
         public abstract bool OnTryBuyButtonClick(AssetScriptReferenceComponent playerAssetScriptReferenceComponent,
-            string category,
+            int categoryIndex,
             AssetScript assetScript,
             out string message);
 

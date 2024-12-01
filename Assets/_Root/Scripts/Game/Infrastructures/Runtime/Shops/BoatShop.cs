@@ -33,7 +33,7 @@ namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
         }
 
         public override void OnDeSelected(AssetScriptReferenceComponent playerAssetScriptReferenceComponent,
-            string category,
+            int categoryIndex,
             AssetScript assetScript)
         {
             if (assetScript.Guid == _currentAssetScript.Guid) return;
@@ -41,21 +41,21 @@ namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
         }
 
         public override void OnUnlockedSelected(AssetScriptReferenceComponent playerAssetScriptReferenceComponent,
-            string category,
+            int categoryIndex,
             AssetScript assetScript)
         {
             SpawnBoat(assetScript, true).Forget();
         }
 
         public override void OnLockedItemSelected(AssetScriptReferenceComponent playerAssetScriptReferenceComponent,
-            string category,
+            int categoryIndex,
             AssetScript assetScript)
         {
             SpawnBoat(assetScript, false);
         }
 
         public override bool OnTryBuyButtonClick(AssetScriptReferenceComponent playerAssetScriptReferenceComponent,
-            string category, AssetScript assetScript, out string message)
+            int categoryIndex, AssetScript assetScript, out string message)
         {
             message = string.Empty;
             return true;
