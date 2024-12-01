@@ -1,5 +1,6 @@
 ﻿using _Root.Scripts.Model.Assets.Runtime;
 using _Root.Scripts.Model.Links.Runtime;
+using Cysharp.Threading.Tasks;
 using Soul.Interactables.Runtime;
 using UnityEngine;
 
@@ -43,7 +44,7 @@ namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
             string category,
             AssetScript assetScript)
         {
-            SpawnBoat(assetScript, true);
+            SpawnBoat(assetScript, true).Forget();
         }
 
         public override void OnLockedItemSelected(AssetScriptReferenceComponent playerAssetScriptReferenceComponent,
@@ -87,7 +88,7 @@ namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
             if (assetScriptDataBase.TryGetValue(guid, out var assetScript)) SpawnBoat(assetScript, false);
         }
 
-        private void SpawnBoat(AssetScript assetScript, bool save)
+        private async UniTaskVoid SpawnBoat(AssetScript assetScript, bool save)
         {
             if (_currentAssetScript == assetScript) return;
             if (_currentAssetScript != null) singleShopAndBoatConnection.DespawnBoat(_currentAssetScript);
@@ -98,7 +99,7 @@ namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
             }
 
             _currentAssetScript = assetScript;
-            singleShopAndBoatConnection.SpawnBoat(assetScript).Forget();
+            currentPreviewGameObject = await singleShopAndBoatConnection.SpawnBoat(assetScript);
         }
     }
 }

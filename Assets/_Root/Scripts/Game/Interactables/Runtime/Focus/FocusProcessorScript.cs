@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using _Root.Scripts.Model.Focus.Runtime;
 using Cysharp.Threading.Tasks;
 using Pancake;
 using UnityEngine;
@@ -13,8 +14,7 @@ namespace _Root.Scripts.Game.Interactables.Runtime.Focus
         public abstract void SetFocus(FocusReferences focusReferences, CancellationToken cancellationToken);
 
         protected async UniTask BuildCache(
-            Dictionary<AssetReferenceGameObject, GameObject> activeUiElementDictionary, Action onCacheBuiltBeforeActive,
-            CancellationToken token,
+            Dictionary<AssetReferenceGameObject, GameObject> activeUiElementDictionary, CancellationToken token,
             params (AssetReferenceGameObject asset, Action<GameObject> Setup, Transform spawnTransfrom)[] cacheRequests)
         {
             LoadTasks(activeUiElementDictionary, token, cacheRequests,
@@ -37,8 +37,7 @@ namespace _Root.Scripts.Game.Interactables.Runtime.Focus
 
                 cacheRequests[i].Setup(activePendingSetup.GameObject);
             }
-
-            onCacheBuiltBeforeActive?.Invoke();
+            
             foreach (var pendingSetup in pendingSetups) pendingSetup.GameObject.SetActive(true);
         }
 

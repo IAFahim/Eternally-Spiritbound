@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using _Root.Scripts.Game.Stats.Runtime;
+using _Root.Scripts.Model.Stats.Runtime;
 using Cysharp.Threading.Tasks;
 using Pancake.Pools;
 using Sirenix.OdinInspector;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using _Root.Scripts.Game.Inputs.Runtime;
 using _Root.Scripts.Game.Interactables.Runtime.Provider;
+using _Root.Scripts.Model.Focus.Runtime;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AddressableAssets;

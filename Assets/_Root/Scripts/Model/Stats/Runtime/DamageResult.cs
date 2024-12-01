@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace _Root.Scripts.Game.Stats.Runtime
+﻿namespace _Root.Scripts.Model.Stats.Runtime
 {
     public struct DamageResult
     {

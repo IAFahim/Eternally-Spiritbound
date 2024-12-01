@@ -1,11 +1,10 @@
 ﻿using System;
 using _Root.Scripts.Game.Utils.Runtime;
-using _Root.Scripts.Model.Stats.Runtime;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace _Root.Scripts.Game.Stats.Runtime
+namespace _Root.Scripts.Model.Stats.Runtime
 {
     [Serializable]
     [Searchable]

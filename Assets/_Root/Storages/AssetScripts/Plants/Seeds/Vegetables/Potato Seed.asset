@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc7a51b473cb43a46befc6f9a1ace00f, type: 3}
   m_Name: Potato Seed
   m_EditorClassIdentifier: 
-  value: 
-  guid: f27e150d406740f
+  value: Potato Seed
+  guid: 529be8d9bc93469
   assetReference:
     m_AssetGUID: 
     m_SubObjectName: 
@@ -22,4 +22,6 @@ MonoBehaviour:
     m_EditorAssetChanged: 0
   description: 
   icon: {fileID: 0}
+  materials: []
+  meshes: []
   plant: {fileID: 0}

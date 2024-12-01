@@ -14,6 +14,8 @@ namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
         [SerializeField] protected InteractableEntryPointComponent interactableEntryPointComponent;
         [SerializeField] private bool debugEnabled;
         
+        public GameObject currentPreviewGameObject;
+        
         public event Action OnShopUpdateEvent;
 
         protected virtual void OnEnable()

@@ -2,6 +2,7 @@
 using _Root.Scripts.Game.DamagePopups.Runtime;
 using _Root.Scripts.Game.Stats.Runtime;
 using _Root.Scripts.Game.Weapons.Runtime.Attacks;
+using _Root.Scripts.Model.Stats.Runtime;
 using Pancake.Common;
 using UnityEngine;
 
@@ -66,7 +67,7 @@ namespace _Root.Scripts.Game.Weapons.Runtime.Projectiles
             entityStatsComponent.entityStats.Damage(AttackOrigin.offensiveStats.damage, out var damageResult);
             damageResult.EntityStatsComponent = entityStatsComponent;
             AttackOrigin.weaponBaseComponent.OnAttackHit(this, damageResult);
-            damagePopup.ShowPopup(Transform.position, damageResult);
+            damagePopup.ShowPopup(Transform.position, damageResult).Forget();
         }
 
         protected void PenetrationCheck()

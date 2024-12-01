@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-namespace _Root.Scripts.Game.Interactables.Runtime.Focus
+namespace _Root.Scripts.Model.Focus.Runtime
 {
     [Serializable]
     public class FocusReferences
     {
         public readonly Dictionary<AssetReferenceGameObject, GameObject> ActiveElements = new();
         [SerializeField] private Transform uiSillTransformPointPadded;
-        [SerializeField]  private Transform movingUITransformPoint;
+        [SerializeField] private Transform movingUITransformPoint;
         [SerializeField] private Transform movingUITransformPointPadded;
         [SerializeField] private GameObject currentGameObject;
 
@@ -22,7 +22,7 @@ namespace _Root.Scripts.Game.Interactables.Runtime.Focus
         public GameObject CurrentGameObject
         {
             get => currentGameObject;
-            internal set => currentGameObject = value;
+            set => currentGameObject = value;
         }
 
 

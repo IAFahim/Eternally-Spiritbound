@@ -1,4 +1,4 @@
-﻿using _Root.Scripts.Game.Stats.Runtime;
+﻿using _Root.Scripts.Model.Stats.Runtime;
 using Sisus.Init;
 using TMPro;
 using UnityEngine;

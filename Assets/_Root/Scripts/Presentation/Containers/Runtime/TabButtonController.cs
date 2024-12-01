@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace _Root.Scripts.Presentation.Containers.Runtime
 {
-    public class TabButtonController : MonoBehaviour, IInitializable<int, string, Sprite, bool, UnityAction<int>>
+    public class TabButtonController : MonoBehaviour, IInitializable<int, string, Sprite, UnityAction<int>>
     {
         [SerializeField] private int indexNumber;
         [SerializeField] private Button button;
@@ -17,14 +17,13 @@ namespace _Root.Scripts.Presentation.Containers.Runtime
 
         private UnityAction<int> _onIndexClick;
 
-        public void Init(int index, string title, Sprite icon, bool selected, UnityAction<int> onIndexClicked)
+        public void Init(int index, string title, Sprite icon, UnityAction<int> onIndexClicked)
         {
             indexNumber = index;
             titleText.text = title;
             iconImage.sprite = icon;
             _onIndexClick = onIndexClicked;
             AddListener(OnIndexClicked);
-            SetSelected(selected);
         }
 
         private void OnIndexClicked()
@@ -32,7 +31,7 @@ namespace _Root.Scripts.Presentation.Containers.Runtime
             _onIndexClick?.Invoke(indexNumber);
         }
 
-        private void SetSelected(bool selected)
+        public void SetSelected(bool selected)
         {
             if (selected) button.Select();
             else button.OnDeselect(null);

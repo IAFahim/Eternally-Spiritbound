@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10f876f2fe3044959521b9ed19bdde3f, type: 3}
   m_Name: Arrow Bullet Homing
   m_EditorClassIdentifier: 
-  value: Arrow Bullet
-  guid: ca7cf1cb418f4eb
+  value: Arrow Bullet Homing
+  guid: e3dacaeb9207436
   assetReference:
     m_AssetGUID: 57a6a9599e0538a4c967467a79da7845
     m_SubObjectName: 

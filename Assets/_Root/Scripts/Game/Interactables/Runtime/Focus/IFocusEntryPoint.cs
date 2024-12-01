@@ -1,4 +1,5 @@
 ﻿using System;
+using _Root.Scripts.Model.Focus.Runtime;
 using Soul.Interactables.Runtime;
 using UnityEngine;
 

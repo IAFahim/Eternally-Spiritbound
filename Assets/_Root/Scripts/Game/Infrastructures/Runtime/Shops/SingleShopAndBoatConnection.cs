@@ -17,11 +17,12 @@ namespace _Root.Scripts.Game.Infrastructures.Runtime.Shops
         private GameObject _boat;
         private Rigidbody _boatRigidbody;
 
-        public async UniTaskVoid SpawnBoat(AssetScript assetScript)
+        public async UniTask<GameObject> SpawnBoat(AssetScript assetScript)
         {
             var transformPoint = transform.position + offset;
             _boat = await assetScript.AssetReference.RequestAsync(transformPoint, rotation);
             _boatRigidbody = _boat.GetComponent<Rigidbody>();
+            return _boat;
         }
 
         public void DespawnBoat(AssetScript assetScript) => assetScript.AssetReference.Return(_boat);

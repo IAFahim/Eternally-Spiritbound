@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using _Root.Scripts.Model.Focus.Runtime;
+using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace _Root.Scripts.Game.Interactables.Runtime.Focus

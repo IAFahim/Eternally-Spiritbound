@@ -1,15 +1,13 @@
 ﻿using System.Threading;
 using _Root.Scripts.Game.Consmatics.Runtime;
-using _Root.Scripts.Game.Interactables.Runtime.Focus;
-using _Root.Scripts.Game.Stats.Runtime;
+using _Root.Scripts.Model.Focus.Runtime;
+using _Root.Scripts.Model.Stats.Runtime;
 using _Root.Scripts.Presentation.Containers.Runtime;
 using _Root.Scripts.Presentation.Interactions.Runtime;
 using Cysharp.Threading.Tasks;
-using Pancake.Common;
 using Sisus.Init;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityProgressBar;
 
 namespace _Root.Scripts.Presentation.FocusProcessors.Runtime
 {
@@ -34,7 +32,7 @@ namespace _Root.Scripts.Presentation.FocusProcessors.Runtime
             TargetGameObject = focusReferences.CurrentGameObject;
             _damageFlash = TargetGameObject.AddComponent<DamageFlash, FlashConfigScript>(flashConfigScript);
             BuildCache(
-                focusReferences.ActiveElements, null, token,
+                focusReferences.ActiveElements,  token,
                 (joyStickAsset, SetupJoystick, focusReferences.MovingUITransformPoint),
                 (healthBarAsset, SetupHealthBar, focusReferences.UISillTransformPointPadded),
                 (cinemachineAsset, SetupCinemachine, null)

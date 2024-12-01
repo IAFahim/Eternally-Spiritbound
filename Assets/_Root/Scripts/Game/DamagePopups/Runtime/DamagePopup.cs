@@ -2,7 +2,8 @@
 using System.Globalization;
 using _Root.Scripts.Game.Interactables.Runtime;
 using _Root.Scripts.Game.Interactables.Runtime.Focus;
-using _Root.Scripts.Game.Stats.Runtime;
+using _Root.Scripts.Model.Stats.Runtime;
+using Cysharp.Threading.Tasks;
 using Pancake.Common;
 using Soul.Pools.Runtime;
 using TMPro;
@@ -42,7 +43,7 @@ namespace _Root.Scripts.Game.DamagePopups.Runtime
                 AnimateSizeOverTime(text.tmp, text.endTime);
 
                 if (!(Time.time > text.endTime)) continue;
-                SharedAssetReferencePoolInactive.Return(damageTextAsset, text.tmp.gameObject);
+                SharedAssetPoolInactive.Return(damageTextAsset, text.tmp.gameObject);
                 texts.RemoveAt(i);
             }
         }
@@ -55,12 +56,12 @@ namespace _Root.Scripts.Game.DamagePopups.Runtime
             tmp.transform.localScale = size;
         }
 
-        public void ShowPopup(Vector3 hitPosition, DamageResult damageResult)
+        public async UniTaskVoid ShowPopup(Vector3 hitPosition, DamageResult damageResult)
         {
             var positionTop = damageResult.EntityStatsComponent.entityStats.vitality.Top(
                 damageResult.EntityStatsComponent.transform
             );
-            var text = SharedAssetReferencePoolInactive.Request<TMP_Text>(
+            var text = await SharedAssetPoolInactive.RequestAsync<TMP_Text>(
                 damageTextAsset,
                 positionTop,
                 focusManagerScript.mainCamera.transform.rotation

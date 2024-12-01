@@ -3,7 +3,7 @@ using Pancake;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace _Root.Scripts.Game.Stats.Runtime
+namespace _Root.Scripts.Model.Stats.Runtime
 {
     [DisallowMultipleComponent]
     public class EntityStatsComponent : MonoBehaviour

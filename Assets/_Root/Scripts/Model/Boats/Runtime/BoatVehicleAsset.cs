@@ -1,5 +1,4 @@
-﻿using _Root.Scripts.Model.Stats.Runtime;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace _Root.Scripts.Model.Boats.Runtime
 {

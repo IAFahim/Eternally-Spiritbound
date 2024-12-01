@@ -25,6 +25,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2350e9412a1e3f745a97026e6ad14505
+    m_Address: Stats View Controller
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: bbceba8b7e60c2143a71757c79f6b9c4
     m_Address: Stats Panel BackGround
     m_ReadOnly: 0
